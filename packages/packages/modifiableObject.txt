@@ -1,0 +1,9 @@
+$modifiableObject = ($_originalObject) fun {
+	$list = modifiableList: _originalObject.
+	
+	["push" ; ($_key ; $_value) fun {
+		($push of list): [[_key];[_value]]
+	}];
+	["getObject" ; $getArray of list];
+	["clear" ; $clear of list]
+}.

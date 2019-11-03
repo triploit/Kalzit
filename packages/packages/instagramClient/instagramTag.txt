@@ -1,0 +1,2 @@
+$queryfeedInstagramTagRssDom=$x fun {loadDom: queryfeedInstagramTagRssUrl + x}.
+$instagramTagImages=$x fun {"url" domAttribute "enclosure" domTags queryfeedInstagramTagRssDom: x}.

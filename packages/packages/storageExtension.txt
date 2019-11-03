@@ -1,0 +1,27 @@
+$storageSetDescription = ($key ? String ; $description ? String) fun {
+	("__calcitKeyDescription__" + key) storageSaveString description
+}.
+$storageGetDescription = ($key) fun {
+	storageLoadString: $key
+}.
+$storageSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
+	$values = (List:String): getArray of _list.
+	{
+		("listItem_" + x + "_of_" + key) storageSaveString x at values
+	} each ($listLength = length of values) rangeDown 0.
+	("listLength_of_" + key) storageSaveString String:listLength.
+	
+	_list
+}.
+$storageAutoSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
+	key storageSaveStringList _list.
+	($setOnAddition of _list): {key storageSaveStringList _list}.
+	_list
+}.
+$storageLoadStringList = ($key ? String) fun {
+	$len ? Int = storageLoadString: ("listLength_of_" + key).
+	
+	{
+		storageLoadString: "listItem_" + x + "_of_" + key
+	} each (0 rangeUp len) - 1
+}.

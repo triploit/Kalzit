@@ -1,0 +1,4 @@
+$qwantSearchUrl = "https://lite.qwant.com/".
+$qwantWebSearchUrl = qwantSearchUrl + "?t=web&q=".
+$qwantImageSearchUrl = qwantSearchUrl + "?t=images&q=".
+$qwantVideoSearchUrl = qwantSearchUrl + "?t=videos&q=".

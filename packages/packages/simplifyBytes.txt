@@ -1,0 +1,13 @@
+$canSimplifyBytes = $_raw fun {
+	0 eq +/ (1 + 2 * 0 range ((length: _raw) - 1) % 2) at _raw
+}.
+$forceSimplifyBytes = $_raw fun {
+	(2 * 0 range ((length: _raw) - 1) % 2) at _raw
+}.
+$simplifyBytes = $_raw fun {
+	(canSimplifyBytes: _raw) ifElse {
+		forceSimplifyBytes: _raw
+	};{
+		_raw
+	}
+}.

@@ -1,0 +1,15 @@
+$Final = $_type fun {
+	$needsValue = true.
+	$needsValueRef = reference: $needsValue.
+	$initialValue ? _type = void.
+	$initialValueRef = reference: $initialValue.
+	
+	$_newValue fun {
+		needsValue ifElse {
+			initialValueRef = _newValue.
+			needsValueRef = false.
+		};{}.
+		
+		initialValue
+	}
+}.

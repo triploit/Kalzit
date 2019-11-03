@@ -1,0 +1,9 @@
+`Do not freeze this`
+$uiLeftRightBackground = backgroundColor: 200;200;200;200.
+
+$uiLeftButton = ($_text ? ("〈" default String)) fun {
+	@uiLeftRightBackground @centerText @left @(percentWidth: 5) @verticalCenter uiContainer: _text.
+}.
+$uiRightButton = ($_text ? ("〉" default String)) fun {
+	@uiLeftRightBackground @centerText @right @(percentWidth: 5) @verticalCenter uiContainer: _text.
+}.

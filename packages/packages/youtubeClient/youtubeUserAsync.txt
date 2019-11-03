@@ -1,0 +1,4 @@
+$youtubeUserVideoDomsAsync = ($callback ; $user ? String) fun {{callback: "entry" domTags x} youtubeUserRssDomAsync user}.
+$youtubeUserVideosAsync = ($callback ; $user ? String) fun {{callback: {(domInnerText: "yt:videoId" domTags x);domInnerText: "title" domTags x} each x} youtubeUserVideoDomsAsync user}.
+$youtubeUserVideoIdsAsync = ($callback ; $user ? String) fun {{callback: domInnerText each "yt:videoId" domTags x} youtubeUserRssDomAsync user}.
+$youtubeUserVideoThumbnailsAsync = ($callback ; $user ? String) fun {{callback: "url" domAttribute "media:thumbnail" domTags x} youtubeUserRssDomAsync user}.

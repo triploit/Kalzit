@@ -1,0 +1,1 @@
+$loadUiStyle = ($css ? Url) fun {uiAddStyle: loadGlobal: css}.

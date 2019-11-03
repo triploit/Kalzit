@@ -1,0 +1,6 @@
+$strReplace = ( $_subAndReplacement ? (2 SizedList String) ; $original ? String) fun {(second:_subAndReplacement) strJoin (first:_subAndReplacement) strSplit original}.
+
+$strFormat = ($_str ? String ; $resolver ? (default: eval)) fun {
+	$indexes = {x mod 2} filter 0 range (length: $splits = "$" strSplit _str) - 1.
+	strReplace/ ({["$" + x + "$"];[", " strJoin String: resolver: x]} each indexes at splits);_str.
+}.

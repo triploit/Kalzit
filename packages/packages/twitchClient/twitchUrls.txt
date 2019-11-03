@@ -1,0 +1,5 @@
+$twitchEmbedUrl ? Url = "player.twitch.tv/?".
+$twitchChannelEmbedUrl ? Url = twitchEmbedUrl + "channel=".
+$twitchVideoEmbedUrl ? Url = twitchEmbedUrl + "video=".
+$twitchCollectionEmbedUrl ? Url = twitchEmbedUrl + "collection=".
+$twitchUserRssUrl ? Url = "twitchrss.appspot.com/vod/".

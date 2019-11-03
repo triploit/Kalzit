@@ -1,0 +1,6 @@
+$webstagramUserRssDom=$x fun {loadDom: webstagramUserRssUrl + x}.
+$queryfeedInstagramUserRssDom=$x fun {loadDom: queryfeedInstagramUserRssUrl + x}.
+$webstagramUserImages=$x fun {"url" domAttribute "media:thumbnail" domTags webstagramUserRssDom: x}.
+$queryfeedInstagramUserImages=$x fun {"url" domAttribute "enclosure" domTags queryfeedInstagramUserRssDom: x}.
+$instagramUserImages=igUserParseUserImageUrls.
+$instagramUserPostUrlsWithImages = ($userName ? String) fun {{("https://www.instagram.com/p/" + $shortcode of x);$display_url of x} each igUserParseUserImages: userName}.

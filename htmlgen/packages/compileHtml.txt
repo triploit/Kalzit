@@ -1,0 +1,27 @@
+$compileAttributes = ($_attributes) fun {
+	$properties = removeDuplicates: first each $attributes = do: $getArray of _attributes.
+	{
+		x + {="} + (" " strJoin x objPropertyValues attributes) + {"}
+	} each properties
+}.
+$compileRawTag = ($_tagObject) fun {
+	$raw objFirstProperty _tagObject
+}.
+$compileNonRawTag = ($_tagObject) fun {
+	$name = $name objFirstProperty _tagObject.
+	"<" + name + " " + (" " strJoin compileAttributes: $attributes of _tagObject) + ">" + (compileHtmlTags: $inner objFirstProperty _tagObject) + "</" + name + ">"
+}.
+$compileHtmlTag = ($_tagObject) fun {
+	$resultRef = reference: $result.
+	
+	!if ($raw objHasProperty _tagObject) {
+		resultRef = compileRawTag: _tagObject	
+	}. else {
+		resultRef = compileNonRawTag: _tagObject
+	}.
+	
+	result
+}.
+$compileHtmlTags = ($_tagObjects) fun {
+	+/ compileHtmlTag each _tagObjects.
+}.

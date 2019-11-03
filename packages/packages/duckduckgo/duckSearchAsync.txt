@@ -1,0 +1,4 @@
+$duckSearchDomAsync = ($callback ; $term ? String) fun {callback loadDomAsync "https://www.duckduckgo.com/html/?q=" + urlEncodeParameter: term}.
+$duckSearchResultDomsAsync = ($callback ; $term ? String) fun {{callback: {"result " strStartsWith "class" domAttribute x} filter "div" domTags x} duckSearchDomAsync term}.
+$duckSearchUrlDomsAsync = ($callback ; $term ? String) fun {{callback: {{"result__url" eq "class" domAttribute x} filter x} each "a" domTags x} duckSearchResultDomsAsync term}.
+$duckSearchUrlsAsync=($callback ; $term ? String) fun {{callback: "uddg" urlGetParameter "http://localhost" + "href" domAttribute x} duckSearchUrlDomsAsync term}.

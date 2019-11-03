@@ -1,0 +1,14 @@
+$fileExtension = ($path ? String) fun {last: "." strSplit path}.
+$fileName = ($path ? String) fun {last: "/" strSplit path}.
+$fileListTypes = () fun {{do: x} each pmSearchNames: "fileType"}.
+$fileMime = ($extension ? FileExtension) fun {
+	nativeFileMime: extension
+}.
+$fileParent = ($path ? String) fun {$split = "/" strSplit path. "/" strJoin ((0 rangeUp (length: split) - 1) - 1) at split}.
+$fileCreateFolders = ($folderPath ? String) fun {
+	$parent = fileParent: folderPath.
+	("" eq parent) else {
+		fileCreateFolders: parent
+	}.
+	fileCreateFolder: folderPath
+}.

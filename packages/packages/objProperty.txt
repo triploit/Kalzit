@@ -1,0 +1,5 @@
+$objProperty=($_prop;$_obj) fun {{_prop eq 0 at x} filter _obj}.
+$objPropertyValues=($_prop;$_obj) fun {{1 at x} each _prop objProperty _obj}.
+$objPropertyValue=($_prop;$_obj) fun {0 at _prop objPropertyValues _obj}.
+$objHasProperty=($_x;$_y) fun {0 < length: _x objProperty _y}.
+$objFirstProperty=($_name;$_object) fun {1 at 0 at _name objProperty _object}.

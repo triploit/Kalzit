@@ -1,0 +1,11 @@
+$rangeUp = ($a ? Int ; $b ? Int) fun {
+	(a eq b) ifElse {()};{
+		(a < b) ifElse {(a + 1) range b};{()}
+	}
+}.
+
+$rangeDown = ($a ? Int ; $b ? Int) fun {
+	(a eq b) ifElse {()};{
+		(a > b) ifElse {(a - 1) range b};{()}
+	}
+}.

@@ -1,0 +1,16 @@
+$uiSlidesWithNavigation = ($_slides ? (List:Any) ; $startIndex ? (0 default Int)) fun {
+	$indexVar = 0. $indexVarRef = reference: $indexVar.
+	$result = uiContainer: (indexVarRef uiSlides _slides);(
+		@(onTap: () fun {
+			indexVarRef = (0 > indexVar - 1) ifElse {(length: _slides) - 1};{indexVar - 1}
+		})
+		do:uiLeftButton
+	);(
+		@(onTap: () fun {
+			indexVarRef = ((length: _slides) eq indexVar + 1) ifElse {0};{indexVar + 1}
+		})
+		do:uiRightButton
+	).
+	indexVarRef = startIndex.
+	result
+}

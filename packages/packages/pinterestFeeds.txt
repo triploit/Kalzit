@@ -1,0 +1,4 @@
+$pinterestFeedRssDom = !fun ($userSlashFeed) {loadDom: pinterestRssUrl: userSlashFeed}.
+$pinterestFeedRssItemDoms = !fun ($userSlashFeed) {$item domTags pinterestFeedRssDom: userSlashFeed}.
+$pinterestFeedItemDescriptions = !fun ($userSlashFeed) {;/ domInnerText: $description domTags pinterestFeedRssItemDoms: userSlashFeed}.
+$pinterestFeedImages = ($feed ? String) fun {;/ {second: '"(https://i.pinimg.com/[^"]+)"' match x} each pinterestFeedItemDescriptions: feed}.

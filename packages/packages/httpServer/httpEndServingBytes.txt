@@ -1,0 +1,4 @@
+$httpEndServingBytes = ($request ; $_listDataEncoding) fun {
+	("writeBytes" objFirstProperty request) do _listDataEncoding.
+	do:("endServing" objFirstProperty request)
+}

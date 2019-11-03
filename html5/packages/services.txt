@@ -1,0 +1,27 @@
+$serviceCallApi = ($method ? String) fun {
+	strNewline strSplit loadLocal: "/api/" + method.
+}.
+
+$serviceLoginUser = ($name ; $password) fun {
+	$calcitUserName storageSaveString name.
+	$calcitUserPassword storageSaveString password.
+	
+	$response = serviceCallApi: "loginUser".
+	
+	storageRemove: $calcitUserName.
+	storageRemove: $calcitUserPassword.
+	
+	response
+}.
+
+$serviceRegisterUser = ($name ; $password) fun {
+	$calcitUserName storageSaveString name.
+	$calcitUserPassword storageSaveString password.
+	
+	$response = serviceCallApi: "newUser".
+	
+	storageRemove: $calcitUserName.
+	storageRemove: $calcitUserPassword.
+	
+	response
+}.

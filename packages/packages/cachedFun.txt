@@ -1,0 +1,20 @@
+$cachedFunObject = ($originalFunction ; $_cache ? (default: modifiableObject: ())) fun {
+	$arguments = ($argumentList of calcitAnnotations: originalFunction) + "_cached".
+	
+	$resultingFunction = (arguments) fun {
+		$evaluatedArguments = do each do each "{" + arguments + "}".
+		$cachedResult = evaluatedArguments objFirstProperty do: $getObject of _cache.
+		(cachedResult eq void) ifElse {
+			$result = originalFunction do evaluatedArguments.
+			evaluatedArguments ($push of _cache) result.
+			result
+		};{cachedResult}
+	}.
+	
+	["function";resultingFunction];
+	["cache";[_cache]]
+}.
+
+$cachedFun = ($originalFunction ; $_cache ? (default: modifiableObject: ())) fun {
+	$function of originalFunction cachedFunObject _cache
+}.

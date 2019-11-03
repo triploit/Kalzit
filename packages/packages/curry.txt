@@ -1,0 +1,2 @@
+$curry = ($f) fun {($_a) fun { ($_b) fun {_a f _b} }}.
+$bind = ($f ; $_arg) fun {(curry: f): _arg}.

@@ -1,0 +1,2 @@
+#{Resolves a variable name in a more secure way than "do"}
+$resolveName = ($name ? CalcitUnifyName) fun {do: first: {name eq x} filter pmSearchNames: name}.

@@ -1,0 +1,6 @@
+$loadDom=$x fun {domParse: loadGlobal: x}.
+$loadDomTags=($x;$y) fun {x domTags loadDom: y}.
+$loadDomInner=$x fun {domInner: loadDom: x}.
+
+$loadDomAsync=($callback;$url) fun {{callback: domParse: x} loadGlobalAsync url}.
+$loadDomInnerAsync=($callback;$url) fun {{callback: domInner: x} loadDomAsync url}.

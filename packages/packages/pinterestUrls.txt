@@ -1,0 +1,2 @@
+$pinterestUrl = "https://www.pinterest.com/".
+$pinterestRssUrl = !fun ($userSlashFeed) {pinterestUrl + userSlashFeed + ".rss"}.

@@ -1,0 +1,1 @@
+print: @(responsive columns) uiContainer: 10 uiAddVerticalPxSpaces {@(percentWidth 100) @rounded uiShowImageUrl: x} each qwantSearchImageUrls: "Sea"

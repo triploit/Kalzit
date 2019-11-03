@@ -1,0 +1,6 @@
+$switchEq=($_value;$_cases) fun {
+	$unmingled = unmingle: _cases.
+	$conditions = ($_const fun {{_const eq x}}) each first: unmingled.
+	$results = second: unmingled.
+	_value switch conditions mingle results
+}.

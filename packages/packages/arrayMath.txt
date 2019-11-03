@@ -1,0 +1,2 @@
+$divisors = ($_numbers ? (List:Int)) fun {$smallest = min:_numbers. {0 eq sum:_numbers mod x} filter 2 range smallest}.
+$gcd = ($_numbers ? (List:Int)) fun {last: divisors: _numbers}.

@@ -1,0 +1,6 @@
+$uiShowImageUrl = $url fun {
+	$tag = "img" uiTag [uiRaw: ""].
+	($push of $attributes of tag): ["src";url].
+	($push of $attributes of tag): ["style";"display: inline-block;"].
+	tag
+}.

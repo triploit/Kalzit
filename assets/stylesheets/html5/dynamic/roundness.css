@@ -1,0 +1,6 @@
+/*This file defines the css class "calcitDynamic_roundness".
+It defines a default border radius*/
+
+.calcitDynamic_roundness {
+	border-radius: 10px;
+}

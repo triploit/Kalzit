@@ -1,0 +1,3 @@
+$twitchUserRssDom = ($user ? String) fun {loadDom: twitchUserRssUrl + user}.
+$twitchUserVideoIds = ($user ? String) fun {domInnerText: "guid" domTags twitchUserRssDom: user}.
+$twitchUserVideoTitles = ($user ? String) fun {;/ domInnerText: "title" domTags "item" domTags twitchUserRssDom: user}.

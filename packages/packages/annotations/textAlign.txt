@@ -1,0 +1,1 @@
+$centerText = flag: "centerText".

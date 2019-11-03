@@ -1,0 +1,24 @@
+{
+	"requirements": [
+		"/html5ui/platform-packages.json"
+	],
+	"info":{
+		"description":"Libraries that work in a browser with HTML5"
+	},
+	"libraries":[
+		{"provides":["load_local", "load_global", "load_local_async", "load_global_async"],  "scriptUrl":"load.js"},
+		{"provides":["dom_parse", "dom_tags", "dom_inner_text", "dom_attribute", "dom_inner"],  "scriptUrl":"dom.js"},
+		{"provides":["popup_url", "popup_html", "popup_values", "popup_message"],  "scriptUrl":"popup.js"},
+		{"provides":["load_image_async", "load_image_async_rgb", "load_image_async_mono"], "scriptUrl":"loadImageAsync.js"},
+		{"provides":["storage_save_string", "storage_load_string", "storage_remove", "accept_cookies"],  "scriptUrl":"storage.js"},
+		{"provides":["app_url"],  "scriptUrl":"appUrl.js"},
+		{"provides":["speech_say", "speech_get_voices_by_language", "speech_get_voices"],  "scriptUrl":"speech.js"},
+		{"provides":["repeat_async"],  "scriptUrl":"repeat.js"},
+		{"provides":["default_cookie_banner"], "scriptType":"z", "scriptUrl":"defaultCookieBanner.txt"},
+		{"provides":["app_parameter"], "scriptUrl":"appParameter.txt"},
+		{"provides":["ui_native_youtube_player"], "scriptUrl":"youtubePlayer.js"},
+		{"provides":["ui_twitch_channel_player", "ui_twitch_video_player", "ui_twitch_collection_player"], "scriptUrl":"twitchPlayer.js"},
+		{"provides":["service_call_api", "service_login_user", "service_register_user"], "scriptUrl":"services.txt"},
+		{"provides":["ui_vimeo_player"], "scriptUrl":"vimeoPlayer.js"}
+	]
+}

@@ -1,0 +1,6 @@
+$uiPopup = ($_values ? (List:Any) ; $then) fun {
+	$popup = @windowCenter uiContainer: _values.
+	$background = @(onTap: () fun {uiHide: popup. uiHide: background; do:then}) @(percentWidth: 100) @(percentHeight: 100) @windowTop @windowLeft @(backgroundColor: 122;122;122;122) uiContainer: ().
+	uiPreparePopup: popup.
+	uiContainer: background;popup
+}

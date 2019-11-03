@@ -1,0 +1,9 @@
+$imageSimpleShrinkWidth=($factor; $_data) fun {
+	(factor * 0 range (\1 + length: _data) % factor) at _data
+}.
+$imageSimpleShrinkHeight=($factor; $_data) fun {
+	{(factor * 0 range (\1 + length: x) % factor) at x} each _data
+}.
+$imageSimpleShrink=($x;$_y) fun {
+	x imageSimpleShrinkHeight x imageSimpleShrinkWidth _y
+}.

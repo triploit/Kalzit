@@ -1,0 +1,7 @@
+$twitterUserRssUrl = "http://queryfeed.net/twitter?q=%40".
+$twitterUserUrl = "https://twitter.com/".
+$twitterUserRssDom = ($user ? String) fun {loadDom: twitterUserRssUrl + user}.
+$twitterUserTweetDoms = ($user ? String) fun {"item" domTags twitterUserRssDom: user}.
+$twitterUserTweetLinks = ($user ? String) fun {domInnerText: ;/ "link" domTags twitterUserTweetDoms: user}.
+$twitterUserTweetContents = ($user ? String) fun {domInnerText: ;/ "description" domTags twitterUserTweetDoms: user}.
+$twitterUserImages = ($userName ? String) fun {removeDuplicates: second each {"(https://pbs.twimg.com/media/[^"]+)"} allMatches loadGlobal: twitterUserUrl + userName + "/media/"}.

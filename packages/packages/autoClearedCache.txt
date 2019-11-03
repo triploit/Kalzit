@@ -1,0 +1,7 @@
+$autoClearedCache = ($fullTimeMillis ? Int) fun {
+	$cache = modifiableObject:().
+	fullTimeMillis repeatAsync {
+		do: $clear of cache.
+	}.
+	cache
+}

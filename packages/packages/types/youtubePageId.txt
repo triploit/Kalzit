@@ -1,0 +1,8 @@
+$YoutubePageId = ($idOrUrl ? String) fun {
+	$userId = youtubeUserId: idOrUrl.
+	(default: idOrUrl): !ifElse (userId eq idOrUrl) {
+		`The parameter does not seem to describe a user. Try to create a` youtubeChannelId: idOrUrl
+	};{
+		`Parameter describes a user - return the` userId
+	}
+}.

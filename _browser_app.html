@@ -1,0 +1,33 @@
+<script type="text/javascript" src="/core/files/Glang_.js"></script>
+<script type="text/javascript" src="/core/files/categorize.js"></script>
+<script type="text/javascript" src="/core/files/GLang_tokenize_v2.js"></script>
+<script type="text/javascript" src="/core/files/treeGenerator_v2.js"></script>
+<script type="text/javascript" src="/core/files/variableScope.js"></script>
+<script type="text/javascript" src="/core/files/GLang_callObject.js"></script>
+<script type="text/javascript" src="/core/files/GLang_array.js"></script>
+<script type="text/javascript" src="/core/files/GLang_arrayValue.js"></script>
+<script type="text/javascript" src="/core/files/GLang_addAnnotation.js"></script>
+<script type="text/javascript" src="/core/files/GLang_getType.js"></script>
+<script type="text/javascript" src="/core/files/GLang_functionFromString.js"></script>
+<script type="text/javascript" src="/core/files/GLang_evaluateTree.js"></script>
+<script type="text/javascript" src="/core/files/defaultRuntimeValues.js"></script>
+<script type="text/javascript" src="/core/files/GLang_wrapJsToValue.js"></script>
+<script type="text/javascript" src="/core/files/GLang_PackageManager.js"></script>
+<script type="text/javascript" src="/core/files/functionsForEasyUse.js"></script>
+<script type="text/javascript" src="/core/files/cookieParser.js"></script>
+<script type="text/javascript" src="/html5/files/GLang_DOMPackageManager.js"></script>
+<script type="text/javascript" src="/html5/files/ideBridge.js"></script>
+<script type="text/javascript" src="/html5/files/GLang_displayDefinitions.js"></script>
+<script type="text/javascript">GLang.packageManager.initialize([
+	"/packages/platform-packages.json",
+	"/html5/platform-packages.json",
+	"/core/platform-packages.json"
+]);</script>
+<link rel="stylesheet" type="text/css" href="/html5/files/style.css" />
+<body>
+	<div id="playground" width="100%"></div>
+	<script>
+		GLang.packageManager.loadPackageSync("/$app$", "z")
+		GLang.useLazyFlags = false;
+	</script>
+</body>

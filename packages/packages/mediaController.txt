@@ -1,0 +1,8 @@
+$pause = ($_mediaController) fun {do $pause of _mediaController}.
+$play = ($_mediaController) fun {do $play of _mediaController}.
+
+@nofreeze $volumeStepSize = 0,1. $volumeStepSizeRef = reference: $volumeStepSize.
+$volume = ($_volumeController) fun {do $getVolume of _volumeController}.
+$increaseVolume = ($_volumeController) fun {($setVolume of _volumeController): min of 1;(volume of _volumeController) + volumeStepSize}.
+$decreaseVolume = ($_volumeController) fun {($setVolume of _volumeController): max of 0;(volume of _volumeController) - volumeStepSize}.
+$mute = ($_volumeController) fun {($setVolume of _volumeController): 0}.

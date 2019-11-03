@@ -1,0 +1,1 @@
+$eval = ($code ? String) fun {do: () fun code}.

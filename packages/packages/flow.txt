@@ -1,0 +1,11 @@
+$switch = ($value ? Any ; $_array ? (List:Any)) fun {{1 at x at _array} each {(0 at x at _array): value} filter 0 range \1 + length: _array}.
+$ifElse = ($condition ? Boolean ; $_ie ? (2 SizedList Any)) fun {((0 eq condition) at _ie):condition}.
+$categorize = ($_items ? (List:Any) ; $_categories ? (List:2 SizedList Any)) fun {($_x fun {_x switch categories}) each _items}.
+$doEach = ($f ; $_argSets ? (List:List:Any)) fun {($_x fun {f do _x}) each _argSets}.
+
+
+$lastFlowCondition ? Boolean = true. $lastFlowConditionRef = reference: $lastFlowCondition.
+
+$if = ($condition ? Boolean ; $then) fun {$result = condition ifElse then;{void}. lastFlowConditionRef = condition. result}.
+$ifNot = ($condition ? Boolean ; $then) fun {$result = condition ifElse {void};then. lastFlowConditionRef = condition. result}.
+$else = ($then) fun {!ifNot lastFlowCondition then}.

@@ -1,0 +1,28 @@
+$uiAddHorizontalPxSpaces = ($width ? Int ; $_views ? (List:Any)) fun {
+	;/ ({[x at _views];[uiHorizontalPxSpace:width]} each (0 rangeUp (length: _views) - 1) - 1);[last: _views]
+}.
+$uiAddVerticalPxSpaces = ($width ? Int ; $_views ? (List:Any)) fun {
+	;/ ({[x at _views];[uiVerticalPxSpace:width]} each (0 rangeUp (length: _views) - 1) - 1);[last: _views]
+}.
+$uiLeftRightPxPadded = ($padding ? Int ; $view) fun {
+	$viewWidth = $px_width objFirstProperty $flag objPropertyValues calcitAnnotations: view.
+	$result = uiContainer: [uiHorizontalPxSpace: padding];[view];[uiHorizontalPxSpace: padding].
+	(not: void eq viewWidth) if {
+		@(pxWidth: viewWidth + 2 * padding) result
+	}.
+	result.
+}.
+$uiTopBottomPxPadded = ($padding ? Int ; $view) fun {
+	$viewHeight = $px_height objFirstProperty $flag objPropertyValues calcitAnnotations: view.
+	$result = uiContainer: [uiVerticalPxSpace: padding];[view];[uiVerticalPxSpace: padding].
+	(not: void eq viewWidth) if {
+		@(pxHeight: viewHeight + 2 * padding) result
+	}.
+	result.
+}.
+$uiLeftRightPercentPadded = ($padding ? Int ; $view) fun {
+	uiContainer: [uiHorizontalPercentSpace: padding];[view];[uiHorizontalPercentSpace: padding].
+}.
+$uiTopBottomPercentPadded = ($padding ? Int ; $view) fun {
+	uiContainer: [uiVerticalPercentSpace: padding];[view];[uiVerticalPercentSpace: padding].
+}.

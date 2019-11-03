@@ -1,0 +1,69 @@
+`A http server that is specialized for the calcit web applications`
+
+($_request fun {
+	$fname = "." + first: "?" strSplit $url of _request.
+	
+	$result = void.
+	$resultRef = reference: $result.
+	$async = false.
+	$asyncRef = reference: $async.
+	
+	!if ("./html5/files/serverside_load.php" eq fname) {
+		print: "Trying to access external resource " + $url = "query" urlGetParameter $url of _request.
+		asyncRef = true.
+		{
+			_request httpEndServingRaw strRaw: (default: ""): x
+		} loadGlobalAsync url.
+	}.
+	
+	!if ("./" eq fname) {
+		print: "Trying to run app " + $app = "app" urlGetParameter $url of _request.
+		resultRef = app strJoin "$app$" strSplit fileContent: "./_browser_app.html".
+	}.
+	
+	!if ("./app/" strStartsWith fname) {
+		print: "Trying to run app " + $app = "./app/" strRemove fname + ".txt".
+		resultRef = app strJoin "$app$" strSplit fileContent: "./_browser_app.html".
+	}.
+	
+
+	!if ("./api/pushCookie" eq fname)
+        () fun fileContent: "./nodejs/files/server/pushCookie.txt".
+
+	!if("./api/newUser" eq fname)
+        () fun fileContent: "./nodejs/files/server/newUser.txt".
+
+	!if ("./api/loginUser" eq fname)
+        () fun fileContent: "./nodejs/files/server/loginUser.txt".
+
+	!if ("./api/pullCookie" eq fname)
+        () fun fileContent: "./nodejs/files/server/pullCookie.txt".
+        
+	!if ("./docs/api/defaults/" strStartsWith fname)
+        () fun fileContent: "./nodejs/files/server/showDocumentation.txt".
+	
+	!if ("./docs/api/home" eq fname){
+		resultRef = "<br></br>" strJoin {'<a href="/docs/api/defaults/' + x + '">' + x + "</a>"} each do:pmListNames
+	}.
+	
+	!if (not async) {
+		!if (result eq void) {
+			#{Find a file by name}
+			((fileIsFile: fname) & fileExists: fname) ifElse
+				{
+					print: "Serving file " + fname.
+	                ($startServing of _request): fileMime: fname.
+					_request httpEndServingRaw fileContentRaw: fname
+				};{
+					print: "Serving empty page for " + fname.
+	                ($startServing of _request): fileMime: "html".
+					($respondCode of _request): 404.
+					_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
+				}
+		}.
+	    else {
+	    	_request httpEndServingRaw strRaw: result
+	    }
+    }
+	
+}) httpServer 5000.

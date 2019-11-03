@@ -1,0 +1,13 @@
+#{Gives the first element of an array.}
+$first=($_x ? (List:Any)) fun {0 at _x}.
+
+#{Gives the second element of an array}
+$second=($_x ? (List:Any)) fun {1 at _x}.
+
+#{Gives the third element of an array}
+$third=($_x ? (List:Any)) fun {2 at _x}.
+
+#{Gives the last element of an array}
+$last=($_x ? (List:Any)) fun {((length: _x) - 1) at _x}.
+
+$arrayIndexes = ($_array ? (List:Any)) fun {(0 rangeUp length: _array) - 1}.

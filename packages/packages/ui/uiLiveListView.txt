@@ -1,0 +1,7 @@
+$uiLiveListView = ($_modifiableList ? ModifiableList) fun {
+	$currentList = do: $getArray of _modifiableList. $currentListRef = reference: $currentList.
+	($setOnAddition of _modifiableList): {
+		currentListRef = do: $getArray of _modifiableList
+	}.
+	uiShowVariableAsList: currentListRef.
+}

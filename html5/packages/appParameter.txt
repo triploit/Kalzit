@@ -1,0 +1,1 @@
+$appParameter=($x ? String) fun {x urlGetParameter appUrl}.

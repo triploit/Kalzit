@@ -1,0 +1,8 @@
+$colorRemoveAlpha=$_x fun {(0 range 2) at _x}.
+$colorSetAlpha=($x;$_y) fun {rgbValues;x: $rgbValues=((0 range 2) at _y)}.
+$imageRemoveAlpha=$_x fun {
+	{{colorRemoveAlpha: x} each x} each x
+}.
+$imageSetAlpha=($alphaFunction; $_imageData) fun {
+	{{alphaFunction colorSetAlpha x} each  x} each _imageData
+}.

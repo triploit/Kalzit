@@ -1,0 +1,14 @@
+$duckSearchDom = ($term ? String) fun {loadDom: "https://www.duckduckgo.com/html/?q=" + urlEncodeParameter: term}.
+$duckSearchResultDoms = ($term ? String) fun {{"result " strStartsWith "class" domAttribute x} filter "div" domTags duckSearchDom: term}.
+$duckSearchUrlDoms = $term fun {{{"result__url" eq "class" domAttribute x} filter x} each "a" domTags duckSearchResultDoms: term}.
+$duckSearchUrls = $term fun {"uddg" urlGetParameter "http://localhost" + "href" domAttribute duckSearchUrlDoms: term}.
+
+$duckSearchResultFromDom = ($dom) fun {
+    $links = "a" domTags dom.
+    $resultUrls = "uddg" urlGetParameter "http://localhost" + "href" domAttribute {"result__url" eq "class" domAttribute x} filter links.
+    $resultSnippets = domInnerText: {"result__snippet" eq "class" domAttribute x} filter links.
+    
+    [[$url];[first: resultUrls]];
+    [[$snippet];[first: resultSnippets]]
+}.
+$duckSearchResults = $duckSearch = ($term ? String) fun {duckSearchResultFromDom: duckSearchResultDoms: term}.

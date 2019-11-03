@@ -1,0 +1,6 @@
+$githubSearchRepoUrl = "https://api.github.com/search/repositories?q=".
+$githubSearchRepoJson = ($term ? String) fun {loadGlobal: githubSearchRepoUrl + urlEncodeParameter: term}.
+$githubSearchRepo = ($term ? String) fun {parseJson: githubSearchRepoJson: term}.
+$githubSearchRepoNames = ($term ? String) fun {;/ {"full_name" objFirstProperty x} each "items" objFirstProperty githubSearchRepo: term}.
+$githubSearchRepoHtmlUrls = ($term ? String) fun {"https://www.github.com/" + githubSearchRepoNames: term}.
+$githubSearchRepoRawUrls = ($term ? String) fun {"https://raw.githubusercontent.com/" + (githubSearchRepoNames: term) + "/master/"}.

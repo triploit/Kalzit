@@ -1,0 +1,5 @@
+$webstagramUserRssUrl="http://web.stagram.com/rss/n/".
+$instagramUserUrl="https://www.instagram.com/".
+$queryfeedInstagramTagRssUrl="https://queryfeed.net/instagram?q=%23".
+$queryfeedInstagramUserRssUrl="http://queryfeed.net/instagram?q=".
+$instagramTagUrl="https://www.instagram.com/explore/tags/".

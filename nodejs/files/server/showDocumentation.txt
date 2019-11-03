@@ -1,0 +1,6 @@
+$toDocument = "./docs/api/defaults/" strRemove fname.
+print: "Serving documentation for " + toDocument.
+
+$value = resolveName: toDocument.
+($startServing of _request): fileMime: "html".
+resultRef = strNewline strJoin {<link rel="stylesheet" href="/html5/files/style.css"/>}; {"<p>" + (first: x) + ": " + (second x) + "</p>"} each {not +/ ("producer" eq (first: x));("accessVarName" eq (first: x))} filter calcitAnnotations: value.

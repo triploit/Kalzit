@@ -1,0 +1,11 @@
+$redditFeedRssDom = ($feed ? String) fun {loadDom: "https://old.reddit.com/r/" + feed + "/.rss"}.
+$redditFeedEntryDoms = ($feed ? String) fun {"entry" domTags redditFeedRssDom: feed}.
+$redditFeedEntryContents = ($feed ? String) fun {redditEntryContents: redditFeedRssDom: feed}.
+$redditFeedEntryUrls = ($feed ? String) fun {;/ redditEntryUrls: redditFeedEntryDoms: feed}.
+$redditContentImageUrls = ($content ? String) fun {"https://i\.redd\.it/[a-z0-9]+\.[a-z0-9]+" match content}.
+$redditFeedImageUrls = ($feed ? String) fun {;/ redditContentImageUrls each redditFeedEntryContents: feed}.
+
+$redditEntryContents = ($entry) fun {domInnerText each "content" domTags entry}.
+$redditEntryImageUrls = ($entry) fun {;/ redditContentImageUrls each redditEntryContents: entry}.
+$redditEntryUrls = ($entry) fun {;/ "href" domAttribute "link" domTags entry}.
+$redditFeedEntryUrlsWithImages = ($feed ? String) fun {{2 eq length: x} filter {(first: redditEntryUrls:x);first: redditEntryImageUrls:x} each redditFeedEntryDoms: feed}.

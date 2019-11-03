@@ -1,0 +1,28 @@
+/*This file defines the css class "calcitDynamic_columns".
+It automatically detects an appropriate value for "column-count", depending on the width of the window*/
+
+@media (max-width: 1500px) {
+	.calcitDynamic_columns {
+		column-count: 5
+	}
+}
+@media (max-width: 1200px) {
+	.calcitDynamic_columns {
+		column-count: 4
+	}
+}
+@media (max-width: 1000px) {
+	.calcitDynamic_columns {
+		column-count: 3
+	}
+}
+@media (max-width: 800px) {
+	.calcitDynamic_columns {
+		column-count: 2
+	}
+}
+@media (max-width: 400px) {
+	.calcitDynamic_columns {
+		column-count: 1
+	}
+}

@@ -1,0 +1,5 @@
+$uiHorizontalScroller = ($_views) fun {
+	$scroller = "div" uiTag _views.
+	($push of $attributes of scroller): ["style";"white-space: nowrap; overflow-x: scroll; overflow-y: hidden; width: 100%"].
+	scroller
+}.

@@ -1,0 +1,16 @@
+{
+	"requirements": [
+		"htmlgen/platform-packages.json"
+	],
+	"info":{
+		"description":"Libraries that work in the NodeJS environment"
+	},
+	"libraries":[
+		{provides:["http_server"],  scriptUrl:"httpServer.js"},
+		{provides:["load_global_async", "load_global"],  scriptUrl:"load.js"},
+		{provides:["file_content", "file_content_bytes", "file_content_raw", "file_content_async", "folder_content", "folder_content_async", "file_exists", "file_is_folder", "file_is_file", "file_write", "file_create_folder"],  scriptUrl:"filesystem.js"},
+		{provides:["str_raw"],  scriptUrl:"strRaw.js"},
+		{provides:["dom_parse", "dom_tags", "dom_inner_text", "dom_attribute", "dom_inner"],  scriptUrl:"dom.js"},
+		{provides:["repeat_async", "repeat"],  scriptUrl:"repeat.js"}
+	]
+}

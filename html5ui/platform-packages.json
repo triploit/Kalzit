@@ -1,0 +1,38 @@
+{
+	"info":{
+		"description":"UI APIs that work in an HTML5 (browser) environment"
+	},
+	"libraries":[
+		{"provides":["ui_native_slider"],  "scriptUrl":"uiSlider.js"},
+		{"provides":["ui_show_function", "ui_show_function_as_list", "ui_show_variable", "ui_show_variable_as_list"],  "scriptUrl":"uiShow.js"},
+		{"provides":["ui_show_image_data_array", "ui_show_image_data_matrix", "ui_show_image_data_matrix_rgb", "ui_show_image_data_matrix_mono", "ui_show_image_url", "image_data_url", "image_data_url_rgb", "image_data_url_mono"],  "scriptUrl":"uiImage.js"},
+		{"provides":["ui_show_image_data_channels_rgb", "ui_show_image_data_channels"],  "scriptUrl":"uiImageChannels.js"},
+		{"provides":["ui_link"],  "scriptUrl":"uiLink.js"},
+		{"provides":["ui_textfield_onaction", "ui_textfield_onchange"],  "scriptUrl":"uiTextfield.js"},
+		{"provides":["ui_show_webpage_url"],  "scriptUrl":"uiWebpage.js"},
+		{"provides":["ui_picker"],  "scriptUrl":"uiPicker.js"},
+		{"provides":["ui_button"],  "scriptUrl":"uiButton.js"},
+		{"provides":["ui_audio_player", "ui_video_player"],  "scriptUrl":"uiAudioVideo.js"},
+		{"provides":["ui_native_textarea_onchange", "ui_native_textarea_variable_onchange"],  "scriptUrl":"uiTextarea.js"},
+		{"provides":["ui_horizontal_scroller"],  "scriptUrl":"uiHorizontalScroller.js"},
+		{"provides":["ui_checkbox", "ui_checkbox_variable"],  "scriptUrl":"uiCheckbox.js"},
+		{"provides":["ui_file_picker_path_variable", "ui_file_picker_content_text_variable", "ui_file_picker_content_url_variable"],  "scriptUrl":"uiFilePicker.js"},
+		{"provides":["ui_password_onaction", "ui_password_onchange"],  "scriptUrl":"uiPassword.js"},
+		{"provides":["ui_hide"],  "scriptUrl":"uiHide.js"},
+		{"provides":["ui_horizontal_px_space", "ui_horizontal_percent_space", "ui_vertical_px_space", "ui_vertical_percent_space"],  "scriptUrl":"uiSpace.js"},
+		{"provides":["ui_app_container_background_color"],  "scriptUrl":"uiAppContainer.js"},
+		{"provides":["flag_percent_width", "flag_percent_height", "flag_px_width", "flag_px_height"],  "scriptUrl":"annotations/widthHeight.js"},
+		{"provides":["flag_bottom", "flag_top", "flag_left", "flag_right", "flag_center", "flag_vertical_center", "flag_horizontal_center", "flag_window_bottom", "flag_window_top", "flag_window_left", "flag_window_right", "flag_window_center"],  "scriptUrl":"annotations/orientation.js"},
+		{"provides":["flag_background_color", "flag_background_gradient_left_to_right", "flag_background_gradient_top_to_bottom", "flag_foreground_color"],  "scriptUrl":"annotations/bgfg.js"},
+		{"provides":["flag_on_hover", "flag_on_tap", "flag_on_pointer_up", "flag_on_pointer_down", "flag_on_pointer_move"],  "scriptUrl":"annotations/mouse.js"},
+		{"provides":["flag_on_text_select"],  "scriptUrl":"annotations/onTextSelect.js"},
+		{"provides":["flag_px_roundness", "flag_percent_roundness"],  "scriptUrl":"annotations/roundness.js"},
+		{"provides":["flag_font_family", "flag_italic", "flag_px_font_size", "flag_em_font_size"],  "scriptUrl":"annotations/font.js"},
+		{"provides":["flag_center_text"],  "scriptUrl":"annotations/textAlign.js"},
+		{"provides":["flag_columns"], "scriptUrl":"annotations/columns.js"},
+		{"provides":["ui_container"], "scriptUrl":"uiContainer.js"},
+		{"provides":["ui_stack"], "scriptUrl":"uiStack.js"},
+		{"provides":["flag_fit"], "scriptUrl":"annotations/fit.js"},
+		{"provides":["ui_text"], "scriptUrl":"uiText.js"}
+	]
+}

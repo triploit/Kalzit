@@ -1,0 +1,3 @@
+$bitchuteChannelRssUrl = "https://www.bitchute.com/feeds/rss/channel/".
+$bitchuteSearchUrl = "https://www.bitchute.com/search?q=".
+$bitchuteEmbedUrl = "https://www.bitchute.com/embed/"

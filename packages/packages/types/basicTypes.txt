@@ -1,0 +1,14 @@
+$Boolean = {((void eq x) | 0 eq x) at 1;0}.
+$List = $_itemType fun {{_itemType each x;()}}.
+$Any = {x}.
+
+$String = {"" + x}.
+$SizedList = ($size ? Int ; $_itemType) fun {{(List: _itemType): (0 range size - 1) at x}}.
+
+#{Allows single values and arrays of a given type}
+$OneOrMany = $_type fun {
+	{
+		$arr = x;(). 
+		do: (1 eq length: arr) at ({(List:_type): arr};{_type: 0 at arr})
+	}
+}.

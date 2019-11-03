@@ -1,0 +1,1 @@
+this.random = Math.random;

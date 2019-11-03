@@ -1,0 +1,8 @@
+$uiSlides = ($slideIndexRef ? Reference ; $_slides ? (List:Any)) fun {
+	$currentSlide = 0 at _slides. $currentSlideRef = reference: $currentSlide.
+	
+	slideIndexRef = 0.
+	slideIndexRef listenVariable {currentSlideRef = x at _slides}.
+	
+	uiShowVariable: $currentSlide
+}.

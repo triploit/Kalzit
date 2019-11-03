@@ -1,0 +1,1 @@
+$url = ($u ? String) fun {("://" strContains u) ifElse {u};{"https://" + u}}.

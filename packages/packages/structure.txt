@@ -1,0 +1,16 @@
+$structure = ($_fields ? (List:String)) fun {
+	;/ {
+		$name = calcitUnifyName: x.
+		$currentState = ().
+		$currentStateRef = reference: $currentState.
+		
+		$listener = (). $listenerRef = reference: $listener.
+		
+		[("get_" + name); () fun {currentState}];
+		[("set_" + name); ($_value) fun {currentStateRef = _value. do:listener. currentState}];
+		[("set_on_change_of_" + name); ($listener) fun {listenerRef = listener}]
+	} each _fields
+}.
+$structureFun = ($_fields ? (List:String)) fun {
+	() fun {structure: _fields}
+}.

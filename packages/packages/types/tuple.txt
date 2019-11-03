@@ -1,0 +1,7 @@
+$tuple = ($_types ? (List:Any)) fun {
+	($_values ? (List:Any)) fun {
+		{(x at _types): x at _values} each 0 range (length: _types) - 1
+	}
+}.
+
+$Annotation = Tuple: String;Any.

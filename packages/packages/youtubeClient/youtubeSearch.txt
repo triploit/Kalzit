@@ -1,0 +1,2 @@
+$youtubeSearchVideos=$x fun {{[1 at x];[0 at x]} each {2 eq length: x} filter {"https\://www\.youtube\.com/watch\?v=([a-zA-Z0-9\-_]*)" match x} each ; / duckSearchUrls: x + ' site:"youtube.com"'}.
+$youtubeSearchVideoIds=$x fun {{0 at x} each youtubeSearchVideos: x}.

@@ -1,0 +1,1 @@
+$githubSearchUrls = ($term ? String) fun {;/ duckSearchUrls: term + { site:"github.com"}}.

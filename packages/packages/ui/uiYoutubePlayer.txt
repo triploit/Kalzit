@@ -1,0 +1,3 @@
+$uiYoutubePlayer = !fun ($video ? YoutubeVideoId ; $controllerCallback) {
+	video uiNativeYoutubePlayer controllerCallback
+}.

@@ -1,0 +1,6 @@
+$flagPxRoundness = ($pixels ? Int ; $_tag) fun {
+	($push of $attributes of _tag) : [["style"];["border-radius: " + pixels + "px;"]]
+}.
+$flagPercentRoundness = ($percent ? Int ; $_tag) fun {
+	($push of $attributes of _tag): [["style"];["border-radius: " + (percent % 2) + "%;"]]
+}.

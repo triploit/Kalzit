@@ -1,0 +1,4 @@
+$pmListRegisteredNames=() fun {;/ {$provides objFirstProperty x} each do:pmListRegisteredPackages}.
+$pmSearchRegisteredNames=$search fun {{search strStartsWith x} filter do:pmListRegisteredNames}.
+$pmListNames=() fun {removeDuplicates: (do:pmListInstalledNames);do:pmListRegisteredNames}.
+$pmSearchNames=$search fun {{(calcitUnifyName:search) strContains x} filter do:pmListNames}.

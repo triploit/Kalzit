@@ -1,0 +1,37 @@
+`Rss feed reader (not atom and others) with images`
+
+#{List of RSS feed urls}
+$feedUrls ? (List:Any) = ";" strSplit storageLoadString: $feedUrls. $feedUrlsRef = reference: $feedUrls.
+$entriesView ? (List:Any) = void. $entriesViewRef = reference: $entriesView.
+
+#{A view that contains all registered RSS feeds}
+$feedsView = (). $feedsViewRef = reference: $feedsView.
+
+#{Creates a new feeds view based on $feedUrls}
+$updateFeedsView = () fun {
+	$feedPicker = {
+		$rssUrl = $rssUrl objFirstProperty calcitAnnotations: x.
+		$rssEntries = $entry loadDomTags rssUrl.
+		entriesViewRef = ($entryDom fun {
+			$link = (default:"???"): $href domAttribute first: $link domTags entryDom.
+			$imageUrl = first: '"[^"]+\.(jpg|png|jpeg|gif)"' match domInnerText: entryDom.
+			$image = !ifNot (imageUrl eq void) {
+				@(percentWidth: 10) uiShowImageUrl: {"} strRemove imageUrl
+			}.
+			@(onTap: () fun {popupUrl: link}) uiContainer: image;@centerText @(percentWidth: 90) uiContainer: String: (default:"???"): domInnerText: first: $title domTags entryDom
+		}) each rssEntries.
+	} uiSingleViewPicker {@("rssUrl";x) uiContainer: String: (default:x): domInnerText: first: $title loadDomTags x} each feedUrls.
+	feedsViewRef = @(fontFamily: "Arial, Helvetica") @left @(backgroundColor: white) @(percentWidth: 50) uiContainer: feedPicker.
+}.
+
+#{Update feeds automatically}.
+do:updateFeedsView.
+feedUrlsRef listenVariable {
+	$feedUrls storageSaveString ";" strJoin feedUrls.
+	do:updateFeedsView
+}.
+
+print: @(backgroundColor: 200;200;255;255) @(fontFamily: "Arial, Helvetica") @(percentWidth: 90) $userInput uiTextfieldVariableOnchange "".
+print: @(fontFamily: "Arial, Helvetica") @(percentWidth: 10) {feedUrlsRef = feedUrls ; Url:userInput} uiButton "Add".
+print: uiContainer: (uiShowVariable: $feedsView);@(backgroundColor: 240;240;240;255) @(fontFamily: "Arial, Helvetica") @right @(percentWidth: 50) uiShowVariableAsList: $entriesView.
+void.

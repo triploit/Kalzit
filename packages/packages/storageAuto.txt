@@ -1,0 +1,11 @@
+$storageSaveAutomatically = ($variable ? Reference) fun {
+	variable listenVariable {variable storageSaveString do:variable}
+}.
+$storageLoadAutomatically = ($variable ? Reference ; $type ? (default:Any)) fun {
+	variable = storageLoadString: variable
+}.
+
+$storageAuto = ($variable ? Reference ; $type ? (default:Any)) fun {
+	variable storageLoadAutomatically type.
+	storageSaveAutomatically: variable.
+}.

@@ -1,0 +1,51 @@
+$uiSkinSingleViewPickerHoverRef = reference: $uiSkinSingleViewPickerHover.
+$uiSkinSingleViewPickerDeselectRef = reference: $uiSkinSingleViewPickerDeselect.
+$uiSkinSingleViewPickerSelectRef = reference: $uiSkinSingleViewPickerSelect.
+
+@nofreeze uiSkinSingleViewPickerSelectRef = (default:
+	($view) fun {(122;122;122;255) flagBackgroundColor view}):
+	uiSkinSingleViewPickerSelect.
+@nofreeze uiSkinSingleViewPickerDeselectRef = (default:
+	($view) fun {white flagBackgroundColor view}):
+	uiSkinSingleViewPickerDeselect.
+@nofreeze uiSkinSingleViewPickerHoverRef = (default:
+	($view) fun {(190;190;190;255) flagBackgroundColor view}):
+	uiSkinSingleViewPickerHover.
+
+$uiLiveSingleViewPicker = ($onSelect ; $_modifiableViewsList) fun {
+	$currentView = onSelect uiSingleViewPicker do: $getArray of _modifiableViewsList.
+	$currentViewRef = reference: $currentView.
+	($setOnAddition of _modifiableViewsList): {
+		currentViewRef = onSelect uiSingleViewPicker do: $getArray of _modifiableViewsList.
+	}.
+	uiShowVariable: currentViewRef.
+}.
+
+$uiSingleViewPicker = ($onSelect ; $_normalViews ? (List:Any)) fun {
+	$selected = (). $selectedRef = reference: $selected.
+	$hovered = (). $hoveredRef = reference: $hovered.
+	
+	uiSkinSingleViewPickerDeselect all $views = ($index fun {
+		$view = index at _normalViews.
+		
+		@(onTap: () fun {
+			(selected eq void) ifNot {
+				uiSkinSingleViewPickerDeselect: selected.
+			}.
+			uiSkinSingleViewPickerSelect: view.
+			(selectedRef = view) onSelect index
+		})
+		@(onHover: () fun {
+			!ifNot (hovered eq void) {
+				!if (hovered eq selected) {uiSkinSingleViewPickerSelect: selected}.
+                else  {uiSkinSingleViewPickerDeselect: hovered}
+			}.
+			!ifNot (selected eq view) {
+                uiSkinSingleViewPickerHover: hoveredRef = view}
+		    }
+        )
+		view.
+	}) each 0 to (length of _normalViews) - 1.
+	
+	uiContainer: views
+}.

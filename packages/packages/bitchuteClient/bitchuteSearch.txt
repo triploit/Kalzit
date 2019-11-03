@@ -1,0 +1,2 @@
+$bitchuteSearchVideoUrls = ($term ? String) fun {removeDuplicates: second each {"(https://www\.bitchute\.com/video/[a-zA-Z0-9]+/)"} allMatches loadGlobal: bitchuteSearchUrl + urlEncodeParameter: term}.
+$bitchuteSearchVideoIds = ($term ? String) fun {{second: "/video/([^/]+)/" match x} each bitchuteSearchVideoUrls: term}.

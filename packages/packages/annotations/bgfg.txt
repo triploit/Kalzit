@@ -1,0 +1,8 @@
+#{Produces an annotation that sets the background color of an element, using the "flagBackgroundColor" function}
+$backgroundColor = ($_color ? Color) fun {flag: ["backgroundColor"];[_color]} ? Annotation.
+
+#{Produces an annotation that sets the foreground color of an element, using the "flagForegroundColor" function}
+$foregroundColor = ($_color ? Color) fun {flag: ["foregroundColor"];[_color]} ? Annotation.
+
+$backgroundGradientTopToBottom = ($_colors ? (2 SizedList Color)) fun {flag: ["backgroundGradiendTopToBottom"];[_colors]}.
+$backgroundGradientLeftToRight = ($_colors ? (2 SizedList Color)) fun {flag: ["backgroundGradiendLeftToRight"];[_colors]}.

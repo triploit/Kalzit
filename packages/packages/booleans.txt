@@ -1,0 +1,3 @@
+$true = 1.
+$false = 0.
+$not = {x eq 0}.

@@ -1,0 +1,97 @@
+<html><head><link rel="stylesheet" href="/html5/files/style.css"><link rel="stylesheet" href="/docs/article.css"></link></head><body>
+<p>This document explains how a syntax tree is generated in this language.</p>
+
+<h1>Tokens</h1>
+
+<p>The first thing that is done is creating a list of tokens. How this is done is quite simple: every character gets a category, and all sequences of characters with the same category become a token.</p>
+
+<p>Please take a look at the following code:</p>
+
+<p><code>
+"Hello World". 123.
+</code></p>
+
+<p>The token creation produces this list of tokens for it:</p>
+
+<ul>
+<li><code>"</code> - _0</li>
+<li><code>Hello</code> - Word</li>
+<li><code></code> - Space</li>
+<li><code>.</code> - _1</li>
+<li><code></code> - Space</li>
+<li><code>123</code> - Digit</li>
+<li><code>.</code> - _2</li>
+</ul>
+
+<h1>Blocks</h1>
+
+<p>Tokens can be grouped into units which, for the most part, are handled like a single text element. These are called blocks.</p>
+
+<p>One kind of block is created by enclosing text in round brackets <code>(like this)</code>.
+The code is separated into tokens first, and then the parser starts at the end of the resulting list moving toward the start, looking for the ending element of a block.
+For the block above, this would be the closing bracket <code>)</code>.</p>
+
+<p>Every ending character has a corresponding starting character, which indicates a completed block.</p>
+
+<p>Here is a list of all kinds of blocks in the language:</p>
+
+<ul>
+<li><code>( parentheses - deep - active )</code></li>
+<li><code>{ string - deep - passive }</code></li>
+<li><code>[ array - deep - active ]</code></li>
+<li><code>' string - flat - active '</code></li>
+<li><code>" string - flat - active"</code></li>
+<li><code>´ comment - flat - active´</code> (also works using ``` on either side)</li>
+</ul>
+
+<h2>Deep and flat blocks</h2>
+
+<p>You probably noticed the descriptions <code>deep</code> and <code>flat</code> in the block list above.
+<code>flat</code> means that the block detection gets started with the end character and stops at the first occurence of the end character.
+This means if <code>( the parentheses block )</code> was a <code>flat</code> block, something like this would not work as expected:</p>
+
+<p><code>
+(Here is text (with more parentheses) )
+</code></p>
+
+<p>The problem is that we would think that the entire thing is a unit, but the parser <em>would</em> only see <code>(with more parentheses) )</code> as a block and the rest as unconnected tokens.</p>
+
+<p>This is why <code>deep</code> blocks are needed.
+These keep track of their content and know how deep they are:</p>
+
+<p><code>
+Not inside block (Depth 1 (Depth 2))
+</code></p>
+
+<p>This means that a block is only recognized if it contains equally many starting and ending elements.</p>
+
+<h2>Active and passive blocks</h2>
+
+<p>The difference between <code>active</code> and <code>passive</code> blocks lies in how they deal with their content.
+Basically, an <code>active</code> block cares about what is inside it a little more than a <code>passive</code> one.
+If there is any open block left inside an <code>active</code> block, it itself can not close.</p>
+
+<p>This allows codes like this to be valid:</p>
+
+<p><code>
+({(})
+</code></p>
+
+<p>Here, the entire code is parsed as a single <code>parentheses</code> block. Not just <code>(})</code>, but the entire thing.</p>
+
+<p><code>passive</code> blocks do not care about the completion of blocks that are inside them.
+The <code>string</code> block <code>{)}</code> is complete, even though it contains an incomplete <code>parentheses</code> block.</p>
+
+<h1>Sentences</h1>
+
+<p>Programs consist of text. The text itself is separated into sentences, which end with a dot <code>.</code> .
+The third thing that the language does is creating a list of sentences from the . Every sentence is then evaluated on its own, and synchronously. The topmost sentence gets evaluated first, the one after that second and the bottommost last.</p>
+
+<p>The following program contains two sentences:</p>
+
+<p><code>
+Print: "Hello". Print: "World"
+</code></p>
+
+<p>You see a dot between these sentences. The last sentence does not necessarily need to end with a dot, but all others do.</p>
+</body></html>

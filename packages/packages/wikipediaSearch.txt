@@ -1,0 +1,19 @@
+$wikipediaSearchJson = ($term ? String ; $language ? String) fun {
+	loadGlobal: "https://" + language + ".wikipedia.org/w/api.php?action=opensearch&search=" + (urlEncodeParameter: term) + "&format=json"
+}.
+$wikipediaSearch = ($term ? String ; $language ? ("en" default String)) fun {
+	$raw = parseJson: term wikipediaSearchJson language.
+	$titles = 1 at raw.
+	$infos = 2 at raw.
+	$urls = 3 at raw.
+	$indexes = 0 range (length: titles) - 1.
+	{[x at titles];[[x at infos];[x at urls]]} each indexes
+}.
+$wikipediaSearchDescriptions = ($term ? String ; $language ? ("en" default String)) fun {
+	$search = term wikipediaSearch language.
+	(first each search) mingle first each second each search
+}.
+$wikipediaSearchUrls = ($term ? String ; $language ? ("en" default String)) fun {
+	$search = term wikipediaSearch language.
+	(first each search) mingle second each second each search
+}.

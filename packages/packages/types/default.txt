@@ -1,0 +1,4 @@
+$default = ($_value;$_type) fun {
+	$actualType = (_type eq void) at [_type];[Any].
+	$_x fun {actualType: (_x eq void) at [_x];[_value]}
+}.

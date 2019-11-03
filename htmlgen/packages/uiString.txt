@@ -1,0 +1,4 @@
+$uiRaw = ($text ? String) fun {
+	[["raw"];[text]]
+}.
+$uiText = ($text ? String) fun {"p" uiTag [uiRaw: text]}.

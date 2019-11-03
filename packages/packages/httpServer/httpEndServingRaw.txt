@@ -1,0 +1,4 @@
+$httpEndServingRaw = ($request;$_listDataEncoding) fun {
+	("writeRaw" objFirstProperty request) do _listDataEncoding.
+	do:("endServing" objFirstProperty request)
+}

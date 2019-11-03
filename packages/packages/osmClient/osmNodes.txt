@@ -1,0 +1,9 @@
+$osmNodeUrl='https://www.openstreetmap.org/api/0.6/node/'.
+$osmNodeNameFromDom={{"v" domAttribute x} each {"name" eq "k" domAttribute x} filter "tag" domTags x}.
+$osmNodeName={osmNodeNameFromDom: domParse: loadGlobal: osmNodeUrl + x}.
+$osmNodeNameAsync=($callback;$id) fun {
+	{(osmNodeNameFromDom: domParse: x) callback id} loadGlobalAsync osmNodeUrl + id
+}.
+$osmNodeNamesAsync=($callback;$_ids) fun {
+	{callback osmNodeNameAsync x} each _ids
+}.

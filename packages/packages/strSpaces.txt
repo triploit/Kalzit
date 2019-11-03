@@ -1,0 +1,4 @@
+$strNewline = {
+}.
+
+$strTab = {	}.

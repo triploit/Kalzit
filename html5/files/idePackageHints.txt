@@ -1,0 +1,5 @@
+$_ide_package_hint_ui = $varName fun {
+	uiShowFunctionAsList: {
+		($name fun {{_ide_insert: name} uiButton name}) each pmSearchNames: do:varName
+	}
+}.

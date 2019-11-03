@@ -1,0 +1,16 @@
+$uiEditableStringList = ($_values ? ModifiableList ; $addText ? ("+ Add item" default String)) fun {
+	$views ? ModifiableList = getArray of _values.
+	
+	$textToAdd = "".
+	$addView = uiContainer:
+		[@(percentWidth 80) $textToAdd uiTextfieldVariableOnchange ""];
+		[@(percentWidth 20) (() fun {
+			($push of _values): textToAdd.
+		}) uiButton addText].
+	
+	($addToEnd of views): addView.	
+	($setOnAddition of _values) {
+		($push of views): uiText: x.
+	}.
+	uiLiveListView: views
+}.

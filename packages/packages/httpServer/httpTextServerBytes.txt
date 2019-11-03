@@ -1,0 +1,17 @@
+$httpPlainTextServerBytes = ($contentFunction ; $port ? Int) fun {
+	($request fun {
+		("startServing" objFirstProperty request): "text/plain".
+		request httpEndServingBytes contentFunction: request.
+	}) httpServer port
+} ? void.
+$httpHtmlServerBytes = ($contentFunction ; $port ? Int) fun {
+	($request fun {
+		("startServing" objFirstProperty request): "text/html".
+		request httpEndServingBytes contentFunction: request.
+	}) httpServer port
+} ? void.
+$httpHeadlessTextServerBytes = ($contentFunction ; $port ? Int) fun {
+	($request fun {
+		request httpEndServingBytes contentFunction: request.
+	}) httpServer port
+} ? void.
