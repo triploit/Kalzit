@@ -34,6 +34,7 @@ Now, please take a look at our program in this new language:
 ```
 Print: "Bye World".
 ```
+(You can run the examples in the [Browser IDE](/_browser_ide.html). Just remove the leading `Print: `, otherwise you get the same output twice).
 
 This is super easy to explain, if it is not self-explanatory already. `"Bye World"` is what we want to show, and `Print` is the function (or routine, way, thing, whatever) which we use to show it.
 The colon `:` is used to say "Call the function on the left with what is on the right". So in this case it means "Use the function Print with 'Bye World' ".

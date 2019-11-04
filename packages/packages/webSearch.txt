@@ -1,2 +1,2 @@
 $webSearch = (($term) fun {;/ duckSearchUrls: term}) cachedFun (autoClearedCache: 1000 * 60 * 60 * 1).
-$webImageSearch = qwantSearchImageUrls cachedFun (autoClearedCache: 1000 * 60 * 60 * 1).
+$webImageSearch = $query fun {{"://" strContains x} filter {second each {"([^"]*\.(jpg|png|gif))"} allMatches x}: loadGlobal: "https://www.bing.com/images/search?q=" + urlEncodeParameter: query}.

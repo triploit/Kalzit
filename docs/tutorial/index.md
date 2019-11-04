@@ -35,7 +35,8 @@ Have fun!
 * [Creating reusable functions](/docs/tutorial/reusableFunctionCreation.html)
 * [Comments](/docs/tutorial/concepts/comments.html)
 * [How to create comments](/docs/tutorial/syntax/comments.html)
-* [How to get help about functions from others](/docs/tutorial/getComments.html)
+* [Annotations](/docs/tutorial/concepts/annotations.html)
+* [Adding and reading annotations](/docs/tutorial/syntax/annotations.html)
 
 
 ## Deeper dive

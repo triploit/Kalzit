@@ -1,17 +1,7 @@
 `A simple text note app`
 
-`(reference: $singleViewPickerHover) = ($view) fun {(250;200;200;255) flagBackgroundColor view.}.
-(reference: $singleViewPickerSelect) = ($view) fun {(250;100;100;255) flagBackgroundColor view.}.`
-
-`Blue theme light`
-`(reference: $uiSkinSingleViewPickerHover) = ($view) fun {(200;200;250;255) flagBackgroundColor view. (100;100;100;255) flagForegroundColor view}.
-(reference: $uiSkinSingleViewPickerSelect) = ($view) fun {(100;100;200;255) flagBackgroundColor view. (200;200;200;255) flagForegroundColor view}.
-(reference: $uiSkinSingleViewPickerDeselect) = ($view) fun {white flagBackgroundColor view. black flagForegroundColor view}.`
-
-`Blue theme dark`
+`App theme`
 $darkBlueAccentColorRgb ? RgbColor = 1;1;20.
-$darkGreenAccentColorRgb ? RgbColor = 1;20;1.
-$darkRedAccentColorRgb ? RgbColor = 30;1;1.
 
 $baseAccentColorRgb ? RgbColor = darkBlueAccentColorRgb.
 $lightAccentColor ? Color = baseAccentColorRgb + 190.
@@ -28,10 +18,7 @@ uiAppContainerBackgroundColor: blackAccentColor.
 (reference: $uiSkinTextarea) = ($view) fun {1 flagEmFontSize view. whiteAccentColor flagForegroundColor view .darkerTwilightAccentColor flagBackgroundColor view. "Arial, Helvetica" flagFontFamily view}.
 
 
-
-
-
-
+`Main app`
 $noteContentFunction = ($currentNoteIndex) ? Int fun {
 	{(default: "New note"): storageLoadString: $note + currentNoteIndex}
 }.
