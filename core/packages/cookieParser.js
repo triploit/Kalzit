@@ -1,2 +1,2 @@
-this.parseCookieNames = GLang.listCookies;
-this.parseCookieValue = GLang.getCookie;
+GLang.defaultRuntimeEnvironment.setInnerVariable("parseCookieNames", GLang.wrapJsToValue(GLang.listCookies));
+GLang.defaultRuntimeEnvironment.setInnerVariable("parseCookieValue", GLang.wrapJsToValue(GLang.getCookie));

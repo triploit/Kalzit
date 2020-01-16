@@ -16,18 +16,15 @@ this.flagRight = function(uselessArg, object){
 }
 this.flagCenter = function(uselessArg, object){
 	object.style.display = "block";
-	object.style.position = "absolute";
-	object.style.left = "50%";
-	object.style.top = "50%";
-	object.style.transform = ("translate(-50%, -50%)");
+	object.style.margin = "0 auto";
 }
 this.flagHorizontalCenter = function(uselessArg, object){
-	object.style.display = "block";
+	object.style.display = "inline-block";
 	object.style.left = "50%";
 	object.style.transform = ("translateX(-50%)");
 }
 this.flagVerticalCenter = function(uselessArg, object){
-	object.style.display = "block";
+	object.style.display = "inline-block";
 	object.style.top = "50%";
 	object.style.transform = ("translateY(-50%)");
 }
@@ -54,4 +51,7 @@ this.flagWindowCenter = function(uselessArg, object){
 	object.style.left = "50%";
 	object.style.top = "50%";
 	object.style.transform = ("translate(-50%, -50%)");
+}
+this.flagFront = function(uselessArg, object){
+	object.style.zIndex = "1";
 }

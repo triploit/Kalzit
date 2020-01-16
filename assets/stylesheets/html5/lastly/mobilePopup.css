@@ -1,0 +1,15 @@
+@media (max-width: 600px) {
+    .k-popup {
+        width: 100%;
+        height: 100%;
+    }
+    .k-popup_closer {
+    	visibility: visible;	
+    }
+    .k-mobile_only {
+        display: initial;   
+    }
+    .k-desktop_only {
+        display: none;   
+    }
+}

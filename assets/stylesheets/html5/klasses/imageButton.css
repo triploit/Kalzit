@@ -1,0 +1,9 @@
+.k-image_button:hover {
+	opacity: 0.75;
+}
+.k-image_button:active {
+	opacity: 0.5;
+}
+.k-image_button {
+	opacity: 1;
+}

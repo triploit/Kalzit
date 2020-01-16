@@ -1,0 +1,1 @@
+$getSimpleUserLanguage = () fun {second of "([a-z][a-z])-[A-Z][A-Z]" match do:getUserLanguage}.

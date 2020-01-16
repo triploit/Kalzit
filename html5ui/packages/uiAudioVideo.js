@@ -1,3 +1,4 @@
+;(function(global){
 function makePlayerInterface(mediaElement){
 	var onEnd = function(){};
 	var onProgress = function(time){};
@@ -8,7 +9,7 @@ function makePlayerInterface(mediaElement){
 		onProgress(mediaElement.currentTime);
     } ,false);
 
-	return {value:[
+	var controller = {value:[
 		{value:[{value:"play"}, {
 			value: function(env, args){
 				mediaElement.play();
@@ -46,7 +47,7 @@ function makePlayerInterface(mediaElement){
 		{value:[{value:"setOnEnd"}, {
 			value: function(env, args){
 				onEnd = function(){
-					GLang.callObject(args[0], env, []);
+					GLang.callObject(args[0], env, [controller]);
 				}
 				return GLang.voidValue;
 			}, display: "function"
@@ -59,12 +60,14 @@ function makePlayerInterface(mediaElement){
 		{value:[{value:"setOnProgress"}, {
 			value: function(env, args){
 				onProgress = function(time){
-					GLang.callObject(args[0], env, [{value:time}]);
+					GLang.callObject(args[0], env, [{value:time}, controller]);
 				}
 				return GLang.voidValue;
 			}, display: "function"
 		}]}
 	]};
+	
+	return controller
 }
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiAudioPlayer", {value:function(env, args){
@@ -83,3 +86,4 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiVideoPlayer", {value:functio
 	GLang.callObject((args.length >= 2 ? args[1] : GLang.stringValue("")), env, [makePlayerInterface(video)]);
 	return {value:video, display:"dom"};
 }, display:"function"});
+})(this);

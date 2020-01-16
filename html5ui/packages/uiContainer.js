@@ -11,7 +11,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiContainer", {value:function(
 		div.appendChild(GLang.displayValue(arr[i]));
 	}
 	
-	div.style.display = "inline-block";
-	div.style.width = "100%";
 	return {value:div, display:"dom"};
 }, display:"function"});

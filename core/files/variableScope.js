@@ -26,32 +26,30 @@
 		}
 		return unifiedName;
 	}
-	
-	var variableUpdateFunctions = [];
-	function notifyVariableChange(n){
-		if(GLang.disableRuntimeUpdates) return;
-		for(var i = 0; i < variableUpdateFunctions.length; i++){
-			var updater = variableUpdateFunctions[i];
-			if(updater.varName === n){
-				updater.update();
-			}
-		}
-		GLang.notifyGeneralChange();
-	}
-	
-	function registerVariableListener(n, listener){
-		variableUpdateFunctions.push({varName:GLang.defaultRuntimeEnvironment.unifyStringName(n), update:listener});
-	}
 
 	//Holds all variables known to the program
 	global.GLang.RuntimeEnvironment = function(outerEnvironment){
+		var variableUpdateFunctions = [];
+		
 		//Variables in this environment
 		this.innerVariables = [];
 		//An environment outside of this one (optional)
 		this.outerEnvironment = outerEnvironment;
 		//Listening functions
-		this.notifyVariableChange = notifyVariableChange;
-		this.registerVariableListener = registerVariableListener;
+		this.notifyVariableChange = function(n){
+			if(GLang.disableRuntimeUpdates) return;
+			for(var i = 0; i < variableUpdateFunctions.length; i++){
+				var updater = variableUpdateFunctions[i];
+				if(updater.varName === n){
+					updater.update();
+				}
+			}
+			GLang.notifyGeneralChange();
+		};
+		
+		this.registerVariableListener = function(n, listener){
+			variableUpdateFunctions.push({varName:GLang.defaultRuntimeEnvironment.unifyStringName(n), update:listener});
+		};
 		
 		//Find a variable by name (a tree structure)
 		this.resolveName = function resolveName(varNameItem){
@@ -115,10 +113,10 @@
 							//Overwrite its value and finish
 							v.varValue = newValue;
 							if(oldValue.value !== newValue.value){
-								notifyVariableChange(n);
+								this.notifyVariableChange(n);
 							}
 						}
-						return;
+						return newValue;
 					}else{
 						throw new Error("Not allowed to change variable $" + n + (v.frozen ? " because it is frozen - probably part of a package" : ""));
 					}
@@ -133,7 +131,8 @@
 				]});
 			}
 			this.innerVariables.push(v);
-			notifyVariableChange(n)
+			this.notifyVariableChange(n);
+			return v.varValue;
 		}
 		
 		this.freezeInnerVariable = function freezeInnerVariable(n){

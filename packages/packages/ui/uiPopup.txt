@@ -1,6 +1,14 @@
+$uiSkinPopupRef = reference: $uiSkinPopup.
+($uiSkinPopupBackgroundRef = reference: $uiSkinPopupBackground) = {@(backgroundColor: 122;122;122;122) x}.
+
+$uiPopupBackground = () fun {
+	@(cssClass "k-popup_background") @front @(percentWidth: 100) @(percentHeight: 100) @windowTop @windowLeft uiContainer: ().
+}.
+
 $uiPopup = ($_values ? (List:Any) ; $then) fun {
-	$popup = @windowCenter uiContainer: _values.
-	$background = @(onTap: () fun {uiHide: popup. uiHide: background; do:then}) @(percentWidth: 100) @(percentHeight: 100) @windowTop @windowLeft @(backgroundColor: 122;122;122;122) uiContainer: ().
-	uiPreparePopup: popup.
-	uiContainer: background;popup
+	$popup = @front @windowCenter @(cssClass "k-popup") uiContainer: _values.
+	$background = @(cssClass "k-popup_background") @front @(onTap: () fun {uiHide: container; do:then}) @(percentWidth: 100) @(percentHeight: 100) @windowTop @windowLeft uiContainer: ().
+	uiSkinPopupBackground: background.
+	uiSkinPopup: popup.
+	$container = uiContainer: background;popup
 }

@@ -1,9 +1,19 @@
 $modifiableObject = ($_originalObject) fun {
 	$list = modifiableList: _originalObject.
 	
+	$currentObject = _originalObject.
+	$currentObjectRef = reference: $currentObject.
+	
+	$needsRefresh = false. $needsRefreshRef = reference: $needsRefresh.
+	
+	$refreshObject = () fun {!if needsRefresh {currentObjectRef = do: $getArray of list. needsRefreshRef = false}. void}.
+	
 	["push" ; ($_key ; $_value) fun {
-		($push of list): [[_key];[_value]]
+		($push of list): [[_key];[_value]].
+		needsRefreshRef = true. void
 	}];
-	["getObject" ; $getArray of list];
-	["clear" ; $clear of list]
+	["getObject" ; () fun {do refreshObject. currentObject}];
+	["clear" ; () fun {do: $clear of list. needsRefreshRef = true. void}];
+	["isProperty" ; $_possibleProperty fun {do refreshObject. _possibleProperty objHasProperty currentObject}];
+	["getProperty" ; $_property fun {do refreshObject. _property objFirstProperty currentObject}]
 }.

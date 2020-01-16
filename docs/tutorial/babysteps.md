@@ -99,7 +99,4 @@ quadruple: 4.
 
 If you are a developer, you could read the [introduction for developers](http://localhost:5000/docs/introForDevs.html). You are going to be familiar with many concepts explained there, but that might help to really get the core concepts. Also, you will end up with a fancy little graphical app!
 
-As someone who is just mildly interested in this project, you could try the built-in [notes app](http://localhost:5000/app/notes). It should be pretty self-explanatory.
-There is also a basic [Instagram viewer](http://localhost:5000/app/igDemo). You can type in an instagram user name to the text field (without the @), click "Add" and you will see the images. This also works with things like `r/all` for Reddit! Both apps were written in Kalzit, and I find them fairly useful. The source code can be found [here](https://www.github.com/triploit/Kalzit/blob/master/notes.txt) (notes) and [here](https://www.github.com/triploit/Kalzit/blob/master/igDemo.txt) (Instagram viewer).
-
 If you are really interested in this project, you can join the [Triploit Discord server](https://discord.gg/CHN6pnb). You can chat with every member of this organization there. We can chat in english or in german, and are happy to hear your ideas. So, feel free to share any questions, ideas or other things regarding this project there.

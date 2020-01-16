@@ -19,7 +19,12 @@ function fileContentAsync(callback, filePath){
 	fs.readFile(filePath, "utf8", callback);
 }
 this.folderContent = function(filePath){
-	return fs.readdirSync(filePath).map(name => path.join(filePath, name))
+	var array = fs.readdirSync(filePath);
+	var result = [];
+	for(var i = 0; i < array.length; i++){
+		result.push(path.join(filePath, array[i]));
+	}
+	return result;
 }
 function folderContentAsync(callback, filePath){
 	fs.readdir(filePath, callback)
@@ -29,6 +34,9 @@ this.fileWrite = function(filePath, data){
 }
 this.fileCreateFolder = function(folderPath){
 	!fs.existsSync(folderPath) && fs.mkdirSync(folderPath);
+}
+this.fileDelete = function(filePath){
+	fs.existsSync(filePath) && fs.unlinkSync(filePath);
 }
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("fileContentRaw", {value:GLang.arrayFun(function(env, args){

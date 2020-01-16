@@ -1,0 +1,222 @@
+#!/usr/bin/env kalzit
+`A http server that is specialized for the calcit web applications`
+print: compileHtmlTags: [visualize: "Hallo Welt"].
+print: $blacklist = strNewline strSplit fileContent: "./blacklist.txt".
+Int: "fldskfj".
+
+$getUrlDate = $url fun {
+	$encodedUrl = urlEncodeParameter: url.
+	!ifElse (fileExists: "./nogit/cache/urldates/" + encodedUrl + ".txt") {
+		fileContent: "./nogit/cache/urldates/" + encodedUrl + ".txt"
+	};{
+		$result = do: getCurrentDateUtc.
+		("./nogit/cache/urldates/" + encodedUrl + ".txt") fileWrite result.
+		result
+	}
+}.
+$getYoutubeTitle = $id fun {
+	print: id.
+	!ifElse (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {
+		fileContent: "./nogit/cache/yttitles/" + id + ".txt"
+	};{
+		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
+		("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
+		result
+	}
+}.
+$getYoutubeTitleAsync = ($then;$id) fun {
+	!if (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {
+		then fileContentAsync "./nogit/cache/yttitles/" + id + ".txt"
+	}.
+	!else {
+		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
+		!if (not result eq "https://youtube.com/watch?v=" + id) {
+			("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
+		}.
+		print result.
+	}
+}.
+$cachedUrlTitle = urlTitle cachedFun autoClearedCache: monthsToMillis: 2.
+
+$getIgFeed = ($user ? {".rss" strRemove x} fun {
+	('<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>@' + user + "</title><description>" + user + " on instagram</description><link>https://instagram.com/" + user + "</link>" +
+	+/ {$link = ("&";"&amp;") strReplace igUserParseImageUrl: x. $post = "https://www.instagram.com/p/" + igUserParseImageShortcode: x. '<item><description><![CDATA[<img src="' + link + '">]]></description><source>' + (("&";"&amp;") strReplace $src of third: igUserParseImageThumbnail: x) + '</source><title>Image by ' + user + "</title><guid>" + post + "</guid><link>" + post + "</link><pubDate>" + (getUrlDate: post) + "</pubDate></item>"} each igUserParseUserImages: user) + 
+	"</channel></rss>"
+}) cachedFun autoClearedCache: hoursToMillis: 2.
+
+$getYtFeed = ($url fun {
+	('<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>' + ((default: "YouTube: " + ("&";"&amp;") strReplace url): urlTitle: url) + "</title><description>" + (("&";"&amp;") strReplace url) + " on YouTube</description><link>" + url + "</link>" +
+	+/ {$link = "https://www.youtube.com/watch?v=" + x. '<item><description><![CDATA[<img src="' + (youtubeVideoThumbnail: x) + '">]]></description><title>' + ((default: "Unknown Title (" + x + ")"): getYoutubeTitle: x) + "</title><guid>" + link + "</guid><link>" + link + "</link><pubDate>" + (getUrlDate: link) + "</pubDate></item>"} each {not: "undefined" eq x} filter removeDuplicates: (youtubeVideoIds: url);youtubeVideoIdsByUrl: url) + 
+	"</channel></rss>"
+}) cachedFun autoClearedCache: hoursToMillis: 2.
+
+$ytFeedCache = autoClearedCache: hoursToMillis: 2.
+$getYtFeedAsync = ($then;$url) fun {
+	$cached = url objFirstProperty do: $getObject of ytFeedCache.
+	!if (not: cached eq void) {
+		then: cached.
+	}.
+	!else {
+		$videoIds = removeDuplicates: (youtubeVideoIds: url);youtubeVideoIdsByUrl: url.
+		
+		$feedStart = '<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>' + (("&";"&amp;") strReplace url) + "</title><description>" + (("&";"&amp;") strReplace url) + " on 	YouTube</description><link>" + url + "</link></channel>".
+		
+		$feedEnd = "</rss>".
+		
+		$neededLength = length: videoIds.
+		!if (0 eq neededLength) {
+			then: feedStart + feedEnd.
+		}.
+		!else {
+			$currentLength = 0. $currentLengthRef = reference: $currentLength.
+			$feedBuilder ? ModifiableList = ().
+			
+			($videoId fun {
+				$thumbnail = youtubeVideoThumbnail: videoId.
+				$link = "https://www.youtube.com/watch?v=" + videoId.
+				($title fun {
+					($push of feedBuilder): '<item><description><![CDATA[<img src="' + thumbnail + '">]]></description><title>' + title + "</title><guid>" + link + "</guid><link>" + link + "</link><pubDate>" + (getUrlDate: link) + "</pubDate></item>".
+					
+					currentLengthRef = currentLength + 1.
+					!if (currentLength eq neededLength) {
+						$result = feedStart + ((default: ""): +/ getArray: feedBuilder) + feedEnd.
+						url ($push of ytFeedCache) result.
+						then: result.
+					}
+				}) getYoutubeTitleAsync videoId
+			}) each videoIds.
+		}.
+	}
+}.
+
+$getSearchPage = ($term fun {
+	$duckRaw = duckSearchResults: term.
+	$duckResults = {$link = $url of x. '<p><a href="' + link + '">' + (cachedUrlTitle: link) + "</a> (" + link + ")</p>"} each duckRaw.
+	
+	$ytRaw = youtubeSearchVideoIds: term.
+	$ytResults = {$link = "https://youtu.be/" + x. '<p><a href="' + link + '">' + (getYoutubeTitle: x) + "</a> (" + (link) + ")</p>"} each ytRaw.
+	
+	"<br>" strJoin duckResults;ytResults.
+}) cachedFun autoClearedCache: hoursToMillis: 2.
+
+
+$onClientConnect = ($_request fun {
+	$fname = "." + first: "?" strSplit $url of _request.
+	
+	$result = void.
+	$resultRef = reference: $result.
+	$async = false.
+	$asyncRef = reference: $async.
+	
+	!if ("./app/" strStartsWith fname) {
+		$appFileBase = "apps/" + "./app/" strRemove fname.
+		!ifElse (fileIsFile: appFileBase + ".k") {
+			print: "Trying to run Kalzit app " + $app = appFileBase + ".k".
+			resultRef = app strJoin "$app$" strSplit fileContent: "./_browser_app.html".
+		};{
+			!if (fileIsFile: appFileBase + ".html") {
+				print: "Trying to run HTML app " + $app = appFileBase + ".html".
+				resultRef = (default: "This app does not exist"): fileContent: app.
+			}
+		}
+	}.
+	
+	!if ("./" eq fname) {
+		print: "Trying to run app " + $app = "app" urlGetParameter $url of _request.
+		resultRef = app strJoin "$app$" strSplit fileContent: "./_browser_app.html".
+	}.
+	
+	!if ("./api/" strStartsWith fname) {
+		$source = "./nodejs/files/server/api/" + ("./api/" strRemove fname) + ".k".
+		!ifElse (fileExists: source) {
+			print "Calling server API " + source.
+			do: () fun fileContent: source.
+		};{
+			print "Server API " + source + " not found".
+		}
+	}.
+	
+	!if ("./docs/api/defaults/" strStartsWith fname)
+        () fun fileContent: "./nodejs/files/server/showDocumentation.txt".
+	
+	!if ("./docs/api/home" eq fname){
+		resultRef = "<br></br>" strJoin {'<a href="/docs/api/defaults/' + x + '">' + x + "</a>"} each do:pmListNames
+	}.
+	
+	!if ("./services/igfeed/" strStartsWith fname){
+		resultRef = getIgFeed: "./services/igfeed/" strRemove fname.
+		($startServing of _request): "text/xml".
+	}.
+	
+	!if ("./services/maptile/" strStartsWith fname){
+		$u = $url of _request.
+		
+		$xc = $x urlGetParameter u.
+		$yc = $y urlGetParameter u.
+		$zc = $z urlGetParameter u.
+		
+		print: "Loading tile " + xc + "_" + yc + "_" + zc.
+		
+		$cacheLocation = "./nogit/cache/maptiles/"+ "_" + xc + "_" + yc + "_" + zc + ".jpg".
+		($startServing of _request): fileMime: cacheLocation.
+		asyncRef = true.
+		
+		!ifElse (fileExists: cacheLocation) {
+			_request httpEndServingRaw fileContentRaw: cacheLocation.
+		};{
+			$tile = loadGlobalRaw: "https://a.tile.openstreetmap.org/" + zc + "/" + xc + "/" + yc + ".png".
+			cacheLocation fileWrite tile.
+			_request httpEndServingRaw tile.
+		}.
+	}.
+	
+	!if ("./services/ytfeed/" strStartsWith fname){
+		asyncRef = true.
+		$url = "url" urlGetParameter $url of _request.
+		!if(url eq void){
+			($endServing of _request): "".
+			($respondCode of _request): 404.
+		}.
+		!else {
+			{
+				($startServing of _request): "text/xml".
+				($endServing of _request): (default: ""): x
+			} getYtFeedAsync "url" urlGetParameter $url of _request.
+		}
+	}.
+	
+	!if (not async) {
+		!if (result eq void) {
+			`Check blacklist`
+			!if (0 < sum: {x matches fname} each blacklist){
+				print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
+	           	($startServing of _request): fileMime: "html".
+				($respondCode of _request): 404.
+				_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
+			}.
+			`Find a file by name`
+			!else {
+				((fileIsFile: fname) & fileExists: fname) ifElse {
+					print: "Serving file " + fname.
+	                ($startServing of _request): fileMime: fname.
+					($writeFile of _request): fname.
+                    do:($endServing of _request).
+				};{
+					print: "Serving empty page for " + fname.
+	                ($startServing of _request): fileMime: "html".
+					($respondCode of _request): 404.
+					_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
+				}
+			}
+		}.
+	    else {
+	    	_request httpEndServingRaw strRaw: result
+	    }
+    }
+	
+}).
+
+!if (fileExists "./nogit/https/key.pem") {
+    onClientConnect httpsServer 5001
+}.
+onClientConnect httpServer 5000.

@@ -11,3 +11,5 @@ $windowTop = flag: "windowTop".
 $windowLeft = flag: "windowLeft".
 $windowRight = flag: "windowRight".
 $windowCenter = flag: "windowCenter".
+
+$front = flag: "front".

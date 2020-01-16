@@ -24,6 +24,15 @@ $igUserParseImageUrls = $_userImages fun {
 $igUserParseUserImageUrls = ($userName ? String) fun {
 	igUserParseImageUrls: igUserParseUserImages: userName
 }.
+$igUserParseImageShortcode = $_userImage fun {
+	$shortcode of _userImage
+}.
+$igUserParseImageShortcodes = $_userImages fun {
+	igUserParseImageShortcode each _userImages
+}.
+$igUserParseUserImageShortcodes = ($userName ? String) fun {
+	igUserParseImageShortcodes: igUserParseUserImages: userName
+}.
 $igUserParseImageThumbnail = $_userImage fun {
 	$thumbnail_resources of _userImage
 }.

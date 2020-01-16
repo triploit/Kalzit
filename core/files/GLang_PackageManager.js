@@ -53,7 +53,7 @@
 			}
 			
 			//Automatically add package information to values
-			var variableValue = GLang.defaultRuntimeEnvironment.resolveName(names[name])
+			var variableValue = GLang.defaultRuntimeEnvironment.resolveName(names[name], GLang.defaultRuntimeEnvironment)
 			GLang.addAnnotation(variableValue, {value:[
 				GLang.stringValue("sourceUrl"),
 				GLang.stringValue(sourceUrl)
@@ -68,8 +68,20 @@
 	
 	//Searches for a package by name and loads it synchronously
 	function installPackage(provides){
-		this.requireFullPackageList();
 		GLang.log("Looking for name " + provides)
+		
+		
+		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){
+			var packageData = this.registeredPrecompiledPackages[packageIndex];
+			if(packageData[0].includes(provides)){
+				GLang.evaluateTree(packageData[1], GLang.defaultRuntimeEnvironment);
+				
+				//Freeze the package variables
+				freezePackageVariables(packageData[0], null /*TODO*/);
+				
+				return true;
+			}
+		}
 		
 		for(var packageIndex = 0; packageIndex < this.registeredPackages.length; packageIndex++){
 			var packageData = this.registeredPackages[packageIndex];
@@ -85,20 +97,14 @@
 			}
 		}
 		
+		
 		return false;
 	}
 	
 	function initialize(startPackages){
-		this.startPackages = startPackages;
-	};
-
-	function requireFullPackageList(){
-		if(!(this.initialized)){
-			for(var i = 0; i < this.startPackages.length; i++){
-				this.loadPackageSync(this.startPackages[i]);
-			}
+		for(var i = 0; i < startPackages.length; i++){
+			this.loadPackageSync(startPackages[i]);
 		}
-		this.initialized = true;
 	};
 	
 	//A package manager implementation for the browser
@@ -110,6 +116,12 @@
 		
 		this.register = register;
 		this.installPackage = installPackage;
+		
+		this.registeredPrecompiledPackages = [];
+		this.registerPrecompiledPackage = function(names, compiledCode){
+			this.registeredPrecompiledPackages.push([names, compiledCode]);
+			this.registeredPackages.push({provides: names, scriptUrl: null})
+		};
 		
 		this.supportedLanguages = [
 			{langName:"js", langRunner:function(url, code){
@@ -131,13 +143,11 @@
 					}
 				}
 				GLang.packageManager.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
-			}}
+			}},
+			{langName:"k", langRunner:function(url, x){GLang.eval(x,true)}}
 		];
 		
 		this.initialize = initialize;
-		this.initialized = false;
-		this.startPackages = [];
-		this.requireFullPackageList = requireFullPackageList;
 	}
 	
 })(this);

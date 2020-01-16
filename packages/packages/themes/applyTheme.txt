@@ -1,0 +1,1 @@
+$applyTheme = $_theme fun {do:$apply of _theme}.

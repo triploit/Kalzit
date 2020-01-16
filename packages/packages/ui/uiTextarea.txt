@@ -1,8 +1,10 @@
+$uiSkinTextareaRef = reference: $uiSkinTextarea.
+
 $uiTextareaVariableOnchange = ($var ? Reference) fun {
 	uiSkinTextarea: $textarea = uiNativeTextareaVariableOnchange: var.
 	textarea
 }.
 $uiTextareaOnchange = ($action ; $defaultText ? ("" default String)) fun {
-	uiSkinTextarea: $textarea = action uiNativeTextareaOnchange defaultText.
+	uiSkinTextarea: $textarea = @(cssClass "k-textarea") action uiNativeTextareaOnchange defaultText.
 	textarea
 }.

@@ -1,7 +1,7 @@
 #{The default cookie notification. The default texts are written in english. }
-@(percentWidth: 100) @windowBottom @windowLeft
+@front @(percentWidth: 100) @windowBottom @windowLeft
 @((default backgroundColor: red): cookieBannerBackground) @((default foregroundColor: white): cookieBannerForeground)
 $defaultCookieBanner = uiContainer:
-	((default: "This page attempted to save data on your device using cookies. This process only continues if you want it to."): cookieInfoText);
-	({do:acceptCookies. uiHide: defaultCookieBanner} uiButton (default: "Accept cookies"): cookieAcceptText);
-	{do:rejectCookies. uiHide: defaultCookieBanner} uiButton (default: "Reject cookies"): cookieRejectText.
+	((default: strings: "cookieInfoText"): cookieInfoText);
+	({do:acceptCookies. uiHide: defaultCookieBanner} uiButton (default: strings: "cookieAcceptText"): cookieAcceptText);
+	{do:rejectCookies. uiHide: defaultCookieBanner} uiButton (default: strings: "cookieRejectText"): cookieRejectText.

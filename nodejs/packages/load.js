@@ -43,4 +43,13 @@
 		}
 	})});
 	
+	GLang.defaultRuntimeEnvironment.setInnerVariable("loadGlobalRaw", {value:GLang.arrayFun(function(env, args){
+		var url = args[0].value + "";
+		try{
+			return {value:require("child_process").execSync("curl -L -A \"CalcitServersideLoadP/0.2\" \"" + url + "\"")}
+		}catch(e){
+			return GLang.voidValue;
+		}
+	})});
+	
 })();

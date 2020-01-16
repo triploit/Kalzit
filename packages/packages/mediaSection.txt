@@ -1,0 +1,43 @@
+$replayFrom = ($_mediaController;$timestamp) fun {($setTime of _mediaController): timestamp. play _mediaController}.
+$replay = $_mediaController fun {_mediaController replayFrom 0}.
+$mediaSection = ($_mediaController ; $_startAndEnd) fun {
+	$onProgress = $onEnd = void.
+	$onProgressRef = reference: $onProgress.
+	$onEndRef = reference: $onEnd.
+	$start = first of _startAndEnd.
+	$end = second of _startAndEnd.
+	
+	$controller =
+		[[$play];[{
+			!if(start > do: $getProgress of _mediaController) {
+				($setTime of _mediaController): start
+			}.
+			play _mediaController.
+		}]];
+		[[$pause];[$pause of _mediaController]];
+		[[$getDuration];[end - start]];
+		[[$setTime];[{
+			($setTime of _mediaController): x + start.
+		}]];
+		[[$setVolume];[$setVolume of _mediaController]];
+		[[$getVolume];[$getVolume of _mediaController]];
+		[[$setOnEnd];[$callback fun {
+			onEndRef = callback
+		}]];
+		[[$setOnProgress];[$callback fun {
+			onProgressRef = callback
+		}]];
+		[[$getProgress];[() fun {
+			(do: $getProgress of _mediaController) - start
+		}]].
+		
+	($setOnProgress of _mediaController): ($timestamp ; $_controller) fun {
+		!if (end < timestamp) {
+			pause _mediaController.
+			onEnd: controller
+		}.
+		(timestamp - start) onProgress controller
+	}.
+	
+	controller
+}.

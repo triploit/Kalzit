@@ -1,0 +1,18 @@
+$fallbackFun = ($_functionsInOrder) fun {
+
+	$fallback = ($_args ; $currentIndex) fun {
+		$currentResult = (currentIndex at _functionsInOrder) do _args.
+		!ifElse (currentResult eq void) {
+			!ifElse (currentIndex < length: _functionsInOrder) {
+				_args fallback currentIndex + 1
+			};{}
+		};{
+			currentResult
+		}
+	}.
+	
+	($_a;$_b) fun {
+		([_a];[_b]) fallback 0
+	}
+	
+}.

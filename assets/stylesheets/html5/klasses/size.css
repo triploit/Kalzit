@@ -1,0 +1,9 @@
+.k-dynamic_size {
+	width: initial;
+	height: initial;
+}
+.k-fit {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}

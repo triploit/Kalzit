@@ -1,0 +1,1 @@
+uglifycss ./default/*.css ./klasses/*.css ./dynamic/*.css ./lastly/*.css --output _min.css

@@ -1,7 +1,7 @@
 /*This file defines the css class "calcitDynamic_columns".
 It automatically detects an appropriate value for "column-count", depending on the width of the window*/
 
-@media (max-width: 1500px) {
+@media (min-width: 1201px) {
 	.calcitDynamic_columns {
 		column-count: 5
 	}

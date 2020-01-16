@@ -2,10 +2,11 @@ $modifiableList = ($_normalList ? (List:Any)) fun {
 	!ifElse ((first each _normalList) eq $push;$getArray;$clear;$setOnAddition;$addToEnd) {
 		_normalList
 	};{
-		$listVar = _normalList. $listVarRef = reference: $listVar.
+		$listVar ? (List:Any) = _normalList. $listVarRef = reference: $listVar.
 		$onAddition = (). $onAdditionRef = reference: $onAddition.
 		$listEnd = (). $listEndRef = reference: $listEnd.
 		
+		@($uiGenerator ; uiLiveListView)
 		["push"; ($_items) fun {
 			listVarRef = listVar ; _items.
 			onAddition:_items.

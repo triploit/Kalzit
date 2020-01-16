@@ -16,12 +16,10 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 			return result;
 		}
 		
-		var jsArgNames = (jsFunction + "").match(/function(\s\s*.*)?\s*\(([^)]*)\)/)[2];
-		if(jsArgNames.trim()){
-			jsArgNames = jsArgNames.split(",").map(function(s){return s.trim()});
-		}else{
-			jsArgNames = [];
-		}
+		var jsArgNames = jsFunction.toString()
+			.replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
+			.match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1]
+			.split(/,/);
 		
 		var makeArrayFunction = true;
 		for(var i = 0; i < jsArgNames.length; i++){

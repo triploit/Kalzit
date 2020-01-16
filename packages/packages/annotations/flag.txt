@@ -1,2 +1,2 @@
-$flag = {["flag"];[x]} ? Annotation.
+$flag = ($_x) fun {["flag"];[_x]} ? Annotation.
 $applyFlag = ($_value ; $_flagNameArg ? (Tuple:String;Any)) fun {(second:_flagNameArg) (resolveName: "flag_" + calcitUnifyName:first:_flagNameArg) _value}.

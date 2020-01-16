@@ -209,7 +209,7 @@
 			}
 			//Check for annotations
 			else if(state[i].special && state[i].special.textValue === "@"){
-				var op = [{kind:"name", name:{textValue:"calcitAddAnnotation"}}];
+				var op = [{kind:"name", name:{textValue:"calcitSetAnnotation"}}];
 				var a = state.splice(i + 1, 1);
 				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
 				state = state.slice(0, i).concat(a).concat(op).concat(b);

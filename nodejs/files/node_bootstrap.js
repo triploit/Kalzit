@@ -20,7 +20,7 @@ function installCalcit(vm, context, fs, bootstrap){
 	}
 }
 
-var context = {require:require, console:console};
+var context = {require:require, console:console, process:process};
 installCalcit(vm, context, fs, ["core", "nodejs"]);
 
 var app = process.argv[2]

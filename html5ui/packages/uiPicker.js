@@ -1,4 +1,10 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiPicker", {value:function(env, args){
+	var varRef = args[0];
+	if(varRef.display !== "reference"){throw new Error("uiPicker needs a reference as the first parameter")}
+	
+	var varEnv = varRef.environment;
+	var varName = varRef.value;
+
 	var picker = document.createElement("select");
 	picker.classList.add("calcitPicker");
 	var options = args[1].value;
@@ -9,14 +15,14 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPicker", {value:function(env
 		picker.appendChild(option);
 	}
 	picker.onchange = function(){
-		GLang.defaultRuntimeEnvironment.setInnerVariable(args[0].value, GLang.stringValue(picker.value), true);
+		varEnv.setInnerVariable(args[0].value, GLang.stringValue(picker.value), true);
 	}
 	
 	function onVariableChange(){
-		picker.value = GLang.eval(args[0].value).value;
+		picker.value = varEnv.resolveName(varName).value;
 	}
 	
-	GLang.registerVariableListener(args[0].value, onVariableChange);
+	varEnv.registerVariableListener(varName, onVariableChange);
 	
 	return {value:picker, display:"dom"}
 }});

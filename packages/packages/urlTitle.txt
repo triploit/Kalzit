@@ -1,0 +1,2 @@
+$urlTitle = $anyUrl fun {(default: anyUrl): second: "<\s*title\s*>(.*)</\s*title\s*>" match loadGlobal: anyUrl}.
+$urlTitleAsync = ($then;$anyUrl) fun {{then: (default: anyUrl): second: "<\s*title\s*>(.*)</\s*title\s*>" match x} loadGlobalAsync anyUrl}.

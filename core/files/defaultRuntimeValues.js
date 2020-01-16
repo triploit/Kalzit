@@ -33,38 +33,6 @@
 				args.push({value:0})
 			}
 			
-			//Before doing anything else, isolate the case of function-based arrays
-			if(GLang.getFirstAnnotation(args[argumentCount - 1], GLang.stringValue("array"))){
-				var result;
-				
-				switch(argumentCount){
-					case 2: result = {value:function(e, a){
-							var functionArrayItem = GLang.callObject(args[1], env, a);
-							var firstParameter = args[0];
-							return GLang.callObject(original, env, [firstParameter, functionArrayItem]);
-						}, display:"function"};
-						break;
-					case 1: result = {value:function(e, a){
-							var functionArrayItem = GLang.callObject(args[0], env, a);
-							return GLang.callObject(original, env, [functionArrayItem]);
-						}, display:"function"};
-						break;
-					default: throw new Error("At this point, the argumentCount variable has to be 2 or 1. This is an error in the language implementation.");
-				}
-				
-				GLang.addAnnotation(result, {value:[
-					GLang.stringValue("array"),
-					GLang.stringValue("array")
-				]});
-				
-				var lengthAnnotation = GLang.getFirstAnnotation(args[1], GLang.stringValue("length"));
-				if(lengthAnnotation){
-					GLang.addAnnotation(result, {value:[GLang.stringValue("length"), lengthAnnotation]});
-				}
-				
-				return result;
-			}
-			
 			var a = args[0];
 			if(GLang.eq(a.value, [])) return {value:[]};
 			var b = args.length < 2 ? null : args[1];
@@ -96,16 +64,6 @@
 				array.push(atFunction(property[i].value, valObj));
 			}
 			return {value:array};
-		}
-		var objIsArray = GLang.getFirstAnnotation(valObj, GLang.stringValue("array"));
-		if(objIsArray){
-			var lengthAnnotation = GLang.getFirstAnnotation(valObj, GLang.stringValue("length"));
-			var argument = property;
-			if(lengthAnnotation){
-				var length = parseInt(lengthAnnotation.value);
-				argument = property % length;
-			}
-			return GLang.callObject(valObj, null, [{value:argument}]);
 		}
 		if(!(value instanceof Array)){
 			value = [{value:value}]
@@ -177,14 +135,22 @@
 				throw new Error("Functions can not have more than two parameters");
 			}
 			
+			var code = args[1].value;
+			var returnType = GLang.getType(args[1]);
+			if("string" === typeof code) code = GLang.generateTree(code);
 			var result = {value:{
 				environment:env,
-				codeString:args[1].value
+				code:code
 			}, display:"function"};
 			
-			GLang.addAnnotation(result, {value:[
+			GLang.setAnnotation(result, {value:[
 				GLang.stringValue("argumentList"), {value:argList}
 			]});
+			if(returnType) {
+				GLang.setAnnotation(result, {value:[
+					GLang.stringValue("type"), returnType
+				]});
+			}
 			for(var i = 0; i < argList.length; i++){
 				if((argList[i].value + "").startsWith("_")){
 					return result;
@@ -193,7 +159,7 @@
 			var res = {value:GLang.arrayFun(function(env, args){
 				return GLang.callObject(result, env, args);
 			}), display:"function"};
-			GLang.addAnnotation(res, {value:[
+			GLang.setAnnotation(res, {value:[
 				GLang.stringValue("argumentList"), {value:argList}
 			]});
 			return res;
@@ -229,8 +195,7 @@
 				environment = args[0].environment;
 				override = true;
 			}
-			environment.setInnerVariable(name, args[1], override, GLang.getType(args[0]));
-			return args[1];
+			return environment.setInnerVariable(name, args[1], override, GLang.getType(args[0]));
 		}}, frozen: true},
 		{varName:"range", varValue:{value:arrayFun(function(env, args){
 			var array = [];
@@ -244,9 +209,6 @@
 				}
 			}
 			return {value:array};
-		})}, frozen: true},
-		{varName:"code_of", varValue:{value:arrayFun(function(env, args){
-			return {value:args[0].value.codeString};
 		})}, frozen: true},
 		{varName:"void", varValue:GLang.voidValue, frozen: true},
 		{varName:"each", varValue:{value:function(env, args){
@@ -289,6 +251,10 @@
 		}}, frozen: true},
 		{varName:"display_type", varValue:{value:function(env, args){
 			return GLang.stringValue(args[0].display || "default");
+		}}, frozen: true},
+		{varName:"resolve_reference", varValue:{value:function(env, args){
+			var ref = args[0];
+			return ref.environment.resolveName(ref.name);
 		}}, frozen: true}
 	];
 })(this);

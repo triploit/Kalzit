@@ -1,0 +1,15 @@
+$jsonFile = appParameter: "input-file".
+!if (fileIsFile: jsonFile) {
+	$jsonParent = fileParent: jsonFile.
+
+	$packageObject = parseJson: fileContent: jsonFile.
+	$libraries = $libraries of packageObject.
+	(appParameter: "output-file") fileWrite ";" strJoin {
+		$scriptPath = jsonParent + "/packages/" + $script_url of x.
+		"GLang.packageManager.registerPrecompiledPackage([" + ("," strJoin {"} + ($provides of x) + {"}) + "]," +
+			(calcitCompile: fileContent: scriptPath) +
+		")".
+	} each libraries.
+}. !else {
+	print: "The json file you specified is not a file! (--input-file)"
+}

@@ -119,7 +119,7 @@ Let us walk through this:
 
 If you have not already, please read the section "How does this project benefit you?" - it gives you a nice little overview about some useful functions and general ideas.
 In case you want to tinker with some of your own code, you probably want to try the little [Browser IDE](/_browser_ide.html).
-It might also be helpful to take a look at the [API Documentation](/docs/api/home/index.html), or to explore the language itself in more detail using the [tutorial](/docs/tutorial/index.html).
-For an example of things that are possible in this language, check out the [app suite](/app/home). The apps do not exactly look good, but they are still a good demonstration.
+It might also be helpful to take a look at the [API Documentation](/docs/api/home), or to explore the language itself in more detail using the [tutorial](/docs/tutorial/index.html).
+For an example of things that are possible in this language, check out the [app suite](/home.html). The apps do not exactly look good, but they are still a good demonstration.
 
 Anyway, I hope this project benefits you somehow. Have fun with it!

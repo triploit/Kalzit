@@ -1,0 +1,50 @@
+body {
+  background-color: #393939;
+  color: white;
+}
+a {
+  color: orange;
+}
+code {
+  background-color: #656565;
+}
+.k-popup {
+	background-color: var(--kv-black_accent_color);
+	width: 80%;
+	height: 80%;
+	box-shadow: 0 0 15px black;
+}
+.k-popup_closer {
+	visibility: hidden;	
+}
+.k-popup_background {
+	background-color: rgba(100,100,100,200);
+}
+.k-left_button, .k-right_button {
+	background-color: var(--kv-darker_twilight_accent_color);
+	foreground-color: var(--kv-white_accent_color);
+}
+.k-app_container {
+	background-color: var(--kv-black_accent_color);
+}
+.k-single_view_picker:hover {
+	background-image: linear-gradient(to right, var(--kv-light_accent_color), var(--kv-lighter_twilight_accent_color));
+	color: var(--kv-darker_twilight_accent_color);
+}
+.k-single_view_picker_select {
+	background-image: linear-gradient(to right, var(--kv-twilight_accent_color), var(--kv-darker_twilight_accent_color));
+}
+.k-single_view_picker {
+	background-color: var(--kv-black_accent_color);
+	color: var(--kv-white_accent_color);
+}
+.k-textarea {
+	font-size: 1em;
+	color: var(--kv-white_accent_color);
+	background-color: var(--kv-darker_twilight_accent_color);
+}
+.k-toolbar {
+	color: var(--kv-white_accent_color);
+	background-color: var(--kv-twilight_accent_color);
+	box-shadow: 0 0 15px black;
+}

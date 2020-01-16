@@ -3,4 +3,8 @@ $product = ($_numbers ? (List:Float)) fun {*/_numbers}.
 $min = ($_numbers ? (List:Float)) fun {&/_numbers}.
 $max = ($_numbers ? (List:Float)) fun {|/_numbers}.
 $to = ($a ? Int ; $b ? Int) fun {a range b}.
-$all = ($action ; $_thing ? (List:Any)) fun {action each _thing}.
+$all = ($action ; $_things ? ModifiableList) fun {action each getArray: _things}.
+$randomItem = ($_list ? (List:Any)) fun {
+	$index = Int: (do:random) * length: _list.
+	index at _list
+}.

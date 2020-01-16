@@ -1,0 +1,59 @@
+`#apps sub app`
+do:{
+	$appsPopup =  (uiContainer: (uiVerticalPercentSpace 10); @(percentHeight 80) uiHomeScreen: {launchAppName: x}) uiPopup {
+		openSubApp: "".
+	}.
+	$apps registerSubApp {
+		print: appsPopup.
+	};{uiHide: appsPopup}
+}.
+
+`#login sub app`
+do:{
+	$loginPopup = (@(percentWidth 90) @(percentHeight 90) @center uiLoginForm: {
+		!if x {
+			!relaunchApp
+		}
+	}) uiPopup {
+		openSubApp: ""
+	}.
+	$login registerSubApp {
+		print: loginPopup.
+	};{uiHide: loginPopup}.
+}.
+
+
+$uiAccountButton = () fun {uiContainer: @fit  (() fun {
+	!if (void eq storageLoadString: "calcitUserToken") {
+		openSubApp: $login
+	}.
+	!else {
+		popupMessage: "You are already logged in"
+	}
+}) uiImageButton "/assets/images/user-outline-light.svg"}.
+
+$uiUserConfigButton = () fun {uiContainer: @fit  (() fun {
+	!if (void eq storageLoadString: "calcitUserToken") {
+		popupMessage: "You are not logged in"
+	}.
+	!else {
+		popupMessage: "You are already logged in"
+	}
+}) uiImageButton "/assets/images/user-light.svg"}.
+
+$uiUserButton = () fun {
+	$buttonRef = reference: $button.
+	buttonRef = !ifElse (void eq storageLoadString: "calcitUserToken") {
+		do:uiAccountButton
+	};{
+		do:uiUserConfigButton.
+	}.
+	
+	uiShowVariable: buttonRef.
+}.
+
+$uiAppsButton = {uiContainer: @fit {
+	openSubApp: $apps
+} uiImageButton "/assets/images/apps-light.svg"}.
+
+$uiHamburgerButton = ($action) fun {uiContainer: @fit action uiImageButton "/assets/images/menu-light.svg"}.

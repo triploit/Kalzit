@@ -1,0 +1,3 @@
+$runCommand = ($command ? String) fun {
+	serviceCallApi: "runCommand?command=" + urlEncodeParameter: command
+}

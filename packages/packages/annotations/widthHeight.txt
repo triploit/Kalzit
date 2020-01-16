@@ -1,4 +1,14 @@
+$width = {flag: ["width"];["calc(" + x + ")"]}.
+$height = {flag: ["height"];["calc(" + x + ")"]}.
 $pxWidth = {flag: ["px_width"];[x]}.
 $pxHeight = {flag: ["px_height"];[x]}.
 $percentWidth = {flag: ["percent_width"];[x]}.
 $percentHeight = {flag: ["percent_height"];[x]}.
+$emWidth = {flag: ["em_width"];[x]}.
+$emHeight = {flag: ["em_height"];[x]}.
+$mmWidth = {flag: ["mm_width"];[x]}.
+$mmHeight = {flag: ["mm_height"];[x]}.
+$cmWidth = {flag: ["cm_width"];[x]}.
+$cmHeight = {flag: ["cm_height"];[x]}.
+$inchWidth = {flag: ["inch_width"];[x]}.
+$inchHeight = {flag: ["inch_height"];[x]}.

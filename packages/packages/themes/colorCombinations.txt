@@ -1,0 +1,17 @@
+$colorCombination = ($_color ? RgbColor) fun {
+	$baseAccentColorRgb ? RgbColor = {x | 1} each _color % 12,75.
+	
+	[[$lightAccentColor] ; [Color: baseAccentColorRgb + 190]];
+	[[$twilightAccentColor] ; [Color: baseAccentColorRgb + 90]];
+	[[$darkerTwilightAccentColor] ; [Color: baseAccentColorRgb + 60]];
+	[[$lighterTwilightAccentColor] ; [Color: baseAccentColorRgb + 120]];
+	[[$whiteAccentColor] ; [Color: baseAccentColorRgb + 220]];
+	[[$darkAccentColor] ; [Color: baseAccentColorRgb + 30]];
+	[[$blackAccentColor] ; [Color: baseAccentColorRgb]]
+}.
+$blueColorCombination = colorCombination: blue.
+$redColorCombination = colorCombination: red.
+$greenColorCombination = colorCombination: green.
+$yellowColorCombination = colorCombination: yellow.
+$magentaColorCombination = colorCombination: magenta.
+$cyanColorCombination = colorCombination: cyan.

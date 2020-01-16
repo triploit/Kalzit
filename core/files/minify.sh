@@ -1,0 +1,1 @@
+uglifyjs $(< ../bootstrap/platformScripts.txt) --mangle --output _min.js

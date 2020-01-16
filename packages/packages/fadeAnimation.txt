@@ -1,0 +1,21 @@
+$fadeInAnimation = ($duration ? Float ; $view) fun {
+	$anim = animation: duration.
+	($setOnProgress of anim): {(x % duration) flagOpacity view}.
+	anim
+}.
+$fadeOutAnimation = ($duration ? Float ; $view) fun {
+	$anim = animation: duration.
+	($setOnProgress of anim): {(1 - x % duration) flagOpacity view}.
+	anim
+}.
+
+$shadowFadeInAnimation = ($duration ? Float ; $view) fun {
+	$anim = animation: duration.
+	($setOnProgress of anim): {@(boxShadow 0;0;0;255 * x % duration) view}.
+	anim
+}.
+$shadowFadeOutAnimation = ($duration ? Float ; $view) fun {
+	$anim = animation: duration.
+	($setOnProgress of anim): {@(boxShadow 0;0;0;255 * 1 - x % duration) view}.
+	anim
+}.

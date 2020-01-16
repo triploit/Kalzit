@@ -13,8 +13,13 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiTextfieldOnchange", {value:G
 	var textfield = document.createElement("input");
 	textfield.type="text";
 	textfield.value=args[1].value;
-	textfield.onkeyup=function(e){
+	
+	function callback(){
 		GLang.callObject(args[0], env, [GLang.stringValue(textfield.value)]);
 	}
+	
+	textfield.addEventListener("change", callback, false);
+	textfield.addEventListener("keyup", callback, false);
+	
 	return {value:textfield, display:"dom"};
 })})

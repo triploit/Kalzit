@@ -1,1 +1,0 @@
-this.appUrl = window.location.href;

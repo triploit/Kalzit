@@ -1,24 +1,15 @@
 {
-	"requirements": [
-		"/html5ui/platform-packages.json"
-	],
 	"info":{
 		"description":"Libraries that work in a browser with HTML5"
 	},
 	"libraries":[
-		{"provides":["load_local", "load_global", "load_local_async", "load_global_async"],  "scriptUrl":"load.js"},
-		{"provides":["dom_parse", "dom_tags", "dom_inner_text", "dom_attribute", "dom_inner"],  "scriptUrl":"dom.js"},
-		{"provides":["popup_url", "popup_html", "popup_values", "popup_message"],  "scriptUrl":"popup.js"},
-		{"provides":["load_image_async", "load_image_async_rgb", "load_image_async_mono"], "scriptUrl":"loadImageAsync.js"},
-		{"provides":["storage_save_string", "storage_load_string", "storage_remove", "accept_cookies"],  "scriptUrl":"storage.js"},
-		{"provides":["app_url"],  "scriptUrl":"appUrl.js"},
-		{"provides":["speech_say", "speech_get_voices_by_language", "speech_get_voices"],  "scriptUrl":"speech.js"},
-		{"provides":["repeat_async"],  "scriptUrl":"repeat.js"},
 		{"provides":["default_cookie_banner"], "scriptType":"z", "scriptUrl":"defaultCookieBanner.txt"},
 		{"provides":["app_parameter"], "scriptUrl":"appParameter.txt"},
-		{"provides":["ui_native_youtube_player"], "scriptUrl":"youtubePlayer.js"},
-		{"provides":["ui_twitch_channel_player", "ui_twitch_video_player", "ui_twitch_collection_player"], "scriptUrl":"twitchPlayer.js"},
-		{"provides":["service_call_api", "service_login_user", "service_register_user"], "scriptUrl":"services.txt"},
-		{"provides":["ui_vimeo_player"], "scriptUrl":"vimeoPlayer.js"}
+		{"provides":["service_call_api", "service_login_user", "service_register_user", "service_eval_on_local_server"], "scriptUrl":"services.txt"},
+		{"provides":["folder_content", "file_content", "file_is_file", "file_is_folder", "file_exists"], "scriptUrl":"filesystem.txt"},
+		{"provides":["ui_login_form"], "scriptUrl":"uiLoginForm.txt"},
+		{"provides":["ui_toolbar", "ui_skin_toolbar_ref", "ui_toolbar_reserved_space", "ui_toolbar_overlay", "toolbar_cm_height"], "scriptUrl":"uiToolbar.txt"},
+		{"provides":["window_center", "window_top", "window_bottom", "window_left", "window_right", "center", "top", "bottom", "left", "right", "horizontal_center", "vertical_center", "front", "dynamic_size", "fit"], "scriptUrl":"cssFlags.txt"},
+		{"provides":["run_command"],  "scriptUrl":"runCommand.txt"}
 	]
 }

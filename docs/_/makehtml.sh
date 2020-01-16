@@ -6,7 +6,7 @@ list="$(find .. -name *.md)"
 for item in $list
 do
 	file=${item%.md}.html
-	echo '<html><head><link rel="stylesheet" href="/html5/files/style.css"><link rel="stylesheet" href="/docs/article.css"></link></head><body>' > $file
+	echo '<html><head><link rel="stylesheet" href="/assets/stylesheets/html5/default/style.css"><link rel="stylesheet" href="/assets/stylesheets/html5/article.css"></link></head><body>' > $file
 	markdown $item >> $file
 	echo '</body></html>' >> $file
 done

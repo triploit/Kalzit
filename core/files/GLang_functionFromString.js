@@ -1,7 +1,7 @@
 ;GLang.functionFromString = function(string, defaultEnv){
 	var result = {value:{
 		environment:defaultEnv,
-		codeString:string
+		code:GLang.generateTree(string)
 	}}
 	GLang.addAnnotation(result, {value:[
 		GLang.stringValue("argumentList"),

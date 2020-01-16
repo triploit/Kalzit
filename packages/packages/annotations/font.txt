@@ -1,4 +1,4 @@
-$fontFamily = {flag: ["fontFamily"];[x]}.
+$fontFamily = ($family) fun {flag: ["fontFamily"];[family]}.
 $italic = flag: ["italic"].
-$pxFontSize = {flag: ["pxFontSize"];[x]}.
-$emFontSize = {flag: ["emFontSize"];[x]}.
+$pxFontSize =  $pixels fun {flag: ["pxFontSize"];pixelsx]}.
+$emFontSize = $em fun {flag: ["emFontSize"];[em]}.

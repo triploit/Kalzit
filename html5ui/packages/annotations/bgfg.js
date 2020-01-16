@@ -1,22 +1,27 @@
-function colorToString(_color){
+;(function(global){
+global.colorToString = function(_color){
 	return "rgba(" + _color[0].value + ", " + _color[1].value + ", " + _color[2].value + ", " + (_color[3].value / 255) + ")";
 }
 function resetBackground(object){
 	object.style.backgroundColor = object.style.backgroundImage = null;
 }
 
-this.flagBackgroundColor = function(_color, object){
+global.flagBackgroundColor = function(_color, object){
 	resetBackground(object);
-	object.style.backgroundColor = colorToString(_color);
+	object.style.backgroundColor = _color;
 }
-this.flagForegroundColor = function(_color, object){
-	object.style.color = colorToString(_color);
+global.flagForegroundColor = function(_color, object){
+	object.style.color = _color;
 }
-this.flagBackgroundGradientLeftToRight = function(_colors, object){
+global.flagBackgroundGradientLeftToRight = function(_colors, object){
 	resetBackground(object);
-	object.style.backgroundImage = "linear-gradient(to right, " + colorToString(_colors[0].value) + ", " + colorToString(_colors[1].value);
+	object.style.backgroundImage = "linear-gradient(to right, " + _colors[0].value + ", " + _colors[1].value + ")";
 }
-this.flagBackgroundGradientTopToBottom = function(_colors, object){
+global.flagBackgroundGradientTopToBottom = function(_colors, object){
 	resetBackground(object);
-	object.style.backgroundImage = "linear-gradient(to bottom, " + colorToString(_colors[0].value) + ", " + colorToString(_colors[1].value);
+	object.style.backgroundImage = "linear-gradient(to bottom, " + _colors[0].value + ", " + _colors[1].value + ")";
 }
+global.flagOpacity = function(opacity, object){
+	object.style.opacity = opacity;
+}
+})(this);

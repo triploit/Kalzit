@@ -1,27 +1,19 @@
-$serviceCallApi = ($method ? String) fun {
-	strNewline strSplit loadLocal: "/api/" + method.
+$serviceCallApi = ($method ? String ; $_headers) fun {
+	strNewline strSplit ("/api/" + method) loadLocal _headers.
 }.
 
 $serviceLoginUser = ($name ; $password) fun {
-	$calcitUserName storageSaveString name.
-	$calcitUserPassword storageSaveString password.
-	
-	$response = serviceCallApi: "loginUser".
-	
-	storageRemove: $calcitUserName.
-	storageRemove: $calcitUserPassword.
-	
-	response
+	"loginUser" serviceCallApi
+		["kalzit-user-name"; name];
+		["kalzit-user-password"; password].
 }.
 
 $serviceRegisterUser = ($name ; $password) fun {
-	$calcitUserName storageSaveString name.
-	$calcitUserPassword storageSaveString password.
-	
-	$response = serviceCallApi: "newUser".
-	
-	storageRemove: $calcitUserName.
-	storageRemove: $calcitUserPassword.
-	
-	response
+	"newUser" serviceCallApi
+		["kalzit-user-name"; name];
+		["kalzit-user-password"; password].
+}.
+
+$serviceEvalOnLocalServer = ($command ? String) fun {
+	serviceCallApi: "eval?command=" + urlEncodeParameter: command.
 }.

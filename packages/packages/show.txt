@@ -1,0 +1,13 @@
+$visualize = $_anything fun {
+	$uiGenerator = $uiGenerator of calcitAnnotations: _anything.
+	!ifElse (uiGenerator eq void) {
+		!ifElse ("string" eq displayType: _anything) {
+			uiText: _anything
+		};{
+			uiContainer: [_anything]
+		}
+	};{
+		uiContainer: [uiGenerator: _anything]
+	}
+}.
+$show = $_anything fun {print visualize: _anything}.

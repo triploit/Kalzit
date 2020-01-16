@@ -7,3 +7,5 @@ $strJoin=($separator;$_list) fun {
 }.
 
 $strRemove = ($removed ? String ; $original ? String) fun {"" strJoin removed strSplit original}.
+$strLines = ($str ? String) fun {strNewline strSplit str}.
+$strFirstLine = ($str ? String) fun {first: strLines: str}.

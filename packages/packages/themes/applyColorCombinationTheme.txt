@@ -1,0 +1,77 @@
+$applyDarkColorCombinationTheme = $_theme fun {
+	uiSkinPopupRef = {@(boxShadow black) @(percentWidth 80) @(percentHeight 80) @(backgroundColor $blackAccentColor of _theme) x}.
+	uiSkinPopupBackgroundRef = {@(backgroundColor 100;100;100;200) x}.
+	uiSkinLeftButtonRef = uiSkinRightButtonRef = {@(backgroundColor $darkerTwilightAccentColor of _theme) @(foregroundColor $whiteAccentColor of _theme) x}.
+	uiAppContainerBackgroundColor: $blackAccentColor of _theme.
+	uiSkinSingleViewPickerHoverRef = ($view) fun {
+		@(backgroundGradientLeftToRight: [$lightAccentColor of _theme];[$lighterTwilightAccentColor of _theme])
+		@(foregroundColor: $darkerTwilightAccentColor of _theme) view
+	}.
+	uiSkinSingleViewPickerSelectRef = ($view) fun {
+		@(backgroundGradientLeftToRight: [$twilightAccentColor of _theme];[$darkerTwilightAccentColor of _theme])
+		@(foregroundColor: $whiteAccentColor of _theme) view
+	}.
+	uiSkinSingleViewPickerDeselectRef = ($view) fun {
+		@(backgroundColor: $blackAccentColor of _theme)
+		@(foregroundColor: $whiteAccentColor of _theme) view
+	}.
+	uiSkinTextareaRef = ($view) fun {
+		@(emFontSize 1)
+		@(foregroundColor: $whiteAccentColor of _theme)
+		@(backgroundColor: $darkerTwilightAccentColor of _theme) view
+	}.
+	uiSkinToolbarRef = ($view) fun {
+		@(foregroundColor: $whiteAccentColor of _theme)
+		@(backgroundColor: $twilightAccentColor of _theme)
+		@(boxShadow black) view
+	}.
+}.
+$applyLightColorCombinationTheme = $_theme fun {
+	uiSkinPopupRef = {@(boxShadow 100;100;100;255) @(percentWidth 80) @(percentHeight 80) @(backgroundColor white) x}.
+	uiSkinPopupBackgroundRef = {@(backgroundColor 200;200;200;200) x}.
+	uiSkinLeftButtonRef = uiSkinRightButtonRef = {@(backgroundColor 230;230;230;200) @(foregroundColor $blackAccentColor of _theme) x}.
+	uiAppContainerBackgroundColor: white.
+	uiSkinSingleViewPickerHoverRef = ($view) fun {
+		@(backgroundColor: $lightAccentColor of _theme)
+		@(foregroundColor: $blackAccentColor of _theme) view
+	}.
+	uiSkinSingleViewPickerSelectRef = ($view) fun {
+		@(backgroundColor: $lighterTwilightAccentColor of _theme)
+		@(foregroundColor: $blackAccentColor of _theme) view
+	}.
+	uiSkinSingleViewPickerDeselectRef = ($view) fun {
+		@(backgroundColor white)
+		@(foregroundColor $blackAccentColor of _theme) view
+	}.
+	uiSkinTextareaRef = ($view) fun {
+		@(emFontSize 1)
+		@(foregroundColor: $blackAccentColor of _theme)
+		@(backgroundColor: $whiteAccentColor of _theme) view
+	}.
+	uiSkinToolbarRef = ($view) fun {
+		@(foregroundColor: $lighterTwilightAccentColor of _theme)
+		@(backgroundColor: $lighterTwilightAccentColor of _theme)
+		@(boxShadow black) view
+	}.
+}.
+$cssColorCombo =
+	[[$lightAccentColor] ; ["var(--kv-light_accent_color)"]];
+	[[$twilightAccentColor] ; ["var(--kv-twilight_accent_color)"]];
+	[[$darkerTwilightAccentColor] ; ["var(--kv-darker_twilight_accent_color)"]];
+	[[$lighterTwilightAccentColor] ; ["var(--kv-lighter_twilight_accent_color)"]];
+	[[$whiteAccentColor] ; ["var(--kv-white_accent_color)"]];
+	[[$darkAccentColor] ; ["var(--kv-dark_accent_color)"]];
+	[[$blackAccentColor] ; ["var(--kv-black_accent_color)"]].
+	
+$lightColorCombinationTheme = $_colorCombo fun {
+	setCssColorCombination: _colorCombo.
+	[[$apply] ; [applyLightColorCombinationTheme bind cssColorCombo]]
+}.
+$darkColorCombinationTheme = $_colorCombo fun {
+	setCssColorCombination: _colorCombo.
+	[[$apply] ; [applyDarkColorCombinationTheme bind cssColorCombo]]
+}.
+$colorCombinationTheme = {
+	setCssColorCombination: x.
+	onDarkThemePreferenceChange: {}.
+}..

@@ -1,0 +1,57 @@
+.k-bottom {
+	position: absolute;
+	bottom: 0;
+}
+.k-top {
+	position: absolute;
+	top: 0;
+}
+.k-left {
+	position: absolute;
+	left: 0;
+}
+.k-right {
+	position: absolute;
+	right: 0;
+}
+.k-center {
+	display: block;
+	margin: 0 auto;
+}
+.k-horizontal_center {
+	display: inline-block;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.k-vertical_center {
+	display: inline-block;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.k-window_bottom {
+	position: fixed;
+	bottom: 0;
+}
+.k-window_top {
+	position: fixed;
+	top: 0;
+}
+.k-window_left {
+	position: fixed;
+	left: 0;
+}
+.k-window_right {
+	position: fixed;
+	right: 0;
+}
+.k-window_center {
+	display: block;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+.k-front {
+	z-index: 1;
+}

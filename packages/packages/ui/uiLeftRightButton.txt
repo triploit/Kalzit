@@ -1,9 +1,10 @@
-`Do not freeze this`
-$uiLeftRightBackground = backgroundColor: 200;200;200;200.
+($uiSkinRightButtonRef = reference: $uiSkinRightButton) = ($uiSkinLeftButtonRef = reference: $uiSkinLeftButton) = {(200;200;200;200) flagBackgroundColor x. (0;0;0;255) flagForegroundColor x}.
 
-$uiLeftButton = ($_text ? ("〈" default String)) fun {
-	@uiLeftRightBackground @centerText @left @(percentWidth: 5) @verticalCenter uiContainer: _text.
+$uiLeftButton = ($_text ? ("〈" default String)) fun {	
+	uiSkinLeftButton: $b = @(cssClass "k-left_button") @centerText @left @(percentWidth: 5) @verticalCenter uiContainer: _text.
+	b
 }.
 $uiRightButton = ($_text ? ("〉" default String)) fun {
-	@uiLeftRightBackground @centerText @right @(percentWidth: 5) @verticalCenter uiContainer: _text.
+	uiSkinRightButton: $b = @(cssClass "k-left_button") @centerText @right @(percentWidth: 5) @verticalCenter uiContainer: _text.
+	b
 }.

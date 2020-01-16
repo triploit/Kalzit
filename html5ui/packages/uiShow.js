@@ -8,8 +8,6 @@
 			div.replaceChild(GLang.displayValue(GLang.callObject(args[0], env, [])), div.firstChild);
 		})
 		
-		div.style.display = "inline";
-		div.style.width = "100%";
 		return {value:div, display:"dom"};
 	}, display:"function"});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowFunctionAsList", {value:function(env, args){
@@ -30,44 +28,50 @@
 			}
 		})
 		
-		div.style.display = "inline-block";
-		div.style.width = "100%";
 		return {value:div, display:"dom"};
 	}, display:"function"});
 	
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowVariable", {value:function(env, args){
+		var varRef = args[0];
+		if(varRef.display !== "reference"){throw new Error("uiShowVariable needs a reference as the first parameter")}
+		
+		var varEnv = varRef.environment;
+		var varName = varRef.value;
+		
 		var div = document.createElement("div");
 		
-		div.appendChild(GLang.displayValue(env.resolveName(args[0].value + "")));
+		div.appendChild(GLang.displayValue(varEnv.resolveName(varName)));
 		
-		env.registerVariableListener(args[0].value, function(){
-			div.replaceChild(GLang.displayValue(env.resolveName(args[0].value + "")), div.firstChild);
+		varEnv.registerVariableListener(args[0].value, function(){
+			div.replaceChild(GLang.displayValue(varEnv.resolveName(varName)), div.firstChild);
 		})
 		
-		div.style.display = "inline-block";
-		div.style.width = "100%";
 		return {value:div, display:"dom"};
 	}, display:"function"});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowVariableAsList", {value:function(env, args){
+		var varRef = args[0];
+		if(varRef.display !== "reference"){throw new Error("uiShowVariableAsList needs a reference as the first parameter")}
+		
+		var varEnv = varRef.environment;
+		var varName = varRef.value;
+		
 		var div = document.createElement("div");
 		
-		var arr = env.resolveName(args[0].value + "").value;
+		var arr = varEnv.resolveName(varName).value;
 		for(var i = 0; i < arr.length; i++){
 			div.appendChild(GLang.displayValue(arr[i]));
 		}
 		
-		env.registerVariableListener(args[0].value, function(){
+		varEnv.registerVariableListener(varName, function(){
 			while (div.firstChild) {
 			    div.removeChild(div.firstChild);
 			}
-			var arr = env.resolveName(args[0].value + "").value;
+			var arr = varEnv.resolveName(varName).value;
 			for(var i = 0; i < arr.length; i++){
 				div.appendChild(GLang.displayValue(arr[i]));
 			}
 		})
 		
-		div.style.display = "inline-block";
-		div.style.width = "100%";
 		return {value:div, display:"dom"};
 	}, display:"function"});
 })();

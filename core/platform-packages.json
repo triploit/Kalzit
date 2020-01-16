@@ -3,21 +3,17 @@
 		"description":"Libraries that work with all language implementations"
 	},
 	"libraries":[
-		{"provides":["url_encode_parameter", "url_decode_parameter", "url_get_parameter"],  "scriptUrl":"url.js"},
 		{"provides":["str_starts_with", "str_ends_with", "str_split", "str_sub"],  "scriptUrl":"string.js"},
 		{"provides":["filter"],  "scriptUrl":"filter.js"},
-		{"provides":["match", "all_matches"],  "scriptUrl":"regex.js"},
 		{"provides":["length"],  "scriptUrl":"arrays.js"},
 		{"provides":["pm_list_registered_packages", "pm_list_installed_names", "pm_add_language", "pm_load_package"],  "scriptUrl":"pm.js"},
 		{"provides":["listen_variable"],  "scriptUrl":"listen.js"},
-		{"provides":["random"],  "scriptUrl":"random.js"},
-		{"provides":["calcit_unify_name", "calcit_annotations", "calcit_add_annotation", "calcit_set_type", "calcit_add_comment"],  "scriptUrl":"calcit.js"},
-		{"provides":["float", "int"],  "scriptUrl":"numericTypes.js"},
-		{"provides":["str_bytes"],  "scriptUrl":"strBytes.js"},
-		{"provides":["pi", "p_i", "e", "floor", "abs"],  "scriptUrl":"math.js"},
-		{"provides":["parse_json"],  "scriptUrl":"json.js"},
+		{"provides":["calcit_unify_name", "calcit_annotations", "calcit_add_annotation", "calcit_set_annotation", "calcit_set_type", "calcit_add_comment"],  "scriptUrl":"calcit.js"},
+		{"provides":["parse_json", "obj_to_json"],  "scriptUrl":"json.js"},
 		{"provides":["remove_duplicates"],  "scriptUrl":"removeDuplicates.js"},
 		{"provides":["parse_cookie_names", "parse_cookie_value"], "scriptUrl":"cookieParser.js"},
-		{"provides":["generate_guid"], "scriptUrl":"generateGuid.js"}
+		{"provides":["generate_guid"], "scriptUrl":"generateGuid.js"},
+		{"provides":["get_current_date", "date_to_utc"], "scriptUrl":"date.js"},
+		{"provides":["run_later"], "scriptUrl":"runLater.js"}
 	]
 }

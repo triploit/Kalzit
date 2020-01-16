@@ -12,6 +12,7 @@ GLang_functionFromString.js
 GLang_evaluateTree.js
 defaultRuntimeValues.js
 GLang_wrapJsToValue.js
+GLang_wrapValueToJsObject.js
 GLang_PackageManager.js
 functionsForEasyUse.js
 cookieParser.js

@@ -13,4 +13,30 @@ $uiSlidesWithNavigation = ($_slides ? (List:Any) ; $startIndex ? (0 default Int)
 	).
 	indexVarRef = startIndex.
 	result
+}.
+
+$uiLazySlidesWithNavigation = ($_slideGenerator ; $startIndex ? (default 0)) fun {
+	$indexVarRef = !ifElse ("reference" eq displayType: startIndex) {
+		startIndex
+	};{
+		$indexVar = 0.
+		reference: $indexVar
+	}.
+	
+	$result = uiContainer: (indexVarRef uiLazySlides _slideGenerator);(
+		@(onTap: () fun {
+			indexVarRef = (0 > (resolveReference: indexVarRef) - 1) ifElse {(length: _slideGenerator) - 1};{(resolveReference: indexVarRef) - 1}
+		})
+		do:uiLeftButton
+	);(
+		@(onTap: () fun {
+			indexVarRef = ((length: _slideGenerator) eq (resolveReference: indexVarRef) + 1) ifElse {0};{(resolveReference: indexVarRef) + 1}
+		})
+		do:uiRightButton
+	).
+	
+	!if (not "reference" eq displayType: startIndex) {
+		indexVarRef = startIndex.
+	}.
+	result
 }

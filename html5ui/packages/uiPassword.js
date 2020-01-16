@@ -15,8 +15,11 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPasswordOnchange", {value:GL
 	textfield.classList.add("calcitPassword");
 	textfield.type="password";
 	textfield.value=args[1].value;
-	textfield.onkeyup=function(e){
+	function callback(){
 		GLang.callObject(args[0], env, [GLang.stringValue(textfield.value)]);
 	}
+	
+	textfield.addEventListener("change", callback, false);
+	textfield.addEventListener("keyup", callback, false);
 	return {value:textfield, display:"dom"};
 })})

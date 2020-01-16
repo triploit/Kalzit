@@ -49,26 +49,21 @@
 	})}
 ];
 
-GLang.flagQueue = []; var handlerInProgress = false;
+GLang.flagQueue = [];
+setInterval(function(){
+	if(GLang.useLazyFlags && GLang.flagQueue.length){
+		var len = GLang.flagQueue.length || 5;
+		for(var i = 0; i < len; i++){
+			GLang.flagQueue.pop()();
+		}
+	}
+}, 100);
 
 GLang.runFlagQueue = function(){
-	if(handlerInProgress) return;
-	handlerInProgress = true;
-	if(GLang.useLazyFlags){
-		function asTimeout(){
-			if(GLang.flagQueue.length){
-				GLang.flagQueue.shift()();
-				setTimeout(asTimeout, 0);
-			}else{
-				handlerInProgress = false;	
-			}
-		}
-		setTimeout(asTimeout, 1);
-	}else{
+	if(!GLang.useLazyFlags) {
 		while(GLang.flagQueue.length){
-			GLang.flagQueue.shift()();
+			GLang.flagQueue.pop()();
 		}
-		handlerInProgress = false;
 	}
 }
 
@@ -84,35 +79,23 @@ function makeUiElement(container){
 GLang.useLazyFlags = true;
 
 GLang.displayValue = function displayValue(container){
+	if(!GLang.useLazyFlags) return makeUiElement(container);
+	
 	var flags = GLang.getNamedAnnotations(container, GLang.stringValue("flag"));
 	
-	if(flags.length && GLang.useLazyFlags){
-		//Return a "lazy" ui element and apply the flags later
-		//Automatically apply flag annotations
-		var placeholder = document.createElement("div");
-		placeholder.style.display="inline-block";
-		
-		GLang.flagQueue.push(function(){
-			for(var i = 0; i < flags.length; i++){
-				GLang.callObject(
-					GLang.defaultRuntimeEnvironment.resolveName("applyFlag"),
-					GLang.defaultRuntimeEnvironment,
-					[container, flags[i]]
-				);
-			}
-			
-			var actualElement = makeUiElement(container)
-			try{
-				placeholder.parentElement.replaceChild(actualElement, placeholder)
-			}catch(error){
-				placeholder.appendChild(actualElement)
-			}
-		})
-		GLang.runFlagQueue();
-		
-		return placeholder;
-	}else{
-		GLang.runFlagQueue();
-		return makeUiElement(container);
-	}
+	//Return a "lazy" ui element and show it when the flags are dealt with
+	var placeholder = document.createElement("div");
+	placeholder.style.display="inline-block";
+	
+	GLang.flagQueue.unshift(function(){
+		var actualElement = makeUiElement(container)
+		try{
+			placeholder.parentElement.replaceChild(actualElement, placeholder)
+		}catch(error){
+			placeholder.appendChild(actualElement)
+		}
+	});
+	GLang.runFlagQueue();
+	
+	return placeholder;
 };

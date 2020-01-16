@@ -1,0 +1,6 @@
+$secondsToMillis = * bind 1000.
+$minutesToMillis = $minutes fun {secondsToMillis: minutes * 60}.
+$hoursToMillis = $hours fun {minutesToMillis: hours * 60}.
+$daysToMillis = $days fun {hoursToMillis: days * 24}.
+$yearsToMillis = $years fun {daysToMillis: years * 365}.
+$getCurrentDateUtc = () fun {dateToUtc: do: getCurrentDate}.

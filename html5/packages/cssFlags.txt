@@ -1,0 +1,18 @@
+$windowCenter = cssClass: "k-window_center".
+$windowTop = cssClass: "k-window_top".
+$windowBottom = cssClass: "k-window_bottom".
+$windowLeft = cssClass: "k-window_left".
+$windowRight = cssClass: "k-window_right".
+
+$center = cssClass: "k-center".
+$top = cssClass: "k-top".
+$bottom = cssClass: "k-bottom".
+$left = cssClass: "k-left".
+$right = cssClass: "k-right".
+
+$horizontalCenter = cssClass: "k-horizontal_center".
+$verticalCenter = cssClass: "k-vertical_center".
+$front = cssClass: "k-front".
+
+$dynamicSize = cssClass: "k-dynamic_size".
+$fit = cssClass: "k-fit".

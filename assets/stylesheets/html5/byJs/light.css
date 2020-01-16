@@ -1,0 +1,48 @@
+input[type=text], input[type=password] {
+  border: 2px solid lightgray;
+  background-color: white;
+  color: black;
+}
+code {
+  background-color: #EEEEEE;
+  font-family: Courier;
+}
+.k-popup {
+	background-color: white;
+	width: 80%;
+	height: 80%;
+	box-shadow: 0 0 15px black;
+}
+.k-popup_closer {
+	visibility: hidden;	
+}
+.k-popup_background {
+	background-color: rgba(200,200,200,200);
+}
+.k-left_button, .k-right_button {
+	background-color: rgba(230,230,230,200);
+	foreground-color: var(--kv-black_accent_color);
+}
+.k-app_container {
+	background-color: white;
+}
+.k-single_view_picker:hover {
+	background-color: var(--kv-light_accent_color);
+}
+.k-single_view_picker_select {
+	background-color: var(--kv-lighter_twilight_accent_color);
+}
+.k-single_view_picker {
+	background-color: white;
+	color: var(--kv-black_accent_color);
+}
+.k-textarea {
+	font-size: 1em;
+	color: var(--kv-black_accent_color);
+	background-color: var(--kv-white_accent_color);
+}
+.k-toolbar {
+	color: var(--kv-lighter_twilight_accent_color);
+	background-color: var(--kv-lighter_twilight_accent_color);
+	box-shadow: 0 0 15px black;
+}

@@ -1,0 +1,40 @@
+<html><head><link rel="stylesheet" href="/assets/stylesheets/html5/default/style.css"><link rel="stylesheet" href="/assets/stylesheets/html5/article.css"></link></head><body>
+<p>A "Hello World" program is very boring, I get it. But I will try to make it as interesting as possible.</p>
+
+<h2>Code</h2>
+
+<p><code>
+Print: "Hello World".
+</code></p>
+
+<p>The above code is the most complete "Hello World" program you can get in Kalzit. In some cases, however, it can get even shorter!</p>
+
+<h2>Making the code shorter</h2>
+
+<p>First of all, this example includes the actual output of the text. When using the <a href="/_browser_ide.html">language playground</a>, you do not need that part. So this is what you get:</p>
+
+<p><code>
+"Hello World".
+</code></p>
+
+<p>When running that using the playground, you should still see the expected output.</p>
+
+<h3>Print in the playground</h3>
+
+<p>The <code>Print:</code> part, however, is sometimes still needed when using the playground. Here is a little example:</p>
+
+<p><code>
+"Hello World". "Second output".
+</code></p>
+
+<p>As someone who is just learning Kalzit, the above code might seem like it should show both "Hello World" and "Second output" in the playground. However, it will only show "Second output". Why is that?</p>
+
+<p>You see, the code is made up of two parts, separated by a dot. These are called sentences in Kalzit. A sentence itself always has a value, in this case the value of the first one is the text "Hello World" and the second one is "Second output".
+Now, multiple sentences put next to each other also have a value. That is just the value of the last included sentence, so the text "Second output" in this case. This means that the value of the entire above example is "Second output". As you already know, the playground takes code, evaluates it and shows the result. So this is what you get.</p>
+
+<p>If you want to show the first text, you still need <code>Print:</code> in front of it. In standalone apps that do not have the automatic output, just add it in front of anything you want to show.</p>
+
+<h3>Last sentences</h3>
+
+<p>The last sentence of a program does not even have to be complete. This means you can leave out the last dot. So, the simplest possible "Hello World" program in Kalzit is literally this: <code>"Hello World"</code></p>
+</body></html>

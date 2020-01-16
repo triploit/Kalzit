@@ -1,0 +1,12 @@
+$kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVideoId) fun {
+	$thumbnailObject = ($default;$highres;$lowres) mingle "https://img.youtube.com/vi/" + id + "/" + ("mqdefault.jpg";"maxresdefault.jpg";"default.jpg").
+	$embedObject = ["html";{<iframe src="https://www.youtube.com/embed/} + id + {"></iframe>}].
+	$baseObject = [$title;youtubeVideoTitle: id];["kind";"video"];["protocolVersion";"1.0.0"].
+	
+	$result = baseObject;[
+		$video;[
+			[$thumbnail;[thumbnailObject]];
+			[$embed;[embedObject]]
+		]
+	]
+}

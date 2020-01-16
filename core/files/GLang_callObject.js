@@ -23,13 +23,8 @@ GLang.callObject = function(obj, env, args){
 			
 			//before assuming that "object" is a function object, we should validate this
 			var argumentList = GLang.getFirstAnnotation(obj, GLang.stringValue("argumentList"));
-			if(!(argumentList && object.codeString && object.environment)){
-				//If it is not a function, just "call" it, meaning return its value
-				if(GLang.getType(obj)){
-					return GLang.callObject(GLang.getType(obj), env, [obj]);
-				}else{
-					return obj;
-				}
+			if(!(argumentList && object.code && object.environment)){
+				return obj
 			}
 			
 			//add arguments to function environment
@@ -43,17 +38,11 @@ GLang.callObject = function(obj, env, args){
 			}
 			
 			if(typeof(object) === "object"){
-				var result;
+				//TODO types are not always applied with string-only functions, but they should be
 				if(GLang.getType(obj)){
-					result = GLang.callObject(GLang.getType(obj), env, [GLang.evaluateTree(GLang.generateTree(object.codeString), functionEnvironment)]);
-				}else{
-					result = GLang.evaluateTree(GLang.generateTree(object.codeString), functionEnvironment);
+					return GLang.callObject(GLang.getType(obj), env, [GLang.evaluateTree(object.code, functionEnvironment)]);
 				}
-				GLang.addAnnotation(result, {value:[
-					GLang.stringValue("producer"),
-					obj
-				]});
-				return result;
+				return GLang.evaluateTree(object.code, functionEnvironment);
 			}
 		}
 	}catch(exception){

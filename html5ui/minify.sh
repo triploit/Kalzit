@@ -1,0 +1,1 @@
+uglifyjs $(echo ./packages/*.js) $(echo ./packages/*/*.js) --output _min.js

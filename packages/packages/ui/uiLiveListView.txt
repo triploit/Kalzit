@@ -1,7 +1,13 @@
 $uiLiveListView = ($_modifiableList ? ModifiableList) fun {
 	$currentList = do: $getArray of _modifiableList. $currentListRef = reference: $currentList.
+	($visualListRef = reference: $visualList) = visualize all currentList.
+	
 	($setOnAddition of _modifiableList): {
-		currentListRef = do: $getArray of _modifiableList
+		currentListRef = visualize: (List:Any): do: $getArray of _modifiableList
 	}.
-	uiShowVariableAsList: currentListRef.
+	
+	currentListRef listenVariable {
+		visualListRef = visualize all currentList
+	}.
+	uiShowVariableAsList: visualListRef.
 }

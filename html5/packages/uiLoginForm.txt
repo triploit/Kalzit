@@ -1,0 +1,29 @@
+$uiLoginForm = ($onLoginAttempt) fun {
+	$nameField = $nameInput uiTextfieldVariableOnchange {}.
+	$passwordInput = "". $passwordInputRef = reference: $passwordInput.
+	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
+	
+	$views =
+		[uiText: "Name"];
+		[@(percentWidth: 100) nameField];
+		[uiText: "Password"];
+		[@(percentWidth: 100) passwordField];
+		[@(percentWidth 100) uiContainer: @center {
+			$response = nameInput serviceLoginUser passwordInput.
+			!if ("0" eq first: response) {
+				$calcitUserToken storageSaveString second: response.
+				popupMessage: "Success! Your are now logged in".
+				onLoginAttempt: true.
+			}. else {
+				!ifElse ("1" eq first: response) {
+					popupMessage: "You have to accept cookies. If this message comes up again after you did, please ask for help.".
+				};{
+					popupMessage: second: response.
+				}.
+				onLoginAttempt: false.
+			}.
+		} uiButton "Login"];
+		!if (void eq storageLoadString: "calcitCookiesEnabled") {defaultCookieBanner}.
+		
+	$result = uiShowVariableAsList: reference: $views.
+}

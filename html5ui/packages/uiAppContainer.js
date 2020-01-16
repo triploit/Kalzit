@@ -1,3 +1,9 @@
-this.uiAppContainerBackgroundColor = function(_color){
-	document.body.style.backgroundColor = "rgba(" + _color[0].value + ", " + _color[1].value + ", " + _color[2].value + ", " + (_color[3].value / 255) + ")";
+this.uiNativeAppContainerBackgroundColor = function(_color){
+	document.body.style.backgroundColor = _color;
+}
+this.uiClearAppContainer = function(){
+	var playground = document.getElementById("playground");
+	while (playground.hasChildNodes()) {
+	    playground.removeChild(playground.lastChild);
+	}
 }

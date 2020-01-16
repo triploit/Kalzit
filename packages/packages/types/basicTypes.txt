@@ -1,5 +1,5 @@
 $Boolean = {((void eq x) | 0 eq x) at 1;0}.
-$List = $_itemType fun {{_itemType each x;()}}.
+$List = $_itemType fun {{@($uiGenerator ; baseListVisualizer) _itemType each x;()}}.
 $Any = {x}.
 
 $String = {"" + x}.

@@ -1,0 +1,2 @@
+$imageStringsFromText = ($html ? String) fun {second each {"([^"]*\.(jpg|png|gif))"} allMatches html}.
+$imageStringsFromUrl = ($url ? String) fun {imageStringsFromText: loadGlobal: url}.

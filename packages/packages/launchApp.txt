@@ -1,0 +1,23 @@
+$launchAppCode = ($appCode ? String) fun {
+	runLater: {
+		openSubApp: "".
+		do:uiClearAppContainer.
+		eval appCode.
+	}
+}.
+$launchApp = $appUrl fun {
+	print: @front @windowCenter (() fun {}) uiImageButton "/assets/images/spinner.gif".
+	launchAppCode loadLocalAsync appUrl.
+}.
+$launchGlobalApp = ($appUrl ? Url) fun {
+	print: @front @windowCenter (() fun {}) uiImageButton "/assets/images/spinner.gif".
+	launchAppCode loadGlobalAsync appUrl.
+}.
+$launchAppName = $appName fun {
+	print: @front @windowCenter (() fun {}) uiImageButton "/assets/images/spinner.gif".
+	setActiveAppName: appName.
+	launchApp: "/apps/" + appName + ".k"
+}.
+$relaunchApp = () fun {
+	launchAppName: second: "/app/([a-zA-Z]+)" match do:dynamicAppUrl
+}.

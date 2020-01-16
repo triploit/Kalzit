@@ -10,7 +10,7 @@ try{
 		}
 	}
 	
-	GLang.packageManager.loadPackageSync("html5/files/idePackageHints.txt", "z");
+	GLang.packageManager.loadPackageSync("/html5/files/idePackageHints.txt");
 	var packageOverview = GLang.displayValue(GLang.eval("$_ide_marked_package='pm'. _ide_package_hint_ui: $_ide_marked_package"));
 	GLang.defaultRuntimeEnvironment.setInnerVariable("_ide_insert", {value:function(env, args){
 		var startPos = codeField.selectionStart, endPos = codeField.selectionEnd;

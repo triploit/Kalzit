@@ -1,0 +1,7 @@
+.calcitDynamic_horizontalScroller {
+	-webkit-overflow-scrolling: touch;
+	white-space: nowrap;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	width: 100%;
+}

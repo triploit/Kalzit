@@ -26,7 +26,7 @@ $uiSingleViewPicker = ($onSelect ; $_normalViews ? (List:Any)) fun {
 	$hovered = (). $hoveredRef = reference: $hovered.
 	
 	uiSkinSingleViewPickerDeselect all $views = ($index fun {
-		$view = index at _normalViews.
+		$view = @(cssClass "k-single_view_picker") index at _normalViews.
 		
 		@(onTap: () fun {
 			(selected eq void) ifNot {
@@ -45,7 +45,7 @@ $uiSingleViewPicker = ($onSelect ; $_normalViews ? (List:Any)) fun {
 		    }
         )
 		view.
-	}) each 0 to (length of _normalViews) - 1.
+	}) each (0 eq length of _normalViews) ifElse {void};{0 to (length of _normalViews) - 1}.
 	
 	uiContainer: views
 }.

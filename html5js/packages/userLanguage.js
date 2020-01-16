@@ -1,0 +1,1 @@
+this.getUserLanguage = function(){return navigator.language || navigator.userLanguage};

@@ -1,0 +1,96 @@
+:root {
+    --kv-background_color: white;
+}
+textarea {
+    resize: none;
+}
+div {
+  display: inline-block;
+  width: 100%;
+}
+input[type=text], input[type=password] {
+  border: 2px solid lightgray;
+  border-radius: 4px;
+  height: 30px;
+  font: 23px/100% Arial, Helvetica, sans-serif;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+canvas {
+	margin: auto;
+}
+input[type=range] {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+  border-radius:4px;
+}
+
+input[type=range]:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: orange;
+  cursor: pointer; /* Cursor on hover */
+  border-radius:4px;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: orange;
+  cursor: pointer; /* Cursor on hover */
+  border-radius:4px;
+}
+th {
+  text-align: center;
+  font: 23px/100% Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+td {
+  text-align: center;
+  font: 23px/100% Arial, Helvetica, sans-serif;
+}
+code {
+  background-color: #EEEEEE;
+  font-family: Courier;
+}
+.k-desktop_only {
+    display: inherit;
+}
+@media (prefers-color-scheme: dark) {
+:root {
+  --kv-background_color: #393939;
+  --kv-black_accent_color: #393939;
+}
+body {
+  background-color: var(--kv-background_color);
+  color: white;
+}
+a {
+  color: orange;
+}
+code {
+  background-color: #656565;
+}
+input[type=text], input[type=password] {
+  background-color: #323232;
+  border-color: #727272;
+  color: white;
+}
+}

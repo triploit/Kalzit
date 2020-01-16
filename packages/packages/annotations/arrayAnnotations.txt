@@ -1,4 +1,4 @@
-#{Produces an annotation with the key "length" and a given value.}.
+#{Produces an annotation with the key "length" and a given value.}
 $setLength = {"length";x} ? Annotation.
 #{An annotation that is intended for marking a function (or generally anything) as an array. Both key and value are "array".}
 $isArray ? Annotation = "array".
