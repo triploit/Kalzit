@@ -1,0 +1,10 @@
+$getFirstUrlAppearance = $url fun {
+	$encodedUrl = urlEncodeParameter: url.
+	!ifElse (fileExists: "./nogit/cache/urldates/" + encodedUrl + ".txt") {
+		fileContent: "./nogit/cache/urldates/" + encodedUrl + ".txt"
+	};{
+		$result = do: getCurrentDateUtc.
+		("./nogit/cache/urldates/" + encodedUrl + ".txt") fileWrite result.
+		result
+	}
+}.

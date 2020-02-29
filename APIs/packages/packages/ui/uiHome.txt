@@ -1,0 +1,18 @@
+$uiHomeScreenIcon = ($iconGraphic ? UiElement ; $_applySpecificLook ? (default: {@(backgroundColor red) x})) fun {
+	$ico = @center @rounded @(emWidth 5) @(emHeight 5) iconGraphic.
+	_applySpecificLook: ico
+}.
+$uiSimpleHomeScreenApp = ($description ? String ; $action) fun {
+	$color = randomItem: [red];[green];[blue].
+	@(onTap action) @centerText uiContainer: ((uiContainer: @(emFontSize 1,5) uiText: first of "" strSplit description) uiHomeScreenIcon {@(backgroundColor color) x});uiText: description
+}.
+$uiHomeScreen = ($_action ? (default: launchAppName)) fun {
+	$apps = 
+		["Notes";"notes"];
+		["Websites";"links"];
+		!if developerMode {
+			["Development Tools";"ide"];["Images";"igDemo"];["Feeds";"rss"]
+		}.
+	
+	uiColumns: ($_app fun {@(percentWidth 100) (first of _app) uiSimpleHomeScreenApp () fun {_action: second of _app}}) each apps.
+}.

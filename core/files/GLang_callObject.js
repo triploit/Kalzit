@@ -1,3 +1,19 @@
+GLang.createFunctionScope = function(env, argumentList, args){
+	var functionEnvironment = new GLang.RuntimeEnvironment(env);
+	
+		//add arguments to function environment
+		argumentList = argumentList.value || [];
+		for(var argIndex = 0; argIndex < argumentList.length; argIndex++){
+			var argument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
+			functionEnvironment.innerVariables.push({
+				varName:GLang.defaultRuntimeEnvironment.unifyStringName(argumentList[argIndex].value),
+				varValue:(GLang.getType(argumentList[argIndex]) ? GLang.callObject(GLang.getType(argumentList[argIndex]), env, [argument]) : argument)
+			});
+		}
+		
+		return functionEnvironment
+};
+
 GLang.callObject = function(obj, env, args){
 	try{
 		if(typeof(obj) !== "object"){
@@ -19,23 +35,13 @@ GLang.callObject = function(obj, env, args){
 				object = obj.value;
 			}
 			
-			var functionEnvironment = new GLang.RuntimeEnvironment(object.environment);
-			
 			//before assuming that "object" is a function object, we should validate this
 			var argumentList = GLang.getFirstAnnotation(obj, GLang.stringValue("argumentList"));
 			if(!(argumentList && object.code && object.environment)){
 				return obj
 			}
 			
-			//add arguments to function environment
-			argumentList = argumentList.value || [];
-			for(var argIndex = 0; argIndex < argumentList.length; argIndex++){
-				var argument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
-				functionEnvironment.innerVariables.push({
-					varName:GLang.defaultRuntimeEnvironment.unifyStringName(argumentList[argIndex].value),
-					varValue:(GLang.getType(argumentList[argIndex]) ? GLang.callObject(GLang.getType(argumentList[argIndex]), env, [argument]) : argument)
-				});
-			}
+			var functionEnvironment = GLang.createFunctionScope(object.environment, argumentList, args);
 			
 			if(typeof(object) === "object"){
 				//TODO types are not always applied with string-only functions, but they should be

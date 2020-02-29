@@ -1,0 +1,33 @@
+$platforms = " " strSplit appParameter: "platforms".
+$rootFolder = appParameter: "kalzit-root-folder".
+$libraryFile ? (default: "generated/_max.js") = appParameter: "library-file".
+$singlefile ? Boolean = appParameter: "singlefile".
+
+$relativeScriptPaths = "/core/files/_min.js" ; `joined list` ;/ ($platform fun {
+	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/packageManagerScripts.txt");
+	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/platformScripts.txt")
+}) each platforms.
+
+$generateScriptTag = !ifElse (singlefile) {
+		`Use uglifyjs`
+		$path fun {
+			{<script type="text/javascript">} + (runCommand "uglifyjs " + rootFolder + path) + {</script>}
+		}
+	};{
+		`Embed the script file using the src attribute`
+		$path fun {
+			{<script type="text/javascript" src="} + path + {"></script>}
+		}
+	}.
+
+print each generateScriptTag each relativeScriptPaths.
+
+
+`Generate package manager initialization`
+!if (singlefile) {
+	print '<script type="text/javascript">GLang.packageManager.installJs(function(){' + (fileContent: rootFolder + "/" + libraryFile) + '});</script>'
+}. !else {
+	print {<script type="text/javascript">}.
+	print {GLang.packageManager.initialize(["/} + libraryFile + {"]);}.
+	print {</script>}.
+}

@@ -34,7 +34,7 @@ Now, please take a look at our program in this new language:
 ```
 Print: "Bye World".
 ```
-(You can run the examples in the [Browser IDE](/_browser_ide.html). Just remove the leading `Print: `, otherwise you get the same output twice).
+(You can run the examples in the [Browser IDE](/app/ide). Just remove the leading `Print: `, otherwise you get the same output twice).
 
 This is super easy to explain, if it is not self-explanatory already. `"Bye World"` is what we want to show, and `Print` is the function (or routine, way, thing, whatever) which we use to show it.
 The colon `:` is used to say "Call the function on the left with what is on the right". So in this case it means "Use the function Print with 'Bye World' ".
@@ -118,7 +118,7 @@ Let us walk through this:
 # How do you get started?
 
 If you have not already, please read the section "How does this project benefit you?" - it gives you a nice little overview about some useful functions and general ideas.
-In case you want to tinker with some of your own code, you probably want to try the little [Browser IDE](/_browser_ide.html).
+In case you want to tinker with some of your own code, you probably want to try the little [Browser IDE](/app/ide).
 It might also be helpful to take a look at the [API Documentation](/docs/api/home), or to explore the language itself in more detail using the [tutorial](/docs/tutorial/index.html).
 For an example of things that are possible in this language, check out the [app suite](/home.html). The apps do not exactly look good, but they are still a good demonstration.
 

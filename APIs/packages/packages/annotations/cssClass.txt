@@ -1,0 +1,11 @@
+#{
+	An annotation that allows to add a css class to a UI element.
+	This currently depends on the web platform, so you should be careful if you want to use your code in other ways.
+	
+	Example:
+	@(cssClass: "myClass") uiContainer: "Test".
+	
+	For many common things you are not going to need your own CSS classes.
+	Stuff like centering text, sizing and positioning other elements and so on, already have their own annotations.
+}
+$cssClass = {flag: ["css_class"];[x]}

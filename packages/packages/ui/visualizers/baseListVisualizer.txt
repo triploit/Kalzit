@@ -1,1 +1,0 @@
-$baseListVisualizer = $_list fun {uiContainer: visualize each _list}.

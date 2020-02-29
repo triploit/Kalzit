@@ -30,7 +30,12 @@ function folderContentAsync(callback, filePath){
 	fs.readdir(filePath, callback)
 }
 this.fileWrite = function(filePath, data){
-	fs.writeFileSync(filePath, data);
+	try{
+		fs.writeFileSync(filePath, data);	
+	}catch(e){
+		console.log("WARNING: writing to file " + filePath + " failed!");
+		console.log(e);	
+	}
 }
 this.fileCreateFolder = function(folderPath){
 	!fs.existsSync(folderPath) && fs.mkdirSync(folderPath);

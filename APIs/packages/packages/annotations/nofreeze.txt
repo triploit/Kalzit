@@ -1,0 +1,8 @@
+#{
+	An annotation that tells the package manager to not freeze a variable.
+	This means that a variable (provided by a package) can still be changed.
+	
+	Example:
+	@nofreeze $globalString = "Modifiable".
+}
+$nofreeze ? Annotation = "nofreeze".

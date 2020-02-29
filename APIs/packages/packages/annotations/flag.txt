@@ -1,0 +1,22 @@
+#{
+	Provides a simple way to add flag annotations to a value.
+	
+	Flag annotations are a special kind of annotations, which are marked by the "flag" key.
+	This kind of annotation does have an intended side effect.
+	
+	For example, if you write this:
+	@(flag: "onHover";{print: "Test"}) uiText: "My text".
+	You will cause "Test" to be printed every time the mouse hovers over the text element.
+	
+	If you want to create your own flag, you could do this:
+	$flagMyCustom = !fun ($text ; $_annotatedValue) {print text. print _annotatedValue}.
+	
+	Then you could use it like that:
+	@(flag: "myCustom";"A text") "Something else".
+	That will cause two lines of text to be printed:
+		
+	A text
+	Something else
+}
+$flag = ($_x) fun {["flag"];[_x]} ? Annotation.
+$applyFlag = ($_value ; $_flagNameArg ? (Tuple:String;Any)) fun {(second:_flagNameArg) (resolveName: "flag_" + calcitUnifyName:first:_flagNameArg) _value}.

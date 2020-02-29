@@ -1,0 +1,1 @@
+$baseListVisualizer = $_list fun {uiElementCollection: visualize each _list}.

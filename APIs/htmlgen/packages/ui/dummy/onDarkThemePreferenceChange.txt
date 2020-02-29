@@ -1,0 +1,1 @@
+$onDarkThemePreferenceChange = ($callback ? RepeatedFunction) fun {}.

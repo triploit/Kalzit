@@ -1,7 +1,0 @@
-$youtubeEmbedUrl="https://www.youtube.com/embed/".
-$youtubeVideoUrl="https://www.youtube.com/watch?v=".
-$youtubeUserRssUrl="https://www.youtube.com/feeds/videos.xml?user=".
-$youtubeChannelRssUrl="https://www.youtube.com/feeds/videos.xml?channel_id=".
-$youtubePlaylistRssUrl="https://www.youtube.com/feeds/videos.xml?playlist_id=".
-$youtubeWatchUrl="https://www.youtube.com/oembed?url=http://www.youtube.com/watch?".
-$youtubeVideoWatchUrl=youtubeWatchUrl+"v=".

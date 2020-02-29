@@ -1,0 +1,44 @@
+$igUserParseUserComplete = ($userName ? String) fun {
+	$script = second: ".*<script\s+.*>(.*)<\s*/\s*script\s*>.*" match loadGlobal: "https://www.instagram.com/" + userName + "/".
+	$json = second: "window\._sharedData\s*=\s*(.*)\s*;" match script.
+	parseJson: json
+}.
+$igUserParseBase = $_igUserComplete fun {
+	$user of $graphql of first: $profile_page of $entry_data of _igUserComplete
+}.
+$igUserParseUserBase = ($userName ? String) fun {
+	igUserParseBase: igUserParseUserComplete: userName
+}.
+$igUserParseImages = $_igUserBase fun {
+	{$node of x} each $edges of $edge_owner_to_timeline_media of _igUserBase
+}.
+$igUserParseUserImages = ($userName ? String) fun {
+	igUserParseImages: igUserParseUserBase: userName
+}.
+$igUserParseImageUrl = $_userImage fun {
+	$display_url of _userImage
+} ? Image.
+$igUserParseImageUrls = $_userImages fun {
+	igUserParseImageUrl each _userImages
+} ? Images.
+$igUserParseUserImageUrls = ($userName ? String) fun {
+	igUserParseImageUrls: igUserParseUserImages: userName
+} ? Images.
+$igUserParseImageShortcode = $_userImage fun {
+	$shortcode of _userImage
+}.
+$igUserParseImageShortcodes = $_userImages fun {
+	igUserParseImageShortcode each _userImages
+}.
+$igUserParseUserImageShortcodes = ($userName ? String) fun {
+	igUserParseImageShortcodes: igUserParseUserImages: userName
+}.
+$igUserParseImageThumbnail = $_userImage fun {
+	$thumbnail_resources of _userImage
+}.
+$igUserParseImageThumbnails = $_userImages fun {
+	igUserParseImageThumbnail each _userImages
+}.
+$igUserParseUserImageThumbnails = ($userName ? String) fun {
+	igUserParseImageThumbnails: igUserParseUserImages: userName
+}.

@@ -1,14 +1,6 @@
 ;(function(global){
 	
 	//Function for unifying names - this allows multiple name variations for variables
-	function getUnifiedName(varNameItem){
-		if(typeof(varNameItem) === "string"){
-			return unifyStringName(varNameItem)
-		}
-		return unifyStringName(GLang.structuresToString(varNameItem));
-	}
-	
-	//Function for unifying names - this allows multiple name variations for variables
 	function unifyStringName(originalName){
 		if(originalName === ""){
 			return "";
@@ -53,7 +45,7 @@
 		
 		//Find a variable by name (a tree structure)
 		this.resolveName = function resolveName(varNameItem){
-			var varName = getUnifiedName(varNameItem);
+			var varName = unifyStringName(varNameItem);
 			//Loop through the inner variables...
 			for(var i = 0; i < this.innerVariables.length; i++){
 				var entry = this.innerVariables[i];

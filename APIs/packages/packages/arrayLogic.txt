@@ -1,0 +1,66 @@
+#{
+	Calculates the sum of the values inside an array.
+	This works for arrays with string values as well - these are simply converted to numbers.
+	
+	Example with only numbers:
+	sum: 1,2;3;5,8.
+	`Result: 10`
+}
+$sum = ($_numbers ? (List:Float)) fun {+/_numbers}.
+
+#{
+	Multiplies the values inside an array.
+	This works for arrays with string values as well - these are simply converted to numbers.
+	
+	Example with only numbers:
+	product: 1;2;3
+	`Result: 6`
+	
+	Be careful with arrays that contain the number 0 or string "0" - this will make sure that the result is 0 as well.
+}
+$product = ($_numbers ? (List:Float)) fun {*/_numbers}.
+
+#{
+	Finds the smallest value from a list of numbers.
+	
+	Example:
+	min: 1;2;3.
+	`Result: 1`
+}
+$min = ($_numbers ? (List:Float)) fun {&/_numbers}.
+
+#{
+	Finds the biggest value from a list of numbers.
+	
+	Example:
+	max: 1;2;3.
+	`Result: 3`
+}
+$max = ($_numbers ? (List:Float)) fun {|/_numbers}.
+
+#{
+	Basically the same as the "range" function.
+	Creates an array of all integers between one number and another.
+	
+	Example:
+	2 to 7.
+	`Result: 2;3;4;5;6;7`
+	
+	Example:
+	7 to 5.
+	`Result: 7;6;5`
+}
+$to = ($a ? Int ; $b ? Int) fun {a range b}.
+$all = ($action ; $_things ? ModifiableList) fun {action each getArray: _things}.
+
+#{
+	Picks a random item from a list that has at least one entry.
+	
+	Example:
+	randomItem: 3;7;"Test".
+	`Result: Could be either 3, 7, or "Test"`
+}
+$randomItem = ($_list ? (List:Any)) fun {
+	$index = Int: (do:random) * length: _list.
+	index at _list
+}.

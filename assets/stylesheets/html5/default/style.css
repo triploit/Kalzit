@@ -73,6 +73,9 @@ code {
 .k-desktop_only {
     display: inherit;
 }
+.k-mobile_only {
+    display: none;   
+}
 @media (prefers-color-scheme: dark) {
 :root {
   --kv-background_color: #393939;

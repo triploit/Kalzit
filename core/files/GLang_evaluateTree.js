@@ -2,7 +2,7 @@ GLang.evaluateTree = function(tree, env){
 	var sentence = [];
 	var result = GLang.voidValue;
 	for(var i = 0; i < tree.length; i++){
-		if(tree[i].kind === "special" && tree[i].special.textValue === "."){
+		if(tree[i].dot){
 			result = GLang.evaluateSentence(sentence, env);
 			sentence = [];
 		}else{
@@ -20,7 +20,7 @@ GLang.evaluateSentence = function(sentence, env){
 	if(len === 0) return GLang.voidValue;
 	if(0 === len % 2){
 		//Even number of elements - call the first one
-		sentence = sentence.splice(0,1).concat([{kind:"special", special:{textValue:":"}}]).concat(sentence);
+		sentence = sentence.splice(0,1).concat([{kind:"special", special:":"}]).concat(sentence);
 		len++;
 	}
 	if(len === 1) return GLang.evaluateSentenceFragment(sentence[0], env);
@@ -42,11 +42,10 @@ GLang.evaluateSentenceFragment = function(fragment, env){
 			str.environment = env;
 			return str;
 		case "num": return {value:fragment.num};
-		case "name": return env.resolveName(fragment.name.textValue);
+		case "name": return env.resolveName(fragment.name);
 		case "parentheses": return GLang.evaluateTree(fragment.parentheses, env);
 		case "array": return GLang.arrayValue([GLang.evaluateTree(fragment.array, env)]);
-		case "special": return env.resolveName(fragment.special.textValue);
-		case "waiting": return {value:[]};
+		case "special": return env.resolveName(fragment.special);
 		default: console.error(fragment);
 	}
 }

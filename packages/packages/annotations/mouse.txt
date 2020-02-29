@@ -1,5 +1,0 @@
-$onHover = $listener fun {flag: ["onHover"];[listener]}.
-$onTap = $listener fun {flag: ["onTap"];[listener]}.
-$onPointerDown = $listener fun {flag: ["onPointerDown"];[listener]}.
-$onPointerUp = $listener fun {flag: ["onPointerUp"];[listener]}.
-$onPointerMove = $listener fun {flag: ["onPointerMove"];[listener]}.

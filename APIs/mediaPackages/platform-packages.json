@@ -1,0 +1,13 @@
+{
+	"info":{
+		"description":"Optional packages for video, audio,  images and animations"
+	},
+	"libraries":[
+		{"provides":["animation"],  "scriptUrl":"animation.txt"},
+		{"provides":["image_get_channel", "image_get_red_channel", "image_get_green_channel", "image_get_blue_channel"],  "scriptUrl":"imageChannels.txt"},
+		{"provides":["color_remove_alpha", "color_set_alpha", "image_remove_alpha", "image_set_alpha"],  "scriptUrl":"imageColorAlpha.txt"},
+		{"provides":["kalzit_media_protocol_from_text"],  "scriptUrl":"kalzitMediaProtocolFromText.txt"},
+		{"provides":["play", "pause", "mute", "increase_volume", "decrease_volume", "volume", "volume_step_size", "volume_step_size_ref"],  "scriptUrl":"mediaController.txt"},
+		{"provides":["replay", "replay_from", "media_section"],  "scriptUrl":"mediaSection.txt"}
+	]
+}

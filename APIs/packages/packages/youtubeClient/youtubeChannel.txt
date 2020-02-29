@@ -1,0 +1,4 @@
+$youtubeChannelVideoDoms = ($x ? String) fun {"entry" domTags youtubeChannelRssDom: x}.
+$youtubeChannelVideos = ($x ? String) fun {{(domInnerText: "yt:videoId" domTags x);domInnerText: "title" domTags x} each youtubeChannelVideoDoms: x}.
+$youtubeChannelVideoIds = ($x ? String) fun {domInnerText each "yt:videoId" domTags youtubeChannelRssDom: x} ? (List:YoutubeVideoId).
+$youtubeChannelVideoThumbnails = ($x ? String) fun {"url" domAttribute "media:thumbnail" domTags youtubeChannelRssDom: x} ? Images.

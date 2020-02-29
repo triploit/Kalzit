@@ -1,3 +1,0 @@
-$bitchuteVideoFileUrl = ($id) fun {
-	second: ({src\s*=\s*"([^"]+} + id + {[^"]+)}) match loadGlobal: bitchuteEmbedUrl + id
-}

@@ -29,9 +29,7 @@
 	GLang.stringDisplay = function(stringProducer){
 		return function(value){
 			var paragraph = document.createElement("p");
-			paragraph.innerHTML = stringProducer(value);
-			paragraph.style.width="100%";
-			paragraph.style.display="inline-block";
+			paragraph.appendChild(document.createTextNode(stringProducer(value)));
 			return paragraph;
 		}
 	}

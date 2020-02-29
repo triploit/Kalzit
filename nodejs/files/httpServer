@@ -1,104 +1,21 @@
 #!/usr/bin/env kalzit
 `A http server that is specialized for the calcit web applications`
-print: compileHtmlTags: [visualize: "Hallo Welt"].
-print: $blacklist = strNewline strSplit fileContent: "./blacklist.txt".
-Int: "fldskfj".
+print "Starting the server ...".
+print "Reading blacklist ...".
+$blacklist = strNewline strSplit fileContent: "./nodejs/files/server/blacklist.txt".
+print "Parsing internal library ...".
 
-$getUrlDate = $url fun {
-	$encodedUrl = urlEncodeParameter: url.
-	!ifElse (fileExists: "./nogit/cache/urldates/" + encodedUrl + ".txt") {
-		fileContent: "./nogit/cache/urldates/" + encodedUrl + ".txt"
-	};{
-		$result = do: getCurrentDateUtc.
-		("./nogit/cache/urldates/" + encodedUrl + ".txt") fileWrite result.
-		result
-	}
-}.
-$getYoutubeTitle = $id fun {
-	print: id.
-	!ifElse (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {
-		fileContent: "./nogit/cache/yttitles/" + id + ".txt"
-	};{
-		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
-		("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
-		result
-	}
-}.
-$getYoutubeTitleAsync = ($then;$id) fun {
-	!if (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {
-		then fileContentAsync "./nogit/cache/yttitles/" + id + ".txt"
-	}.
-	!else {
-		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
-		!if (not result eq "https://youtube.com/watch?v=" + id) {
-			("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
-		}.
-		print result.
-	}
-}.
+$blacklistAllows = $fname fun {not: 0 < sum: {x matches fname} each blacklist}.
+
 $cachedUrlTitle = urlTitle cachedFun autoClearedCache: monthsToMillis: 2.
+$servicesRegex = "\./services/([a-zA-Z0-9\-]+)/(.*)".
 
-$getIgFeed = ($user ? {".rss" strRemove x} fun {
-	('<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>@' + user + "</title><description>" + user + " on instagram</description><link>https://instagram.com/" + user + "</link>" +
-	+/ {$link = ("&";"&amp;") strReplace igUserParseImageUrl: x. $post = "https://www.instagram.com/p/" + igUserParseImageShortcode: x. '<item><description><![CDATA[<img src="' + link + '">]]></description><source>' + (("&";"&amp;") strReplace $src of third: igUserParseImageThumbnail: x) + '</source><title>Image by ' + user + "</title><guid>" + post + "</guid><link>" + post + "</link><pubDate>" + (getUrlDate: post) + "</pubDate></item>"} each igUserParseUserImages: user) + 
-	"</channel></rss>"
-}) cachedFun autoClearedCache: hoursToMillis: 2.
-
-$getYtFeed = ($url fun {
-	('<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>' + ((default: "YouTube: " + ("&";"&amp;") strReplace url): urlTitle: url) + "</title><description>" + (("&";"&amp;") strReplace url) + " on YouTube</description><link>" + url + "</link>" +
-	+/ {$link = "https://www.youtube.com/watch?v=" + x. '<item><description><![CDATA[<img src="' + (youtubeVideoThumbnail: x) + '">]]></description><title>' + ((default: "Unknown Title (" + x + ")"): getYoutubeTitle: x) + "</title><guid>" + link + "</guid><link>" + link + "</link><pubDate>" + (getUrlDate: link) + "</pubDate></item>"} each {not: "undefined" eq x} filter removeDuplicates: (youtubeVideoIds: url);youtubeVideoIdsByUrl: url) + 
-	"</channel></rss>"
-}) cachedFun autoClearedCache: hoursToMillis: 2.
-
-$ytFeedCache = autoClearedCache: hoursToMillis: 2.
-$getYtFeedAsync = ($then;$url) fun {
-	$cached = url objFirstProperty do: $getObject of ytFeedCache.
-	!if (not: cached eq void) {
-		then: cached.
-	}.
-	!else {
-		$videoIds = removeDuplicates: (youtubeVideoIds: url);youtubeVideoIdsByUrl: url.
-		
-		$feedStart = '<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>' + (("&";"&amp;") strReplace url) + "</title><description>" + (("&";"&amp;") strReplace url) + " on 	YouTube</description><link>" + url + "</link></channel>".
-		
-		$feedEnd = "</rss>".
-		
-		$neededLength = length: videoIds.
-		!if (0 eq neededLength) {
-			then: feedStart + feedEnd.
-		}.
-		!else {
-			$currentLength = 0. $currentLengthRef = reference: $currentLength.
-			$feedBuilder ? ModifiableList = ().
-			
-			($videoId fun {
-				$thumbnail = youtubeVideoThumbnail: videoId.
-				$link = "https://www.youtube.com/watch?v=" + videoId.
-				($title fun {
-					($push of feedBuilder): '<item><description><![CDATA[<img src="' + thumbnail + '">]]></description><title>' + title + "</title><guid>" + link + "</guid><link>" + link + "</link><pubDate>" + (getUrlDate: link) + "</pubDate></item>".
-					
-					currentLengthRef = currentLength + 1.
-					!if (currentLength eq neededLength) {
-						$result = feedStart + ((default: ""): +/ getArray: feedBuilder) + feedEnd.
-						url ($push of ytFeedCache) result.
-						then: result.
-					}
-				}) getYoutubeTitleAsync videoId
-			}) each videoIds.
-		}.
-	}
+$redirects = (). $redirectsRef = reference: $redirects.
+$findRedirect = $fname fun {
+	first: {not: fname eq x} filter {
+		((first: x);second: x) strReplace fname
+	} each redirects
 }.
-
-$getSearchPage = ($term fun {
-	$duckRaw = duckSearchResults: term.
-	$duckResults = {$link = $url of x. '<p><a href="' + link + '">' + (cachedUrlTitle: link) + "</a> (" + link + ")</p>"} each duckRaw.
-	
-	$ytRaw = youtubeSearchVideoIds: term.
-	$ytResults = {$link = "https://youtu.be/" + x. '<p><a href="' + link + '">' + (getYoutubeTitle: x) + "</a> (" + (link) + ")</p>"} each ytRaw.
-	
-	"<br>" strJoin duckResults;ytResults.
-}) cachedFun autoClearedCache: hoursToMillis: 2.
-
 
 $onClientConnect = ($_request fun {
 	$fname = "." + first: "?" strSplit $url of _request.
@@ -109,21 +26,41 @@ $onClientConnect = ($_request fun {
 	$asyncRef = reference: $async.
 	
 	!if ("./app/" strStartsWith fname) {
-		$appFileBase = "apps/" + "./app/" strRemove fname.
-		!ifElse (fileIsFile: appFileBase + ".k") {
-			print: "Trying to run Kalzit app " + $app = appFileBase + ".k".
-			resultRef = app strJoin "$app$" strSplit fileContent: "./_browser_app.html".
+		$singlefile = "true" eq $sf urlGetParameter $url of _request.
+		
+		$appName = "./app/" strRemove fname.
+		$appFileBase = !ifElse (fileIsFile: "apps/" + appName + ".redirect") {
+				strFirstLine: fileContent: "apps/" + appName + ".redirect"
+			};{
+				"apps/" + appName
+			}.
+		
+		$serveHtmlApp = $app fun {
+			print: "Trying to run  HTML app " + app.
+			asyncRef = true.
+			($startServing of _request): "text/html".
+			($writeFile of _request): app.
+	        do:($endServing of _request).
+		}.
+		
+		!ifElse (fileIsFile: appFileBase + "/" + appName + ".html"){
+			serveHtmlApp: appFileBase + "/" + appName + ".html".
 		};{
-			!if (fileIsFile: appFileBase + ".html") {
-				print: "Trying to run HTML app " + $app = appFileBase + ".html".
-				resultRef = (default: "This app does not exist"): fileContent: app.
+			!ifElse (fileIsFile: appFileBase + ".html") {
+				serveHtmlApp: appFileBase + ".html".
+			};{
+				!if (fileIsFile: appFileBase + ".k") {
+					print: "Trying to run Kalzit app " + $app = appFileBase + ".k".
+					$appScript = 'GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
+					!if singlefile {
+						resultRef = ("$app$";appScript) strReplace fileContent: "./_browser_app_singlefile.html".
+					}.
+					!else {
+						resultRef = ("$app$";appScript) strReplace fileContent: "./_browser_app.html".
+					}
+				}
 			}
-		}
-	}.
-	
-	!if ("./" eq fname) {
-		print: "Trying to run app " + $app = "app" urlGetParameter $url of _request.
-		resultRef = app strJoin "$app$" strSplit fileContent: "./_browser_app.html".
+		}.
 	}.
 	
 	!if ("./api/" strStartsWith fname) {
@@ -143,71 +80,49 @@ $onClientConnect = ($_request fun {
 		resultRef = "<br></br>" strJoin {'<a href="/docs/api/defaults/' + x + '">' + x + "</a>"} each do:pmListNames
 	}.
 	
-	!if ("./services/igfeed/" strStartsWith fname){
-		resultRef = getIgFeed: "./services/igfeed/" strRemove fname.
-		($startServing of _request): "text/xml".
+	$m = servicesRegex match fname.
+	!if (length: m){
+		$serviceFile = "./nodejs/files/server/services/" + (second: m) + ".k".
+		print "Generic service call detected: " + serviceFile.
+		!if (fileIsFile: serviceFile) {
+			do:() fun fileContent: serviceFile
+		}
 	}.
 	
-	!if ("./services/maptile/" strStartsWith fname){
-		$u = $url of _request.
-		
-		$xc = $x urlGetParameter u.
-		$yc = $y urlGetParameter u.
-		$zc = $z urlGetParameter u.
-		
-		print: "Loading tile " + xc + "_" + yc + "_" + zc.
-		
-		$cacheLocation = "./nogit/cache/maptiles/"+ "_" + xc + "_" + yc + "_" + zc + ".jpg".
-		($startServing of _request): fileMime: cacheLocation.
-		asyncRef = true.
-		
-		!ifElse (fileExists: cacheLocation) {
-			_request httpEndServingRaw fileContentRaw: cacheLocation.
-		};{
-			$tile = loadGlobalRaw: "https://a.tile.openstreetmap.org/" + zc + "/" + xc + "/" + yc + ".png".
-			cacheLocation fileWrite tile.
-			_request httpEndServingRaw tile.
-		}.
-	}.
-	
-	!if ("./services/ytfeed/" strStartsWith fname){
-		asyncRef = true.
-		$url = "url" urlGetParameter $url of _request.
-		!if(url eq void){
-			($endServing of _request): "".
+	$serveFile = $fname fun {
+		`Check blacklist`
+		!if (0 < sum: {x matches fname} each blacklist){
+			print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
+           	($startServing of _request): fileMime: "html".
 			($respondCode of _request): 404.
+			_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
 		}.
+		`Find a file by name`
 		!else {
-			{
-				($startServing of _request): "text/xml".
-				($endServing of _request): (default: ""): x
-			} getYtFeedAsync "url" urlGetParameter $url of _request.
+			((fileIsFile: fname) & fileExists: fname) ifElse {
+				print: "Serving file " + fname.
+                ($startServing of _request): fileMime: fname.
+				($writeFile of _request): fname.
+                do:($endServing of _request).
+			};{
+				`Try finding a redirect`
+				print "Trying to find redirect for " + fname.
+				$redirect = findRedirect: fname.
+				!ifElse (void eq redirect) {
+					print: "Serving empty page for " + fname.
+	                ($startServing of _request): fileMime: "html".
+					($respondCode of _request): 404.
+					_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
+				};{
+					serveFile: redirect
+				}
+			}
 		}
 	}.
 	
 	!if (not async) {
 		!if (result eq void) {
-			`Check blacklist`
-			!if (0 < sum: {x matches fname} each blacklist){
-				print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
-	           	($startServing of _request): fileMime: "html".
-				($respondCode of _request): 404.
-				_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
-			}.
-			`Find a file by name`
-			!else {
-				((fileIsFile: fname) & fileExists: fname) ifElse {
-					print: "Serving file " + fname.
-	                ($startServing of _request): fileMime: fname.
-					($writeFile of _request): fname.
-                    do:($endServing of _request).
-				};{
-					print: "Serving empty page for " + fname.
-	                ($startServing of _request): fileMime: "html".
-					($respondCode of _request): 404.
-					_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
-				}
-			}
+			serveFile: fname
 		}.
 	    else {
 	    	_request httpEndServingRaw strRaw: result
@@ -216,7 +131,31 @@ $onClientConnect = ($_request fun {
 	
 }).
 
+
+print "Reading .redirect files ...".
+$searchFolderForRedirects = $folder fun {
+	!if (blacklistAllows folder) {
+		$content = folderContent: folder.
+		
+		`Return joined list`
+		;/ ($entry fun {
+			!ifElse (fileIsFolder entry) {
+				searchFolderForRedirects: entry
+			};{
+				!if (".redirect" strEndsWith entry) {[
+					("./" + ".redirect" strRemove entry);
+					strFirstLine: fileContent: entry
+				]}
+			}
+		}) each content.
+	}.
+}.
+redirectsRef = searchFolderForRedirects: "./".
+
+print "Start port listening ...".
 !if (fileExists "./nogit/https/key.pem") {
     onClientConnect httpsServer 5001
 }.
 onClientConnect httpServer 5000.
+print "Server is running now!".
+print "------".

@@ -23,5 +23,12 @@ function installCalcit(vm, context, fs, bootstrap){
 var context = {require:require, console:console, process:process};
 installCalcit(vm, context, fs, ["core", "nodejs"]);
 
-var app = process.argv[2]
+var debug = process.argv[2];
+var app;
+if(debug === "--debug"){
+	context.GLang.debug = true;
+	app = process.argv[3]
+}else{
+	app = process.argv[2]
+}
 context.GLang.eval(fs.readFileSync(app, "utf8"));

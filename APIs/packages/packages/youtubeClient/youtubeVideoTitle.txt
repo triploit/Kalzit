@@ -1,0 +1,1 @@
+$youtubeVideoTitle = ($video ? YoutubeVideoId) fun {domInnerText: "title" domTags youtubeVideoDom: video}.

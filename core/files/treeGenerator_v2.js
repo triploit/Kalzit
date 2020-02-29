@@ -1,4 +1,6 @@
 ;(function(){
+	var optimized = false;
+
 	function waiting(){
 		return {
 			next:function(token){
@@ -25,7 +27,7 @@
 	
 	function special(specialToken){
 		return {
-			special:specialToken,
+			special:specialToken.textValue,
 			kind:"special"
 		}
 	}
@@ -51,7 +53,18 @@
 	
 	var codeBlock = depthBlock("{", "}", function(text){return group([waiting(), string(text)])});
 	var arrayBlock = depthBlock("[", "]", function(text){return group([waiting(), {kind:"array", array:GLang.generateTree(text)}])});
-	var parenthesesBlock = depthBlock("(", ")", function(text){return group([waiting(), {kind:"parentheses", parentheses:GLang.generateTree(text)}])});
+	var parenthesesBlock = depthBlock("(", ")", function(text){
+		var parenthesesTree = GLang.generateTree(text, optimized);
+		if(optimized && parenthesesTree.length == 1){
+			return group([waiting(), parenthesesTree[0]])
+		}
+		return group([
+			waiting(), {
+				kind:"parentheses",
+				parentheses:parenthesesTree
+			}
+		])
+	});
 	
 	function doubleQuoteBlock(text){
 		return {
@@ -97,7 +110,7 @@
 				if(token.textValue === "$") return group([waiting(), string(wordToken.textValue)])
 				return group([waiting(), this]).next(token);
 			},
-			name:wordToken,
+			name:wordToken.textValue,
 			kind:"name"
 		}
 	}
@@ -164,7 +177,7 @@
 		var sentences = [];
 		var sentence = [];
 		for(var i = 0; i < tree.length; i++){
-			if(tree[i].kind === "special" && tree[i].special.textValue === "."){
+			if(tree[i].special === "."){
 				sentences.push(loopState(sentence));
 				sentence = [];
 			}else sentence.push(tree[i]);
@@ -175,7 +188,7 @@
 		var newTree = [];
 		for(var i = 0; i < sentences.length; i++){
 			newTree = newTree.concat(sentences[i]);
-			if(i < sentences.length - 1) newTree.push({kind:"special", special:{textValue:"."}});
+			if(i < sentences.length - 1) newTree.push({kind:"dot", dot:1});
 		}
 		return newTree;
 	}
@@ -190,11 +203,11 @@
 				continue;
 			}
 			//Check for type indicators
-			else if(state[i].special && state[i].special.textValue === "?"){
+			else if(state[i].special === "?"){
 				var op = [{kind:"name", name:"calcitAnnotate"}];
 				var a = state[i + 1];
 				var b = state[i - 1];
-				var typedValue = {kind:"parentheses", parentheses:[a, {name:{textValue:"calcitSetType"}, kind:"name"}, b]};
+				var typedValue = {kind:"parentheses", parentheses:[a, {name:"calcitSetType", kind:"name"}, b]};
 				
 				state[i] = typedValue;
 				//Remove item i - 1 (value)
@@ -208,8 +221,8 @@
 				continue;
 			}
 			//Check for annotations
-			else if(state[i].special && state[i].special.textValue === "@"){
-				var op = [{kind:"name", name:{textValue:"calcitSetAnnotation"}}];
+			else if(state[i].special === "@"){
+				var op = [{kind:"name", name:"calcitSetAnnotation"}];
 				var a = state.splice(i + 1, 1);
 				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
 				state = state.slice(0, i).concat(a).concat(op).concat(b);
@@ -218,24 +231,29 @@
 				break;
 			}
 			//Check for comments
-			else if(state[i].special && state[i].special.textValue === "#"){
-				var op = [{kind:"name", name:{textValue:"calcitAddComment"}}];
+			else if(state[i].special === "#"){
+				var op = [{kind:"name", name:"calcitAddComment"}];
 				var a = state.splice(i + 1, 1);
 				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
-				state = state.slice(0, i).concat(a).concat(op).concat(b);
+				
+				if(optimized) {
+					state = state.slice(0, i).concat(b);
+				}else{
+					state = state.slice(0, i).concat(a).concat(op).concat(b);
+				}
 				
 				//The loop will end after this
 				break;
 			}
 			//Check for exclamation marks
-			else if(state[i].special && state[i].special.textValue === "!"){
+			else if(state[i].special === "!"){
 				var done = false;
 				switch(i){
 					case state.length - 2:
 						var op = loopState(state.splice(i + 1, 1));
 						state = state.slice(0, i).concat([
-							{kind:"name", name:{textValue:"do"}},
-							{kind:"name", name:{textValue:":"}}
+							{kind:"name", name:"do"},
+							{kind:"name", name:":"}
 						]).concat(op);
 						
 						done = true; break;
@@ -244,7 +262,7 @@
 						var op = loopState(state.splice(i + 1, 1));
 						var arg = loopState(state.splice(i + 1, 1));
 						state = state.slice(0, i).concat(op).concat([
-							{kind:"name", name:{textValue:":"}}
+							{kind:"name", name:":"}
 						]).concat(arg);
 						
 						done = true; break;
@@ -269,7 +287,9 @@
 	}
 
 	
-	GLang.generateTree= function(string){
+	GLang.generateTree= function(string, optimize){
+		optimized = optimize;
+		
 		var state = waiting();
 		var tokens = GLang.tokenize(string);
 		for(var i = tokens.length - 1; i >= 0; i--){

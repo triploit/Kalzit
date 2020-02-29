@@ -1,0 +1,3 @@
+$kalzitMediaProtocolFromText = ($text ? String) fun {
+	'{"protocolVersion":"1.0.0", "kind":"text", "text":{"raw":' + (objToJson: text) + '}}'
+}

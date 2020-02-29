@@ -1,0 +1,21 @@
+$stringAssetAccess = cachedFun: ($_prefix ? ("/assets/strings/" default String) ; $_loader ? (default: {loadLocal: x})) fun {
+	$object = parseJson: _loader: _prefix + "default.json".
+	!if (not object eq void) {
+		cachedFun: ($key ? String) fun {
+			(calcitUnifyName: key) objFirstProperty object
+		}
+	}
+}.
+$localizedStringAssetAccess = cachedFun: ($_prefix ? ("/assets/strings/" default String) ; $_loader ? (default: {loadLocal: x})) fun {
+	$localizedStrings = (_prefix + (do: getUserLanguage) + "/") stringAssetAccess _loader.
+	!ifElse (not localizedStrings eq void) {
+		localizedStrings
+	};{
+		$localizedStringsFallback = (_prefix + (do: getSimpleUserLanguage) + "/") stringAssetAccess _loader.
+		!ifElse (not localizedStringsFallback eq void) {
+			localizedStringsFallback
+		};{
+			_prefix stringAssetAccess _loader
+		}
+	}
+}.

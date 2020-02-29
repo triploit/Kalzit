@@ -8,16 +8,18 @@ Print: "Hello World".
 The above code is the most complete "Hello World" program you can get in Kalzit. In some cases, however, it can get even shorter!
 
 ## Making the code shorter
-First of all, this example includes the actual output of the text. When using the [language playground](/_browser_ide.html), you do not need that part. So this is what you get:
+First of all, this example includes the actual output of the text. When using the [language playground](/app/ide), you do not need that part. So this is what you get:
 
 ```
 "Hello World".
 ```
 
 When running that using the playground, you should still see the expected output.
+When writing a standalone app, you have to consciously display everything you want the user to see.
+So, if you are writing or copying code and want to see its result, do not forget to print it!
 
 ### Print in the playground
-The `Print: ` part, however, is sometimes still needed when using the playground. Here is a little example:
+However, `Print: ` is sometimes still needed when using the playground. Here is a little example:
 
 ```
 "Hello World". "Second output".

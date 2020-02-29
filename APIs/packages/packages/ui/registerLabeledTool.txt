@@ -1,0 +1,14 @@
+$registerLabeledTool = ($label ? String ; $_platformImplementations) fun {
+	registerDesktopTool: $desktop objFirstProperty _platformImplementations.
+	$mobile = ($mobile objFirstProperty _platformImplementations).
+	!if (not mobile eq void) {
+		mobile registerMobileTool label.
+	}.
+}.
+
+$uiGlobalToolbar = () fun {
+	uiElementCollection:
+		[!uiToolbarReservedSpace];
+		[!generateMobileToolbarOverlay];
+		[!generateDesktopToolbarOverlay]
+}.

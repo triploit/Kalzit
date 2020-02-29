@@ -1,0 +1,55 @@
+#{
+	Type function for colors with red-, green- and blue-values.
+	These are represented as lists of three integer values.
+	
+	Example to define gray:
+	RgbColor: 122.
+	
+	Example to define blue:
+	RgbColor: 0;0;255.
+}
+$RgbColor = 3 SizedList Int.
+
+#{
+	Type function for colors with red-, green- and blue-, and alpha-values.
+	These are represented as lists of four integer values.
+	
+	If the function gets a list with three integers, the value 255 is added for alpha.
+	If the list is too long, everything except the first four items is cut off.
+}
+$Color = ($_color ? (List:Int)) fun {
+	(3 < length: _color) ifElse {
+		(4 SizedList Int): _color
+	};{(RgbColor: _color);255}
+}.
+$ColorString = ($_color) fun {
+	!ifElse ("string" eq displayType: _color) {
+		_color
+	};{
+		colorToString: Color: _color
+	}
+} ? String.
+
+#{Constant for the color red}
+$red = 255;0;0;255.
+
+#{Constant for the color green}
+$green = 0;255;0;255.
+
+#{Constant for the color blue}
+$blue = 0;0;255;255.
+
+#{Constant for the color yellow}
+$yellow = 255;255;0;255.
+
+#{Constant for the color magenta}
+$magenta = 255;0;255;255.
+
+#{Constant for the color cyan}
+$cyan = 0;255;255;255.
+
+#{Constant for the color black}
+$black = 0;0;0;255.
+
+#{Constant for the color white}
+$white = 255;255;255;255.

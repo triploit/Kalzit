@@ -1,0 +1,39 @@
+$registeredMobileTools ? ModifiableList = ().
+$registerMobileTool = ($toolFactory ; $_label ? ("Needs a label" default String)) fun {
+	($push of registeredMobileTools): [toolFactory;_label].
+}.
+$generateMobileToolbarOverlay = () fun {
+	$mobileTools = getArray: registeredMobileTools.
+	(($_tool) fun {
+		$popupRef = reference: $popup.
+		("tool_" + urlEncodeParameter: second: _tool) registerSubApp {
+			$view = do: first: _tool.
+			!if (not view eq void) {
+				print: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
+			}. !else {
+				!closeSubApp
+			}
+		};{uiHide: popup}
+	}) each mobileTools.
+	
+	$toolsPopup = (@center @(percentWidth: 95) @(percentHeight: 90) {openSubApp: $id objFirstProperty calcitAnnotations: x} uiSingleViewPicker {
+		@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiText: second: x
+	} each mobileTools) uiPopup {openSubApp: ""}.
+	$tools registerSubApp {
+		print: toolsPopup.
+	};{uiHide: toolsPopup}.
+
+	@(cssClass: "k-mobile_only") uiToolbarOverlay:
+		[
+			@dynamicSize @(percentWidth 12,5) @(percentHeight 75) @verticalCenter @left uiHamburgerButton:{
+				openSubApp: $tools.
+			}
+		];
+		[
+			@verticalCenter @right @(percentHeight 75) @(percentWidth !ifElse developerMode 25;12,5) uiContainer:
+				[@(percentWidth !ifElse developerMode 50;100) !uiUserButton];
+				!if developerMode {
+					[@(percentWidth 50) !uiAppsButton]
+				}
+		].
+}.

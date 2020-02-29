@@ -1,0 +1,24 @@
+$app = appParameter: "kalzit-file".
+$rootFolder = appParameter: "kalzit-root-folder".
+$transpile ? (false default Boolean) = appParameter: "transpile".
+
+`parse JSON configuration`
+$configPath = (".k";".json") strReplace app.
+$configObject = parseJson: !if (fileIsFile: configPath) { fileContent: configPath }.
+
+`define options and default values for them`
+$fullLibrary ? (default: true) = $full_library `TODO: Make other valid name forms work` of configObject.
+$skeleton = !ifElse (fullLibrary) {
+		rootFolder + "/generated/_browser_app_singlefile.html"
+	};{
+		rootFolder + "/generated/_browser_app_singlefile_baselib.html"
+	}.
+
+print: "Trying to build Kalzit app " + app.
+$appScript = !ifElse (transpile) {
+		';(' + (calcitCompileJsFunction: (fileContent: app)) + ')(GLang.defaultRuntimeEnvironment);'.
+	};{
+		'GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
+	}.
+
+((".k";".html") strReplace app) fileWrite ("$app$";appScript) strReplace fileContent: skeleton.

@@ -1,0 +1,19 @@
+$launchAppCode = ($appCode ? String) fun {
+	runLater: {
+		openSubApp: "".
+		do:uiClearAppContainer.
+		eval appCode.
+	}
+}.
+$launchApp = $appUrl fun {
+	redirect appUrl.
+}.
+$launchGlobalApp = ($appUrl ? Url) fun {
+	redirect appUrl.
+}.
+$launchAppName = $appName fun {
+	launchApp: "/app/" + appName.
+}.
+$relaunchApp = () fun {
+	launchAppName: second: "/app/([a-zA-Z]+)" match do:dynamicAppUrl
+}.

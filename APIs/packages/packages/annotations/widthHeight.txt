@@ -1,0 +1,133 @@
+#{
+	An annotation factory that specifies the width of an element dynamically.
+	This is done using the CSS "calc()" function.
+	
+	If you write something like:
+		@(width: {100% - 5px}) uiElement.
+	Then the element will be displayed 5 pixels less tall than its container.
+	
+	Ideally, this function should never be used, because it is very specific to the web platform.
+	However, you can obviously still use it to achieve effects that are not possible with the other functions.
+}
+$width = {flag: ["width"];["calc(" + x + ")"]}.
+
+#{
+	An annotation factory that specifies the heigit of an element dynamically.
+	This is done using the CSS "calc()" function.
+	
+	If you write something like:
+		@(height: {100% - 5px}) uiElement.
+	Then the element will be displayed 5 pixels less wide than its container.
+	
+	Ideally, this function should never be used, because it is very specific to the web platform.
+	However, you can obviously still use it to achieve effects that are not possible with the other functions.
+}
+$height = {flag: ["height"];["calc(" + x + ")"]}.
+
+#{
+	An annotation factory that specifies the width of an element in pixels.
+	
+	If you write something like:
+		@(pxWidth: 100) uiElement.
+	Then the element will be displayed 100 pixels wide.
+}
+$pxWidth = {flag: ["px_width"];[x]}.
+
+#{
+	An annotation factory that specifies the height of an element in pixels.
+	
+	If you write something like:
+		@(pxHeight: 100) uiElement.
+	Then the element will be displayed 100 pixels high.
+}
+$pxHeight = {flag: ["px_height"];[x]}.
+
+#{
+	An annotation factory that specifies the width of an element in percent.
+	
+	If you write something like:
+		@(percentWidth: 100) uiElement.
+	Then the element will be displayed as wide as its container.
+}
+$percentWidth = {flag: ["percent_width"];[x]}.
+
+#{
+	An annotation factory that specifies the height of an element in percent.
+	
+	If you write something like:
+		@(percentHeight: 100) uiElement.
+	Then the element will be displayed as tall as its container.
+}
+$percentHeight = {flag: ["percent_height"];[x]}.
+
+#{
+	An annotation factory that specifies the width of an element in relative font size.
+	
+	If you write something like:
+		@(emWidth: 2) uiElement.
+	Then the element will be displayed as wide as two letters would be.
+}
+$emWidth = {flag: ["em_width"];[x]}.
+
+#{
+	An annotation factory that specifies the height of an element in relative font size.
+	
+	If you write something like:
+		@(emHeight: 2) uiElement.
+	Then the element will be displayed as tall as two letters would be when put on top of each other.
+}
+$emHeight = {flag: ["em_height"];[x]}.
+
+#{
+	An annotation factory that specifies the width of an element in millimeters.
+	
+	If you write something like:
+		@(mmWidth: 20) uiElement.
+	Then the element will be displayed 20 millimeters wide.
+}
+$mmWidth = {flag: ["mm_width"];[x]}.
+
+#{
+	An annotation factory that specifies the height of an element in millimeters.
+	
+	If you write something like:
+		@(mmHeight: 20) uiElement.
+	Then the element will be displayed 20 millimeters tall.
+}
+$mmHeight = {flag: ["mm_height"];[x]}.
+
+#{
+	An annotation factory that specifies the width of an element in centimeters.
+	
+	If you write something like:
+		@(mmWidth: 3) uiElement.
+	Then the element will be displayed 3 centimeters wide.
+}
+$cmWidth = {flag: ["cm_width"];[x]}.
+
+#{
+	An annotation factory that specifies the height of an element in centimeters.
+	
+	If you write something like:
+		@(mmHeight: 3) uiElement.
+	Then the element will be displayed 3 centimeters tall.
+}
+$cmHeight = {flag: ["cm_height"];[x]}.
+
+#{
+	An annotation factory that specifies the width of an element in inches.
+	
+	If you write something like:
+		@(inchWidth: 3) uiElement.
+	Then the element will be displayed 3 inches wide.
+}
+$inchWidth = {flag: ["inch_width"];[x]}.
+
+#{
+	An annotation factory that specifies the height of an element in inches.
+	
+	If you write something like:
+		@(inchHeight: 3) uiElement.
+	Then the element will be displayed 3 inches tall.
+}
+$inchHeight = {flag: ["inch_height"];[x]}.

@@ -1,6 +1,0 @@
-$youtubeUserVideoDoms = ($x ? String) fun {"entry" domTags youtubeUserRssDom: x}.
-$youtubeUserVideos = ($x ? String) fun {{(domInnerText: "yt:videoId" domTags x);domInnerText: "title" domTags x} each youtubeUserVideoDoms: x}.
-$youtubeUserVideoIdsOld = ($x ? String) fun {domInnerText each "yt:videoId" domTags youtubeUserRssDom: x}.
-$youtubeUserVideoIdsNew = ($x ? String) fun {youtubeVideoIdsByUrl: youtubeUserRssUrl + x}.
-$youtubeUserVideoIds = ($user ? String) fun {removeDuplicates: String each (youtubeUserVideoIdsOld: user);youtubeUserVideoIdsNew: user}.
-$youtubeUserVideoThumbnails = ($x ? String) fun {"url" domAttribute "media:thumbnail" domTags youtubeUserRssDom: x}.

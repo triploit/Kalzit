@@ -1,0 +1,19 @@
+$true = 1.
+$false = 0.
+
+#{
+	Turns a boolean into its opposite.
+	This is done by comparing a value to zero.
+	Everything expect zero will produce false (0), only zero produces true (1).
+	
+	Examples:
+	not: true.
+	`Result: 0`
+	
+	not: false
+	`Result: 1`
+	
+	not: "Test".
+	`Result: 0`
+}
+$not = {x eq 0}.

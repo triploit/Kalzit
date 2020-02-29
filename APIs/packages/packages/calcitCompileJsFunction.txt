@@ -1,0 +1,179 @@
+$calcitCompileJsFunction = !{
+	`Create basic tree from code`
+	$createTree = $code fun {
+		parseJson: code calcitCompile true `optimized`.
+	}.
+	
+	$compileTreeToJsBase = $_tree fun {
+		$compiledObject = _tree.
+		
+		`Separate the tree into sentences`
+		$sentences ? ModifiableList = ().
+		$currentSentence ? ModifiableList = ().
+		($_node fun {
+			!ifElse ($dot of _node) {
+				($push of sentences): [getArray: currentSentence].
+				do:($clear of currentSentence)
+			};{
+				($push of currentSentence): [_node]
+			}
+		}) each compiledObject.
+		
+		$lastSentence = getArray: currentSentence.
+		!ifNot (void eq lastSentence) {
+			($push of sentences): [getArray: lastSentence]
+		}.
+		
+		`Assemble working JS base`
+		$compiledSentences = compileSentence each getArray: sentences.
+		$jsOutputBase = !ifElse (0 eq length: compiledSentences) {
+			"return GLang.voidValue;"
+		};{
+			!ifElse (1 eq length: compiledSentences) {
+				"return " + (first: compiledSentences) + ";"
+			};{
+				$firstSentences = (default: ""): ";" strJoin (0 to (length: compiledSentences) - 2) at compiledSentences.
+				firstSentences + "; return " + (last: compiledSentences) + ";"
+			}
+		}
+	}.
+	
+	
+	`Compile each sentence`
+	$compileSentence = $_sentence fun {
+		$sentenceLength = length: _sentence.
+		!ifElse (sentenceLength mod 2) {
+			`Uneven number of elements`
+			!ifElse (1 eq sentenceLength) {
+				`Compile a single element`
+				compileSingleNode: first: _sentence
+			};{
+				`Create function calls`
+				!ifElse (sentenceLength eq 3) {
+					`Actually create code`
+					$functionNode = second: _sentence.
+					$function = functionNode compileSingleNode true.
+					
+					$firstArgNode = first: _sentence.
+					$firstArg = !ifElse ((":" eq $special of functionNode) | RepeatedFunction eq $type of calcitAnnotations: first: $argumentList of calcitAnnotations: resolveName: $name of functionNode) {
+						firstArgNode compileSingleNode true.
+					};{
+						compileSingleNode: firstArgNode.
+					}.
+					$secondArgNode = third: _sentence.
+					
+					`Compose working JS`
+					!ifElse (($fun eq $name of functionNode) & $string eq $kind of secondArgNode) {
+						firstArg compileFunExpression secondArgNode
+					};{
+						"c([" + firstArg + ", " + (compileSingleNode: secondArgNode) + "]," + function + ")"
+					}
+					
+				};{
+					`Isolate last three elements`
+					$functionNode = second: _sentence.
+					$function = functionNode compileSingleNode true.
+					
+					$firstArgNode = first: _sentence.
+					$firstArg = !ifElse ((":" eq $special of functionNode) | RepeatedFunction eq $type of calcitAnnotations: first: $argumentList of calcitAnnotations: resolveName: $name of functionNode) {
+						firstArgNode compileSingleNode true.
+					};{
+						compileSingleNode: firstArgNode.
+					}.
+					$secondArg = compileSentence: ((3 to sentenceLength) - 1) at _sentence.
+					
+					`Compose working JS`
+					"c([" + firstArg + ", " + secondArg + "]," + function + ")"
+				}
+			}
+		};{
+			!ifElse (sentenceLength eq 0) {
+				"GLang.voidValue"
+			};{
+				`Isolate first element`
+				$function = (first: _sentence) compileSingleNode true.
+				$firstArg = compileSentence: (1 to sentenceLength - 1) at _sentence.
+				
+				`Compose working JS`
+				"GLang.callObject(" + function + ", env, [" + firstArg + "])"
+			}
+		}
+	}.
+	
+	$compileString = ($string ? String) fun {
+		"str(" + (objToJson: string) + ")"
+	}.
+	$compileNameResolve = ($name ? String) fun {
+		"rn(" + (objToJson: name) + ")"
+	}.
+	$compileNumber = ($num ? Float) fun {
+		"{value:" + (objToJson: num) + "}"
+	}.
+	$compileParentheses = $_tree fun {
+		"(function(){" + (compileTreeToJsBase: _tree) + "})()"
+	}.
+	$compileStringFunction = ($string ? String) fun {
+		$jsBase = compileTreeToJsBase: createTree: string.
+		$jsEnvironment = {
+			var env = new GLang.RuntimeEnvironment(e);
+			if(args.length >= 2) env.setInnerVariable("y", args[1]);
+			if(args.length >= 1) env.setInnerVariable("x", args[0]);
+			console.log(env);
+		}.
+		
+		"{value:function(e, args){" + jsEnvironment + jsDefinitions + jsBase + "}}"
+	}.
+	$compileFunExpression = ($firstArgJs ; $_secondArgNode) fun {
+		$mainFunction = calcitCompileJsFunction: $string of _secondArgNode.
+		$closureContent = "var argList = " + firstArgJs + "; if(!(argList.value instanceof Array)){argList = {value:[argList]}}; var fun = " + mainFunction + ";".
+		$valueWrap = {
+			return {value:(function(){
+				for(var i = 0; i < argList.value.length; i++){
+					if((argList.value[i].value + "").startsWith("_")){
+						return result;
+					}
+				}
+				return GLang.arrayFun(result);
+			})()};
+		}.
+		
+		"(function(){" + closureContent + " var result = function(useless, args){return fun(GLang.createFunctionScope(env, argList, args))};" + valueWrap + "})()"
+	}.
+	
+	$compileSingleNode = ($_node ; $asFunction) fun {
+		do: first: (!switchEq ($kind of _node)
+			["string";{
+				!ifElse (1 eq asFunction) {
+					compileStringFunction: $string of _node
+				};{
+					compileString: $string of _node
+				}
+			}];
+			["special";{compileNameResolve: $special of _node}];
+			["name";{compileNameResolve: $name of _node}];
+			["num";{compileNumber: $num of _node}];
+			["parentheses";{compileParentheses: $parentheses of _node}];
+			["array";{"{value:[" + (compileParentheses: $array of _node) + "]}"}]
+		);{
+			`Default case`
+			"null /*Can not compile single elements of type " + ($kind of _node) + " yet*/"
+		}.
+	}.
+	
+	`Create function with environment variables (env, c, rn, str)`
+	$jsDefinitions = {
+		var c = (args, obj) => GLang.callObject(obj, env, args);
+		var rn = n => env.resolveName(n);
+		function str(s){
+			var str = GLang.stringValue(s);
+			str.environment = env;
+			return str;
+		};
+	}.
+	
+	`Assemble working JS string`
+	$calcitCompileJsFunction = $code fun {
+		$jsOutputBase = compileTreeToJsBase: createTree: code.
+		"function(env){" + jsDefinitions + jsOutputBase + "}"
+	}
+}.

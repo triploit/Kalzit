@@ -3,9 +3,9 @@ $userName = ($getHeader objFirstProperty _request): "kalzit-user-name".
 $userPassword = ($getHeader objFirstProperty _request): "kalzit-user-password".
 
 !if ((void eq userName) | (void eq userPassword)) {
-	resultRef = "1" + strNewline + "The cookies 'calcitUserName' and 'calcitUserPassword' need to be set.".
+	resultRef = "1" + strNewline + "The headers 'kalzit-user-name' and 'kalzit-user-password' need to be set. (Most likely an error with your native app)".
 }. else {
-	$fname = "./nogit/users/plain/" + urlEncodeParameter: userName.
+	$fname = "./nogit/users/plain/v2/" + urlEncodeParameter: userName.
 	!if ((fileIsFile: fname) & fileExists: fname) {
 		$content = strNewline strSplit fileContent: fname.
 		(userPassword eq second: content) ifElse {

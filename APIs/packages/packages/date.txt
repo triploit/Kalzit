@@ -1,0 +1,23 @@
+#{
+	Converts seconds to milliseconds.
+	
+	Example:
+	secondsToMillis: 5.
+	`Result: 5000`
+}
+$secondsToMillis = * bind 1000.
+
+#{Converts minutes to milliseconds.}
+$minutesToMillis = $minutes fun {secondsToMillis: minutes * 60}.
+
+#{Converts hours to milliseconds.}
+$hoursToMillis = $hours fun {minutesToMillis: hours * 60}.
+
+#{Converts days to milliseconds.}
+$daysToMillis = $days fun {hoursToMillis: days * 24}.
+
+#{Converts years (365 days) to milliseconds.}
+$yearsToMillis = $years fun {daysToMillis: years * 365}.
+
+#{Returns the current date as a string in the UTC format.}
+$getCurrentDateUtc = () fun {dateToUtc: do: getCurrentDate}.

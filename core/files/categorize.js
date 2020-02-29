@@ -12,7 +12,12 @@ Returns a list with items of the form [category, matching_items, optional_condit
 */
 GLang.categorize = function (items, categories){
 	
-	var unique = 0;
+	var unique = true;
+	
+	function uniqueCategory(){
+		unique = !unique;
+		return unique ? "_" : "__";
+	}
 	
 	//Returns an array [categoryName, condition]
 	function findCategory(item){
@@ -23,7 +28,7 @@ GLang.categorize = function (items, categories){
 				return [category[0], condition];
 			}
 		}
-		return ["_" + (unique++), null];
+		return [uniqueCategory(), null];
 	}
 	
 	var currentCategory = [null, null];

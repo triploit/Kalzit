@@ -1,0 +1,3 @@
+$uiButton = ($function ? RepeatedFunction ; $text) fun {
+	uiText: "Dummy for uiButton"
+}.

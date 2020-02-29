@@ -20,35 +20,57 @@
 			//This is important because the original array should not be modified
 			var args = args.slice(0, args.length);
 			
-			var argumentCount = args.length;
-			if(argumentCount === 0){
+			var originalArgumentCount = args.length;
+			if(originalArgumentCount === 0){
 				return GLang.callObject(original, env, args);
 			}
-			if(argumentCount > 2){
+			if(originalArgumentCount > 2){
 				throw new Error("You can not call an array function with more than two parameters. (You should never call a function with more than two parameters)");
 			}
 			
 			//Ensure a length of two
-			while(args.length < 2){
-				args.push({value:0})
+			if(originalArgumentCount === 1){
+				args.push({value:0, inserted:true})
 			}
 			
 			var a = args[0];
 			if(GLang.eq(a.value, [])) return {value:[]};
-			var b = args.length < 2 ? null : args[1];
-			if(b ? GLang.eq(b.value, []) : false) return {value:[]};
+			var b = args[1];
+			if(GLang.eq(b.value, [])) return {value:[]};
 			var result = [];
 			
+			//Called with at least one array
 			if(a.value instanceof Array || b.value instanceof Array){
 				a = a.value instanceof Array ? a : {value:[a]};
 				b = b.value instanceof Array ? b : {value:[b]};
 				var lenA = a.value.length, lenB = b.value.length;
+				
 				var len = Math.max(lenA, lenB);
 				for(var i = 0; i < len; i++){
-					result.push(arrayFunWrapper(env, [a.value[i % lenA], b.value[i % lenB]]));
+					if(!b.value.length){
+						result.push(arrayFunWrapper(
+							env,
+							[
+								a.value[i % lenA]
+							]));
+					}else{
+						result.push(arrayFunWrapper(
+							env,
+							[
+								a.value[i % lenA],
+								b.value[i % lenB]
+							]));
+					}
 				}
 				return {value:result, display:b.display || a.display};
 			}
+			
+			//Called with no arrays as parameter
+			a = a.inserted ? GLang.voidValue : a;
+			if(originalArgumentCount == 1){
+				return GLang.callObject(original, env, [a]);
+			}
+			b = b.inserted ? GLang.voidValue : b;
 			return GLang.callObject(original, env, [a, b]);
 		}
 		return arrayFunWrapper;
@@ -175,16 +197,6 @@
 			}
 			return {value:[].concat(val1.value,val2.value)};
 		}}, frozen: true},
-		{varName:"do", varValue:{value:function(env, args){
-			var params = [];
-			if(args.length >= 2){
-				params = args[1].value;
-				if(!(params instanceof Array)){
-					params = [args[1]];
-				}
-			}
-			return GLang.callObject(args[0], env, params);
-		}}, frozen: true},
 		{varName:":", varValue:{value:function(env, args){
 			return GLang.callObject(args[0], env, [args[1]]);
 		}}, frozen: true},
@@ -211,14 +223,6 @@
 			return {value:array};
 		})}, frozen: true},
 		{varName:"void", varValue:GLang.voidValue, frozen: true},
-		{varName:"each", varValue:{value:function(env, args){
-			var result = [];
-			
-			for(var i = 0; i < args[1].value.length; i++){
-				result.push(GLang.callObject(args[0], env, [args[1].value[i]]));
-			}
-			return {value:result};
-		}}, frozen: true},
 		{varName:"eq", varValue:{value:function(env, args){
 			return {value:GLang.eq(args[0].value, args[1].value) ? 1 : 0};
 		}}, frozen: true},

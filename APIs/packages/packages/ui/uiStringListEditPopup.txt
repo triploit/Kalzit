@@ -1,0 +1,28 @@
+$uiStringListEditor = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
+	$newAdditionRef = reference: $newAddition.
+	$onAddition = first: _onAdditionAndOnRemoval.
+	$onRemoval = second: _onAdditionAndOnRemoval.
+	
+	$nameViewsRef = reference: $nameViews.
+	$updateNameViews = () fun {
+		nameViewsRef = (($_site) fun {uiContainer: (@(percentWidth 84) uiContainer: urlDecodeParameter: first: _site);@(percentWidth 16) $button = (() fun {
+			listRef = {not: _site eq x} filter resolveReference: listRef.
+			onRemoval: listRef.
+			do:updateNameViews.
+		}) uiButton "Remove"}) each resolveReference: listRef.
+	}.
+	do:updateNameViews.
+	
+	uiContainer: [uiToolbar: @center @(percentWidth: 90) uiContainer:
+		(@(percentWidth 90) newAdditionRef uiTextfieldVariableOnchange "");
+		(@(percentWidth 10) {listRef onAddition newAddition. do:updateNameViews} uiButton "Add")
+	];[
+		@verticalScroller @center @(height {100% - 55px}) @(percentWidth 90) uiContainer: uiShowVariableAsList: nameViewsRef
+	]
+}.
+
+$uiStringListEditPopup = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
+	(listRef uiStringListEditor _onAdditionAndOnRemoval) uiPopup {
+		!closeSubApp
+	}
+}.

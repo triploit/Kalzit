@@ -3,6 +3,7 @@
 		"description":"Libraries that work with all language implementations"
 	},
 	"libraries":[
+		{"provides":["do", "each"], "scriptUrl":"basic.js"},
 		{"provides":["str_starts_with", "str_ends_with", "str_split", "str_sub"],  "scriptUrl":"string.js"},
 		{"provides":["filter"],  "scriptUrl":"filter.js"},
 		{"provides":["length"],  "scriptUrl":"arrays.js"},

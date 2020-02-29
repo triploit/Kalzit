@@ -1,0 +1,24 @@
+$youtubeVideoTitle = $id fun {
+	print: id.
+	!ifElse (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {
+		fileContent: "./nogit/cache/yttitles/" + id + ".txt"
+	};{
+		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
+		("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
+		result
+	}
+}.
+
+$youtubeVideoTitleAsync = ($then;$id) fun {
+	!if (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {
+		then fileContentAsync "./nogit/cache/yttitles/" + id + ".txt"
+	}.
+	!else {
+		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
+		!if (not result eq "https://youtube.com/watch?v=" + id) {
+			("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
+			then: result.
+		}.
+		print result.
+	}
+}.

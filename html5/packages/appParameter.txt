@@ -1,1 +1,9 @@
-$appParameter=($x ? String) fun {x urlGetParameter appUrl}.
+#{
+	Gives access to the value of a named app parameter.
+	For web applications, these parameters are placed behind the URL, separated by a question mark.
+	Example: http://localhost:5000/app/myApp?name=value
+	If this was the URL of your app, the following code would give you the string "value":
+		appParameter: "name"
+	In case you want to get parameters of another url, use the "urlGetParamter" function.
+}
+$appParameter=($name ? String) fun {name urlGetParameter appUrl}.

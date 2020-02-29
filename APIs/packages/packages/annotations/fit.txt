@@ -1,0 +1,8 @@
+#{
+	An annotation that causes an image to fit inside a container.
+	This means that the image keeps its aspect ratio and is displayed as big as possible, but without getting bigger than its container.
+	
+	Example:
+	uiContainer: @fit uiShowImageUrl: "yourImageUrl"
+}
+$fit = flag: "fit".

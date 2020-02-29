@@ -68,7 +68,7 @@
 	
 	//Searches for a package by name and loads it synchronously
 	function installPackage(provides){
-		GLang.log("Looking for name " + provides)
+		if (GLang.debug) GLang.log("Looking for name " + provides);
 		
 		
 		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){
@@ -123,14 +123,19 @@
 			this.registeredPackages.push({provides: names, scriptUrl: null})
 		};
 		
+		function installJs(fun){
+			//Tries to make "normal" javascript work as a calcit library, but it will probably never have all options a "real" calcit JS library can have.
+			var newThis = {};
+			fun.call(newThis);
+			for(property in newThis){
+				GLang.defaultRuntimeEnvironment.setInnerVariable(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
+			}
+		};
+		this.installJs = installJs;
+		
 		this.supportedLanguages = [
 			{langName:"js", langRunner:function(url, code){
-				//Tries to make "normal" javascript work as a calcit library, but it will probably never have all options a "real" calcit JS library can have.
-				var newThis = {};
-				Function(code).call(newThis);
-				for(property in newThis){
-					GLang.defaultRuntimeEnvironment.setInnerVariable(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
-				}
+				installJs(Function(code));
 			}},
 			{langName:"z", langRunner:function(url, x){GLang.eval(x,true)}},
 			{langName:"txt", langRunner:function(url, x){GLang.eval(x,true)}},

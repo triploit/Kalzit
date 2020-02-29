@@ -1,1 +1,0 @@
-$cssClass = {flag: ["css_class"];[x]}

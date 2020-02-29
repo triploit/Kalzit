@@ -1,0 +1,12 @@
+$jsonFile = appParameter: "input-file".
+!if (fileIsFile: jsonFile) {
+	$jsonParent = fileParent: jsonFile.
+
+	$packageObject = parseJson: fileContent: jsonFile.
+	$libraries = $libraries of packageObject.
+	(appParameter: "output-file") fileWrite "[" + ( "," strJoin {
+		"," strJoin objToJson each $provides of x.
+	} each libraries ) + "]".
+}. !else {
+	print: "The json file you specified is not a file! (--input-file)"
+}

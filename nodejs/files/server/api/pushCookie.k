@@ -13,7 +13,7 @@ userTokenExists ifElse {
 			print: "WARNING: The user " + userToken + " tried to push a password to the server. Response 2 will be given".
 			resultRef = "2" + strNewline + "No cookie named " + cookieName + " was found".
 		};{
-			("./nogit/users/data/" + userToken + "/cookie_" + urlEncodeParameter: cookieName + ".txt") fileWrite cookieValue.
+			("./nogit/users/data/v2/" + userToken + "/keys/" + urlEncodeParameter: cookieName) fileWrite cookieValue.
 			resultRef = "0".
 		}
 	}

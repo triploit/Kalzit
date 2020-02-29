@@ -5,7 +5,7 @@ $userTokenExists = false eq void eq $userToken = ($getHeader objFirstProperty _r
 
 ($startServing of _request): fileMime: "txt".
 userTokenExists ifElse {
-	$fname = ("./nogit/users/data/" + userToken + "/cookie_" + urlEncodeParameter: cookieName + ".txt").
+	$fname = ("./nogit/users/data/v2/" + userToken + "/keys/" + urlEncodeParameter: cookieName).
 	$cookieValue = ((fileIsFile: fname) & fileExists: fname) if {
 		fileContent: fname.
 	}.

@@ -1,0 +1,63 @@
+#{
+	An annotation that positions a UI element at the bottom of its container.
+	
+	Example:
+	@bottom uiText: "Text".
+}
+$bottom = flag: "bottom".
+
+#{
+	An annotation that positions a UI element at the top of its container.
+	
+	Example:
+	@top uiText: "Text".
+}
+$top = flag: "top".
+
+#{
+	An annotation that positions a UI element at the left side of its container, but still inside it.
+	
+	Example:
+	@left uiText: "Text".
+}
+$left = flag: "left".
+
+#{
+	An annotation that positions a UI element at the right side of its container, but still inside it.
+	
+	Example:
+	@right uiText: "Text".
+}
+$right = flag: "right".
+
+#{
+	An annotation that positions a UI element at the center (horizontal and vertical) of its container.
+	
+	Example:
+	@center uiText: "Text".
+}
+$center = flag: "center".
+
+#{
+	An annotation that positions a UI element at the center (horizontally) of its container.
+	
+	Example:
+	@horizontalCenter uiText: "Text".
+}
+$horizontalCenter = flag: "horizontalCenter".
+
+#{
+	An annotation that positions a UI element at the center (vertically) of its container.
+	
+	Example:
+	@verticalCenter uiText: "Text".
+}
+$verticalCenter = flag: "verticalCenter".
+
+$windowBottom = flag: "windowBottom".
+$windowTop = flag: "windowTop".
+$windowLeft = flag: "windowLeft".
+$windowRight = flag: "windowRight".
+$windowCenter = flag: "windowCenter".
+
+$front = flag: "front".

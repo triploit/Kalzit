@@ -7,7 +7,7 @@ $jsonFile = appParameter: "input-file".
 	(appParameter: "output-file") fileWrite ";" strJoin {
 		$scriptPath = jsonParent + "/packages/" + $script_url of x.
 		"GLang.packageManager.registerPrecompiledPackage([" + ("," strJoin {"} + ($provides of x) + {"}) + "]," +
-			(calcitCompile: fileContent: scriptPath) +
+			((fileContent: scriptPath) calcitCompile true `optimized`) +
 		")".
 	} each libraries.
 }. !else {
