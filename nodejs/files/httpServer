@@ -1,5 +1,6 @@
 #!/usr/bin/env kalzit
 `A http server that is specialized for the calcit web applications`
+
 print "Starting the server ...".
 print "Reading blacklist ...".
 $blacklist = strNewline strSplit fileContent: "./nodejs/files/server/blacklist.txt".
@@ -18,7 +19,22 @@ $findRedirect = $fname fun {
 }.
 
 $onClientConnect = ($_request fun {
-	$fname = "." + first: "?" strSplit $url of _request.
+	$fname = {
+		`Check for a folder, and if the requested file is a folder, search an index file`
+		$file = x.
+		print file.
+		!ifElse (fileIsFolder: file) {
+			`If the file is a folder`
+			$indexFiles = {"index." strStartsWith fileName: x} filter folderContent: file.
+			!ifElse (0 eq length: indexFiles){
+				`No index file found`
+				file
+			};{
+				`Return first index file`
+				"./" + first: indexFiles
+			}
+		};{file}.
+	}: "." + first: "?" strSplit $url propOf _request.
 	
 	$result = void.
 	$resultRef = reference: $result.
@@ -26,7 +42,7 @@ $onClientConnect = ($_request fun {
 	$asyncRef = reference: $async.
 	
 	!if ("./app/" strStartsWith fname) {
-		$singlefile = "true" eq $sf urlGetParameter $url of _request.
+		$singlefile = "true" eq $sf urlGetParameter $url propOf _request.
 		
 		$appName = "./app/" strRemove fname.
 		$appFileBase = !ifElse (fileIsFile: "apps/" + appName + ".redirect") {
@@ -38,9 +54,9 @@ $onClientConnect = ($_request fun {
 		$serveHtmlApp = $app fun {
 			print: "Trying to run  HTML app " + app.
 			asyncRef = true.
-			($startServing of _request): "text/html".
-			($writeFile of _request): app.
-	        do:($endServing of _request).
+			($startServing propOf _request): "text/html".
+			($writeFile propOf _request): app.
+	        do:($endServing propOf _request).
 		}.
 		
 		!ifElse (fileIsFile: appFileBase + "/" + appName + ".html"){
@@ -89,29 +105,39 @@ $onClientConnect = ($_request fun {
 		}
 	}.
 	
+	$languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
+	!if (fileIsFile: languageRunnerFile) {
+		print: "Trying to run a custom language with " + languageRunnerFile.
+		do:() fun fileContent: languageRunnerFile
+	}.
+	
 	$serveFile = $fname fun {
 		`Check blacklist`
 		!if (0 < sum: {x matches fname} each blacklist){
 			print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
-           	($startServing of _request): fileMime: "html".
-			($respondCode of _request): 404.
+           	($startServing propOf _request): fileMime: "html".
+			($respondCode propOf _request): 404.
 			_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
 		}.
 		`Find a file by name`
 		!else {
 			((fileIsFile: fname) & fileExists: fname) ifElse {
 				print: "Serving file " + fname.
-                ($startServing of _request): fileMime: fname.
-				($writeFile of _request): fname.
-                do:($endServing of _request).
+                !if ("/static/" strContains fname) {
+                	"Cache-Control" ($setHeader propOf _request) "public, max-age=31536000, immutable".
+                	"ETag" ($setHeader propOf _request) fileName: fname.
+                }.
+                ($startServing propOf _request): fileMime: fname.
+				($writeFile propOf _request): fname.
+                do:($endServing propOf _request).
 			};{
 				`Try finding a redirect`
 				print "Trying to find redirect for " + fname.
 				$redirect = findRedirect: fname.
 				!ifElse (void eq redirect) {
 					print: "Serving empty page for " + fname.
-	                ($startServing of _request): fileMime: "html".
-					($respondCode of _request): 404.
+	                ($startServing propOf _request): fileMime: "html".
+					($respondCode propOf _request): 404.
 					_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
 				};{
 					serveFile: redirect

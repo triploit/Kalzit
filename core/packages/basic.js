@@ -1,10 +1,7 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("each", {value:function(env, args){
-	var result = [];
-	
-	for(var i = 0; i < args[1].value.length; i++){
-		result.push(GLang.callObject(args[0], env, [args[1].value[i]]));
-	}
-	return {value:result};
+	return {value:args[1].value.map(
+		entry => GLang.callObject(args[0], env, [entry])
+	)}
 }})
 GLang.defaultRuntimeEnvironment.setInnerVariable("do", {value:function(env, args){
 	var params = [];

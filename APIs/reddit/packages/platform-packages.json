@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Generic APIs to work with Reddit media"
+	},
+	"libraries":[
+			{"provides":["reddit_feed_rss_dom", "reddit_feed_entry_doms", "reddit_feed_entry_contents", "reddit_feed_entry_urls", "reddit_content_image_urls", "reddit_feed_image_urls", "reddit_entry_contents", "reddit_entry_image_urls", "reddit_entry_urls", "reddit_feed_entry_urls_with_images", "reddit_entry_title"],  "scriptUrl":"redditFeeds.txt"},
+			{"provides":["reddit_sub_data", "reddit_sub_entries", "reddit_sub_entry_urls", "reddit_sub_images", "kmp_from_reddit_sub_image", "kmp_from_reddit_sub_images"], "scriptUrl":"subreddit.txt"}
+	]
+}

@@ -15,6 +15,7 @@ GLang.eval = function (text, disableRuntimeUpdates){
 		return result;
 	}catch(e){
 		GLang.disableRuntimeUpdates-=allowRuntimeUpdates;
+		console.error(e);
 		throw e;
 	}
 };

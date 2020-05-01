@@ -1,0 +1,2 @@
+$deprecated = ($info ? String) fun {["deprecated"];[info]}.
+$useInstead = ($_instead ? (List:String)) fun {["deprecated"];["Consider using one of these instead:" + strNewline + strNewline strJoin _instead]}

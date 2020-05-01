@@ -1,4 +1,4 @@
-uglifyjs $(echo ./packages/*.js) --output _min.js
+terser $(echo ./packages/*.js) --output _min.js
 
 folder="$(pwd)"
 cd ../../nodejs/files

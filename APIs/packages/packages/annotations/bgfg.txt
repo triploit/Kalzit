@@ -4,7 +4,8 @@ $backgroundColor = ($_color ? ColorString) fun {flag: ["backgroundColor"];[_colo
 #{Produces an annotation that sets the foreground color of an element, using the "flagForegroundColor" function}
 $foregroundColor = ($_color ? ColorString) fun {flag: ["foregroundColor"];[_color]} ? Annotation.
 
-$backgroundGradientTopToBottom = ($_colors ? (2 SizedList ColorString)) fun {flag: ["backgroundGradiendTopToBottom"];[_colors]}.
-$backgroundGradientLeftToRight = ($_colors ? (2 SizedList ColorString)) fun {flag: ["backgroundGradiendLeftToRight"];[_colors]}.
+$backgroundGradientTopToBottom = ($_colors ? (2 SizedList ColorString)) fun {flag: ["backgroundGradientTopToBottom"];[_colors]}.
+$backgroundGradientLeftToRight = ($_colors ? (2 SizedList ColorString)) fun {flag: ["backgroundGradientLeftToRight"];[_colors]}.
 
 $opacity = ($opac ? Float) fun {flag: ["opacity"];[opac]}.
+$borderColor = ($_color ? ColorString) fun {flag: ["borderColor"];[_color]} ? Annotation.

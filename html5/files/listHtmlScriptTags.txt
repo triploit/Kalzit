@@ -1,33 +1,23 @@
-$platforms = " " strSplit appParameter: "platforms".
+$platform = appParameter: "platform".
 $rootFolder = appParameter: "kalzit-root-folder".
 $libraryFile ? (default: "generated/_max.js") = appParameter: "library-file".
-$singlefile ? Boolean = appParameter: "singlefile".
+$forSkeleton ? Boolean = appParameter: "for-skeleton".
 
-$relativeScriptPaths = "/core/files/_min.js" ; `joined list` ;/ ($platform fun {
+$coreLanguageFile = "/core/files/_min.js".
+$relativeScriptPaths = coreLanguageFile ; `joined list` ;/
 	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/packageManagerScripts.txt");
-	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/platformScripts.txt")
-}) each platforms.
+	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/platformScripts.txt").
 
-$generateScriptTag = !ifElse (singlefile) {
-		`Use uglifyjs`
-		$path fun {
-			{<script type="text/javascript">} + (runCommand "uglifyjs " + rootFolder + path) + {</script>}
-		}
-	};{
-		`Embed the script file using the src attribute`
-		$path fun {
-			{<script type="text/javascript" src="} + path + {"></script>}
-		}
-	}.
+$generateScript = $path fun {
+	runCommand "terser " + rootFolder + path
+}.
 
-print each generateScriptTag each relativeScriptPaths.
-
-
-`Generate package manager initialization`
-!if (singlefile) {
-	print '<script type="text/javascript">GLang.packageManager.installJs(function(){' + (fileContent: rootFolder + "/" + libraryFile) + '});</script>'
+$topScript = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
+!if (forSkeleton) {
+	(rootFolder + "/generated/scriptTagListingTempFile.js") fileWrite topScript.
+	print: "<script>" + (generateScript: "/generated/scriptTagListingTempFile.js") + "</script>$scriptTags$"
 }. !else {
-	print {<script type="text/javascript">}.
-	print {GLang.packageManager.initialize(["/} + libraryFile + {"]);}.
-	print {</script>}.
+	$bottomScript = ';GLang.packageManager.installJs(function(){' + (fileContent: rootFolder + "/" + libraryFile) + '});'.
+	(rootFolder + "/generated/scriptTagListingTempFile.js") fileWrite topScript + bottomScript.
+	print: "<script>" + (generateScript: "/generated/scriptTagListingTempFile.js") + "</script>"
 }

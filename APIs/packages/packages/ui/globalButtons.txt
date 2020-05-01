@@ -32,7 +32,7 @@ do:{
 
 
 $uiAccountButton = () fun {@fit (() fun {
-	!if (void eq storageLoadString: "calcitUserToken") {
+	!if (void eq storageLoadString: "calcitSession") {
 		openSubApp: $login
 	}.
 	!else {
@@ -41,7 +41,7 @@ $uiAccountButton = () fun {@fit (() fun {
 }) uiImageButton userOutlineImageUrl}.
 
 $uiUserConfigButton = () fun {@fit  (() fun {
-	!if (void eq storageLoadString: "calcitUserToken") {
+	!if (void eq storageLoadString: "calcitSession") {
 		popupMessage: "You are not logged in"
 	}.
 	!else {
@@ -50,7 +50,7 @@ $uiUserConfigButton = () fun {@fit  (() fun {
 }) uiImageButton userImageUrl}.
 
 $uiUserButton = () fun {
-	!ifElse (void eq storageLoadString: "calcitUserToken") {
+	!ifElse (void eq storageLoadString: "calcitSession") {
 		do:uiAccountButton
 	};{
 		do:uiUserConfigButton.

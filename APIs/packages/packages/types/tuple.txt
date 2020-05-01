@@ -1,4 +1,12 @@
-$tuple = ($_types ? (List:Any)) fun {
+#{
+	This type function allows you to describe a list in which every item has its own type.
+	You could describe a list where the first item is an integer and the second one is a boolean:
+		
+	(Tuple: Int;Boolean)
+	
+	As you can see, the first parameter of the tuple function is a list of type functions.
+}
+$tuple = ($_types ? (List:Function)) fun {
 	($_values ? (List:Any)) fun {
 		{(x at _types): x at _values} each 0 range (length: _types) - 1
 	}

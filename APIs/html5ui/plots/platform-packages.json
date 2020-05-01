@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"UI APIs for plotting (Graphs, Points, ...)"
+	},
+	"libraries":[
+		{"provides":["ui_plot_graph", "ui_plot_point"], "scriptUrl":"uiPlot.js"}
+	]
+}

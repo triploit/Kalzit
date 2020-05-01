@@ -1,8 +1,15 @@
-GLang.validateAnnotation = function(annotation){
-	if(!(annotation.value instanceof Array && annotation.value.length === 2)){
-		throw new Error("An annotation needs to be an array with two values - " + annotation.value + " does not fit this rule");
+;GLang.getAnnotationType = function(annotation){
+	//Since 2020-04-08, functions are acceptable annotations as well
+	var display = annotation.display;
+	if(display === "string" || display === "function"){
+		return "function";
 	}
-	if(!(typeof(annotation.value[0].value) === "string")) throw new Error("The first item of an annotation array has to be a string - " + annotation.value[0].value + " does not fit this rule");
+	
+	//If not a possible function, check for an array of length 2
+	if(!(annotation.value instanceof Array && annotation.value.length === 2)){
+		return "invalid";
+	}
+	return "array"
 }
 
 GLang.applyFlag = function(actualValue, flag) {
@@ -12,42 +19,42 @@ GLang.applyFlag = function(actualValue, flag) {
 	GLang.callObject(actualFunction, GLang.defaultRuntimeEnvironment, [GLang.at(1, flag), actualValue]);
 }
 
-;GLang.addAnnotation = function(actualValue, annotation){
-	GLang.validateAnnotation(annotation);
-	
+GLang.applyArrayAnnotation = function(actualValue, annotation, defaultBehavior){
 	if(annotation.value[0].value === "flag"){
-		GLang.flagQueue.unshift(function(){
-			//Automatically apply flag annotations
-			GLang.applyFlag(actualValue, annotation.value[1])
-		})
-		if(!GLang.useLazyFlags) GLang.runFlagQueue();
+		GLang.applyFlag(actualValue, annotation.value[1]);
 		return;
 	}
 	
-	actualValue.annotations = actualValue.annotations || [];
-	actualValue.annotations.push(annotation);
+	defaultBehavior(actualValue, annotation);
+}
+
+GLang.applyAnnotation = function(actualValue, annotation, defaultBehavior){
+	switch(GLang.getAnnotationType(annotation)){
+		case "function": GLang.callObject(annotation, GLang.defaultRuntimeEnvironment, [actualValue]); break; //Use the annotation as a function
+		case "array": GLang.applyArrayAnnotation(actualValue, annotation, defaultBehavior); break;
+		default: throw new Error("An annotation needs to be an array with two values, or a function - " + annotation.value + " does not fit this rule");
+	}
+}
+
+GLang.addAnnotation = function(actualValue, annotation){
+	GLang.applyAnnotation(actualValue, annotation, function(){
+		//Behavior for "normal" (not flag) array annotations
+		actualValue.annotations = actualValue.annotations || [];
+		actualValue.annotations.push(annotation);
+	})
 };
 ;GLang.setAnnotation = function(actualValue, annotation){
-	GLang.validateAnnotation(annotation)
-	
-	if(annotation.value[0].value === "flag"){
-		GLang.flagQueue.unshift(function(){
-			//Automatically apply flag annotations
-			GLang.applyFlag(actualValue, annotation.value[1])
-		})
-		if(!GLang.useLazyFlags) GLang.runFlagQueue();
-		return;
-	}
-	
-	actualValue.annotations = actualValue.annotations || [];
-	for(var i = 0; i < actualValue.annotations.length; i++){
-		if(GLang.eq(actualValue.annotations[i].value[0].value, annotation.value[0].value)){
-			actualValue.annotations[i] = annotation;
-			return;
+	GLang.applyAnnotation(actualValue, annotation, function(){
+		//Behavior for "normal" (not flag) array annotations
+		actualValue.annotations = actualValue.annotations || [];
+		for(var i = 0; i < actualValue.annotations.length; i++){
+			if(GLang.eq(actualValue.annotations[i].value[0].value, annotation.value[0].value)){
+				actualValue.annotations[i] = annotation;
+				return;
+			}
 		}
-	}
-	
-	actualValue.annotations.push(annotation);
+		actualValue.annotations.push(annotation);
+	})
 };
 ;GLang.getFirstAnnotation = function(actualValue, annotationKey){
 	//actualValue.annotations = actualValue.annotations || [];

@@ -2,7 +2,11 @@ var fs = require('fs');
 var path = require("path");
 
 this.fileContent = function(filePath){
-	return fs.readFileSync(filePath, "utf8");
+	try{
+		return fs.readFileSync(filePath, "utf8");
+	}catch(e){
+		return null;
+	}
 }
 this.fileContentBytes = function(filePath){
 	var buffer = fs.readFileSync(filePath);

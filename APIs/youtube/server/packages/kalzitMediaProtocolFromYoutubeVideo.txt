@@ -1,0 +1,33 @@
+$kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVideoId) fun {
+	$thumbnailObject = ($default;$highres;$lowres) mingle "https://img.youtube.com/vi/" + id + "/" + ("mqdefault.jpg";"maxresdefault.jpg";"default.jpg").
+	
+	$baseObject =
+		[$link;"https://www.youtube.com/watch?v=" + id];
+		[$title;youtubeVideoTitle: id];
+		["kind";"video"];
+		["protocolVersion";"2.0.0"];
+		[$thumbnail;[thumbnailObject]];
+		["html";{<iframe src="https://www.youtube.com/embed/} + id + {"></iframe>}].
+}.
+
+$kalzitMediaProtocolFromYoutubeUrl = (($url ? String) fun {
+	$ids = youtubeVideoIdsByUrl: url.
+	"{" + {"link":"} + url + {","title":"} + (urlTitle: url) + {","kind":"collection","protocolVersion":"2.0.0","collection":[} + ("," strJoin objToJson each kalzitMediaProtocolFromYoutubeVideo each ids) + {]} + "}".
+}) cachedFun autoClearedCache: hoursToMillis: 2.
+
+
+`Implementations without titles`
+$kmpFromYoutubeVideoNoTitles = ($id ? YoutubeVideoId) fun {
+	$thumbnailObject = ($default;$highres;$lowres) mingle "https://img.youtube.com/vi/" + id + "/" + ("mqdefault.jpg";"maxresdefault.jpg";"default.jpg").
+	
+	$baseObject =
+		[$link;"https://www.youtube.com/watch?v=" + id];
+		["kind";"video"];
+		["protocolVersion";"2.0.0"];
+		[$thumbnail;[thumbnailObject]];
+		["html";{<iframe src="https://www.youtube.com/embed/} + id + {"></iframe>}].
+}.
+$kmpFromYoutubeUrlNoTitles = (($url ? String) fun {
+	$ids = youtubeVideoIdsByUrl: url.
+	"{" + {"link":"} + url + {","kind":"collection","protocolVersion":"2.0.0","collection":[} + ("," strJoin objToJson each kmpFromYoutubeVideoNoTitles each ids) + {]} + "}".
+}) cachedFun autoClearedCache: hoursToMillis: 2.

@@ -14,5 +14,5 @@ $horizontalCenter = cssClass: "k-horizontal_center".
 $verticalCenter = cssClass: "k-vertical_center".
 $front = cssClass: "k-front".
 
-$dynamicSize = cssClass: "k-dynamic_size".
+$dynamicSize = {}.
 $fit = cssClass: "k-fit".

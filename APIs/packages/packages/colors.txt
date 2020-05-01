@@ -31,25 +31,25 @@ $ColorString = ($_color) fun {
 } ? String.
 
 #{Constant for the color red}
-$red = 255;0;0;255.
+$red = 255;0;0.
 
 #{Constant for the color green}
-$green = 0;255;0;255.
+$green = 0;255;0.
 
 #{Constant for the color blue}
-$blue = 0;0;255;255.
+$blue = 0;0;255.
 
 #{Constant for the color yellow}
-$yellow = 255;255;0;255.
+$yellow = 255;255;0.
 
 #{Constant for the color magenta}
-$magenta = 255;0;255;255.
+$magenta = 255;0;255.
 
 #{Constant for the color cyan}
-$cyan = 0;255;255;255.
+$cyan = 0;255;255.
 
 #{Constant for the color black}
-$black = 0;0;0;255.
+$black = 0;0;0.
 
 #{Constant for the color white}
-$white = 255;255;255;255.
+$white = 255;255;255.

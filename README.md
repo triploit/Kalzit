@@ -1,40 +1,42 @@
+Kalzit - A platform for creating user- and privacy-focused web applications in an easy way.
+
 #  Introduction
 
-Kalzit is a project that aims to make coding less annoying, specifically for the web. Other platforms might follow.
-It contains a programming language that is designed to be a companion to other popular languages, like JavaScript.
-However, it is still possible to create stand-alone apps with it.
+Kalzit has started with this idea: Coding is annoying. The problem is that it is also very useful, and in a world where most people use a computer, the results of coding are a big part of peoples lives - it is not going to go away very soon.
+But coding is still annoying. So the idea of Kalzit was to create a way to make it less annoying.
 
-Other than that, you can find a standard API which makes it relatively easy to work with media, the internet and to create graphical user interfaces. There are also a few demo apps you might be interested in, as well as a web server to host them.
+So that is the first part of what Kalzit is: A programming language, complete with a standard library that makes tasks like "do a web search", "store data on the device" or "support multiple users with their own accounts and synchronize their data between devices" very easy.
+This language is focused on being easy to learn, creating graphical user interfaces and working with media. And it avoids some annoyances of other languages.
 
-To use Kalzit in its current form, you need a UNIX (usually Linux or macOS) machine with [NodeJS](https://nodejs.org) installed.
+But Kalzit is something else as well: privacy-focused. Privacy is a thing that many people seem to have given up - or rather payed as a price for online services.
+Sadly, there are not many other options. The choice seems to be "you upload your live into the cloud and get convenience" or "you set up your own thing, which takes literally years, but you own your data".
 
-A little warning before you start: Kalzit is probably not stable yet. But that should improve over time. Feel free to share any issues.
-
-# Setup (TL;DR at the bottom)
-
-If you want to give Kalzit a try, open a terminal, navigate to a folder and clone this repository:
-
-```
-git clone https://www.github.com/triploit/Kalzit
-```
-
-Navigate into the created `Kalzit` folder. Now, you just need to install some NodeJS packages (these are not included by default to make the project smaller and the packages up-to-date on your device).
-You might not need all of them right now, but it will save you some time later. Here is the script:
-```
-bash ./install.sh
-```
-
-Now that all of the libraries are ready, you can go ahead and start the development server. Navigate to the `nodejs/files` folder and run this:
-```
-bash ./run.sh
-```
-
-The server should be running now!
+I wanted to own my data, but I did not want to take years to get there.
+So this is the second big part of Kalzit: It is an easy way to set up a little web server for your home. And just for that. All devices in your home can see it, and others can not.
+The problem is that there are currently not many web applications that run on it. I am developing a few of them, but none are ready for release yet. But the idea is still the same. However, you could try to create some yourself - with Kalzit, is it not as hard as you think.
 
 
-## TL;DR
+So that is Kalzit today. If you are interested in plans for the future, [here you go](docs/future.md)
 
-Run this from the terminal:
+# Setup
+
+You can easily set up Kalzit on a device running Linux or macOS.
+Just navigate to the "releases" tab on GitHub and look at the latest release.
+Here you can download an installer - you just have to choose between Linux and macOS, but that should not bee too hard.
+
+Download the installer and put the installer application into a folder - this is where Kalzit will be installed to. Then you can simply run it.
+
+On macOS, just double-click on the installer app.
+Tip for Linux users: The easiest way to run the installer is to make it executable and then drag it into an open Terminal window. Of course, you can write down the entire file path yourself as well. After that, just press enter - the setup will be done for you.
+
+
+After that, you should se a few more things in your folder. One of them is called "KalzitStarter". Just run that to start your own Kalzit server! The steps are the same as with the installer.
+
+Kalzit should be running now!
+
+## (TL;DR - for developers)
+
+You need to have NodeJS installed. Then, run this from the terminal:
 ```
 git clone https://www.github.com/triploit/Kalzit
 cd ./Kalzit

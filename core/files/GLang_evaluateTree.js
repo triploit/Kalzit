@@ -44,7 +44,7 @@ GLang.evaluateSentenceFragment = function(fragment, env){
 		case "num": return {value:fragment.num};
 		case "name": return env.resolveName(fragment.name);
 		case "parentheses": return GLang.evaluateTree(fragment.parentheses, env);
-		case "array": return GLang.arrayValue([GLang.evaluateTree(fragment.array, env)]);
+		case "array": return {value:[GLang.evaluateTree(fragment.array, env)]};
 		case "special": return env.resolveName(fragment.special);
 		default: console.error(fragment);
 	}

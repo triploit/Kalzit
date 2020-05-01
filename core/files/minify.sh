@@ -1,1 +1,1 @@
-uglifyjs $(< ../bootstrap/platformScripts.txt) --mangle --output _min.js
+terser $(< ../bootstrap/platformScripts.txt) --mangle --output ./_min.js

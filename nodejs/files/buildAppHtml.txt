@@ -1,24 +1,61 @@
 $app = appParameter: "kalzit-file".
+$appFolder = fileParent: app.
 $rootFolder = appParameter: "kalzit-root-folder".
 $transpile ? (false default Boolean) = appParameter: "transpile".
+$platform ? (default: "html5") = appParameter: "platform".
+
+print: "Trying to build Kalzit app " + app.
 
 `parse JSON configuration`
 $configPath = (".k";".json") strReplace app.
 $configObject = parseJson: !if (fileIsFile: configPath) { fileContent: configPath }.
 
 `define options and default values for them`
-$fullLibrary ? (default: true) = $full_library `TODO: Make other valid name forms work` of configObject.
-$skeleton = !ifElse (fullLibrary) {
-		rootFolder + "/generated/_browser_app_singlefile.html"
+$excludedLibraries = $excludedLibraries `TODO: Make other valid name forms work` objFirstProperty configObject.
+$appcacheManifest = $appcacheManifest propOf configObject.
+$appleTouchIcon = $appleTouchIcon propOf configObject.
+
+$skeletonCode = !ifElse (void eq excludedLibraries) {
+		fileContent: rootFolder + "/generated/_browser_app_singlefile.html"
 	};{
-		rootFolder + "/generated/_browser_app_singlefile_baselib.html"
+		$usedLibraries = 
+			(rootFolder + "/" + {not: x listContains excludedLibraries} filter parseJson: fileContent: rootFolder + "/" + platform + "/usable-libraries.json");
+			!if (fileIsFile: (fileParent: app) + "/doNotTouch/_min.js") {
+				(fileParent: app) + "/doNotTouch"
+			}.
+			
+		$scriptTags = "<script>" + (";" strJoin {
+			print: "Adding not-excluded library " + x.
+			"GLang.packageManager.installJs(function(){" + (fileContent: x + "/_min.js") + "})"
+		} each usedLibraries) + ";</script>".
+		
+		$withoutAppcache = ("$scriptTags$";scriptTags) strReplace fileContent: rootFolder + "/generated/_browser_app_skeleton.html".
+		
+		$withoutAppleIcon = !ifElse (void eq appcacheManifest) {
+			withoutAppcache	
+		};{
+			("<html>"  ;  '<html manifest="' + appcacheManifest + '">')
+				strReplace withoutAppcache
+		}.
+		!ifElse (void eq appleTouchIcon) {
+			withoutAppleIcon
+		};{
+			("<head>" ; '<head><link rel="apple-touch-icon" href="' + appleTouchIcon + '" />')
+				strReplace withoutAppleIcon
+		}
 	}.
 
-print: "Trying to build Kalzit app " + app.
-$appScript = !ifElse (transpile) {
+$translationMapFile = appFolder + "/doNotTouch/translationMap.json".
+$prefix = !ifElse (fileIsFile: translationMapFile) {
+	"GLang.packageManager.installJs(function(){this.stringAssetMap=" + (fileContent: translationMapFile) + "})"
+};{
+	""
+}.
+
+$appScript = prefix + ";" + !ifElse (transpile) {
 		';(' + (calcitCompileJsFunction: (fileContent: app)) + ')(GLang.defaultRuntimeEnvironment);'.
 	};{
 		'GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
 	}.
 
-((".k";".html") strReplace app) fileWrite ("$app$";appScript) strReplace fileContent: skeleton.
+((".k";".html") strReplace app) fileWrite ("$app$";appScript) strReplace skeletonCode.

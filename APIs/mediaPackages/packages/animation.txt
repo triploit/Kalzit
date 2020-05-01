@@ -3,7 +3,7 @@
 	An animation is a media object, so you can play it like this:
 		play: animation.
 	By default, the animation will not do anything. To change that, you could do something like:
-		($setOnProgress of animation): {`your action`}.
+		($setOnProgress propOf animation): {`your action`}.
 	To learn more about controllable media, please look at the "MediaController" function.
 }
 $animation = ($duration ? Float) fun {
@@ -46,7 +46,7 @@ $animation = ($duration ? Float) fun {
 	}];
 	[$pause;() fun {
 		`Pause the animation`
-		do:$exit of looper.
+		do:$exit propOf looper.
 		looperRef = void.
 	}]
 } ? MediaController.

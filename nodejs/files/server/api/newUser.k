@@ -1,4 +1,5 @@
-$dataFolder = "./nogit/users/data/v2/".
+$structureVersion = "v3".
+$dataFolder = "./nogit/users/data/" + structureVersion + "/".
 
 $ensureUniqueGuid = !fun () {
 	$try = do:generateGuid.
@@ -14,14 +15,17 @@ $userPassword = ($getHeader objFirstProperty _request): "kalzit-user-password".
 ((void eq userName) | (void eq userPassword)) ifElse {
 	resultRef = "1" + strNewline + "The headers 'kalzit-user-name' and 'kalzit-user-password' need to be set.".
 };{
-	(fileExists: "./nogit/users/plain/v2/" + urlEncodeParameter: userName) ifElse {
+	(fileExists: "./nogit/users/plain/" + structureVersion + "/" + urlEncodeParameter: userName) ifElse {
 		resultRef = "2" + strNewline + "A user with the given name exists already."
 	};{
-		fileCreateFolders: "./nogit/users/plain/v2".
-		("./nogit/users/plain/v2/" + urlEncodeParameter: userName) fileWrite ($guid = (do:ensureUniqueGuid)) + strNewline + urlEncodeParameter: userPassword.
+		fileCreateFolders: "./nogit/users/plain/" + structureVersion.
+		("./nogit/users/plain/" + structureVersion + "/" + urlEncodeParameter: userName) fileWrite ($guid = (do:ensureUniqueGuid)).
 		fileCreateFolders: dataFolder.
 		fileCreateFolders: dataFolder + guid.
 		fileCreateFolders: dataFolder + guid + "/keys".
+		fileCreateFolders: dataFolder + guid + "/password".
+		(dataFolder + guid + "/password/salt.txt") fileWrite $salt = generateSalt: 512.
+		(dataFolder + guid + "/password/hash.txt") fileWrite userPassword shaFiveTwelveHashWithSalt salt.
 		resultRef = "0" + strNewline + guid.
 	}
 }

@@ -1,5 +1,5 @@
 npm install follow-redirects xmldom
-npm install -g uglify-js
+npm install -g terser
 
 #nogit
 mkdir nogit

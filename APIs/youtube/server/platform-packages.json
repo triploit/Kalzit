@@ -1,0 +1,18 @@
+{
+	"info":{
+		"description":"Libraries for YouTube access"
+	},
+	"libraries":[
+		{"provides":["youtube_embed_url", "youtube_video_url", "youtube_channel_rss_url", "youtube_user_rss_url", "youtube_playlist_rss_url", "youtube_watch_url", "youtube_video_watch_url"],  "scriptUrl":"youtubeUrls.txt"},
+		{"provides":["youtube_channel_rss_dom", "youtube_user_rss_dom", "youtube_playlist_rss_dom", "youtube_video_dom"],  "scriptUrl":"youtubeDom.txt"},
+		{"provides":["youtube_channel_rss_dom_async", "youtube_user_rss_dom_async", "youtube_playlist_rss_dom_async", "youtube_video_dom_async"],  "scriptUrl":"youtubeDomAsync.txt"},
+		{"provides":["youtube_user_video_doms", "youtube_user_video_ids", "youtube_user_video_thumbnails", "youtube_user_videos"],  "scriptUrl":"youtubeUser.txt"},
+		{"provides":["youtube_channel_video_doms", "youtube_channel_video_ids", "youtube_channel_video_thumbnails", "youtube_channel_videos"],  "scriptUrl":"youtubeChannel.txt"},
+		{"provides":["youtube_user_video_doms_async", "youtube_user_video_ids_async", "youtube_user_video_thumbnails_async", "youtube_user_videos_async"],  "scriptUrl":"youtubeUserAsync.txt"},
+		{"provides":["youtube_video_thumbnail", "youtube_video_author", "youtube_video_author_name", "youtube_video_id_from_watch_url", "youtube_video_ids"],  "scriptUrl":"youtubeVideo.txt"},
+		{"provides":["youtube_video_title"],  "scriptUrl":"youtubeVideoTitle.txt"},
+		{"provides":["youtube_search_videos", "youtube_search_video_ids"],  "scriptUrl":"youtubeSearch.txt"},
+		{"provides":["youtube_video_ids_by_url"],  "scriptUrl":"youtubeVideoIdsByUrl.txt"},
+		{"provides":["kalzit_media_protocol_from_youtube_video", "kalzit_media_protocol_from_youtube_url", "kmp_from_youtube_url_no_titles", "kmp_from_youtube_video_no_titles"],  "scriptUrl":"kalzitMediaProtocolFromYoutubeVideo.txt"}
+	]
+}

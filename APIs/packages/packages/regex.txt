@@ -1,1 +1,4 @@
-$matches=($x;$y) fun {0 < length: x match y}.
+$isMatch=($regex ; $stringToMatch) fun {0 < length: regex match stringToMatch}.
+
+@(useInstead: "isMatch")
+$matches = {x isMatch y}.

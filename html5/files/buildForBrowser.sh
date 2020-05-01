@@ -6,7 +6,7 @@ options="${@:3}"
 echo "<html><head>" > "$out"
 
 #Script tags
-bash "html5/files/listHtmlScriptTags.sh" --platforms "APIs/html5ui APIs/html5js html5 APIs/packagesJs APIs/packages" $options >> "$out"
+bash "html5/files/listHtmlScriptTags.sh" --platform html5 $options >> "$out"
 
 #Styling
 echo "<style>" >> "$out"

@@ -291,10 +291,9 @@
 		optimized = optimize;
 		
 		var state = waiting();
-		var tokens = GLang.tokenize(string);
-		for(var i = tokens.length - 1; i >= 0; i--){
-			state = state.next(tokens[i]);
-		}
+		var state = GLang.tokenize(string).concat(state).reverse().reduce(
+			(state, token) => state.next(token)
+		);
 		state = state.group ? state.group : [state];
 		
 		return makeSentences(state);

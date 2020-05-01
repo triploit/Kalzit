@@ -2,32 +2,33 @@ rootFolder="$(pwd)"
 appSkeleton="$(pwd)/_browser_app_singlefile.html"
 cd ./apps
 appFolder="$(pwd)"
-cd ../nodejs/files
-scriptPath="$(pwd)/buildAppHtml.txt"
-
-arguments="$@"
-
-build_k_file () {
-	file=$1
-	bash run.sh "$scriptPath" --kalzit-file "$file" --kalzit-root-folder "$rootFolder" $arguments
-	baseName="${file%.k}"
-	shasum "$baseName.html" | awk '{ print $1 }' > "$baseName.shasum"
-}
+arguments=$@
 
 build_all_k_files_in_folder () {
 	for file in $(find "$1" -type f -name "*.k")
 	do
-		build_k_file "$file"
+		bash "$rootFolder/buildKalzitFile.sh" "$file" "$rootFolder" $arguments
 	done
 }
 
 build_all_k_files_in_folder "$appFolder"
 
 #Look for .redirect files in /apps
-for redirect in $(find "$appFolder" -type f -name "*.redirect")
+for redirect in $(find "$appFolder" -type f -name "*.redirect" -or -type d)
 do
-	redirectedFile=$(cat "$redirect")
+	if [ -f "$redirect" ]; then
+		redirectedFile=$(cat "$redirect")
+	else
+		redirectedFile="$redirect"
+	fi
 	if [ -e "$redirectedFile" ]; then
-	   build_all_k_files_in_folder "$redirectedFile"
+		#Check if a custom build script exists
+		if [ -e "$redirectedFile/build.sh" ]; then
+			echo "Running custom build script for app '$redirectedFile/build.sh'"
+			cd "$redirectedFile"
+			bash ./build.sh
+		else
+			build_all_k_files_in_folder "$redirectedFile"
+		fi
 	fi
 done

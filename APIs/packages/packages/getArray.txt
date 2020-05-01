@@ -1,1 +1,1 @@
-$getArray = ($_list ? ModifiableList) fun {do: $getArray of _list}
+$getArray = ($_list ? ModifiableList) fun {do: $getArray propOf _list}

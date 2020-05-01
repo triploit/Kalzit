@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"HTML5 APIs to work with Twitch media"
+	},
+	"libraries":[
+		{"provides":["ui_twitch_channel_player", "ui_twitch_video_player", "ui_twitch_collection_player"], "scriptUrl":"twitchPlayer.js"}
+	]
+}

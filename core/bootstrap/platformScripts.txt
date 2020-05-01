@@ -4,8 +4,6 @@ GLang_tokenize_v2.js
 treeGenerator_v2.js
 variableScope.js
 GLang_callObject.js
-GLang_array.js
-GLang_arrayValue.js
 GLang_addAnnotation.js
 GLang_getType.js
 GLang_functionFromString.js

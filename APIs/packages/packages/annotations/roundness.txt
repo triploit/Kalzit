@@ -1,2 +1,41 @@
+#{
+	This annotation rounds the corners of a UI element.
+	How much of it gets round is specified by a percentage.
+	
+	The effect is most easily shown with a square.
+	A rectangular UI element could be created like this:
+	
+	$rect = @(backgroundColor red) @(pxWidth 200) @(pxHeight 200) uiContainer: ().
+	
+	If we want to add rounded corners, and take up 10 percent of each side to do it, we could write this:
+	
+	@(percentRoundness 10) rect.
+	
+	To make this more extreme, we can also make the square into a circle.
+	This can be done by making 100 percent of each side into a rounded thing:
+		
+	@(percentRoundness 100) rect.
+	
+	It is important to note that this annotation does not grant that the rounded corners look "evenly" rounded.
+	To understand this better, you should also try this code - which does use a rectangle with longer and shorter sides:
+		
+	@(percentRoundness 30) @(backgroundColor red) @(pxWidth 200) @(pxHeight 300) uiContainer: ().
+	
+	The absolute size of the corners does scale with the element - use @pxRoundness to prevent that.
+}
 $percentRoundness = {flag: ["percentRoundness"];[x]}.
+
+#{
+	This annotation rounds the corners of a UI element.
+	The radius of the rounded corners is defined by a pixel count.
+	
+	If you want to add nice rounded corners to any graphical element, you can do this:
+	
+	@(pxRoundness 10) myElement.
+	
+	Now, if your element is 20 pixels wide and tall, it will look like a little circle.
+	If it is bigger, only the corners will appear rounded.
+	
+	The absolute size of the corners does not scale with the element - use @percentRoundness for that.
+}
 $pxRoundness = {flag: ["pxRoundness"];[x]}.

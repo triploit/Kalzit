@@ -1,3 +1,14 @@
+#{
+	Takes a piece of code written in Kalzit and converts much of it to JavaScript.
+	This makes the code execution a little bit faster on modern browsers.
+	
+	At the moment, however, the conversion is really (really!) slow, so you should only use this function if there is much time.
+	Also, you will still need the Kalzit runtime environment loaded to make the generated code actually work. It is not a standalone script!
+	
+	To transpile a simple "Hello World" program to JavaScript, you can do this (of course, it works with more complex code as well):
+		
+	calcitCompileJsFunction: {print: "Hello World"}.
+}
 $calcitCompileJsFunction = !{
 	`Create basic tree from code`
 	$createTree = $code fun {
@@ -162,8 +173,8 @@ $calcitCompileJsFunction = !{
 	
 	`Create function with environment variables (env, c, rn, str)`
 	$jsDefinitions = {
-		var c = (args, obj) => GLang.callObject(obj, env, args);
-		var rn = n => env.resolveName(n);
+		function c(args, obj){return GLang.callObject(obj, env, args)};
+		function rn(n){return env.resolveName(n)};
 		function str(s){
 			var str = GLang.stringValue(s);
 			str.environment = env;
@@ -176,4 +187,4 @@ $calcitCompileJsFunction = !{
 		$jsOutputBase = compileTreeToJsBase: createTree: code.
 		"function(env){" + jsDefinitions + jsOutputBase + "}"
 	}
-}.
+}).

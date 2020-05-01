@@ -7,6 +7,11 @@
 	},
 	"libraries":[
 		{"provides":["http_server", "https_server"],  "scriptUrl":"httpServer.js"},
+		{"provides":["http_plain_text_server", "http_html_server", "http_headless_text_server"],  "scriptUrl":"httpServer/httpTextServer.txt"},
+		{"provides":["http_plain_text_server_bytes", "http_html_server_bytes", "http_headless_text_server_bytes"],  "scriptUrl":"httpServer/httpTextServerBytes.txt"},
+		{"provides":["http_plain_text_server_raw", "http_html_server_raw", "http_headless_text_server_raw"],  "scriptUrl":"httpServer/httpTextServerRaw.txt"},
+		{"provides":["http_end_serving_bytes"],  "scriptUrl":"httpServer/httpEndServingBytes.txt"},
+		{"provides":["http_end_serving_raw"],  "scriptUrl":"httpServer/httpEndServingRaw.txt"},
 		{"provides":["load_global_async", "load_global", "load_global_raw"],  "scriptUrl":"load.js"},
 		{"provides":["file_content", "file_content_bytes", "file_content_raw", "file_content_async", "folder_content", "folder_content_async", "file_exists", "file_is_folder", "file_is_file", "file_write", "file_create_folder", "file_delete"],  "scriptUrl":"filesystem.js"},
 		{"provides":["str_raw"],  "scriptUrl":"strRaw.js"},
@@ -16,6 +21,7 @@
 		{"provides":["app_parameter"],  "scriptUrl":"appParameter.js"},
 		{"provides":["get_first_url_appearance"],  "scriptUrl":"getFirstUrlAppearance.txt"},
 		{"provides":["youtube_video_title", "youtube_video_title_async"],  "scriptUrl":"youtubeClient/youtubeVideoTitle.txt"},
-		{"provides":["instagram_user_rss_content_string", "youtube_url_rss_content_string", "youtube_rss_feed_cache", "youtube_url_rss_content_string_async"],  "scriptUrl":"rssFeedGeneration.txt"}
+		{"provides":["instagram_user_rss_content_string", "youtube_url_rss_content_string", "youtube_rss_feed_cache", "youtube_url_rss_content_string_async"],  "scriptUrl":"rssFeedGeneration.txt"},
+		{"provides":["md_five_hash", "sha_five_twelve_hash_with_salt", "generate_salt"],  "scriptUrl":"hashing.js"}
 	]
 }

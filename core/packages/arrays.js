@@ -10,3 +10,9 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("length", {value:function(env, 
 		return {value:1};
 	}
 }});
+GLang.defaultRuntimeEnvironment.setInnerVariable("listContains", {value:function(env, args){
+	var array = args[1];
+	var entry = args[0];
+	
+	return array.value.some(value => GLang.eq(value.value, entry.value)) ? {value:1} : {value:0}
+}});

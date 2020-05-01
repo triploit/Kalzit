@@ -2,7 +2,11 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("pmListRegisteredPackages", {va
 	return GLang.wrapJsToValue(GLang.packageManager.registeredPackages);
 }});
 GLang.defaultRuntimeEnvironment.setInnerVariable("pmListInstalledNames", {value:function(){
-	return GLang.wrapJsToValue(GLang.defaultRuntimeEnvironment.innerVariables.map(function(v){return v.varName}));
+	var result = [];
+	for(entry in GLang.defaultRuntimeEnvironment){
+		if(entry.startsWith("kv_"))	result.push(entry.substring(3));
+	}
+	return GLang.wrapJsToValue(result);
 }});
 GLang.defaultRuntimeEnvironment.setInnerVariable("pm_add_language", {value:function(env, args){
 	for(var i = 0; i < GLang.packageManager.supportedLanguages.length; i++){

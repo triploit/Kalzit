@@ -1,24 +1,32 @@
+$uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemoval) fun {
+	$newAdditionRef = reference: $newAddition.
+	($setOnAddition of list): first: _onAdditionAndOnRemoval.
+	($setOnRemoval of list): second: _onAdditionAndOnRemoval.
+	
+	$nameViewsRef = reference: $nameViews.
+	$updateNameViews = () fun {
+		nameViewsRef = (($_item) fun {uiContainer: (@(percentWidth 84) uiContainer: urlDecodeParameter: first: _item);@(percentWidth 16) $button = (() fun {
+			($removeEquals of list): _item.
+		}) uiButton "Remove"}) each getArray: list.
+	}.
+	do:updateNameViews.
+	($setOnChange of list): updateNameViews.
+	
+	uiContainer: [uiToolbar: @center @(percentWidth: 90) uiContainer:
+		(@(percentWidth 90) newAdditionRef uiTextfieldVariableOnchange "");
+		(@(percentWidth 10) {($push of list): newAddition. do:updateNameViews} uiButton "Add")
+	];[
+		@verticalScroller @center @(height {100% - 1.5cm}) @(percentWidth 90) uiContainer: uiShowVariableAsList: nameViewsRef
+	]
+}.
+
 $uiStringListEditor = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
 	$newAdditionRef = reference: $newAddition.
 	$onAddition = first: _onAdditionAndOnRemoval.
 	$onRemoval = second: _onAdditionAndOnRemoval.
 	
-	$nameViewsRef = reference: $nameViews.
-	$updateNameViews = () fun {
-		nameViewsRef = (($_site) fun {uiContainer: (@(percentWidth 84) uiContainer: urlDecodeParameter: first: _site);@(percentWidth 16) $button = (() fun {
-			listRef = {not: _site eq x} filter resolveReference: listRef.
-			onRemoval: listRef.
-			do:updateNameViews.
-		}) uiButton "Remove"}) each resolveReference: listRef.
-	}.
-	do:updateNameViews.
-	
-	uiContainer: [uiToolbar: @center @(percentWidth: 90) uiContainer:
-		(@(percentWidth 90) newAdditionRef uiTextfieldVariableOnchange "");
-		(@(percentWidth 10) {listRef onAddition newAddition. do:updateNameViews} uiButton "Add")
-	];[
-		@verticalScroller @center @(height {100% - 55px}) @(percentWidth 90) uiContainer: uiShowVariableAsList: nameViewsRef
-	]
+	$modList ? ModifiableList = (resolveReference: listRef).
+	modList uiModifiableStringListEditor {listRef onAddition x. listRef = getArray: modList};{listRef = getArray: modList. onRemoval: listRef}
 }.
 
 $uiStringListEditPopup = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {

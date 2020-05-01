@@ -11,7 +11,7 @@ $uiLoginForm = ($onLoginAttempt) fun {
 		[@center {
 			$response = nameInput serviceLoginUser passwordInput.
 			!if ("0" eq first: response) {
-				$calcitUserToken storageSaveString second: response.
+				$calcitSession storageSaveString second: response.
 				popupMessage: "Success! Your are now logged in".
 				onLoginAttempt: true.
 			}. else {

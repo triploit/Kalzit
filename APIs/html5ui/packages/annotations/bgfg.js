@@ -24,4 +24,9 @@ global.flagBackgroundGradientTopToBottom = function(_colors, object){
 global.flagOpacity = function(opacity, object){
 	object.style.opacity = opacity;
 }
+global.flagBorderColor = function(_color, object){
+	object.style.borderColor = _color;
+	object.style.borderStyle = "solid";
+	object.style.borderWidth = "2px";
+}
 })(this);

@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Server APIs to work with Reddit media"
+	},
+	"libraries":[
+			{"provides":["kmp_from_subreddit"], "scriptUrl":"kmpFromSubreddit.txt"}
+	]
+}

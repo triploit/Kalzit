@@ -3,12 +3,19 @@ $jsonFile = appParameter: "input-file".
 	$jsonParent = fileParent: jsonFile.
 
 	$packageObject = parseJson: fileContent: jsonFile.
-	$libraries = $libraries of packageObject.
+	$libraries = $libraries propOf packageObject.
 	(appParameter: "output-file") fileWrite ";" strJoin {
-		$scriptPath = jsonParent + "/packages/" + $script_url of x.
-		"GLang.packageManager.registerPrecompiledPackage([" + ("," strJoin {"} + ($provides of x) + {"}) + "]," +
-			((fileContent: scriptPath) calcitCompile true `optimized`) +
-		")".
+		$jsonEntry = x.
+		$scriptPath = jsonParent + "/packages/" + $scriptUrl propOf jsonEntry.
+		do: first: !switch (scriptPath)
+			[{(".k" strEndsWith x) | ".txt" strEndsWith x};{
+				"GLang.packageManager.registerPrecompiledPackage([" + ("," strJoin {"} + ($provides propOf jsonEntry) + {"}) + "]," +
+					((fileContent: scriptPath) calcitCompile true `optimized`) +
+				")"
+			}];
+			[{".js" strEndsWith x};{
+				"GLang.packageManager.installJs(function(){" + (fileContent: scriptPath) + "})"
+			}].
 	} each libraries.
 }. !else {
 	print: "The json file you specified is not a file! (--input-file)"

@@ -1,0 +1,28 @@
+$redditSubData = $subreddit fun {parseJson: loadGlobal: "https://reddit.com/r/" + subreddit + ".json"}.
+$redditSubEntries = $subreddit fun {
+	{$data of x} each $children propOf $data propOf redditSubData: subreddit
+}.
+$redditSubEntryUrls = $subreddit fun {{$url of x} each redditSubEntries: subreddit}.
+$redditSubImages = $subreddit fun {
+	$pics = {"image" eq $post_hint propOf x} filter redditSubEntries: subreddit.
+}.
+$kmpFromRedditSubImage = $_subImage fun {
+	$url = $url propOf _subImage.
+	
+	["kind";"image"];
+	["link";url];
+	["file";[
+		["default";url]
+	]];
+	["protocolVersion";"2.0.0"];
+	["thumbnail";[
+		["default";$thumbnail of _subImage]
+	]]
+}.
+$kmpFromRedditSubImages = $_subImages fun {
+	["kind";"collection"];
+	["protocolVersion";"2.0.0"];
+	["collection";[
+		kmpFromRedditSubImage each _subImages
+	]]
+}.

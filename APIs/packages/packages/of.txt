@@ -17,4 +17,6 @@ $of = !fun ($_properties ? (List:Any) ; $_object ? Any) {
     };{
         result
     }
-}
+}.
+
+$propOf = objFirstProperty.

@@ -1,7 +1,6 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("runLater", {value:function(env, args){
-	GLang.flagQueue.push(function(){
+	setTimeout(function(){
 		GLang.callObject(args[0], env, []);
-	});
-	GLang.runFlagQueue();
+	}, 10);
 	return GLang.voidValue;
 }});

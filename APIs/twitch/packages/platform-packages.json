@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Generic APIs to work with Twitch media"
+	},
+	"libraries":[
+		{"provides":["twitch_embed_url", "twitch_video_embed_url", "twitch_channel_embed_url", "twitch_collection_embed_url", "twitch_user_rss_url"],  "scriptUrl":"twitchUrls.txt"},
+		{"provides":["twitch_user_rss_dom", "twitch_user_video_ids", "twitch_user_video_titles"],  "scriptUrl":"twitchUser.txt"}
+	]
+}

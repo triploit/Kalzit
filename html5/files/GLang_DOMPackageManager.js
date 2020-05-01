@@ -32,12 +32,9 @@
 			return null;
 		}
 	}
-		
+	
 	//A package manager implementation for the browser
-	GLang.DOMPackageManager = function(){
-		this.loadUrl = loadUrl;
-		
-		this.__proto__ = new GLang.PackageManager();
-	};
+	GLang.domPackageManager = Object.create(new GLang.PackageManager());
+	GLang.domPackageManager.loadUrl = loadUrl;
 	
 })(this);

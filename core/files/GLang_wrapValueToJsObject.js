@@ -3,8 +3,7 @@ GLang.wrapValueToJsObject = function(container){
 	if(container instanceof Array){
 		var object = {};
 		for(var i = 0; i < container.length; i++){
-			var index = GLang.at(0, container[i]).value;
-			if("string" === typeof index){
+			if(container[i].value.length === 2 && "string" === typeof GLang.at(0, container[i]).value){
 				//Make object
 				object[GLang.at(0, container[i]).value] = GLang.wrapValueToJsObject(GLang.at(1, container[i]));
 			}else{

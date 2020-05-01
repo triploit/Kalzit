@@ -39,6 +39,6 @@
 	}
 
 	//Initialize package manager
-	GLang.packageManager = new GLang.DOMPackageManager();
+	GLang.packageManager = GLang.domPackageManager;
 	
 })();

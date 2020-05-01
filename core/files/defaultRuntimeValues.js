@@ -17,20 +17,21 @@
 			original = {value: original}
 		}
 		function arrayFunWrapper(env, args){
-			//This is important because the original array should not be modified
-			var args = args.slice(0, args.length);
-			
+			//Length testing before cloning the arguments array
 			var originalArgumentCount = args.length;
 			if(originalArgumentCount === 0){
-				return GLang.callObject(original, env, args);
+				return GLang.callObject(original, env, []);
 			}
 			if(originalArgumentCount > 2){
 				throw new Error("You can not call an array function with more than two parameters. (You should never call a function with more than two parameters)");
 			}
 			
+			//This is important because the original array should not be modified
+			var args = args.slice(0, args.length);
+			
 			//Ensure a length of two
 			if(originalArgumentCount === 1){
-				args.push({value:0, inserted:true})
+				args.push({value:0})
 			}
 			
 			var a = args[0];
@@ -66,12 +67,11 @@
 			}
 			
 			//Called with no arrays as parameter
-			a = a.inserted ? GLang.voidValue : a;
 			if(originalArgumentCount == 1){
 				return GLang.callObject(original, env, [a]);
+			}else{
+				return GLang.callObject(original, env, [a, b]);
 			}
-			b = b.inserted ? GLang.voidValue : b;
-			return GLang.callObject(original, env, [a, b]);
 		}
 		return arrayFunWrapper;
 	}
@@ -108,18 +108,18 @@
 		return a === b;
 	}
 
-	GLang.defaultRuntimeEnvironment.innerVariables = [
+	var globalVariables = [
 		{
-			varName:"+", varValue:{value:arrayFun(function(env, args){return {value:args[0].value+args[1].value, display:args[0].display || args[1].display}})}, frozen: true
+			varName:"+", varValue:{value:arrayFun(function(env, args){return {value:args[0].value+args[1].value, display:args[0].display || args[1].display}})}
 		},
 		{
-			varName:"-", varValue:{value:arrayFun(function(env, args){return {value:args[0].value-args[1].value}})}, frozen: true
+			varName:"-", varValue:{value:arrayFun(function(env, args){return {value:args[0].value-args[1].value}})}
 		},
 		{
-			varName:"%", varValue:{value:arrayFun(function(env, args){return {value:args[0].value/args[1].value}})}, frozen: true
+			varName:"%", varValue:{value:arrayFun(function(env, args){return {value:args[0].value/args[1].value}})}
 		},
 		{
-			varName:"*", varValue:{value:arrayFun(function(env, args){return {value:args[0].value*args[1].value}})}, frozen: true
+			varName:"*", varValue:{value:arrayFun(function(env, args){return {value:args[0].value*args[1].value}})}
 		},
 		{
 			varName:"/", varValue:{value:function(env, args){
@@ -135,16 +135,16 @@
 					result = GLang.callObject(args[0], env, [args[1].value[i], result])
 				}
 				return result;
-			}}, frozen: true
+			}}
 		},
 		{
 			varName:"print", varValue:{value:function(env, args){	
 				GLang.printValue(args[0]);
 				return args[0];
-			}}, frozen: true
+			}}
 		},
 		{
-			varName:"array", varValue:{value:function(env, args){return {value:args}}}, frozen: true
+			varName:"array", varValue:{value:function(env, args){return {value:args}}}
 		},
 		{varName:"fun", varValue:{value:function(env, args){
 			var argList = args[0];
@@ -160,19 +160,8 @@
 			var code = args[1].value;
 			var returnType = GLang.getType(args[1]);
 			if("string" === typeof code) code = GLang.generateTree(code);
-			var result = {value:{
-				environment:env,
-				code:code
-			}, display:"function"};
+			var result = GLang.functionFromTree(code, env, {value:argList}, returnType);
 			
-			GLang.setAnnotation(result, {value:[
-				GLang.stringValue("argumentList"), {value:argList}
-			]});
-			if(returnType) {
-				GLang.setAnnotation(result, {value:[
-					GLang.stringValue("type"), returnType
-				]});
-			}
 			for(var i = 0; i < argList.length; i++){
 				if((argList[i].value + "").startsWith("_")){
 					return result;
@@ -185,7 +174,7 @@
 				GLang.stringValue("argumentList"), {value:argList}
 			]});
 			return res;
-		}}, frozen: true},
+		}}},
 		{varName:";", varValue:{value:function(env, args){
 			var val1 = args[0];
 			if(!(val1.value instanceof Array)){
@@ -196,19 +185,20 @@
 				val2 = {value:[val2]}
 			}
 			return {value:[].concat(val1.value,val2.value)};
-		}}, frozen: true},
+		}}},
 		{varName:":", varValue:{value:function(env, args){
 			return GLang.callObject(args[0], env, [args[1]]);
-		}}, frozen: true},
+		}}},
 		{varName:"=", varValue:{value:function(env, args){
 			var name = args[0].value, environment = env, override = false;
+			if("string" !== typeof name) throw new Error("First argument of = has to be a string or reference - " + JSON.stringify(name) + " does not fit this rule");
+			
 			if(args[0].display === "reference"){
-				name = args[0].value;
 				environment = args[0].environment;
 				override = true;
 			}
 			return environment.setInnerVariable(name, args[1], override, GLang.getType(args[0]));
-		}}, frozen: true},
+		}}},
 		{varName:"range", varValue:{value:arrayFun(function(env, args){
 			var array = [];
 			if(args[0].value <= args[1].value){
@@ -221,44 +211,49 @@
 				}
 			}
 			return {value:array};
-		})}, frozen: true},
-		{varName:"void", varValue:GLang.voidValue, frozen: true},
+		})}},
+		{varName:"void", varValue:GLang.voidValue},
 		{varName:"eq", varValue:{value:function(env, args){
 			return {value:GLang.eq(args[0].value, args[1].value) ? 1 : 0};
-		}}, frozen: true},
+		}}},
 		{varName:"<", varValue:{value:arrayFun(function(env, args){
 			return {value:args[0].value < args[1].value ? 1 : 0};
-		})}, frozen: true},
+		})}},
 		{varName:">", varValue:{value:arrayFun(function(env, args){
 			return {value:args[0].value > args[1].value ? 1 : 0};
-		})}, frozen: true},
+		})}},
 		{varName:"^", varValue:{value:arrayFun(function(env, args){
-			return {value:Math.pow(args[0].value, args[1].value)};
-		})}, frozen: true},
+			return {value:args[0].value ** args[1].value};
+		})}},
 		{varName:"mod", varValue:{value:arrayFun(function(env, args){
 			return {value:args[0].value % args[1].value};
-		})}, frozen: true},
+		})}},
 		{varName:"|", varValue:{value:arrayFun(function(env, args){
 			return args[0].value < args[1].value ? args[1] : args[0];
-		})}, frozen: true},
+		})}},
 		{varName:"&", varValue:{value:arrayFun(function(env, args){
 			return args[0].value < args[1].value ? args[0] : args[1];
-		})}, frozen: true},
+		})}},
 		{varName:"at", varValue:{value:function(env, args){
 			return atFunction(args[0].value, args[1]);
-		}}, frozen: true},
+		}}},
 		{varName:"reference", varValue:{value:function(env, args){
 			if(args[0].display === "reference"){
 				return args[0];
 			}
 			return {value:args[0].value, display:"reference", environment: env, name:args[0].value}
-		}}, frozen: true},
+		}}},
 		{varName:"display_type", varValue:{value:function(env, args){
 			return GLang.stringValue(args[0].display || "default");
-		}}, frozen: true},
+		}}},
 		{varName:"resolve_reference", varValue:{value:function(env, args){
 			var ref = args[0];
 			return ref.environment.resolveName(ref.name);
-		}}, frozen: true}
+		}}}
 	];
+	
+	for(var i = 0; i < globalVariables.length; i++){
+		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i];
+	}
+	
 })(this);

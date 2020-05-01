@@ -1,0 +1,4 @@
+$kmpFromSubreddit = ($subreddit fun {
+	["title";"Reddit: " + subreddit];
+	kmpFromRedditSubImages: redditSubImages: subreddit
+}) cachedFun autoClearedCache: hoursToMillis: 2.

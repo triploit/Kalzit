@@ -196,6 +196,12 @@ function getRequestValue(req, res) {
 				return GLang.stringValue(req.headers[args[0].value]);
 			}, display: "function"
 		}]},
+		{value:[{value:"setHeader"}, {
+			value: function(env, args){
+				res.setHeader(args[0].value + "", args[1].value + "");
+				return GLang.voidValue
+			}, display: "function"
+		}]},
 		{value:[{value:"url"}, GLang.stringValue(req.url)]},
 		{value:[{value:"host"}, GLang.stringValue(req.headers.host)]}
 	]};

@@ -4,7 +4,6 @@
 	},
 	"libraries":[
 		{"provides":["ui_native_youtube_player"], "scriptUrl":"youtubePlayer.js"},
-		{"provides":["ui_twitch_channel_player", "ui_twitch_video_player", "ui_twitch_collection_player"], "scriptUrl":"twitchPlayer.js"},
 		{"provides":["ui_vimeo_player"], "scriptUrl":"vimeoPlayer.js"},
 		{"provides":["load_image_async", "load_image_async_rgb", "load_image_async_mono"], "scriptUrl":"loadImageAsync.js"},
 		{"provides":["speech_say", "speech_get_voices_by_language", "speech_get_voices"],  "scriptUrl":"speech.js"},

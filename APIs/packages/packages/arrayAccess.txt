@@ -10,4 +10,9 @@ $third=($_x ? (List:Any)) fun {2 at _x}.
 #{Gives the last element of an array}
 $last=($_x ? (List:Any)) fun {((length: _x) - 1) at _x}.
 
+#{
+	Gives the list of indexes an array has.
+	For example, the array "a";"b" has the indexes 0 and 1.
+	The resulting list is as long as the given array.
+}
 $arrayIndexes = ($_array ? (List:Any)) fun {(0 rangeUp length: _array) - 1}.

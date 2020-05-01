@@ -1,24 +1,19 @@
 ;(function(global){
 	
 	//Loads a js file by http (or relative) url and runs it.
-	function loadPackageSync(jsUrl){
+	function loadPackageSync(url){
 		//Automatically determine the language code
-		var splitUrl = jsUrl.split(".");
+		var splitUrl = url.split(".");
 		var languageCode = splitUrl[splitUrl.length - 1];
 		
-		// evaluate the code in the correct language
-		for(var i = 0; i < this.supportedLanguages.length; i++){
-			var language = this.supportedLanguages[i];
-			if(language.langName === languageCode){
-				this.installedUrls.push(jsUrl);
-				try{
-					var result = language.langRunner(jsUrl, this.loadUrl(jsUrl));
-					return true;
-				}catch(e){
-					GLang.error(e);
-					return false;
-				}
+		var langRunner = this.supportedLanguages["lang_" + languageCode];
+		if(langRunner){
+			try{
+				langRunner(url, this.loadUrl(url));
+			}catch(e){
+				GLang.error(e);
 			}
+			return;
 		}
 		GLang.error("Unsupported language for packages: " + languageCode);
 	}
@@ -46,22 +41,10 @@
 		this.registeredPackages.push(packageData);
 	}
 	
-	function freezePackageVariables(names, sourceUrl){
+	function validatePackageVariables(names){
 		for(var name = 0; name < names.length; name++){
 			if(!GLang.defaultRuntimeEnvironment.hasInnerVariable(names[name])){
 				throw new Error("A package has claimed to provide the variable " + names[name] + " - but it does not");
-			}
-			
-			//Automatically add package information to values
-			var variableValue = GLang.defaultRuntimeEnvironment.resolveName(names[name], GLang.defaultRuntimeEnvironment)
-			GLang.addAnnotation(variableValue, {value:[
-				GLang.stringValue("sourceUrl"),
-				GLang.stringValue(sourceUrl)
-			]});
-			GLang.defaultRuntimeEnvironment.setInnerVariable(names[name], variableValue, true);
-			
-			if(!GLang.getFirstAnnotation(variableValue, GLang.stringValue("nofreeze"))){
-				GLang.defaultRuntimeEnvironment.freezeInnerVariable(names[name]);
 			}
 		}
 	}
@@ -77,7 +60,7 @@
 				GLang.evaluateTree(packageData[1], GLang.defaultRuntimeEnvironment);
 				
 				//Freeze the package variables
-				freezePackageVariables(packageData[0], null /*TODO*/);
+				validatePackageVariables(packageData[0]);
 				
 				return true;
 			}
@@ -90,7 +73,7 @@
 					this.loadPackageSync(packageData.scriptUrl, packageData.scriptType);
 					
 					//Freeze the package variables
-					freezePackageVariables(packageData.provides, packageData.scriptUrl);
+					validatePackageVariables(packageData.provides, packageData.scriptUrl);
 					
 					return true;
 				}
@@ -133,13 +116,12 @@
 		};
 		this.installJs = installJs;
 		
-		this.supportedLanguages = [
-			{langName:"js", langRunner:function(url, code){
+		this.supportedLanguages = {
+			lang_js: function(url, code){
 				installJs(Function(code));
-			}},
-			{langName:"z", langRunner:function(url, x){GLang.eval(x,true)}},
-			{langName:"txt", langRunner:function(url, x){GLang.eval(x,true)}},
-			{langName:"json", langRunner:function(url, x){
+			},
+			lang_txt: function(url, x){GLang.eval(x,true)},
+			lang_json: function(url, x){
 				var packageInfo = eval("(" + x + ")");
 				if(packageInfo.requirements){
 					for(var i = 0; i < packageInfo.requirements.length; i++){
@@ -148,9 +130,9 @@
 					}
 				}
 				GLang.packageManager.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
-			}},
-			{langName:"k", langRunner:function(url, x){GLang.eval(x,true)}}
-		];
+			},
+			lang_k: function(url, x){GLang.eval(x,true)}
+		};
 		
 		this.initialize = initialize;
 	}

@@ -1,6 +1,6 @@
 $registeredDesktopTools ? ModifiableList = ().
 $registerDesktopTool = ($toolFactory) fun {
-	($push of registeredDesktopTools): toolFactory.
+	($push propOf registeredDesktopTools): toolFactory.
 }.
 $generateDesktopToolbarOverlay = () fun {
 	@(cssClass: "k-desktop_only") uiToolbarOverlay: 
@@ -8,13 +8,15 @@ $generateDesktopToolbarOverlay = () fun {
 			{@verticalCenter @dynamicSize do:x} each getArray: registeredDesktopTools
 		];
 		[
-			@verticalCenter @right @(percentHeight 50) @(percentWidth 10) uiContainer:
-				(!if developerMode {
-					[@(percentWidth 40) !uiAppsButton];
-					[uiHorizontalPercentSpace 10]
-				});
-				(!ifNot developerMode {uiHorizontalPercentSpace 50});
-				[@(percentWidth 40) !uiUserButton];
+			@verticalCenter @right @(percentHeight 50) @(percentWidth !ifElse developerMode 10;5) uiContainer:
+				(!ifElse developerMode
+					{
+						[@(percentWidth 40) !uiAppsButton];
+						[uiHorizontalPercentSpace 10]
+					};
+					{uiHorizontalPercentSpace 50}
+				);
+				[@(percentWidth !ifElse developerMode 40;90) !uiUserButton];
 				[uiHorizontalPercentSpace 10]
 		].
 }.

@@ -1,1 +1,1 @@
-uglifyjs $(echo ./packages/*.js) --output _min.js
+terser $(echo ./packages/*.js) --output _min.js

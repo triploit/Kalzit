@@ -8,12 +8,8 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 	if(js instanceof Function){
 		var jsFunction = js
 		var calcitFunction = function(env, args){
-			var jsArguments = [];
-			for(var i = 0; i < args.length; i++){
-				jsArguments.push(args[i].value);
-			}
-			var result = wrapJsToValue(jsFunction.apply(this, jsArguments));
-			return result;
+			var jsArguments = args.map(arg => arg.value);
+			return wrapJsToValue(jsFunction(...jsArguments));
 		}
 		
 		var jsArgNames = jsFunction.toString()
@@ -34,17 +30,15 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 		return {value:calcitFunction, display:"function", argumentList:jsArgNames}
 	}
 	if(js instanceof Array){
-		var calcitArray = [];
-		for(var i = 0; i < js.length;i++){
-			calcitArray.push(GLang.wrapJsToValue(js[i]));
-		}
-		return {value:calcitArray};
+		return {value:js.map(
+			entry => GLang.wrapJsToValue(entry)
+		)};
 	}
 	if(js instanceof Object){
 		var calcitObject = [];
 		for(prop in js){
 			calcitObject.push({value:[
-				GLang.stringValue(GLang.defaultRuntimeEnvironment.unifyStringName(prop)),
+				GLang.stringValue(prop),
 				GLang.wrapJsToValue(js[prop])
 			]});
 		}

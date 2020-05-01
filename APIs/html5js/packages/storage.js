@@ -35,13 +35,13 @@
     };
     
     function getServerCookies(){
-        var token = native_loadString("calcitUserToken");
+        var token = native_loadString("calcitSession");
         if(!token) return;
         
         try{
             return JSON.parse(GLang.packageManager.loadUrl("/api/cookieJson", [
-                 ["kalzit-user-token", token]
-            ]));   
+                 ["kalzit-session", token]
+            ]));
         }catch(e){}
     }
     
@@ -62,13 +62,25 @@
     
     var deleted = [];
     function pushCookie(name){
-        if(deleted.includes(name)) return;
+       pushCookies([name]);
+    }
     
+    function pushCookies(nameList){
+        var pushedObject = {};
+        var actualPush = false;
+        for(var i = 0; i < nameList.length; i++){
+            var name = nameList[i];
+            if(deleted.includes(name)) continue;
+            pushedObject[name] = native_loadString(name);
+            actualPush = true;
+        }
+        if(!actualPush) return;
+        
+        //Send JSON to special API
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/pushCookie");
-        xhr.setRequestHeader("kalzit-cookie-name", name);
-        xhr.setRequestHeader("kalzit-cookie-value", encodeURIComponent(native_loadString(name)));
-        xhr.setRequestHeader("kalzit-user-token", native_loadString("calcitUserToken"));
+        xhr.open("GET", "/api/updateCookieJson");
+        xhr.setRequestHeader("kalzit-cookie-json", JSON.stringify(pushedObject));
+        xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
         xhr.onload = function () {
             if (this.status >= 200 && this.status < 300) {
                 //Success!
@@ -83,15 +95,14 @@
     }
     
     function pushNewCookies(){
-        if(!native_loadString("calcitUserToken")) return;
-        while(toPush.length){
-            pushCookie(toPush.pop());
-        }
+        var toPushCopy = toPush;
+        toPush = [];
+        pushCookies(toPushCopy);
     }
     
     //This should only be called after pullAllCookies, or after serverCookies is {}
     function pushAllCookies(){
-        if(!native_loadString("calcitUserToken")) return;
+        if(!native_loadString("calcitSession")) return;
         var keyList = thiz.storageListKeys();
         console.log("Trying to push these keys: " + JSON.stringify(keyList));
         for(var i = 0; i < keyList.length; i++){
@@ -108,7 +119,7 @@
     
     function startCookieRefreshLoop(){
         //Push all new cookies frequently
-        setInterval(pushNewCookies, 1 * 1000);
+        setInterval(pushNewCookies, 3 * 1000);
         //Push all cookies shortly after they are accessed the first time
         setTimeout(pushAllCookies, 15 * 1000);
     }
@@ -138,17 +149,19 @@
         return list;
     };
     
-    var token = native_loadString("calcitUserToken");
-    console.log("calcitUserToken is " + token);
+    var token = native_loadString("calcitSession");
+    console.log("calcitSession is " + token);
     if(token === undefined){
         //No storage support
         alert("Your browser does not support or allow storing data locally. The functionality of this app might be limited by that.");
     } else if(token !== null){
         token = "" + token;
-        if(!token.match( new RegExp("[a-f0-9]{8}\\-[a-f0-9]{4}\\-[a-f0-9]{4}\\-[a-f0-9]{4}\\-[a-f0-9]{12}") )) {
-            alert("The account you are logged in with seems invalid: (" + token + "). You are logged out now and your local data are deleted to try to make the app work again. Please try to  login again. If you see an error message which does not go away after reloading or if you see this message again, please ask for help.");
+        var tokenAsNumber = parseFloat(token);
+        if(tokenAsNumber !== tokenAsNumber || tokenAsNumber > 1 || tokenAsNumber < 0) {
+            alert("Your session seems invalid (" + token + "; " + tokenAsNumber + "). You are logged out now and some of your local data are deleted to try to make the app work again. Please try to  login again. If you see an error message which does not go away after reloading or if you see this message again, please ask for help.");
             
             //Reset all data
+            thiz.storageRemove("calcitSession");
             thiz.storageRemove("calcitUserToken");
             withLocalStorage(function(storage){
                 storage.clear();
@@ -156,16 +169,22 @@
             
             location.reload();
         }else{
-            console.log("User token seems valid");
+            console.log("Session seems valid");
         }
     }
     
-    //Only do this if there is a user LOGGED IN - otherwise, data could be overwritten after login
-    if (native_loadString("calcitUserToken")){
+    //Only do this if a session is active - otherwise, data could be overwritten after login
+    if (native_loadString("calcitSession")){
         if(nativeStorage && nativeStorage.wantsFullPush()){
             pushAllCookies();
         }
         pullAllCookies();
         startCookieRefreshLoop();
+        
+        //Attempt push before tab is closed (not certain)
+        window.addEventListener("beforeunload", function(event) {
+            pushNewCookies();
+        });
     }
+    
 })(this);

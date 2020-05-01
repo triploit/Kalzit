@@ -1,10 +1,41 @@
-;(function(global){
+GLang.scopePrototype = {
 	
-	//Function for unifying names - this allows multiple name variations for variables
-	function unifyStringName(originalName){
+	notifyVariableChange: function(n){
+		if(GLang.disableRuntimeUpdates) return;
+		for(var i = 0; i < this.variableUpdateFunctions.length; i++){
+			var updater = this.variableUpdateFunctions[i];
+			if(updater.varName === n){
+				updater.update();
+			}
+		}
+		GLang.notifyGeneralChange();
+	},
+	registerVariableListener: function(n, listener){
+		this.variableUpdateFunctions.push({varName:this.unifyStringName(n), update:listener});
+	},
+	resolveUnknownName: "calcit_resolve_unknown",
+	resolveName: function(n){
+		var unified = this.unifyStringName(n);
+		var value = this["kv_" + unified];
+		
+		if(value){
+			return value.varValue;
+		}else if(GLang.packageManager.installPackage(unified)){
+			return GLang.defaultRuntimeEnvironment["kv_" + unified].varValue;
+		}else if(unified !== this.resolveUnknownName){
+			return GLang.callObject(this.resolveName(this.resolveUnknownName), null, [GLang.stringValue(unified)]);
+		}else{
+			return {value:GLang.voidValue.value, varName:this.resolveUnknownName}
+		}
+		
+	},
+	unifyStringName: function(originalName){
+		if("string" !== typeof originalName) throw new Error("unifyStringName only accepts strings - " + JSON.stringify(originalName) + " does not fit this rule");
+		
 		if(originalName === ""){
 			return "";
 		}
+		
 		//If it does contain underscores, make all characters lower case and finish
 		if(originalName.split("_").length > 1){
 			return originalName.toLowerCase();
@@ -17,126 +48,49 @@
 			unifiedName += char.toLowerCase() !== char ? "_" + char.toLowerCase() : char;
 		}
 		return unifiedName;
-	}
-
-	//Holds all variables known to the program
-	global.GLang.RuntimeEnvironment = function(outerEnvironment){
-		var variableUpdateFunctions = [];
+	},
+	setInnerVariable: function(n, value, allowOverride, type){
+		if(!n.match("[a-zA-Z_]+")){
+			throw new Error(n + " is not a valid variable name!");
+		}
 		
-		//Variables in this environment
-		this.innerVariables = [];
-		//An environment outside of this one (optional)
-		this.outerEnvironment = outerEnvironment;
-		//Listening functions
-		this.notifyVariableChange = function(n){
-			if(GLang.disableRuntimeUpdates) return;
-			for(var i = 0; i < variableUpdateFunctions.length; i++){
-				var updater = variableUpdateFunctions[i];
-				if(updater.varName === n){
-					updater.update();
+		//Look for an existing variable with the given name...
+		n = this.unifyStringName(n);
+		if(this.hasOwnProperty("kv_" + n)){
+			var current = this["kv_" + n];
+			if(allowOverride){
+				var newValue = current.varType ? GLang.callObject(current.varType, this, [value]) : value;
+				var oldValue = current.varValue;
+				if(oldValue !== newValue){
+					//Overwrite its value and finish
+					current.varValue = newValue;
+					this.notifyVariableChange(n);
 				}
-			}
-			GLang.notifyGeneralChange();
-		};
-		
-		this.registerVariableListener = function(n, listener){
-			variableUpdateFunctions.push({varName:GLang.defaultRuntimeEnvironment.unifyStringName(n), update:listener});
-		};
-		
-		//Find a variable by name (a tree structure)
-		this.resolveName = function resolveName(varNameItem){
-			var varName = unifyStringName(varNameItem);
-			//Loop through the inner variables...
-			for(var i = 0; i < this.innerVariables.length; i++){
-				var entry = this.innerVariables[i];
-				//In order to find a variable with the given name
-				if(entry.varName === varName){
-					var clone = Object.create(entry.varValue);
-					GLang.setAnnotation(clone, {value:[
-						GLang.stringValue("accessVarName"),
-						GLang.stringValue(varName)
-					]});
-					return clone;
-				}
-			}
-			//If not found, try to find it in the outer environment
-			if(this.outerEnvironment){
-				return this.outerEnvironment.resolveName(varNameItem);
-			}
-			
-			//Try to find the wanted variable in a package
-			if(GLang.packageManager.installPackage(varName)){
-				return this.resolveName(varNameItem);
-			}
-			//If there really is no variable with the wanted name, ask calcitResolveUnknown for help
-			if(varName !== "calcit_resolve_unknown"){
-				return GLang.callObject(this.resolveName("calcit_resolve_unknown"), null, [GLang.stringValue(varNameItem)]);
+				return newValue;
 			}else{
-				return {value:GLang.voidValue.value, varName:varName}
-			}
-		};
-		
-		this.hasInnerVariable = function hasInnerVariable(varName){
-			for(var i = 0; i < this.innerVariables.length; i++){
-				var entry = this.innerVariables[i];
-				//In order to find a variable with the given name
-				if(entry.varName === varName){
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		//Overwrites or creates inner variables
-		this.setInnerVariable = function setInnerVariable(n, value, allowOverride, type){
-			if(!n.match("[a-zA-Z_]+")){
-				throw new Error(n + " is not a valid variable name!");
-			}
-			
-			//Look for an existing variable with the given name...
-			n = unifyStringName(n);
-			for(var i = 0; i < this.innerVariables.length; i++){
-				var v = this.innerVariables[i];
-				if(v.varName === n){
-					if(allowOverride && (!v.frozen)){
-						var newValue = v.varType ? GLang.callObject(v.varType, this, [value]) : value;
-						var oldValue = v.varValue;
-						if(oldValue !== newValue){
-							//Overwrite its value and finish
-							v.varValue = newValue;
-							if(oldValue.value !== newValue.value){
-								this.notifyVariableChange(n);
-							}
-						}
-						return newValue;
-					}else{
-						throw new Error("Not allowed to change variable $" + n + (v.frozen ? " because it is frozen - probably part of a package" : ""));
-					}
-				}
-			}
-			//If no existing variable was found, create a new one
-			var v = {varName:n, varValue: (type ? GLang.callObject(type, this, [value], type) : value), varType:type};
-			if(!(outerEnvironment)){
-				GLang.addAnnotation(v.varValue, {value:[
-					GLang.stringValue("originalValueOf"),
-					GLang.stringValue(n)
-				]});
-			}
-			this.innerVariables.push(v);
-			this.notifyVariableChange(n);
-			return v.varValue;
-		}
-		
-		this.freezeInnerVariable = function freezeInnerVariable(n){
-			n = unifyStringName(n);
-			for(var i = 0; i < this.innerVariables.length; i++){
-				var v = this.innerVariables[i];
-				if(v.varName === n){
-					v.frozen = true;
-				}
+				throw new Error("Not allowed to change variable $" + n);
 			}
 		}
-		
-		this.unifyStringName = unifyStringName;
-	};
-})(this);
+		//If no existing variable was found, create a new one
+		var v = {varName:n, varValue: (type ? GLang.callObject(type, this, [value], type) : value), varType:type};
+		this["kv_" + n] = v;
+		this.notifyVariableChange(n);
+		return v.varValue;
+	},
+	setInnerWithoutListeners: function(name, value){
+		//This should only be (directly) used for things like function parameters, that are not supposed to trigger listeners
+		name = this.unifyStringName(name);
+		 this["kv_" + name] = {varName: name, varValue: value};
+	},
+	hasInnerVariable: function(n){
+		return this.hasOwnProperty("kv_" + this.unifyStringName(n));	
+	}
+	
+};
+
+//Holds all variables known to the program
+GLang.RuntimeEnvironment = function(outer){
+	var me = Object.create(outer || GLang.scopePrototype);
+	me.variableUpdateFunctions = [];
+	return me;
+}
