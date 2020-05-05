@@ -1,4 +1,5 @@
 This document includes a little list of things that are planned for the next big release of Kalzit.
+Some of them are already partially implemented - those are marked. Those that have been completely implemented should be removed.
 
 ## Standard-library documentation
 
@@ -9,7 +10,7 @@ Well, you can do many things with Kalzit - the problem is that it is rather hard
 Better, in this case, means two things:
 
 * More complete - more things provided by the standard library should be explained.
-* More accessible - It must be easy to get to the documentation. At the moment, it is not.
+* More accessible - It must be easy to get to the documentation. (Done)
 
 ## Usable applications
 
@@ -18,18 +19,7 @@ There need to be examples of what can be done using Kalzit. And they need to be 
 The plan is to include at least two user-centric applications with the next release:
 
 * One that is easy to understand as a new programmer, but still nice to use as a casual user
-* Another one that demonstrates some of the media-handling capabilities Kalzit has
-
-## Better Markdown support
-
-The Kalzit server supports some server-side languages already, but not markdown.
-However, since markdown is one of the easiest to learn, it should be supported.
-
-A nice side effect of this would be that the `/docs` folder (which contains a few more information about Kalzit) would not need to contain two variants of every documentation file.
-
-At the moment, much the documentation uses links to HTML files. While that works well with Kalzit already installed, it is a very upleasant experience if you try to use GitHub to look at the documentation - you just get to see HTML code.
-
-So, all GitHub users reading this - I hear you.
+* Another one that demonstrates some of the media-handling capabilities Kalzit has (Done)
 
 ## Command-line tool
 

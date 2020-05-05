@@ -1,7 +1,7 @@
 # Why is it good to be similar to APL?
 
 * It has basically no boilerplate code
-* Once you understand the [array-based](/docs/design/why/arrayProgramming.html) concept and the [right-to-left evaluation](/docs/design/why/operatorPrecedence.html), you basically know the language (except the [library](/docs/api/home), which you can easily learn when you need it)
+* Once you understand the [array-based](/docs/design/why/arrayProgramming.md) concept and the [right-to-left evaluation](/docs/design/why/operatorPrecedence.md), you basically know the language (except the [library](/docs/api/home), which you can easily learn when you need it)
 * It has very little potential for breaking programs (As far as I know, things like infinite while loops are not possible)
 
 # What is bad about the original APL (as a programmer)?

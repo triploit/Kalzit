@@ -28,4 +28,4 @@ And that is it! Now, we are multiplying each number from `1 to 100` by `2`, and 
 
 # How can you make use of array programming in this language?
 
-Please take a look at [this more detailed tutorial](/docs/tutorial/useArrayProgramming.html).
+Please take a look at [this more detailed tutorial](/docs/tutorial/useArrayProgramming.md).

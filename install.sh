@@ -1,5 +1,6 @@
 npm install follow-redirects xmldom
 npm install -g terser
+npm install -g markdown-to-html
 
 #nogit
 mkdir nogit

@@ -1,1 +1,1 @@
-resultRef = fileContent: "./docs/tutorial/babysteps.html".
+resultRef = fileContent: "./apps/home/home.html".

@@ -1,4 +1,4 @@
-$toDocument = "./docs/api/defaults/" strRemove fname.
+$toDocument = "./services/documentation/" strRemove fname.
 print: "Serving documentation for " + toDocument.
 
 $value = resolveName: toDocument.

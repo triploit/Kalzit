@@ -22,17 +22,17 @@ $calcitCompileJsFunction = !{
 		$sentences ? ModifiableList = ().
 		$currentSentence ? ModifiableList = ().
 		($_node fun {
-			!ifElse ($dot of _node) {
-				($push of sentences): [getArray: currentSentence].
-				do:($clear of currentSentence)
+			!ifElse ($dot propOf _node) {
+				($push propOf sentences): [getArray: currentSentence].
+				do:($clear propOf currentSentence)
 			};{
-				($push of currentSentence): [_node]
+				($push propOf currentSentence): [_node]
 			}
 		}) each compiledObject.
 		
 		$lastSentence = getArray: currentSentence.
 		!ifNot (void eq lastSentence) {
-			($push of sentences): [getArray: lastSentence]
+			($push propOf sentences): [getArray: lastSentence]
 		}.
 		
 		`Assemble working JS base`
@@ -66,7 +66,7 @@ $calcitCompileJsFunction = !{
 					$function = functionNode compileSingleNode true.
 					
 					$firstArgNode = first: _sentence.
-					$firstArg = !ifElse ((":" eq $special of functionNode) | RepeatedFunction eq $type of calcitAnnotations: first: $argumentList of calcitAnnotations: resolveName: $name of functionNode) {
+					$firstArg = !ifElse ((":" eq $special propOf functionNode) | RepeatedFunction eq $type propOf calcitAnnotations: first: $argumentList propOf calcitAnnotations: resolveName: $name propOf functionNode) {
 						firstArgNode compileSingleNode true.
 					};{
 						compileSingleNode: firstArgNode.
@@ -74,7 +74,7 @@ $calcitCompileJsFunction = !{
 					$secondArgNode = third: _sentence.
 					
 					`Compose working JS`
-					!ifElse (($fun eq $name of functionNode) & $string eq $kind of secondArgNode) {
+					!ifElse (($fun eq $name propOf functionNode) & $string eq $kind propOf secondArgNode) {
 						firstArg compileFunExpression secondArgNode
 					};{
 						"c([" + firstArg + ", " + (compileSingleNode: secondArgNode) + "]," + function + ")"
@@ -86,7 +86,7 @@ $calcitCompileJsFunction = !{
 					$function = functionNode compileSingleNode true.
 					
 					$firstArgNode = first: _sentence.
-					$firstArg = !ifElse ((":" eq $special of functionNode) | RepeatedFunction eq $type of calcitAnnotations: first: $argumentList of calcitAnnotations: resolveName: $name of functionNode) {
+					$firstArg = !ifElse ((":" eq $special propOf functionNode) | RepeatedFunction eq $type propOf calcitAnnotations: first: $argumentList propOf calcitAnnotations: resolveName: $name propOf functionNode) {
 						firstArgNode compileSingleNode true.
 					};{
 						compileSingleNode: firstArgNode.
@@ -135,7 +135,7 @@ $calcitCompileJsFunction = !{
 		"{value:function(e, args){" + jsEnvironment + jsDefinitions + jsBase + "}}"
 	}.
 	$compileFunExpression = ($firstArgJs ; $_secondArgNode) fun {
-		$mainFunction = calcitCompileJsFunction: $string of _secondArgNode.
+		$mainFunction = calcitCompileJsFunction: $string propOf _secondArgNode.
 		$closureContent = "var argList = " + firstArgJs + "; if(!(argList.value instanceof Array)){argList = {value:[argList]}}; var fun = " + mainFunction + ";".
 		$valueWrap = {
 			return {value:(function(){
@@ -152,22 +152,22 @@ $calcitCompileJsFunction = !{
 	}.
 	
 	$compileSingleNode = ($_node ; $asFunction) fun {
-		do: first: (!switchEq ($kind of _node)
+		do: first: (!switchEq ($kind propOf _node)
 			["string";{
 				!ifElse (1 eq asFunction) {
-					compileStringFunction: $string of _node
+					compileStringFunction: $string propOf _node
 				};{
-					compileString: $string of _node
+					compileString: $string propOf _node
 				}
 			}];
-			["special";{compileNameResolve: $special of _node}];
-			["name";{compileNameResolve: $name of _node}];
-			["num";{compileNumber: $num of _node}];
-			["parentheses";{compileParentheses: $parentheses of _node}];
-			["array";{"{value:[" + (compileParentheses: $array of _node) + "]}"}]
+			["special";{compileNameResolve: $special propOf _node}];
+			["name";{compileNameResolve: $name propOf _node}];
+			["num";{compileNumber: $num propOf _node}];
+			["parentheses";{compileParentheses: $parentheses propOf _node}];
+			["array";{"{value:[" + (compileParentheses: $array propOf _node) + "]}"}]
 		);{
 			`Default case`
-			"null /*Can not compile single elements of type " + ($kind of _node) + " yet*/"
+			"null /*Can not compile single elements of type " + ($kind propOf _node) + " yet*/"
 		}.
 	}.
 	

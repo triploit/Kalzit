@@ -9,12 +9,11 @@ $uiSimpleHomeScreenApp = ($description ? String ; $action) fun {
 	@(onTap action) @centerText uiContainer: ((uiContainer: @(emFontSize 1,5) uiText: first of "" strSplit description) uiHomeScreenIcon {@(foregroundColor white) @border @gradient x});uiText: description
 }.
 $uiHomeScreen = ($_action ? (default: launchAppName)) fun {
-	$apps = 
-		["Notes";"notes"];
-		["Websites";"links"];
+	`Load the app data from JSON`
+	$apps = (parseJson: loadLocal: "/apps/home/config/standardApps.json");
 		!if developerMode {
-			["Development Tools";"ide"];["Images";"igDemo"];["Feeds";"rss"];["Videos";"videos"]
+			parseJson: loadLocal: "/apps/home/config/developerApps.json"
 		}.
 	
-	uiColumns: ($_app fun {@(percentWidth 100) (first of _app) uiSimpleHomeScreenApp () fun {_action: second of _app}}) each apps.
+	uiColumns: ($_app fun {@(percentWidth 100) (second of _app) uiSimpleHomeScreenApp () fun {_action: first of _app}}) each apps.
 }.

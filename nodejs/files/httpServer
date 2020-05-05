@@ -41,86 +41,76 @@ $onClientConnect = ($_request fun {
 	$async = false.
 	$asyncRef = reference: $async.
 	
-	!if ("./app/" strStartsWith fname) {
-		$singlefile = "true" eq $sf urlGetParameter $url propOf _request.
+	`Check blacklist`
+	!ifElse (0 < sum: {x matches fname} each blacklist){
+		print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
+       	($startServing propOf _request): fileMime: "html".
+		($respondCode propOf _request): 404.
+		_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
+	};{
+		`Hey, the requested file is not on the blacklist!`
 		
-		$appName = "./app/" strRemove fname.
-		$appFileBase = !ifElse (fileIsFile: "apps/" + appName + ".redirect") {
-				strFirstLine: fileContent: "apps/" + appName + ".redirect"
-			};{
-				"apps/" + appName
+		!if ("./app/" strStartsWith fname) {
+			$appName = "./app/" strRemove fname.
+			$appFileBase = !ifElse (fileIsFile: "apps/" + appName + ".redirect") {
+					strFirstLine: fileContent: "apps/" + appName + ".redirect"
+				};{
+					"apps/" + appName
+				}.
+			
+			$serveHtmlApp = $app fun {
+				print: "Trying to run  HTML app " + app.
+				asyncRef = true.
+				($startServing propOf _request): "text/html".
+				($writeFile propOf _request): app.
+		        do:($endServing propOf _request).
 			}.
-		
-		$serveHtmlApp = $app fun {
-			print: "Trying to run  HTML app " + app.
-			asyncRef = true.
-			($startServing propOf _request): "text/html".
-			($writeFile propOf _request): app.
-	        do:($endServing propOf _request).
-		}.
-		
-		!ifElse (fileIsFile: appFileBase + "/" + appName + ".html"){
-			serveHtmlApp: appFileBase + "/" + appName + ".html".
-		};{
-			!ifElse (fileIsFile: appFileBase + ".html") {
-				serveHtmlApp: appFileBase + ".html".
+			
+			!ifElse (fileIsFile: appFileBase + "/" + appName + ".html"){
+				serveHtmlApp: appFileBase + "/" + appName + ".html".
 			};{
-				!if (fileIsFile: appFileBase + ".k") {
-					print: "Trying to run Kalzit app " + $app = appFileBase + ".k".
-					$appScript = 'GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
-					!if singlefile {
-						resultRef = ("$app$";appScript) strReplace fileContent: "./_browser_app_singlefile.html".
-					}.
-					!else {
-						resultRef = ("$app$";appScript) strReplace fileContent: "./_browser_app.html".
+				!ifElse (fileIsFile: appFileBase + ".html") {
+					serveHtmlApp: appFileBase + ".html".
+				};{
+					!if (fileIsFile: appFileBase + ".k") {
+						print: "Trying to run Kalzit app " + $app = appFileBase + ".k".
+						$appScript = 'GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
+						
+						resultRef = ("$app$";appScript) strReplace fileContent: "./generated/_browser_app_singlefile.html".
 					}
 				}
+			}.
+		}.
+		
+		!if ("./api/" strStartsWith fname) {
+			$source = "./nodejs/files/server/api/" + ("./api/" strRemove fname) + ".k".
+			!ifElse (fileExists: source) {
+				print "Calling server API " + source.
+				do: () fun fileContent: source.
+			};{
+				print "Server API " + source + " not found".
 			}
 		}.
-	}.
-	
-	!if ("./api/" strStartsWith fname) {
-		$source = "./nodejs/files/server/api/" + ("./api/" strRemove fname) + ".k".
-		!ifElse (fileExists: source) {
-			print "Calling server API " + source.
-			do: () fun fileContent: source.
-		};{
-			print "Server API " + source + " not found".
-		}
-	}.
-	
-	!if ("./docs/api/defaults/" strStartsWith fname)
-        () fun fileContent: "./nodejs/files/server/showDocumentation.txt".
-	
-	!if ("./docs/api/home" eq fname){
-		resultRef = "<br></br>" strJoin {'<a href="/docs/api/defaults/' + x + '">' + x + "</a>"} each do:pmListNames
-	}.
-	
-	$m = servicesRegex match fname.
-	!if (length: m){
-		$serviceFile = "./nodejs/files/server/services/" + (second: m) + ".k".
-		print "Generic service call detected: " + serviceFile.
-		!if (fileIsFile: serviceFile) {
-			do:() fun fileContent: serviceFile
-		}
-	}.
-	
-	$languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
-	!if (fileIsFile: languageRunnerFile) {
-		print: "Trying to run a custom language with " + languageRunnerFile.
-		do:() fun fileContent: languageRunnerFile
-	}.
-	
-	$serveFile = $fname fun {
-		`Check blacklist`
-		!if (0 < sum: {x matches fname} each blacklist){
-			print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
-           	($startServing propOf _request): fileMime: "html".
-			($respondCode propOf _request): 404.
-			_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
+		
+		$m = servicesRegex match fname.
+		!if (length: m){
+			$serviceFile = "./nodejs/files/server/services/" + (second: m) + ".k".
+			print "Generic service call detected: " + serviceFile.
+			!if (fileIsFile: serviceFile) {
+				do:() fun fileContent: serviceFile
+			}
 		}.
-		`Find a file by name`
-		!else {
+		
+		$languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
+		!if (fileIsFile: languageRunnerFile) {
+			!if (fileIsFile: fname) {
+				print: "Trying to run a custom language with " + languageRunnerFile.
+				do:() fun fileContent: languageRunnerFile
+			}
+		}.
+		
+		$serveFile = $fname fun {
+			`Find a file by name`
 			((fileIsFile: fname) & fileExists: fname) ifElse {
 				print: "Serving file " + fname.
                 !if ("/static/" strContains fname) {
@@ -143,16 +133,17 @@ $onClientConnect = ($_request fun {
 					serveFile: redirect
 				}
 			}
-		}
-	}.
-	
-	!if (not async) {
-		!if (result eq void) {
-			serveFile: fname
 		}.
-	    else {
-	    	_request httpEndServingRaw strRaw: result
+		
+		!if (not async) {
+			!if (result eq void) {
+				serveFile: fname
+			}.
+		    else {
+		    	_request httpEndServingRaw strRaw: result
+		    }
 	    }
+	    
     }
 	
 }).

@@ -1,4 +1,5 @@
 $kmpFromInstagramUser = ($user fun {
+		["title";"Instagram: " + user];
 		["link";"https://instagram.com/" + user];
 		["kind";"collection"];
 		[["collection"];[

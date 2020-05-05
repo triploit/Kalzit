@@ -13,10 +13,10 @@ Sadly, there are not many other options. The choice seems to be "you upload your
 
 I wanted to own my data, but I did not want to take years to get there.
 So this is the second big part of Kalzit: It is an easy way to set up a little web server for your home. And just for that. All devices in your home can see it, and others can not.
-The problem is that there are currently not many web applications that run on it. I am developing a few of them, but none are ready for release yet. But the idea is still the same. However, you could try to create some yourself - with Kalzit, is it not as hard as you think.
+The problem is that there are currently not many web applications that run on it. With the latest relese, at least one good one is included. I am developing a few more, but none are ready for release yet. But the idea is still the same. However, you could try to create some apps yourself - with Kalzit, is it not as hard as you think.
 
 
-So that is Kalzit today. If you are interested in plans for the future, [here you go](docs/future.md)
+So that is Kalzit today. In case you are interested in the latest changes, [take a look at the changelog](/docs/changelog/2020.05.05.md). If you are interested in plans for the future, [here you go](docs/future.md).
 
 # Setup
 
@@ -32,7 +32,7 @@ Tip for Linux users: The easiest way to run the installer is to make it executab
 
 After that, you should se a few more things in your folder. One of them is called "KalzitStarter". Just run that to start your own Kalzit server! The steps are the same as with the installer.
 
-Kalzit should be running now!
+Kalzit should be running now! Just [access your Kalzit server through the browser](http://localhost:5000/).
 
 ## (TL;DR - for developers)
 
@@ -51,7 +51,7 @@ bash ./run.sh
 To get to the built-in language playground, open this URL in your browser: [http://localhost:5000/app/ide](http://localhost:5000/app/ide)
 
 You should now see a text input field with an orange button beside it, and a bunch of other buttons below.
-If you do, the setup worked and you can [write your first few lines of code in Kalzit](http://localhost:5000/docs/tutorial/babysteps.html).
+If you do, the setup worked and you can [write your first few lines of code in Kalzit](http://localhost:5000/docs/tutorial/babysteps.md).
 Otherwise, please open an issue to let me know.
 
 Have fun!

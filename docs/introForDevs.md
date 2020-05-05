@@ -3,8 +3,8 @@
 This project contains the specification and implementation of a new programming language.
 Some of the purposes of this language are listed below:
 
-* Be a version of APL you can actually read and write using your keyboard ([why?](/docs/design/why/apl.html))
-* Make things that are annoying in many other languages easy. Be a great companion to them ([why?](/docs/design/why/companion.html))
+* Be a version of APL you can actually read and write using your keyboard ([why?](/docs/design/why/apl.md))
+* Make things that are annoying in many other languages easy. Be a great companion to them ([why?](/docs/design/why/companion.md))
 * Run basically everywhere
 * Try to enforce the production of good applications
 
@@ -74,7 +74,7 @@ Again, the code is a lot shorter, and also a lot easier to explain!
 You do already understand the `Print: ` part. But with more complex codes like this, new concepts need to be understood:
 
 * Sentences (separated by dots) consist of operators and their parameters. Their format is `parameter operator parameter operator parameter` and so on.
-* When running the program, we start with the first sentence. But then, we go for the last operator and evaluate it. You can view it like this: `a b c d e` becomes `a b (c d e)`, and `a b c d e f g` becomes `a b (c d (e f g))`. ([why?](/docs/design/why/operatorPrecedence.html))
+* When running the program, we start with the first sentence. But then, we go for the last operator and evaluate it. You can view it like this: `a b c d e` becomes `a b (c d e)`, and `a b c d e f g` becomes `a b (c d (e f g))`. ([why?](/docs/design/why/operatorPrecedence.md))
 
 
 Knowing this, you understand that the sentence above uses the operators `:`, `of` and `to`.
@@ -111,7 +111,7 @@ Yes, that is actually it!
 Let us walk through this:
 
 * `webImageSearch: "Outer Space"` performs a web image search (surprising, right?) for "Outer Space". It returns the URLs of the search results.
-* `uiShowImageUrl` is responsible for producing an image element which we can show to the user (hence the "ui" prefix). Actually, it can also create *multiple* images. (Side note: many functions work like this. ([why?](/docs/design/why/arrayProgramming.html)))
+* `uiShowImageUrl` is responsible for producing an image element which we can show to the user (hence the "ui" prefix). Actually, it can also create *multiple* images. (Side note: many functions work like this. ([why?](/docs/design/why/arrayProgramming.md)))
 * `uiColumns` also creates a UI element, this time from the image elements on the right. It simply organizes these elements into columns.
 * `Print` is something you know already, but it can not only be used for text or numbers - you can actually show graphical elements with it!
 
@@ -119,7 +119,7 @@ Let us walk through this:
 
 If you have not already, please read the section "How does this project benefit you?" - it gives you a nice little overview about some useful functions and general ideas.
 In case you want to tinker with some of your own code, you probably want to try the little [Browser IDE](/app/ide).
-It might also be helpful to take a look at the [API Documentation](/docs/api/home), or to explore the language itself in more detail using the [tutorial](/docs/tutorial/index.html).
-For an example of things that are possible in this language, check out the [app suite](/home.html). The apps do not exactly look good, but they are still a good demonstration.
+It might also be helpful to take a look at the [API Documentation](/docs/api/home), or to explore the language itself in more detail using the [tutorial](/docs/tutorial/index.md).
+For an example of things that are possible in this language, check out the [app suite](/app/home). The apps do not exactly look good, but they are still a good demonstration.
 
 Anyway, I hope this project benefits you somehow. Have fun with it!

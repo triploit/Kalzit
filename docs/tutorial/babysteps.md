@@ -97,6 +97,6 @@ quadruple: 4.
 
 ## Next?
 
-If you are a developer, you could read the [introduction for developers](http://localhost:5000/docs/introForDevs.html). You are going to be familiar with many concepts explained there, but that might help to really get the core concepts. Also, you will end up with a fancy little graphical app!
+If you are a developer, you could read the [introduction for developers](/docs/introForDevs.md). You are going to be familiar with many concepts explained there, but that might help to really get the core concepts. Also, you will end up with a fancy little graphical app!
 
 If you are really interested in this project, you can join the [Triploit Discord server](https://discord.gg/CHN6pnb). You can chat with every member of this organization there. We can chat in english or in german, and are happy to hear your ideas. So, feel free to share any questions, ideas or other things regarding this project there.
