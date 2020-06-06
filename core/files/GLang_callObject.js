@@ -22,7 +22,7 @@ GLang.createFunctionScope = function(env, argumentList, args){
 GLang.callObject = function(obj, env, args){
 	try{
 		if(typeof(obj) !== "object"){
-			throw new Error("Error! You are probably using some v0 library or function. v1 values have to be 'normal' objects, not functions. Trying to call: " + object);
+			throw new Error("Values have to be 'normal' objects, not functions. Trying to call: " + object);
 		}else{
 			//Keep the original parameter untouched
 			var object = obj.value;
@@ -47,6 +47,14 @@ GLang.callObject = function(obj, env, args){
 		GLang.print("With parameters:");
 		GLang.print(args);
 		
-		throw exception;
+		GLang.error(exception);
+		GLang.error(exception.message);
+		
+		return {value:[], error:exception, annotations:[
+			{value:[
+				GLang.stringValue("error"),
+				GLang.stringValue(exception.message)
+			]}
+		]};
 	}
 }

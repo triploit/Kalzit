@@ -15,12 +15,14 @@ $excludedLibraries = $excludedLibraries `TODO: Make other valid name forms work`
 $appcacheManifest = $appcacheManifest propOf configObject.
 $appleTouchIcon = $appleTouchIcon propOf configObject.
 
-$skeletonCode = !ifElse (void eq excludedLibraries) {
+$hasCustomLibrary = fileIsFile: (fileParent: app) + "/doNotTouch/_min.js".
+
+$skeletonCode = !ifElse ((not: hasCustomLibrary) & void eq excludedLibraries) {
 		fileContent: rootFolder + "/generated/_browser_app_singlefile.html"
 	};{
 		$usedLibraries = 
 			(rootFolder + "/" + {not: x listContains excludedLibraries} filter parseJson: fileContent: rootFolder + "/" + platform + "/usable-libraries.json");
-			!if (fileIsFile: (fileParent: app) + "/doNotTouch/_min.js") {
+			!if (hasCustomLibrary) {
 				(fileParent: app) + "/doNotTouch"
 			}.
 			
@@ -40,7 +42,7 @@ $skeletonCode = !ifElse (void eq excludedLibraries) {
 		!ifElse (void eq appleTouchIcon) {
 			withoutAppleIcon
 		};{
-			("<head>" ; '<head><link rel="apple-touch-icon" href="' + appleTouchIcon + '" />')
+			("<head>" ; '<head><link rel="apple-touch-icon" href="' + appleTouchIcon + '" /><meta name="apple-mobile-web-app-capable" content="yes">')
 				strReplace withoutAppleIcon
 		}
 	}.

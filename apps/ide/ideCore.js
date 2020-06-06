@@ -37,10 +37,6 @@ try{
 
 	function useHistory(historyIndex, inputElement){
     	inputElement.value = inputHistory[historyIndex];
-		var tree = GLang.getTree(inputElement.value);
-		if(tree.length === 1 && tree[0].category === "valueCall"){
-			inputElement.value = "(" + inputElement.value + ")";
-		}
 		inputElement.selectionStart = 0;
 		inputElement.selectionEnd = 0;
 	}

@@ -18,7 +18,10 @@ $uiLoginForm = ($onLoginAttempt) fun {
 				popupMessage: second: response.
 				onLoginAttempt: false.
 			}.
-		} uiButton "Login"].
+		} uiButton "Login"];
+		[@(emHeight 2) uiContainer: void];
+		[@centerText uiText: "-- or you could --"];
+		[@center {redirect: "/app/register"} uiButton "Register a new user"].
 		
-	$result = uiShowVariableAsList: reference: $views.
+	uiContainer: views
 }

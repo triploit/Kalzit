@@ -48,7 +48,6 @@
 		{"provides":["range_up", "range_down"],  "scriptUrl":"rangeUpDown.txt"},
 		{"provides":["flag", "apply_flag"],  "scriptUrl":"annotations/flag.txt"},
 		{"provides":["width", "height", "px_width", "px_height", "percent_width", "percent_height", "em_width", "em_height", "mm_width", "mm_height", "cm_width", "cm_height", "inch_width", "inch_height"],  "scriptUrl":"annotations/widthHeight.txt"},
-		{"provides":["bottom", "top", "left", "right", "center", "horizontal_center", "vertical_center", "window_bottom", "window_top", "window_left", "window_right", "window_center", "front"],  "scriptUrl":"annotations/orientation.txt"},
 		{"provides":["rgb_color", "color", "color_string", "red", "green", "blue", "black", "white"],  "scriptUrl":"colors.txt"},
 		{"provides":["background_color", "background_gradient_left_to_right", "background_gradient_top_to_bottom", "foreground_color", "opacity", "border_color"],  "scriptUrl":"annotations/bgfg.txt"},
 		{"provides":["on_hover", "on_tap", "on_pointer_up", "on_pointer_down", "on_pointer_move"],  "scriptUrl":"annotations/mouse.txt"},
@@ -83,7 +82,6 @@
         {"provides":["ui_split_view"],  "scriptUrl":"ui/uiSplitView.txt"},
         {"provides":["ui_live_list_view"],  "scriptUrl":"ui/uiLiveListView.txt"},
         {"provides":["get_array"],  "scriptUrl":"getArray.txt"},
-        {"provides":["fit"],  "scriptUrl":"annotations/fit.txt"},
         {"provides":["qwant_search_url", "qwant_web_search_url", "qwant_image_search_url", "qwant_video_search_url"],  "scriptUrl":"qwant/qwantUrls.txt"},
         {"provides":["qwant_search_image_urls"],  "scriptUrl":"qwant/qwantSearch.txt"},
         {"provides":["youtube_channel_id"],  "scriptUrl":"types/youtubeChannelId.txt"},
@@ -115,7 +113,7 @@
         {"provides":["bing_image_search_urls"],  "scriptUrl":"bing/bingSearch.txt"},
         {"provides":["box_shadow"],  "scriptUrl":"annotations/shadow.txt"},
         {"provides":["ui_home_screen", "ui_home_screen_icon", "ui_simple_home_screen_app"],  "scriptUrl":"ui/uiHome.txt"},
-        {"provides":["ui_account_button", "ui_apps_button", "ui_user_button", "ui_user_config_button", "ui_hamburger_button", "user_outline_image_url", "user_image_url", "menu_image_url", "apps_image_url"],  "scriptUrl":"ui/globalButtons.txt"},
+        {"provides":["ui_account_button", "ui_apps_button", "ui_user_button", "ui_user_config_button", "ui_hamburger_button", "ui_cross_button", "user_outline_image_url", "user_image_url", "menu_image_url", "apps_image_url", "cross_image_url"],  "scriptUrl":"ui/globalButtons.txt"},
         {"provides":["vertical_scroller"],  "scriptUrl":"annotations/scroller.txt"},
         {"provides":["fade_in_animation", "fade_out_animation", "shadow_fade_in_animation", "shadow_fade_out_animation"],  "scriptUrl":"fadeAnimation.txt"},
         {"provides":["css_class"],  "scriptUrl":"annotations/cssClass.txt"},
@@ -129,6 +127,8 @@
         {"provides":["developer_mode"],  "scriptUrl":"developerMode.txt"},
         {"provides":["strings"],  "scriptUrl":"strings.txt"},
         {"provides":["calcit_compile_js_function"],  "scriptUrl":"calcitCompileJsFunction.txt"},
-        {"provides":["function", "repeated_function"],  "scriptUrl":"types/repeatedFunction.txt"}
+        {"provides":["function", "repeated_function"],  "scriptUrl":"types/repeatedFunction.txt"},
+        {"provides":["on_drop"],  "scriptUrl":"annotations/drop.txt"},
+        {"provides":["ui_toolbar_with_close_button", "ui_title_toolbar"],  "scriptUrl":"ui/uiToolbarWithCloseButton.txt"}
 	]
 }

@@ -36,18 +36,30 @@ GLang.scopePrototype = {
 			return "";
 		}
 		
-		//If it does contain underscores, make all characters lower case and finish
-		if(originalName.split("_").length > 1){
-			return originalName.toLowerCase();
+		//Try to go with an easy and fast unification method first
+		if(
+			//Check for an all-upper-case name - if present, make it lower case and return
+			originalName.includes("_") || 
+			//If the name does contain underscores, do the same thing
+			originalName === originalName.toUpperCase()
+		){
+			return originalName.toLowerCase();	
 		}
+		
 		//Otherwise, expect lower camel case, place a _ in front of every upper case character and make it lower case
-		var unifiedName = originalName[0].toLowerCase();
-		for(var i = 1; i < originalName.length; i++){
-			//Replace upper case characters with _ followed by the lower case version
-			var char = originalName[i];
-			unifiedName += char.toLowerCase() !== char ? "_" + char.toLowerCase() : char;
+		var unifiedName = originalName.replace(
+			//All upper-case characters
+			/[A-Z]/g,
+			//What to do with them
+			char => "_" + char.toLowerCase()
+		)
+		
+		//Add an exception for the first letter of the name (remove leading _ if present)
+		if (unifiedName.startsWith("_")){
+			return unifiedName.slice(1);	
+		}else{
+			return unifiedName	
 		}
-		return unifiedName;
 	},
 	setInnerVariable: function(n, value, allowOverride, type){
 		if(!n.match("[a-zA-Z_]+")){

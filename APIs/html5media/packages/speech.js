@@ -1,4 +1,14 @@
 (function(thiz){
+
+	/*
+	This function is used to retrieve a voice object (needed for speech synthesis) by a given name.
+	That is done using speechSynthesis.getVoices() - if this library is not found, there will be an error.
+	
+	If there is no voice with the requested name, "undefined" is returned.
+	
+	Essentially, this function is only really there because it allows voices to be represented as strings, which makes it possible to serialize them very easily.
+	However, that might become a problem if different platforms use different voice names. Another way of representing voices would be preferred.
+	*/
 	function getVoiceObject(voiceName){
 		for(var i = 0; i < speechSynthesis.getVoices().length; i++){
 			if(speechSynthesis.getVoices()[i].name === voiceName){
@@ -7,6 +17,19 @@
 		}
 	}
 	
+	/*
+	Causes text to be spoken using a given voice.
+	Both the text parameter and the voice parameter are required.
+	
+	Usually, the voice is obtained using "speechGetVoicesByLanguage", like this:
+		
+		$voice = first: speechGetVoicesByLanguage: "en".
+		"This will be said" speechSay voice.
+		
+	If you want to speek text that the user wrote, consider these two options:
+		1. Ask for the preferred language. This could be done using something like "uiPicker".
+		2. Assume that the user writes something in the system language and obtain that using "getSimpleUserLanguage".
+	*/
 	thiz.speechSay = function(text, voice){
 		var ssu = new SpeechSynthesisUtterance(text);
 		ssu.voice = getVoiceObject(voice) || ssu.voice;
@@ -14,6 +37,13 @@
 		return text;
 	}
 	
+	/*
+	Returns a list of voices (represented by their name as a string) that are able to talk in a given language.
+	The language can be a string such as "en" or "en-US".
+	
+	Usage example:
+		$voice = first: speechGetVoicesByLanguage: "en".
+	*/
 	thiz.speechGetVoicesByLanguage = function(language){
 		var list = [];
 		for(var i = 0; i < speechSynthesis.getVoices().length; i++){
@@ -24,6 +54,14 @@
 		return list;
 	}
 	
+	/*
+	Returns a list of all available voices (represented by their name as a string).
+	This is probably not useful because there is no way to get any information about a voice (yet?).
+	So this function might be removed in later versions.
+	
+	Usage example:
+		$allVoices = !speechGetVoices.
+	*/
 	thiz.speechGetVoices = function(){
 		var list = [];
 		for(var i = 0; i < speechSynthesis.getVoices().length; i++){

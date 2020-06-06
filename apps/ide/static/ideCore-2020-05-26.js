@@ -10,7 +10,7 @@ try{
 		}
 	}
 	
-	GLang.packageManager.loadPackageSync("/html5/files/idePackageHints.txt");
+	GLang.packageManager.loadPackageSync("/apps/ide/idePackageHints.txt");
 	var packageOverview = GLang.displayValue(GLang.eval("$_ide_marked_package='pm'. _ide_package_hint_ui: $_ide_marked_package"));
 	
 	GLang.packageManager.installJs(function(){
@@ -37,10 +37,6 @@ try{
 
 	function useHistory(historyIndex, inputElement){
     	inputElement.value = inputHistory[historyIndex];
-		var tree = GLang.getTree(inputElement.value);
-		if(tree.length === 1 && tree[0].category === "valueCall"){
-			inputElement.value = "(" + inputElement.value + ")";
-		}
 		inputElement.selectionStart = 0;
 		inputElement.selectionEnd = 0;
 	}

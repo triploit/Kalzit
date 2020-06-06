@@ -1,3 +1,5 @@
+uiTitle: "Library overview - Kalzit Docs".
+
 $originalList = $searchResults = {not: "_" strStartsWith x} filter !pmListNames.
 $searchResultsRef = reference: $searchResults.
 

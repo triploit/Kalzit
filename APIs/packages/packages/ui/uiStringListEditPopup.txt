@@ -12,9 +12,10 @@ $uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemov
 	do:updateNameViews.
 	($setOnChange of list): updateNameViews.
 	
-	uiContainer: [uiToolbar: @center @(percentWidth: 90) uiContainer:
-		(@(percentWidth 90) newAdditionRef uiTextfieldVariableOnchange "");
-		(@(percentWidth 10) {($push of list): newAddition. do:updateNameViews} uiButton "Add")
+	uiContainer: [uiToolbarWithCloseButton: @right @(width "100% - 1.7cm") uiContainer:
+		@(percentWidth 100) @center uiContainer:
+			(@(percentWidth 85) newAdditionRef uiTextfieldVariableOnchange "");
+			(@(percentWidth 10) {($push of list): newAddition. do:updateNameViews} uiButton "Add")
 	];[
 		@verticalScroller @center @(height {100% - 1.5cm}) @(percentWidth 90) uiContainer: uiShowVariableAsList: nameViewsRef
 	]
@@ -30,7 +31,7 @@ $uiStringListEditor = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
 }.
 
 $uiStringListEditPopup = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
-	(listRef uiStringListEditor _onAdditionAndOnRemoval) uiPopup {
+	(@(percentHeight 100) listRef uiStringListEditor _onAdditionAndOnRemoval) uiPopup {
 		!closeSubApp
 	}
 }.

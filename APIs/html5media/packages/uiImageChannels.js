@@ -1,3 +1,4 @@
+//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageDataChannelsRgb", {value:function(env, args){
 	var canvas = document.createElement("canvas");
 	
@@ -44,6 +45,8 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageDataChannelsRgb", {
 	
 	return {value:canvas, display:"dom"};
 }, display:"function"});
+
+//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageDataChannels", {value:function(env, args){
 	var canvas = document.createElement("canvas");
 	

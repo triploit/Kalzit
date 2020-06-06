@@ -1,22 +1,56 @@
+#{
+	A modifiable list that contains all the tools that are supposed to be added to a desktop toolbar.
+	Such a bar can be generated using "uiGlobalToolbar", or "generateDesktopToolbar" if you want to be more specific.
+	
+	A tool should not (!) be added by directly modifying this list. Instead, please use "registerDesktopTool" for that.
+	In the documentation for that function, you can also see how a desktop tool is built.
+}
 $registeredDesktopTools ? ModifiableList = ().
+
+#{
+	This function is used to register a tool that will later be added to a desktop toolbar.
+	A tool is basically just a function that returns a UI element. This element is added to the toolbar.
+	
+	It is not guaranteed when exactly the toolFactory function is called.
+	It might be before the toolbar is set up, during the setup process, or even after it is already visible.
+	
+	A tool implementation might look like this:
+		registerDesktopTool: {@left {} uiButton "Button"}.
+	
+	To get all registered desktop tools, use "registeredDesktopTools".
+	To get a toolbar overlay only for the desktop, use "generateDesktopOverlay".
+	To get a toolbar for both mobile and desktop, where the desktop one uses the registered tools, use "uiGlobalToolbar".
+}
 $registerDesktopTool = ($toolFactory) fun {
 	($push propOf registeredDesktopTools): toolFactory.
 }.
+
+#{
+	Generates a toolbar overlay with a standardized layout for the desktop.
+	This bar is only visible when the app window is wide enough for desktop controls, otherwise it is hidden.
+	
+	This toolbar is empty by default, except for two buttons on the right ("user" and "apps").
+	To add custom tools for an app, use "registerDesktopTool".
+	For more information about adding desktop tools, see the documentation of "registerDesktopTool".
+	
+	Please note that if you are making an app for mobile and desktop, you sould use "uiGlobalToolbar" instead of this function.
+	It takes care of adding all necessary UI elements to make the toolbar look nice.
+}
 $generateDesktopToolbarOverlay = () fun {
+	`Generate the toolbar overlay and make it only visible on the desktop`
 	@(cssClass: "k-desktop_only") uiToolbarOverlay: 
-		[@verticalCenter @dynamicSize @left @(percentWidth !ifElse developerMode 89;94) uiContainer:
+	
+		`Add the app-specific tools (added using registerDesktopTool)`
+		[@verticalCenter @dynamicSize @left @(percentWidth 89) uiContainer:
 			{@verticalCenter @dynamicSize do:x} each getArray: registeredDesktopTools
 		];
+		
+		`Add the default navigation buttons (uiUserButton and uiAppsButton) at the right`
 		[
-			@verticalCenter @right @(percentHeight 50) @(percentWidth !ifElse developerMode 10;5) uiContainer:
-				(!ifElse developerMode
-					{
-						[@(percentWidth 40) !uiAppsButton];
-						[uiHorizontalPercentSpace 10]
-					};
-					{uiHorizontalPercentSpace 50}
-				);
-				[@(percentWidth !ifElse developerMode 40;90) !uiUserButton];
+			@verticalCenter @right @(percentHeight 50) @(percentWidth 10) uiContainer:
+				[@(percentWidth 40) !uiAppsButton];
+				[uiHorizontalPercentSpace 10];
+				[@(percentWidth 40) !uiUserButton];
 				[uiHorizontalPercentSpace 10]
 		].
 }.

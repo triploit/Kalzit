@@ -1,8 +1,22 @@
-$colorRemoveAlpha=$_x fun {(0 range 2) at _x}.
-$colorSetAlpha=($x;$_y) fun {rgbValues;x: $rgbValues=((0 range 2) at _y)}.
+$colorRemoveAlpha = RgbColor.
+
+#{
+	Takes any color and produces a new one that is similar, but has a new alpha value.
+	The new alpha value is defined by the first parameter, the base color by the second.
+	
+	Usage example:
+		$translucentRed = 122 colorSetAlpha red.
+}
+$colorSetAlpha=($alpha ? Int ; $_rgbValues ? RgbColor) fun {
+	_rgbValues;alpha
+}.
+
+@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
 $imageRemoveAlpha=$_x fun {
 	{{colorRemoveAlpha: x} each x} each x
 }.
+
+@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
 $imageSetAlpha=($alphaFunction; $_imageData) fun {
 	{{alphaFunction colorSetAlpha x} each  x} each _imageData
 }.

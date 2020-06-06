@@ -30,13 +30,6 @@
 .ideButton {
 	margin: 3px;
 }
-.closed {
-  max-height: 0;
-}
-.closable {
-  overflow: hidden;
-  transition: max-height 1s ease-out;
-}
 .toggle {
 	color: #fef4e9;
 	border: solid 2px #999999;

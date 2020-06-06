@@ -4,6 +4,9 @@ print: "Trying to run Markdown app (on server): " + fname.
 resultRef = {
 	<html>
 		<head>
+			<title>
+				} + (fileName: fname) + " - Kalzit Docs" + {
+			</title>
 			<link rel="stylesheet" href="/assets/stylesheets/html5/default/style.css">
 			<link rel="stylesheet" href="/assets/stylesheets/html5/article.css">
 		</head>

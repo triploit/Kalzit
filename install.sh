@@ -1,5 +1,6 @@
 npm install follow-redirects xmldom
 npm install -g terser
+npm install -g uglifycss
 npm install -g markdown-to-html
 
 #nogit
@@ -20,6 +21,9 @@ mkdir nogit/users/plain
 echo \#!/bin/bash > ./kalzit
 echo cd \"$(pwd)/nodejs/files\" >> ./kalzit
 echo "bash ./run.sh \"\$@\"" >> ./kalzit
+
+mkdir ./generated
+bash ./buildEverything.sh
 
 chmod +x ./kalzit
 chmod +x ./nodejs/files/httpServer

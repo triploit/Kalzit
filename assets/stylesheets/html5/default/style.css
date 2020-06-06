@@ -21,6 +21,14 @@
     --button-shadow-color: black;
 }
 
+.closed {
+	max-height: 0;
+}
+.closable {
+	overflow: hidden;
+	transition: max-height 1s ease-out;
+}
+
 .calcitStandardBackground {
     --kv-text_color_rgb: 255,255,255;
     --button-gradient: linear-gradient(
@@ -188,6 +196,7 @@ td {
 code {
   background-color: #EEEEEE;
   font-family: Courier;
+  display: inline-block;
 }
 .k-desktop_only {
     display: inherit;

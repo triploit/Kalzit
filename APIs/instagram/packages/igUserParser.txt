@@ -1,35 +1,165 @@
+#{
+	Returns a (most complete) representation of the given Instagram user.
+	
+	This is done by loading "https://www.instagram.com/userName" and scanning the source code for the "window._sharedData" variable.
+	The content of this variable (expected to be JSON) is then parsed, and the result is returned.
+	Because of this approach, the function could break whenever Instagram updates their site.
+	
+	Example usage:
+		$userData = igUserParseUserComplete: "anyUserName".
+	
+	If you do not need all available user data, consider using a more specialized function instead of this one.
+	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
+}
 $igUserParseUserComplete = ($userName ? String) fun {
 	$script = second: ".*<script\s+.*>(.*)<\s*/\s*script\s*>.*" match loadGlobal: "https://www.instagram.com/" + userName + "/".
 	$json = second: "window\._sharedData\s*=\s*(.*)\s*;" match script.
 	parseJson: json
 }.
+
+#{
+	Parses out the main part of an Instagram user's publicly available data.
+	The argument of this function needs to be the result of "igUserParseUserComplete".
+	
+	Example usage:
+		$mainPart = igUserParseBase: igUserParseUserComplete: "anyUserName".
+		
+	If you do not need all available user data, consider using a more specialized function instead of this one.
+	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
+}
 $igUserParseBase = $_igUserComplete fun {
 	$user propOf $graphql propOf first: $ProfilePage propOf $entry_data propOf _igUserComplete
 }.
+
+#{
+	This function is a slightly different version of "igUserParseBase".
+	Instead of needing an object as its parameter, this one requires just a simple user name.
+	
+	As an example, here are two lines of code that produce the same result:
+		igUserParseBase: igUserParseUserComplete: "anyUserName".
+		igUserParseUserBase: "anyUserName".
+	
+	If you do not need all available user data, consider using a more specialized function instead of this one.
+	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
+}
 $igUserParseUserBase = ($userName ? String) fun {
 	igUserParseBase: igUserParseUserComplete: userName
 }.
+
+#{
+	Parses out the image data from a given instagram user.
+	The parameter of this function needs to be the result of "igUserParseBase" or "igUserParseUserBase".
+	
+	Example usage:
+		$userImages = igUserParseImages: igUserParseUserBase: "anyUserName".
+	
+	If you are interested in only getting image thumbnails, consider using "igUserParseImageThumbnails".
+	In case you are only interested in the full-resolution version of images, "igUserParseImageUrls" is the way to go.
+	
+	Basically, this function should only be used if you need multiple different pieces of information about the images.
+}
 $igUserParseImages = $_igUserBase fun {
 	{$node propOf x} each $edges propOf $edge_owner_to_timeline_media propOf _igUserBase
 }.
+
+#{
+	This function is a slightly different version of "igUserParseImages".
+	Instead of needing an object as its parameter, this one requires just a simple user name.
+	
+	As an example, here are two lines of code that produce the same result:
+		igUserParseImages: igUserParseUserBase: "anyUserName".
+		igUserParseUserImages: "anyUserName".
+	
+	If you are interested in only getting image thumbnails, consider using "igUserParseUserImageThumbnails".
+	In case you are only interested in the full-resolution version of images, "igUserParseUserImageUrls" is the way to go.
+	
+	Basically, this function should only be used if you need multiple different pieces of information about the images.
+}
 $igUserParseUserImages = ($userName ? String) fun {
 	igUserParseImages: igUserParseUserBase: userName
 }.
+
+#{
+	Returns the main image URL of an Instagram user image.
+	The parameter of this function needs to be an entry of the result of "igUserParseImages" or "igUserParseUserImages".
+	
+	For example, you could get the image URL of the most recent picture like this:
+		$mostRecent = igUserParseImageUrl: first: igUserParseUserImages: "anyUserName".
+		
+	Since that is rather much code for this task, there is also the function "instagramUserImages" to make it a lot easier.
+	However, if you already have an object containing Instagram image data, this function here might be useful.
+}
 $igUserParseImageUrl = $_userImage fun {
 	$display_url propOf _userImage
 } ? Image.
+
+#{
+	Returns all full-resolution URLs from a list of Instagram image objects.
+	The parameter of this function needs to be the result of "igUserParseImages" or "igUserParseUserImages".
+	
+	Usage example:
+		$imageUrls = igUserParseImageUrls: igUserParseUserImages: "anyUserName".
+	
+	Since that is rather much code for this task, there is also the function "instagramUserImages" to make it a lot easier.
+}
 $igUserParseImageUrls = $_userImages fun {
 	igUserParseImageUrl each _userImages
 } ? Images.
+
+#{
+	This function is a slightly different version of "igUserParseImageUrls".
+	Instead of needing an object as its parameter, this one requires just a simple user name.
+	
+	As an example, here are two lines of code that produce the same result:
+		igUserParseImageUrls: igUserParseUserImages: "anyUserName".
+		igUserParseUserImageUrls: "anyUserName".
+		
+	A function with the same effect as this one is also available as "instagramUserImages" to make it easier to use.
+}
 $igUserParseUserImageUrls = ($userName ? String) fun {
 	igUserParseImageUrls: igUserParseUserImages: userName
 } ? Images.
+
+#{
+	Returns the "shortcode" of an instagram user image.
+	The parameter of this function needs to be an entry of the result of "igUserParseImages" or "igUserParseUserImages".
+	
+	Basically, the "shortcode" is what you put after "https://instagram.com/p/" to get to the image page.
+	
+	So, if you want to create a link to an instagram image, you could do it like this:
+		$imageData = `Image data from somewhere`.
+		$link = "https://instagram.com/p/" + igUserParseImageShortcode: imageData.
+	
+	In case you need to get shortcodes of multiple images, consider using "igUserParseImageShortcodes" (has an "s" at the end).
+}
 $igUserParseImageShortcode = $_userImage fun {
 	$shortcode propOf _userImage
 }.
+
+#{
+	Returns all image "shortcodes" from a list of Instagram image objects.
+	The parameter of this function needs to be the result of "igUserParseImages" or "igUserParseUserImages".
+	
+	Basically, the "shortcode" is what you put after "https://instagram.com/p/" to get to the image page.
+	
+	So, if you want to convert a list of Instagram images to a link, you can do this:
+		$imageData = `Image data from somewhere`.
+		$link = "https://instagram.com/p/" + igUserParseImageShortcodes: imageData.
+	
+	Of course, you could also get a specific shortcode:
+		$code = first: igUserParseImageShortcodes: imageData.
+}
 $igUserParseImageShortcodes = $_userImages fun {
 	igUserParseImageShortcode each _userImages
 }.
+
+#{
+	Returns a list of image "shortcodes" by a given instagram user.
+	Basically, the "shortcode" is what you put after "https://instagram.com/p/" to get to the image page.
+	
+	Here is an example that opens the most recent user image in the browser:
+		redirect: "https://instagram.com/p/" + first: igUserParseUserImageShortcodes: "anyUserName".
+}
 $igUserParseUserImageShortcodes = ($userName ? String) fun {
 	igUserParseImageShortcodes: igUserParseUserImages: userName
 }.

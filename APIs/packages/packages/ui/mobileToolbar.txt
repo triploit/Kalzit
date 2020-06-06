@@ -2,23 +2,56 @@ $registeredMobileTools ? ModifiableList = ().
 $registerMobileTool = ($toolFactory ; $_label ? ("Needs a label" default String)) fun {
 	($push of registeredMobileTools): [toolFactory;_label].
 }.
+
+#{
+	Generates a toolbar overlay with a standardized layout for mobile devices (usually smartphones).
+	This bar is only visible when the app window is soo small for desktop controls, otherwise it is hidden.
+	
+	This toolbar is empty by default, except for two buttons on the right ("user" and "apps") and one on the left ("menu").
+	
+	To add custom tools for an app, use "registerMobileTool".
+	That will not actually add a tool to the bar itself, but it will add an option that appears when the user taps the menu button.
+	For more information about adding desktop tools, see the documentation of "registerDesktopTool".
+	
+	Please note that if you are making an app for mobile and desktop, you sould use "uiGlobalToolbar" instead of this function.
+	It takes care of adding all necessary UI elements to make the toolbar look nice.
+}
 $generateMobileToolbarOverlay = () fun {
 	$mobileTools = getArray: registeredMobileTools.
 	(($_tool) fun {
 		$popupRef = reference: $popup.
-		("tool_" + urlEncodeParameter: second: _tool) registerSubApp {
+		$toolName = "tool_" + urlEncodeParameter: second: _tool.
+		
+		toolName registerSubApp {
 			$view = do: first: _tool.
 			!if (not view eq void) {
 				print: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
 			}. !else {
-				!closeSubApp
+				$currentSubApp = !getCurrentSubApp.
+				!closeSubApp. `Make sure that the "back" button takes you back to the main app`
+				
+				!if (toolName eq currentSubApp) {
+					`The intent is probably to close the sub app - the action is done`
+					!closeSubApp
+				}.
+				
+				`If the sub-app changed, re-open the last one`
+				!ifNot (currentSubApp eq toolName) {openSubApp currentSubApp}
 			}
 		};{uiHide: popup}
 	}) each mobileTools.
 	
-	$toolsPopup = (@center @(percentWidth: 95) @(percentHeight: 90) {openSubApp: $id objFirstProperty calcitAnnotations: x} uiSingleViewPicker {
-		@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiText: second: x
-	} each mobileTools) uiPopup {openSubApp: ""}.
+	$toolsPopup = 
+		(
+			(uiTitleToolbar: "Tools");
+			(
+				@center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm") {
+					openSubApp: $id objFirstProperty calcitAnnotations: x
+				} uiSingleViewPicker {
+					@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiText: second: x
+				} each mobileTools
+			)
+		) uiPopup {openSubApp: ""}.
 	$tools registerSubApp {
 		print: toolsPopup.
 	};{uiHide: toolsPopup}.
@@ -30,10 +63,8 @@ $generateMobileToolbarOverlay = () fun {
 			}
 		];
 		[
-			@verticalCenter @right @(percentHeight 75) @(percentWidth !ifElse developerMode 25;12,5) uiContainer:
-				[@(percentWidth !ifElse developerMode 50;100) !uiUserButton];
-				!if developerMode {
-					[@(percentWidth 50) !uiAppsButton]
-				}
+			@verticalCenter @right @(percentHeight 75) @(percentWidth 25) uiContainer:
+				[@(percentWidth 50) !uiAppsButton];
+				[@(percentWidth 50) !uiUserButton]
 		].
 }.

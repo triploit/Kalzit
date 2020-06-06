@@ -1,4 +1,11 @@
+@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
 $imageGetChannel = ($index;$_imageData) fun {{{index at x} each x} each _imageData}.
+
+@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
 $imageGetRedChannel = $_x fun {0 imageGetChannel _x}.
+
+@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
 $imageGetGreenChannel = $_x fun {1 imageGetChannel _x}.
+
+@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
 $imageGetBlueChannel = $_x fun {2 imageGetChannel _x}.

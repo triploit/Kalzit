@@ -9,7 +9,7 @@
 		{"provides":["folder_content", "file_content", "file_is_file", "file_is_folder", "file_exists"], "scriptUrl":"filesystem.txt"},
 		{"provides":["ui_login_form"], "scriptUrl":"uiLoginForm.txt"},
 		{"provides":["ui_toolbar", "ui_skin_toolbar_ref", "ui_toolbar_reserved_space", "ui_toolbar_overlay", "toolbar_cm_height"], "scriptUrl":"uiToolbar.txt"},
-		{"provides":["window_center", "window_top", "window_bottom", "window_left", "window_right", "center", "top", "bottom", "left", "right", "horizontal_center", "vertical_center", "front", "dynamic_size", "fit"], "scriptUrl":"cssFlags.txt"},
+		{"provides":["window_center", "window_top", "window_bottom", "window_left", "window_right", "center", "top", "bottom", "left", "right", "horizontal_center", "vertical_center", "front", "dynamic_size", "dynamic_width", "dynamic_height", "fit"], "scriptUrl":"cssFlags.txt"},
 		{"provides":["run_command"],  "scriptUrl":"runCommand.txt"}
 	]
 }

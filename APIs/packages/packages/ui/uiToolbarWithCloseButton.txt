@@ -1,0 +1,14 @@
+$uiToolbarWithCloseButton = $_views fun {
+	$close = @left @verticalCenter @(cmWidth 1,7) @(percentHeight 50) !uiCrossButton.
+
+	uiToolbar:
+		_views;
+		close
+}.
+
+$uiTitleToolbar = ($title ? String) fun {
+	uiToolbarWithCloseButton:
+		(@verticalCenter @right @(percentWidth 100) @centerText uiContainer:
+			(@(foregroundColor white) @(emFontSize: 1,5) uiText: title)
+		)
+}.

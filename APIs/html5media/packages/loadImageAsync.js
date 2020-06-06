@@ -1,4 +1,6 @@
 (function(){
+
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	function loadImageAndThen(imageUrl, andThen){
 		var image = document.createElement("img");
 		image.onload = function(){
@@ -17,6 +19,7 @@
 		image.src="server/serverside_load.php?query=" + encodeURIComponent(imageUrl);
 	}
 
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("loadImageAsync", {value:function(env, args){
 		loadImageAndThen(args[1].value, function(pixels, width, height){
 			var result = [];
@@ -39,6 +42,7 @@
 		return {value:0, display:"none"};
 	}, display:"function"});
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("loadImageAsyncRgb", {value:function(env, args){
 		loadImageAndThen(args[1].value, function(pixels, width, height){
 			var result = [];
@@ -60,6 +64,7 @@
 		return {value:0, display:"none"};
 	}, display:"function"});
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("loadImageAsyncMono", {value:function(env, args){
 		loadImageAndThen(args[1].value, function(pixels, width, height){
 			var result = [];

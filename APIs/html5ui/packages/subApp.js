@@ -26,6 +26,10 @@
 	};
 	thiz.registerSubApp = function(name, _openAndClose){
 		hashes.set(name, {open:_openAndClose[0], close:_openAndClose[1]});
-		if(location.hash == "#" + name) initiate(name);
+		if(location.hash == "#" + name) location.hash = "none"
 	};
+	thiz.getCurrentSubApp = function(){
+		return location.hash.replace("#", "");	
+	};
+	
 })(this);

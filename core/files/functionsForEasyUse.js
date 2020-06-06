@@ -20,6 +20,26 @@ GLang.eval = function (text, disableRuntimeUpdates){
 	}
 };
 
+//A function that attempts to produce a human-readability-first, completeness-second string from any value
+GLang.stringify = function(anything){
+	try{
+		return JSON.stringify(anything);
+	}catch(error){
+		//Something went wrong - try to exclude repeated values
+		var seen = [GLang.defaultRuntimeEnvironment];
+	
+		return JSON.stringify(anything, function(key, val) {
+		   if (val != null && typeof val == "object") {
+		        if (seen.indexOf(val) >= 0) {
+		            return;
+		        }
+		        seen.push(val);
+		    }
+		    return val;
+		});	
+	}
+};
+
 (function(){
 	var generalUpdateFunctions = [];
 	

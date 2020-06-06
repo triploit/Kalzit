@@ -1,5 +1,18 @@
+@(deprecated: "The web-service this URL pointed to is no longer available")
 $webstagramUserRssUrl="http://web.stagram.com/rss/n/".
-$instagramUserUrl="https://www.instagram.com/".
+
+#{URL to the Instagram main page}
+$instagramUserUrl ? Url = "https://www.instagram.com/".
+
+@(deprecated: "The web-service this URL pointed to is no longer available")
 $queryfeedInstagramTagRssUrl="https://queryfeed.net/instagram?q=%23".
+
+@(deprecated: "The web-service this URL pointed to is no longer available")
 $queryfeedInstagramUserRssUrl="http://queryfeed.net/instagram?q=".
-$instagramTagUrl="https://www.instagram.com/explore/tags/".
+
+#{
+	URL to the Instagram "tags" page.
+	To point to a specific tag, use something like this:
+		instagramTagUrl + "yourTag".
+}
+$instagramTagUrl ? Url = "https://www.instagram.com/explore/tags/".

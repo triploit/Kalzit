@@ -16,7 +16,7 @@ So this is the second big part of Kalzit: It is an easy way to set up a little w
 The problem is that there are currently not many web applications that run on it. With the latest relese, at least one good one is included. I am developing a few more, but none are ready for release yet. But the idea is still the same. However, you could try to create some apps yourself - with Kalzit, is it not as hard as you think.
 
 
-So that is Kalzit today. In case you are interested in the latest changes, [take a look at the changelog](/docs/changelog/2020.05.05.md). If you are interested in plans for the future, [here you go](docs/future.md).
+So that is Kalzit today. In case you are interested in the latest changes, [take a look at the changelog](/docs/changelog/2020.06.06.md). If you are interested in plans for the future, [here you go](/docs/changelog/2020.06.06.md#plans-for-the-future-) (or just scroll to the bottom of the changelog).
 
 # Setup
 

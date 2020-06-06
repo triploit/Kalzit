@@ -27,12 +27,8 @@
 #inputClickCatcher {
 	display: inline-block;
 }
-.closed {
-  max-height: 0;
-}
-.closable {
-  overflow: hidden;
-  transition: max-height 1s ease-out;
+.ideButton {
+	margin: 3px;
 }
 .toggle {
 	color: #fef4e9;

@@ -1,5 +1,6 @@
 (function(){
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	function makeRgbaImageData(canvas, env, args){
 		var imageData = canvas.getContext("2d").createImageData(args[0].value.length, args[0].value[0].value.length);
 	
@@ -14,6 +15,7 @@
 		return imageData;
 	}
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	function makeRgbImageData(canvas, env, args){
 		var imageData = canvas.getContext("2d").createImageData(args[1].value.length, args[1].value[0].value.length);
 	
@@ -37,6 +39,7 @@
 		return imageData;
 	}
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	function makeMonoImageData(canvas, env, args){
 		var imageData = canvas.getContext("2d").createImageData(args[1].value.length, args[1].value[0].value.length);
 	
@@ -51,6 +54,7 @@
 		return imageData;
 	}
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	function makeDataCanvas(dataMaker, env, args){
 		var canvas = document.createElement("canvas");
 		var imageData = dataMaker(canvas, env, args);
@@ -60,6 +64,7 @@
 		return canvas;
 	}
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageDataArray", {value:function(env, args){
 		var canvas = document.createElement("canvas");
 		var imageData = canvas.getContext("2d").createImageData(args[0].value[0].value, args[0].value[1].value);
@@ -75,27 +80,33 @@
 		return {value:canvas, display:"dom"};
 	}, display:"function"});
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageDataMatrix", {value:function(env, args){
 		return {value:makeDataCanvas(makeRgbaImageData, env, args), display:"dom"};
 	}, display:"function"});
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageDataMatrixRgb", {value:function(env, args){
 		return {value:makeDataCanvas(makeRgbImageData, env, args), display:"dom"};
 	}, display:"function"});
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageDataMatrixMono", {value:function(env, args){
 		return {value:makeDataCanvas(makeMonoImageData, env, args), display:"dom"};
 	}, display:"function"});
 	
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("imageDataUrl", {value:function(env, args){
 		return GLang.stringValue(makeDataCanvas(makeRgbaImageData, env, args).toDataURL());
 	}, display:"function"});
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("imageDataUrlRgb", {value:function(env, args){
 		return GLang.stringValue(makeDataCanvas(makeRgbImageData, env, args).toDataURL());
 	}, display:"function"});
 	
+	//The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.
 	GLang.defaultRuntimeEnvironment.setInnerVariable("imageDataUrlMono", {value:function(env, args){
 		return GLang.stringValue(makeDataCanvas(makeMonoImageData, env, args).toDataURL());
 	}, display:"function"});

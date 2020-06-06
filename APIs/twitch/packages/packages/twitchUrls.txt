@@ -1,5 +1,37 @@
+#{
+	The main Twitch player URL, with a "/?" added to it.
+	If you are interested in generating player URLs, consider using the following options:
+		"twitchChannelEmbedUrl", "twitchVideoEmbedUrl" or "twitchCollectionEmbedUrl".
+	
+	In case you want to create a Twitch player to embed in your UI, take a look at the "uiTwitch...Player" functions
+		(there are specific ones for channels, videos and collections).
+}
 $twitchEmbedUrl ? Url = "player.twitch.tv/?".
+
+#{
+	An URL that helps you create a Twitch player from a given channel name.
+	Usage example:
+		redirect: twitchChannelEmbedUrl + "anyChannelName"
+}
 $twitchChannelEmbedUrl ? Url = twitchEmbedUrl + "channel=".
+
+#{
+	An URL that helps you create a Twitch player from a given video ID.
+	Usage example:
+		redirect: twitchVideoEmbedUrl + "anyVideoId"
+}
 $twitchVideoEmbedUrl ? Url = twitchEmbedUrl + "video=".
+
+#{
+	An URL that helps you create a Twitch player from a given collection.
+	Usage example:
+		redirect: twitchCollectionEmbedUrl + "anyCollectionId"
+}
 $twitchCollectionEmbedUrl ? Url = twitchEmbedUrl + "collection=".
+
+#{
+	An URL that helps you create a Twitch player from a given collection.
+	Usage example:
+		redirect: twitchCollectionEmbedUrl + "anyCollectionId"
+}
 $twitchUserRssUrl ? Url = "twitchrss.appspot.com/vod/".

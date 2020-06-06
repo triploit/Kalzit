@@ -3,18 +3,7 @@
 	function showMessageOnPage(message, type){
 		try{
 		var paragraph = document.createElement("p");
-		paragraph.innerHTML = message + "";
-		if(message instanceof Array || message.value){
-			try{
-				paragraph.innerHTML = JSON.stringify(message);
-			}catch(err){
-				try{
-					paragraph.innerHTML = "{value:" + JSON.stringify(message.value) + "}";
-				}catch(err){
-					//JSON.stringify did not work, so we use the original value
-				}
-			}
-		}
+		paragraph.innerHTML = GLang.stringify(message);
 		switch(type){
 			case "error": paragraph.style.color = "red"; break;
 			case "print": paragraph.style.color = "gray"; break;
