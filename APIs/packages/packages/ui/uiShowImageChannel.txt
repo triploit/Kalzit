@@ -1,3 +1,0 @@
-$uiShowImageRedChannel = $_x fun {255 uiShowImageDataChannelsRgb [_x];[0];[0]}.
-$uiShowImageGreenChannel = $_x fun {255 uiShowImageDataChannelsRgb [0];[_x];[0]}.
-$uiShowImageBlueChannel = $_x fun {255 uiShowImageDataChannelsRgb [0];[0];[_x]}.

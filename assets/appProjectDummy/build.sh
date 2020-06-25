@@ -63,6 +63,12 @@ then
 	echo "\"appleTouchIcon\":\"/apps/$appId/static/$sum.png\"" >> ./$appId.json
 	echo "../static/$sum.png" >> ./doNotTouch/manifest.appcache
 fi
+#Standard icons
+for file in $(ls "$rootFolder/assets/images/static"); do
+	echo "/assets/images/static/$file" >> ./doNotTouch/manifest.appcache
+done
+#Default language file
+echo "/assets/strings/default.json" >> ./doNotTouch/manifest.appcache
 #Application Cache (should be the last item)
 echo NETWORK: >> ./doNotTouch/manifest.appcache
 echo "*" >> ./doNotTouch/manifest.appcache
@@ -98,4 +104,4 @@ if [ -f "$appFolder/platform-packages.json" ]
 	fi
 
 
-bash "$rootFolder/buildKalzitFile.sh" "$appFolder/$appId.k" "$rootFolder"
+bash "$rootFolder/utilities/cli/build/kalzitFile.sh" "$appFolder/$appId.k" "$rootFolder"

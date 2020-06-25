@@ -1,3 +1,25 @@
+#{
+	The base URL that points to an RSS feed for a BitChute channel.
+	
+	Usage example:
+		$feedUrl = bitchuteChannelRssUrl + "someChannelId".
+}
 $bitchuteChannelRssUrl = "https://www.bitchute.com/feeds/rss/channel/".
+
+#{
+	The base URL that points to the BitChute video search results page
+	
+	Usage example:
+		$searchUrl = bitchuteSearchUrl + urlEncodeParameter: "term".
+	
+	To actually perform a search, take a look at "bitchuteSearchVideoIds" or "bitchuteSearchVideoUrls".
+}
 $bitchuteSearchUrl = "https://www.bitchute.com/search?q=".
+
+#{
+	The base URL that points to a BitChute video embed page.
+	
+	Usage example:
+		$embedUrl = bitchuteChannelRssUrl + "someVideoId".
+}
 $bitchuteEmbedUrl = "https://www.bitchute.com/embed/"

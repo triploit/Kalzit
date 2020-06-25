@@ -1,0 +1,16 @@
+#! /bin/bash
+
+if [ "$#" -lt 1 ]; then
+	#Start the server
+	echo "CLI used with no parameters - starting the server"
+	bash utilities/cli/run/server.sh
+elif [ "$#" -lt 2 ]; then
+	#One argument - try top-level command
+	bash "utilities/cli/$1.sh"
+else
+	#More than one arguments
+	layer=$1
+	command=$2
+	shift 2
+	bash "utilities/cli/$layer/$command.sh" $@
+fi

@@ -32,7 +32,9 @@ userTokenExists ifElse {
 		} each cookieJson.
 		
 		`Return code 0, plus failed updates as JSON`
-		!ifNot (0 eq length: cookieJson) {fileDelete: "./nogit/users/data/v3/" + userToken + "/keys.json"}.
+		!ifNot (0 eq length: cookieJson) {
+			fileDelete: "./nogit/users/data/v3/" + userToken + "/keys.json".
+		}.
 		resultRef = "0" + strNewline + "[" + ("," strJoin objToJson each failed) +  "]"
 	}
 };{

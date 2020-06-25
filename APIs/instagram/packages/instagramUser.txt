@@ -1,15 +1,3 @@
-@(deprecated: "The web-service this function relied on is no longer available")
-$webstagramUserRssDom=$x fun {loadDom: webstagramUserRssUrl + x}.
-
-@(deprecated: "The web-service this function relied on is no longer available")
-$queryfeedInstagramUserRssDom=$x fun {loadDom: queryfeedInstagramUserRssUrl + x}.
-
-@(deprecated: "The web-service this function relied on is no longer available")
-$webstagramUserImages=$x fun {"url" domAttribute "media:thumbnail" domTags webstagramUserRssDom: x}.
-
-@(deprecated: "The web-service this function relied on is no longer available")
-$queryfeedInstagramUserImages=$x fun {"url" domAttribute "enclosure" domTags queryfeedInstagramUserRssDom: x}.
-
 $instagramUserImages=igUserParseUserImageUrls.
 
 #{

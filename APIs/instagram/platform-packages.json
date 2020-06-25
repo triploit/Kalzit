@@ -3,9 +3,8 @@
 		"description":"APIs to work with Instagram media"
 	},
 	"libraries":[
-		{"provides":["webstagram_user_rss_dom", "instagram_user_images", "queryfeed_instagram_user_rss_dom", "webstagram_user_images", "queryfeed_instagram_user_images", "instagram_user_post_urls_with_images"],  "scriptUrl":"instagramUser.txt"},
-		{"provides":["webstagram_user_rss_url", "instagram_user_url", "queryfeed_instagram_tag_rss_url", "queryfeed_instagram_user_rss_url", "instagram_tag_url"],  "scriptUrl":"instagramUrls.txt"},
-		{"provides":["queryfeed_instagram_tag_rss_dom", "instagram_tag_images"],  "scriptUrl":"instagramTag.txt"},
+		{"provides":["instagram_user_images", "instagram_user_post_urls_with_images"],  "scriptUrl":"instagramUser.txt"},
+		{"provides":["instagram_user_url", "instagram_tag_url"],  "scriptUrl":"instagramUrls.txt"},
 		{"provides":["ig_user_parse_user_complete", "ig_user_parse_base", "ig_user_parse_user_base", "ig_user_parse_images", "ig_user_parse_user_images", "ig_user_parse_image_url", "ig_user_parse_image_urls", "ig_user_parse_user_image_urls", "ig_user_parse_image_thumbnail", "ig_user_parse_image_thumbnails", "ig_user_parse_user_image_thumbnails", "ig_user_parse_image_shortcode", "ig_user_parse_image_shortcodes", "ig_user_parse_user_image_shortcodes"], "scriptUrl":"igUserParser.txt"},
 		{"provides":["kmp_from_instagram_user"],  "scriptUrl":"instagramKmp.txt"}
 	]

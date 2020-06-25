@@ -1,8 +1,0 @@
-{
-	"info":{
-		"description":"UI APIs for advanced image handling"
-	},
-	"libraries":[
-		{"provides":["ui_show_image_data_array", "ui_show_image_data_matrix", "ui_show_image_data_matrix_rgb", "ui_show_image_data_matrix_mono", "image_data_url", "image_data_url_rgb", "image_data_url_mono"],  "scriptUrl":"advancedImageStuff.js"}
-	]
-}

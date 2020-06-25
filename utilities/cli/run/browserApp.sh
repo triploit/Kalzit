@@ -1,0 +1,1 @@
+python -mwebbrowser http://localhost:5000/app/$1 > /dev/null

@@ -6,7 +6,7 @@ print "Reading blacklist ...".
 $blacklist = strNewline strSplit fileContent: "./nodejs/files/server/blacklist.txt".
 print "Parsing internal library ...".
 
-$blacklistAllows = $fname fun {not: 0 < sum: {x matches fname} each blacklist}.
+$blacklistAllows = $fname fun {not: 0 < sum: {x isMatch fname} each blacklist}.
 
 $cachedUrlTitle = urlTitle cachedFun autoClearedCache: monthsToMillis: 2.
 $servicesRegex = "\./services/([a-zA-Z0-9\-]+)/(.*)".
@@ -42,7 +42,7 @@ $onClientConnect = ($_request fun {
 	$asyncRef = reference: $async.
 	
 	`Check blacklist`
-	!ifElse (0 < sum: {x matches fname} each blacklist){
+	!ifElse (0 < sum: {x isMatch fname} each blacklist){
 		print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
        	($startServing propOf _request): fileMime: "html".
 		($respondCode propOf _request): 404.
@@ -61,8 +61,7 @@ $onClientConnect = ($_request fun {
 			$serveHtmlApp = $app fun {
 				print: "Trying to run  HTML app " + app.
 				asyncRef = true.
-				($startServing propOf _request): "text/html".
-				($writeFile propOf _request): app.
+				_request httpWriteGlobalFile app.
 		        do:($endServing propOf _request).
 			}.
 			
@@ -113,12 +112,11 @@ $onClientConnect = ($_request fun {
 			`Find a file by name`
 			((fileIsFile: fname) & fileExists: fname) ifElse {
 				print: "Serving file " + fname.
-                !if ("/static/" strContains fname) {
-                	"Cache-Control" ($setHeader propOf _request) "public, max-age=31536000, immutable".
-                	"ETag" ($setHeader propOf _request) fileName: fname.
+				!ifElse ("/static/" strContains fname) {
+					_request httpWriteStaticFile fname
+                };{
+                	_request httpWriteGlobalFile fname
                 }.
-                ($startServing propOf _request): fileMime: fname.
-				($writeFile propOf _request): fname.
                 do:($endServing propOf _request).
 			};{
 				`Try finding a redirect`
@@ -159,10 +157,15 @@ $searchFolderForRedirects = $folder fun {
 			!ifElse (fileIsFolder entry) {
 				searchFolderForRedirects: entry
 			};{
-				!if (".redirect" strEndsWith entry) {[
-					("./" + ".redirect" strRemove entry);
-					strFirstLine: fileContent: entry
-				]}
+				!if (".redirect" strEndsWith entry) {
+					$firstLine = strFirstLine: fileContent: entry.
+					!ifElse ("" eq ("\s*";"") strReplaceRegex firstLine) {
+						print: "Warning: " + entry + " is an empty redirect and will be ignored".
+					};{[
+						("./" + ".redirect" strRemove entry);
+						strFirstLine: fileContent: entry
+					]}
+				}
 			}
 		}) each content.
 	}.

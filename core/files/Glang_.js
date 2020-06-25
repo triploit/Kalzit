@@ -6,12 +6,4 @@ Array.prototype.includes = Array.prototype.includes || function(needle){
 	return this.indexOf(needle) >= 0
 };
 
-this.GLang={
-	returnFalse: function(){return false;}
-};
-this.KNI = this.KNI || {
-	//KNI polyfill
-	hasStorage: GLang.returnFalse,
-	hasSynchronousLoader: GLang.returnFalse,
-	hasAsynchronousLoader: GLang.returnFalse
-};
+this.GLang={};

@@ -1,18 +1,11 @@
 ;(function(global){
 	
-	var load = KNI.hasSynchronousLoader() ? KNI.getSynchronousLoader() : null;
-	
 	GLang.headersArrayToJson = function(_headers){
 		return _headers ? JSON.stringify(_headers) : "[]";
 	}
 	
 	//Loads a js file by http (or relative) url and runs it.
 	function loadUrl(url, _headers){
-		if(load){
-			if(url.includes("://")) return load.global(url, GLang.headersArrayToJson(_headers));
-			return load.local(url, GLang.headersArrayToJson(_headers));
-		}
-		
 		// get some kind of XMLHttpRequest
 		var xhrObj = new XMLHttpRequest();
 		//if present, send headers (setRequestHeader())

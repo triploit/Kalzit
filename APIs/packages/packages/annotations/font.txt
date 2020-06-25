@@ -7,14 +7,6 @@
 $fontFamily = ($family) fun {flag: ["fontFamily"];[family]}.
 
 #{
-	An annotation that causes text inside a UI element to be written in italics.
-	
-	Example:
-	@italic uiText: "My text".
-}
-$italic = flag: ["italic"].
-
-#{
 	An annotation that defines the font size used inside a container in pixels.
 	
 	Example:

@@ -1,0 +1,1 @@
+print each $comment objPropertyValues calcitAnnotations: resolveName: appParameter: "variable".

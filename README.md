@@ -16,7 +16,7 @@ So this is the second big part of Kalzit: It is an easy way to set up a little w
 The problem is that there are currently not many web applications that run on it. With the latest relese, at least one good one is included. I am developing a few more, but none are ready for release yet. But the idea is still the same. However, you could try to create some apps yourself - with Kalzit, is it not as hard as you think.
 
 
-So that is Kalzit today. In case you are interested in the latest changes, [take a look at the changelog](/docs/changelog/2020.06.06.md). If you are interested in plans for the future, [here you go](/docs/changelog/2020.06.06.md#plans-for-the-future-) (or just scroll to the bottom of the changelog).
+So that is Kalzit today. In case you are interested in the latest changes, [take a look at the changelog](/docs/changelog/2020.06.24.md). If you are interested in plans for the future, [here you go](/docs/changelog/2020.06.24.md#plans-for-the-next-versions) (or just scroll to the bottom of the changelog).
 
 # Setup
 
@@ -29,22 +29,9 @@ Download the installer and put the installer application into a folder - this is
 On macOS, just double-click on the installer app.
 Tip for Linux users: The easiest way to run the installer is to make it executable and then drag it into an open Terminal window. Of course, you can write down the entire file path yourself as well. After that, just press enter - the setup will be done for you.
 
-
 After that, you should se a few more things in your folder. One of them is called "KalzitStarter". Just run that to start your own Kalzit server! The steps are the same as with the installer.
 
 Kalzit should be running now! Just [access your Kalzit server through the browser](http://localhost:5000/).
-
-## (TL;DR - for developers)
-
-You need to have NodeJS installed. Then, run this from the terminal:
-```
-git clone https://www.github.com/triploit/Kalzit
-cd ./Kalzit
-bash ./install.sh
-cd ./nodejs/files
-bash ./run.sh
-
-```
 
 # Your baby steps with Kalzit
 

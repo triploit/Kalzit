@@ -17,6 +17,8 @@ $jsonFile = appParameter: "input-file".
 				"GLang.packageManager.installJs(function(){" + (fileContent: scriptPath) + "})"
 			}].
 	} each libraries.
+	
+	(appParameter: "output-file") fileWrite (runCommand: 'terser "' + (appParameter: "output-file") + '"')
 }. !else {
 	print: "The json file you specified is not a file! (--input-file)"
 }

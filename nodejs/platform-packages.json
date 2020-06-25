@@ -7,6 +7,7 @@
 	},
 	"libraries":[
 		{"provides":["http_server", "https_server"],  "scriptUrl":"httpServer.js"},
+		{"provides":["http_write_global_file", "http_write_static_file"],  "scriptUrl":"httpServer/httpWriteGlobalFile.txt"},
 		{"provides":["http_plain_text_server", "http_html_server", "http_headless_text_server"],  "scriptUrl":"httpServer/httpTextServer.txt"},
 		{"provides":["http_plain_text_server_bytes", "http_html_server_bytes", "http_headless_text_server_bytes"],  "scriptUrl":"httpServer/httpTextServerBytes.txt"},
 		{"provides":["http_plain_text_server_raw", "http_html_server_raw", "http_headless_text_server_raw"],  "scriptUrl":"httpServer/httpTextServerRaw.txt"},

@@ -1,33 +1,5 @@
 #{
 	This is a type that is only useful for marking parameters right now.
-	The Kalzit-to-JS transpiler can use it to see whether to compile a something to a function or not
+	It is used to indicate that something is used as a function (meaning that it might get called)
 }
-$Function = $RepeatedFunction = ($_value ? Any) fun {
-	`This function to be a unique value`
-	_value
-}.
-
-`Add this type to some native functions (Workaround until a better way is found)`
-@("argumentList";[
-	$function ? RepeatedFunction;
-	$array ? (List:Any)
-])
-each.
-
-@("argumentList";[
-	$operator ? RepeatedFunction;
-	$values ? (List:Any)
-])
-/.
-
-@("argumentList";[
-	$function ? Function;
-	$arguments ? (List:Any)
-])
-do.
-
-@("argumentList";[
-	$function ? Function;
-	$firstArg
-])
-:.
+$Function = $RepeatedFunction = {x}.

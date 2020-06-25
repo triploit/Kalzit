@@ -1,5 +1,0 @@
-@(deprecated: "The web-service this function relied on is no longer available")
-$queryfeedInstagramTagRssDom=$x fun {loadDom: queryfeedInstagramTagRssUrl + x}.
-
-@(deprecated: "The web-service this function relied on is no longer available")
-$instagramTagImages=$x fun {"url" domAttribute "enclosure" domTags queryfeedInstagramTagRssDom: x}.

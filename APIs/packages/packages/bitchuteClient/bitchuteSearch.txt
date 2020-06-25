@@ -1,2 +1,30 @@
-$bitchuteSearchVideoUrls = ($term ? String) fun {removeDuplicates: second each {"(https://www\.bitchute\.com/video/[a-zA-Z0-9]+/)"} allMatches loadGlobal: bitchuteSearchUrl + urlEncodeParameter: term}.
-$bitchuteSearchVideoIds = ($term ? String) fun {{second: "/video/([^/]+)/" match x} each bitchuteSearchVideoUrls: term}.
+#{
+	Performs a search for BitChute videos and returns their watch URLs.
+	The URLs point to the normal video player website, not just the video file.
+	
+	Usage example:
+		$websites = bitchuteSearchVideoUrls: "Search term".
+	
+	If you need video IDs instead, use "bitchuteSearchVideoIds"
+}
+$bitchuteSearchVideoUrls = ($term ? String) fun {
+	removeDuplicates: second each {
+		"(https://www\.bitchute\.com/video/[a-zA-Z0-9]+/)"
+	} allMatches loadGlobal: bitchuteSearchUrl + urlEncodeParameter: term
+}.
+
+#{
+	Performs a search for BitChute videos and returns their video IDs.
+	You could use the video IDs with these other variables:
+		bitchuteEmbedUrl
+		bitchuteVideoFileUrl
+		uiBitchutePlayer
+	
+	Usage example:
+		$ids = bitchuteSearchVideoIds: "Search term".
+	
+	If you need URLs instead, use "bitchuteSearchVideoUrls"
+}
+$bitchuteSearchVideoIds = ($term ? String) fun {
+	{second: "/video/([^/]+)/" match x} each bitchuteSearchVideoUrls: term
+}.

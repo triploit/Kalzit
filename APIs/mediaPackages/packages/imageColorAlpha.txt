@@ -10,13 +10,3 @@ $colorRemoveAlpha = RgbColor.
 $colorSetAlpha=($alpha ? Int ; $_rgbValues ? RgbColor) fun {
 	_rgbValues;alpha
 }.
-
-@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
-$imageRemoveAlpha=$_x fun {
-	{{colorRemoveAlpha: x} each x} each x
-}.
-
-@(deprecated: "The APIs for more complex image handling (more than just displaying) appear to be slow or broken, so they will be removed soon.")
-$imageSetAlpha=($alphaFunction; $_imageData) fun {
-	{{alphaFunction colorSetAlpha x} each  x} each _imageData
-}.

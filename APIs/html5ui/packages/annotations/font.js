@@ -12,6 +12,3 @@ this.flagEmFontSize = function(size, object){
 this.flagPxFontSize = function(size, object){
 	object.style.fontSize = size + "px";
 }
-this.flagItalic = function(unused, object){
-	object.style.fontStyle = "italic";
-}

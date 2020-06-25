@@ -1,1 +1,16 @@
-$uiBitchutePlayer = ($id) fun {uiVideoPlayer: bitchuteVideoFileUrl: id}
+#{
+	Creates a player for a given BitChute video.
+	The video is represented by its ID, which might be obtained by functions like "bitchuteSearchVideoIds".
+	
+	Additionally, you can specify an optional callback which will be called once the media controller for the video is ready.
+	
+	Simple usage example:
+		print: uiBitchutePlayer: "someVideoId".
+	
+	Usage example with callback:
+		print: "someVideoId" uiBitchutePlayer $_video fun {
+			`Just start playing the video`
+			play _video
+		}
+}
+$uiBitchutePlayer = ($id ? String ; $callback) fun {(bitchuteVideoFileUrl: id) uiVideoPlayer callback}

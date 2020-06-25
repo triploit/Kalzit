@@ -30,7 +30,7 @@ code {
 	visibility: hidden;	
 }
 .k-popup_background {
-	background-color: rgba(100,100,100,200);
+	background-color: rgba(100,100,100,0.6);
 }
 .k-app_container {
 	background-color: var(--kv-black_accent_color);

@@ -1,6 +1,0 @@
-#{
-	An annotation that centers text within a given container.
-	Example:
-	@centerText uiContainer: uiText: "Centered"
-}
-$centerText = flag: "centerText".

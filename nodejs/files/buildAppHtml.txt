@@ -1,7 +1,6 @@
 $app = appParameter: "kalzit-file".
 $appFolder = fileParent: app.
 $rootFolder = appParameter: "kalzit-root-folder".
-$transpile ? (false default Boolean) = appParameter: "transpile".
 $platform ? (default: "html5") = appParameter: "platform".
 
 print: "Trying to build Kalzit app " + app.
@@ -54,10 +53,6 @@ $prefix = !ifElse (fileIsFile: translationMapFile) {
 	""
 }.
 
-$appScript = prefix + ";" + !ifElse (transpile) {
-		';(' + (calcitCompileJsFunction: (fileContent: app)) + ')(GLang.defaultRuntimeEnvironment);'.
-	};{
-		'GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
-	}.
+(rootFolder + "/generated/appBuildingTempFile.js") fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
 
-((".k";".html") strReplace app) fileWrite ("$app$";appScript) strReplace skeletonCode.
+((".k";".html") strReplace app) fileWrite ("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '"')) strReplace skeletonCode.

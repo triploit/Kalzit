@@ -1,14 +1,4 @@
 ;(function(thiz){
-
-    /*
-    This variable allows the following functions to easily access the storage interface provided by a KNI (Kalzit Native Interface).
-    
-	This variable can have two states:
-		1. It can contain the "null" value, which represents that this variable should not be used. (No KNI present)
-		2. It can contain a value other than "null". In this case, the value is expected to be an object with the following properties (KNI present):
-		    "loadString", "saveString", "remove", "listKeysAsJson" and "wantsFullPush", all of which are functions.
-    */
-    var nativeStorage = KNI.hasStorage() ? KNI.getStorage() : null;
     
     /*
     This is a helper function used for anything that has to do with local storage.
@@ -35,16 +25,11 @@
         }
     }
     
-    //Native function wrappers, from browser API or KNI
     /**
     Expects a key (JS string) as a parameter and searches the storage for this key.
     If it was found, the value stored with it is returned (also a JS string).
-    
-    The exact implementation details vary, depending on wether a KNI with storage capability is present or not.
     */
-    var native_loadString = nativeStorage ? function(key){
-        return nativeStorage.loadString(key) || null;
-    } : function(name){
+    var native_loadString = function(name){
         //browser
         var result;
         withLocalStorage(function(storage){
@@ -55,12 +40,8 @@
     
     /**
     Expects a key (JS string) and a value to store with it (JS string) as a parameter and stores the value under the given key.
-    
-    The exact implementation details vary, depending on wether a KNI with storage capability is present or not.
     */
-    var native_saveString = nativeStorage ? function(key, value){
-        nativeStorage.saveString(key, value);
-    } : function(name, value){
+    var native_saveString = function(name, value){
         //browser
         withLocalStorage(function(storage){
             storage.setItem(name, value);
@@ -106,7 +87,7 @@
     /**
     This function loads all stored data available at the Kalzit Server and puts the key-value-pairs in two places:
         1. It fills the "serverCookies" variable with it. That means "pullAllCookies()" has to be called before that is used.
-        2. It populates the persistent local storage with it. That can either be a storage interface provided by a KNI, or "localStorage".
+        2. It populates the persistent local storage with it ("localStorage").
         
     In case of the "serverCookies" variable, all values in there are deleted first.
     In case of the persistent local storage, everything is kept at first, but any key that was available on the server will be overwritten locally (with the server-side value)
@@ -225,9 +206,9 @@
         native_saveString(name, value)
         toPush.push(name);
     };
-    thiz.storageRemove = nativeStorage ? function(k){nativeStorage.remove(k)} : deleteCookie;
+    thiz.storageRemove = deleteCookie;
     thiz.storageLoadString = native_loadString;
-    thiz.storageListKeys = nativeStorage ? function(){return JSON.parse(nativeStorage.listKeysAsJson())} : function(){
+    thiz.storageListKeys = function(){
         var list = [];
         withLocalStorage(function(storage){
             var length = storage.getLength ? storage.getLength() : storage.length;
@@ -267,11 +248,6 @@
     //Pull values from the server and initiate the pushing services
     //Only do this if a session is active - otherwise, data could be overwritten after login
     if (token){
-        //Push all values if requested by the app (rather dangerous, might be removed later)
-        if(nativeStorage && nativeStorage.wantsFullPush()){
-            pushAllCookies();
-        }
-        
         //Pulling needs to happen before starting the push services
         pullAllCookies();
         startCookieRefreshLoop();

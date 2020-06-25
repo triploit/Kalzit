@@ -1,2 +1,0 @@
-@(deprecated: "This function is very slow, basically never used, and easy to implement")
-$pmFindName = $_value fun {{_value eq eval:x} filter do:pmListNames}.

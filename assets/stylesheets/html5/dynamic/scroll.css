@@ -5,3 +5,6 @@
 	overflow-y: hidden;
 	width: 100%;
 }
+.calcitDynamic_verticalScroller {
+	overflow-y: auto;
+}
