@@ -1,1 +1,9 @@
+#{
+	Returns the title (from the YouTube watch page) of a YouTube video.
+	
+	Usage example:
+		$title = youtubeVideoTitle: "videoId".
+		
+	You can also use a YouTube video URL as the parameter.
+}
 $youtubeVideoTitle = ($video ? YoutubeVideoId) fun {domInnerText: "title" domTags youtubeVideoDom: video}.

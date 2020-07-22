@@ -1,4 +1,14 @@
-$kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVideoId) fun {
+#{
+	Produces a KMP (Kalzit Media Protocol) representation of a YouTube Video, represented by a video ID.
+	This includes the title information, which is parsed from the YouTube watch page.
+	The media type (field "kind") is "video".
+	
+	Usage example:
+		$kmpData = kmpFromYoutubeVideo: "videoId".
+	
+	If you do not want to access the watch page or if you do not need the title, use "kmpFromYoutubeVideoNoTitles".
+}
+$kmpFromYoutubeVideo = $kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVideoId) fun {
 	$thumbnailObject = ($default;$highres;$lowres) mingle "https://img.youtube.com/vi/" + id + "/" + ("mqdefault.jpg";"maxresdefault.jpg";"default.jpg").
 	
 	$baseObject =
@@ -7,16 +17,36 @@ $kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVideoId) fun {
 		["kind";"video"];
 		["protocolVersion";"2.0.0"];
 		[$thumbnail;[thumbnailObject]];
-		["html";{<iframe src="https://www.youtube.com/embed/} + id + {"></iframe>}].
+		["embedUrl";"https://www.youtube-nocookie.com/embed/" + id].
 }.
 
-$kalzitMediaProtocolFromYoutubeUrl = (($url ? String) fun {
+#{
+	Produces a KMP (Kalzit Media Protocol) representation by any YouTube URL.
+	This includes the title information of the videos, which is parsed from the YouTube watch page.
+	The media type (field "kind") is "collection", and the items are of type "video".
+	
+	Usage example:
+		$startPageVideos = kmpFromYoutubeUrl: "https://www.youtube.com".
+	
+	If you do not want to access the watch page or if you do not need the title, use "kmpFromYoutubeVideoNoTitles".
+}
+$kmpFromYoutubeUrl = $kalzitMediaProtocolFromYoutubeUrl = (($url ? String) fun {
 	$ids = youtubeVideoIdsByUrl: url.
 	"{" + {"link":"} + url + {","title":"} + (urlTitle: url) + {","kind":"collection","protocolVersion":"2.0.0","collection":[} + ("," strJoin objToJson each kalzitMediaProtocolFromYoutubeVideo each ids) + {]} + "}".
 }) cachedFun autoClearedCache: hoursToMillis: 2.
 
 
 `Implementations without titles`
+#{
+	Produces a KMP (Kalzit Media Protocol) representation of a YouTube Video, represented by a video ID.
+	This does not include the title information.
+	The media type (field "kind") is "video".
+	
+	Usage example:
+		$kmpData = kmpFromYoutubeVideoNoTitles: "videoId".
+	
+	If you do not want to access the titles, use "kmpFromYoutubeVideo".
+}
 $kmpFromYoutubeVideoNoTitles = ($id ? YoutubeVideoId) fun {
 	$thumbnailObject = ($default;$highres;$lowres) mingle "https://img.youtube.com/vi/" + id + "/" + ("mqdefault.jpg";"maxresdefault.jpg";"default.jpg").
 	
@@ -25,8 +55,19 @@ $kmpFromYoutubeVideoNoTitles = ($id ? YoutubeVideoId) fun {
 		["kind";"video"];
 		["protocolVersion";"2.0.0"];
 		[$thumbnail;[thumbnailObject]];
-		["html";{<iframe src="https://www.youtube.com/embed/} + id + {"></iframe>}].
+		["embedUrl";"https://www.youtube-nocookie.com/embed/" + id].
 }.
+
+#{
+	Produces a KMP (Kalzit Media Protocol) representation by any YouTube URL.
+	This does not include the title information.
+	The media type (field "kind") is "collection", and the items are of type "video".
+	
+	Usage example:
+		$startPageVideos = kmpFromYoutubeUrlNoTitles: "https://www.youtube.com".
+	
+	If you do not want to access the titles, use "kmpFromYoutubeUrl".
+}
 $kmpFromYoutubeUrlNoTitles = (($url ? String) fun {
 	$ids = youtubeVideoIdsByUrl: url.
 	"{" + {"link":"} + url + {","kind":"collection","protocolVersion":"2.0.0","collection":[} + ("," strJoin objToJson each kmpFromYoutubeVideoNoTitles each ids) + {]} + "}".

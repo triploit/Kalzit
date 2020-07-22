@@ -1,0 +1,67 @@
+#{
+	An URL which points to the OpenStreetMap search API.
+	To construct a complete search URL, you can do this:
+		osmSearchUrl + urlEncodeParameter: "search term".
+	
+	If you just want to access the search data, consider using "osmSearchPlaces" instead.
+}
+$osmSearchUrl = "https://nominatim.openstreetmap.org/search?format=json&q=".
+
+#{
+	Returns the JSON string returned by the OpenStreetMap search API.
+	
+	Usage example:
+		$jsonText = osmSearchJson: "search term".
+	
+	If you just want to access the search data, consider using "osmSearchPlaces" instead.
+}
+$osmSearchJson = ($term ? String) fun {loadGlobal: osmSearchUrl + urlEncodeParameter: term}.
+
+#{
+	Returns a list of places found by the OpenStreetMap search API.
+	The returned object is the parsed version of the queried JSON data.
+	
+	Usage example:
+		$places = osmSearchPlaces: "search term".
+	
+	To easily access information about the found places, consider using "osmPlaceCoordinates" or "osmPlaceName".
+}
+$osmSearchPlaces = ($term ? String) fun {parseJson: osmSearchJson: term}.
+
+#{
+	Returns the location (a 2-item list with two numbers, describing the latitude and longitude) of an OpenStreetMap place.
+	A place can be obtained from "osmSearchPlaces".
+	
+	Usage example:
+		$coordinates = osmPlaceCoordinates: first: osmSearchPlaces: "search term"
+}
+$osmPlaceCoordinates = ($_place) fun { ["lat" objFirstProperty _place];["lon" objFirstProperty _place] }.
+
+#{
+	Returns the name (as a string) of an OpenStreetMap place.
+	A place can be obtained from "osmSearchPlaces".
+	
+	Usage example:
+		$name = osmPlaceName: first: osmSearchPlaces: "search term"
+}
+$osmPlaceName = ($_place) fun {"display_name" objFirstProperty _place}.
+
+#{
+	Returns a list of place coordinates that describe places matching a search term.
+	
+	Usage example:
+		$coordinates = osmSearchPlaceCoordinates: "search term".
+	
+	If you need to get coordinates from a place object, consider using "osmPlaceCoordinates".
+}
+$osmSearchPlaceCoordinates = ($term ? String) fun {osmPlaceCoordinates each osmSearchPlaces: term}.
+
+#{
+	Returns a list of place names that describe places matching a search term.
+	
+	Usage example:
+		$names = osmSearchPlaceNames: "search term".
+	
+	If you need to get a name from a place object, consider using "osmPlaceName".
+}
+$osmSearchPlaceNames = ($term ? String) fun {;/ osmPlaceName each osmSearchPlaces: term}.

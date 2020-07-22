@@ -1,0 +1,15 @@
+{
+	"info":{
+		"description":"Libraries for searching the web using a variety of search engines"
+	},
+	"libraries":[
+		{"provides":["duck_search_dom", "duck_search_result_doms", "duck_search_url_doms", "duck_search_urls", "duck_search_result_from_dom", "duck_search", "duck_search_results", "duck_deprecated_site_changed"],  "scriptUrl":"duckduckgo/duckSearch.txt"},
+		{"provides":["duck_search_dom_async", "duck_search_result_doms_async", "duck_search_url_doms_async", "duck_search_urls_async"],  "scriptUrl":"duckduckgo/duckSearchAsync.txt"},
+		{"provides":["qwant_search_url", "qwant_web_search_url", "qwant_image_search_url", "qwant_video_search_url"],  "scriptUrl":"qwant/qwantUrls.txt"},
+        {"provides":["qwant_search_image_urls"],  "scriptUrl":"qwant/qwantSearch.txt"},
+        {"provides":["github_search_urls"],  "scriptUrl":"githubSearch.txt"},
+        {"provides":["github_search_repo_url", "github_search_repo_json", "github_search_repo", "github_search_repo_names", "github_search_repo_html_urls", "github_search_repo_raw_urls"],  "scriptUrl":"githubSearchRepo.txt"},
+        {"provides":["web_search", "web_image_search"],  "scriptUrl":"webSearch.txt"},
+        {"provides":["bing_image_search_urls"],  "scriptUrl":"bing/bingSearch.txt"}
+	]
+}

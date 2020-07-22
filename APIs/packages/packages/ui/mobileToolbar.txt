@@ -30,11 +30,6 @@ $generateMobileToolbarOverlay = () fun {
 				$currentSubApp = !getCurrentSubApp.
 				!closeSubApp. `Make sure that the "back" button takes you back to the main app`
 				
-				!if (toolName eq currentSubApp) {
-					`The intent is probably to close the sub app - the action is done`
-					!closeSubApp
-				}.
-				
 				`If the sub-app changed, re-open the last one`
 				!ifNot (currentSubApp eq toolName) {openSubApp currentSubApp}
 			}
@@ -48,7 +43,7 @@ $generateMobileToolbarOverlay = () fun {
 				@center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm") {
 					openSubApp: $id objFirstProperty calcitAnnotations: x
 				} uiSingleViewPicker {
-					@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiText: second: x
+					@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiContainer: second: x
 				} each mobileTools
 			)
 		) uiPopup {openSubApp: ""}.

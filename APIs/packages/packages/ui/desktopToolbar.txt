@@ -41,16 +41,16 @@ $generateDesktopToolbarOverlay = () fun {
 	@(cssClass: "k-desktop_only") uiToolbarOverlay: 
 	
 		`Add the app-specific tools (added using registerDesktopTool)`
-		[@verticalCenter @dynamicSize @left @(percentWidth 89) uiContainer:
+		[@verticalCenter @dynamicSize @left @(width: "100% - " + (toolbarCmHeight +  0,9) + "cm") uiContainer:
 			{@verticalCenter @dynamicSize do:x} each getArray: registeredDesktopTools
 		];
 		
 		`Add the default navigation buttons (uiUserButton and uiAppsButton) at the right`
 		[
-			@verticalCenter @right @(percentHeight 50) @(percentWidth 10) uiContainer:
-				[@(percentWidth 40) !uiAppsButton];
-				[uiHorizontalPercentSpace 10];
-				[@(percentWidth 40) !uiUserButton];
-				[uiHorizontalPercentSpace 10]
+			@verticalCenter @right @(percentHeight 50) @(cmWidth toolbarCmHeight +  0,6) uiContainer:
+				[@(cmWidth toolbarCmHeight % 2) !uiAppsButton];
+				[@(cmWidth 0,3) uiContainer:void];
+				[@(cmWidth toolbarCmHeight % 2) !uiUserButton];
+				[@(cmWidth 0,3) uiContainer:void]
 		].
 }.

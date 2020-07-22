@@ -1,5 +1,5 @@
 This document includes a little list of things that are planned for the next big release of Kalzit.
-Some of them are already partially implemented - those are marked. Those that have been completely implemented should be removed.
+Some of them are already partially implemented - those are marked.
 
 ## Standard-library documentation
 
@@ -28,13 +28,13 @@ You know how easy it is to install an application in Linux, simply by running so
 
 So, here are some ideas for what a command-line tool should do:
 
-* Create a new application
+* Create a new application (Done: `kalzit new app`)
 * Create a new code library
 * Install an application from the internet
 * Install a code library from the internet
-* Start the kalzit server
-* Open an application
-* Update Kalzit itself
+* Start the kalzit server (Done: `kalzit start server`)
+* Open an application (Done: `kalzit run app home` - or any other browser app)
+* Update Kalzit itself (Done: `kalzit update`)
 
 ## Tridymite-support
 
@@ -45,7 +45,7 @@ So, why not use this connection? Yes, none of these project are immensely popula
 
 Which leads to this plan. Kalzit should be...
 
-* ... Installable using Tridymite
+* ... Installable using Tridymite (Done: `tridy -i triploit:Kalzit`)
 * ... Able to update using Tridymite
 
 And, in the end, Kalzit applications written by other people should also be installable using Tridymite - without the author having to think about it.

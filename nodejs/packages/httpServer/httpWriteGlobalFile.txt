@@ -33,6 +33,7 @@ $httpWriteGlobalFile = ($_request ; $file) fun {
 	If you want to serve files which might change later, consider using "httpWriteGlobalFile".
 }
 $httpWriteStaticFile = ($_request ; $file) fun {
+	"Cache-Control" ($setHeader propOf _request) "public, max-age=31536000, immutable".
 	"ETag" ($setHeader propOf _request) $etag = fileName: file.
 	!ifElse (etag eq ($getHeader propOf _request): "if-none-match") {
 		($respondCode propOf _request): 304.

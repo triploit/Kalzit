@@ -1,0 +1,7 @@
+($name fun {
+	!if (void eq $comment propOf calcitAnnotations: resolveName: name) {
+		!ifNot (fileIsFile: "./docs/jsLibrary/" + name + ".md") {
+			print name
+		}
+	}
+}) each !pmListNames.

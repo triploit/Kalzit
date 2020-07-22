@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Libraries for accessing Wikipedia"
+	},
+	"libraries":[
+		{"provides":["wikipedia_search_json", "wikipedia_search", "wikipedia_search_descriptions", "wikipedia_search_urls"],  "scriptUrl":"wikipediaSearch.txt"}
+	]
+}

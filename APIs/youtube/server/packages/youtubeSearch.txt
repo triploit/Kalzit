@@ -1,2 +1,0 @@
-$youtubeSearchVideos=$query fun {$ids = youtubeSearchVideoIds: query. ids mingle ("https://www.youtube.com/watch?v=" + ids)}.
-$youtubeSearchVideoIds=$query fun {youtubeVideoIdsByUrl: "https://www.youtube.com/results?search_query=" + urlEncodeParameter: query}.

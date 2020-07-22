@@ -12,8 +12,33 @@
 	fileExtension: "jpg". `Still jpg`
 }
 $fileExtension = ($path ? String) fun {last: "." strSplit path}.
+
+#{
+	Returns the name of a given file, excluding the containing folder path.
+	For example, fileName: "test.txt" is just "test.txt".
+	If you pass "a/b/c.txt", the result is "c.txt".
+	
+	Basically, the string is searched for slashes ("/"), and the text after the last slash is returned.
+}
 $fileName = ($path ? String) fun {last: "/" strSplit path}.
+
+#{
+	Returns a list of all file mime types the runtime knows about.
+	The result is a list of string pairs, where the first item of each is the file extension, and the second is the mime type.
+	
+	Because of that, the result can also be used as an object:
+		$jsonMimeTypeText = $json propOf !fileListTypes.
+	
+	However, if you want to just get the file mime by file extension, "fileMime" is preferred.
+}
 $fileListTypes = () fun {{do: x} each pmSearchNames: "fileType"}.
+
+#{
+	Returns the default mime type of a given file, based on its extension.
+	
+	Usage example:
+		fileMime: "a/b/c.txt". `Result is "text/plain"`
+}
 $fileMime = ($extension ? FileExtension) fun {
 	nativeFileMime: extension
 }.

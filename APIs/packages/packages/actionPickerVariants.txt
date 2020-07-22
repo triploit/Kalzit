@@ -1,0 +1,38 @@
+$uiLiveActionPicker = ($action ; $_list ? ModifiableList) fun {
+	$pickerRef = reference: $picker.
+	
+	$updatePicker = () fun {
+		pickerRef = {action x. !updatePicker. picker uiUpdatePickerValue x} uiActionPicker strFirstLine each getArray: _list.
+	}.
+	!updatePicker.
+	($setOnChange propOf _list): updatePicker.
+	
+	uiShowVariable: pickerRef
+}.
+
+$uiLiveIndexPicker = ($action ; $_list ? ModifiableList) fun {
+	$pickerRef = reference: $picker.
+	
+	$updatePicker = () fun {
+		pickerRef = {action x. !updatePicker. picker uiUpdatePickerValue x} uiIndexPicker strFirstLine each getArray: _list.
+	}.
+	!updatePicker.
+	($setOnChange propOf _list): updatePicker.
+	
+	uiShowVariable: pickerRef
+}.
+
+$uiLiveReferenceIndexPicker = ($ref ? Reference ; $_list ? ModifiableList) fun {
+	$pickerRef = reference: $picker.
+	ref listenVariable {
+		!updatePicker. picker uiUpdatePickerValue x.
+	}.
+	
+	$updatePicker = () fun {
+		pickerRef = ref uiIndexReferencePicker strFirstLine each getArray: _list.
+	}.
+	!updatePicker.
+	($setOnChange propOf _list): updatePicker.
+	
+	uiShowVariable: pickerRef
+}.

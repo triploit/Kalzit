@@ -135,16 +135,63 @@
 		return controller;
 	}
 	
+	/* @kalzit.for ui_twitch_channel_player
+	Produces a UI element that displays the current stream of a Twitch channel.
+	The element is produced by the Twitch JavaScript API, which is automatically loaded when you use a uiTwitchPlayer function.
+	
+	As with uiAudioPlayer and uiVideoPlayer, you can specify a callback to receive a media controller.
+	
+	Usage example:
+	```
+	`The simplest way`
+	print: uiTwitchChannelPlayer: "channelName".
+	
+	`With a media controller`
+	print: "channelName" uiTwitchChannelPlayer {play: x}.
+	```
+	*/
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiTwitchChannelPlayer", {value:function(env, args){
 		return uiTwitchChannelPlayer(args[0].value, function(player){
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
 		});
 	}});
+	
+	/* @kalzit.for ui_twitch_video_player
+	Produces a UI element that displays specified Twitch video.
+	The element is produced by the Twitch JavaScript API, which is automatically loaded when you use a uiTwitchPlayer function.
+	
+	As with uiAudioPlayer and uiVideoPlayer, you can specify a callback to receive a media controller.
+	
+	Usage example:
+	```
+	`The simplest way`
+	print: uiTwitchVideoPlayer: "videoId".
+	
+	`With a media controller`
+	print: "videoId" uiTwitchVideoPlayer {play: x}.
+	```
+	*/
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiTwitchVideoPlayer", {value:function(env, args){
 		return uiTwitchVideoPlayer(args[0].value, function(player){
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
 		});
 	}});
+	
+	/* @kalzit.for ui_twitch_collection_player
+	Produces a UI element that displays the specified Twitch video collection.
+	The element is produced by the Twitch JavaScript API, which is automatically loaded when you use a uiTwitchPlayer function.
+	
+	As with uiAudioPlayer and uiVideoPlayer, you can specify a callback to receive a media controller.
+	
+	Usage example:
+	```
+	`The simplest way`
+	print: uiTwitchCollectionPlayer: "collectionId".
+	
+	`With a media controller`
+	print: "collectionId" uiTwitchCollectionPlayer {play: x}.
+	```
+	*/
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiTwitchCollectionPlayer", {value:function(env, args){
 		return uiTwitchCollectionPlayer(args[0].value, function(player){
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])

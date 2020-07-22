@@ -1,4 +1,0 @@
-$youtubeUserRssDom=$x fun {loadDom: youtubeUserRssUrl + x}.
-$youtubeChannelRssDom=$x fun {loadDom: youtubeChannelRssUrl + x}.
-$youtubePlaylistRssDom=$x fun {loadDom: youtubePlaylistRssUrl + x}.
-$youtubeVideoDom=$x fun {loadDom: youtubeVideoWatchUrl + x + "&format=xml"}.

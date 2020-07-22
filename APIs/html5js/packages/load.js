@@ -1,5 +1,33 @@
 {
 	
+	/*
+	Allows you to easily access the synchronous load functions provided by a KNI (Kalzit Native Interface).
+	
+	This variable can have two states:
+		1. It can contain the "null" value, which represents that this variable should not be used. (No KNI present)
+		2. It can contain a value other than "null". In this case, the value is expected to be an object with the properties "global" and "local". (KNI present)
+		
+	Both of these fields ("global" and "local") are expected to be functions with two parameters: A URL and a list of headers with their values.
+	*/
+	let load = KNI.hasSynchronousLoader() ? KNI.getSynchronousLoader() : null;
+	
+	/*
+	Allows you to easily access the asynchronous load functions provided by a KNI (Kalzit Native Interface).
+	
+	This variable can have two states:
+		1. It can contain the "null" value, which represents that this variable should not be used. (No KNI present)
+		2. It can contain a value other than "null". In this case, the value is expected to be an object with the properties "global" and "local". (KNI present)
+		
+	Both of these fields ("global" and "local") are expected to be functions with two parameters: A URL and a list of headers with their values.
+	*/
+	let loadAsyncKNI = KNI.hasAsynchronousLoader() ? KNI.getAsynchronousLoader() : null;
+	
+	//Provide debug information about what is used for loading
+	if(GLang.debug){
+		GLang.log("syncLoadApi: " + (load ? "KNI" : "GLang.packageManager") + " is used for loading");
+		GLang.log("asyncLoadApi: " + (loadAsyncKNI ? "KNI" : "Browser implementation") + " is used for loading asynchronously");
+	}
+
 	//TODO: Document this
 	function headersValuesToStringsArray(_headers){
 		if(_headers){
@@ -14,31 +42,32 @@
 		}
 	}
 
-	/*
+	/** @kalzit.for load_global
+	
 	A function that is used to load data from any publicly available web server. It needs an absolute URL to do this (those relative to the current server will probably not work).
 	
 	Usage example (Kalzit):
-		$resolvedContent = loadGlobal: "https://www.example.com".
+		`$resolvedContent = loadGlobal: "https://www.example.com".`
 	
 	Since the JavaScript code run in a browser is not allowed to talk to most servers directly, this function uses the endpoint "/api/loadUrl" of the Kalzit Server.
 	
 	If you want to use relative URLs, consider using "loadLocal".
 	*/
-	this.loadGlobal = function(url, _headers){
+	this.loadGlobal = load ? function(u, _hs){return load.global(u, GLang.headersArrayToJson(headersValuesToStringsArray(_hs)))} : function(url, _headers){
 		try{
 			return GLang.packageManager.loadUrl("/api/loadUrl?query=" + encodeURIComponent(url + ""), headersValuesToStringsArray(_headers));
 		}catch(e){}
 	};
 	
-	/*
+	/* @kalzit.for load_local
 	A function that is used to load data from the same server your app is hosted on. The preferred way to do this is by using relative URLs
 	
 	Usage example (Kalzit):
-		$resolvedContent = loadLocal: "/local/resource".
+		`$resolvedContent = loadLocal: "/local/resource".`
 		
 	If you want to use absolute URLs, consider using "loadGlobal".
 	*/
-	this.loadLocal = function(url, _headers){
+	this.loadLocal = load ? function(u, _hs){return load.local(u, GLang.headersArrayToJson(headersValuesToStringsArray(_hs)))} : function(url, _headers){
 		try{
 			return GLang.packageManager.loadUrl(url, headersValuesToStringsArray(_headers));
 		}catch(e){}
@@ -92,7 +121,7 @@
 	If you want to use absolute URLs, consider using "loadGlobalAsync".
 	*/
 	GLang.defaultRuntimeEnvironment.setInnerVariable("load_local_async", {value:GLang.arrayFun(function(env, args){
-		loadAsync(args[0], args[1].value, env);
+		loadAsyncKNI ? loadAsyncKNI.localAsync(makeCallback(args[0], env), args[1].value) : loadAsync(args[0], args[1].value, env);
 		return GLang.voidValue;
 	})});
 	
@@ -110,7 +139,7 @@
 	If you want to use absolute URLs, consider using "loadLocalAsync".
 	*/
 	GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_async", {value:GLang.arrayFun(function(env, args){
-		loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env);
+		loadAsyncKNI ? loadAsyncKNI.globalAsync(makeCallback(args[0], env), args[1].value) : loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env);
 		return GLang.voidValue;
 	})});
 }

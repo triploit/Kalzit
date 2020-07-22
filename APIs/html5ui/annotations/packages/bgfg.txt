@@ -1,0 +1,11 @@
+#{Produces an annotation that sets the background color of an element, using the "flagBackgroundColor" function}
+$backgroundColor = ($_color ? ColorString) fun {flagBackgroundColor bind _color}.
+
+#{Produces an annotation that sets the foreground color of an element, using the "flagForegroundColor" function}
+$foregroundColor = ($_color ? ColorString) fun {flagForegroundColor bind _color}.
+
+$backgroundGradientTopToBottom = ($_colors ? (2 SizedList ColorString)) fun {flagBackgroundGradientTopToBottom bind _colors}.
+$backgroundGradientLeftToRight = ($_colors ? (2 SizedList ColorString)) fun {flagBackgroundGradientLeftToRight bind _colors}.
+
+$opacity = ($opac ? Float) fun {flagOpacity bind opac}.
+$borderColor = ($_color ? ColorString) fun {flagBorderColor bind _color}.

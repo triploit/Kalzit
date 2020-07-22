@@ -1,15 +1,37 @@
+#{The default mime type for the .html file extension}
 $fileMimeHtml="text/html".
+
+#{The default mime type for the .js file extension}
 $fileMimeJs="text/javascript".
+
+#{The default mime type for the .txt file extension}
 $fileMimeText="text/plain".
+
+#{The default mime type for the .jpg file extension}
 $fileMimeJpg="image/jpg".
+
+#{The default mime type for the .mp4 file extension}
 $fileMimeMpFour="video/mp4".
+
+#{The default mime type for the .json file extension}
 $fileMimeJson="application/json".
 
+#{The extension of HTML files (html)}
 $fileExtensionHtml="html".
+
+#{The extension of JavaScript files (js)}
 $fileExtensionJs="js".
+
+#{The extension of plain text files (txt)}
 $fileExtensionText="txt".
+
+#{The extension of JPG image files (jpg)}
 $fileExtensionJpg="jpg".
+
+#{The extension of MP4 files (mp4)}
 $fileExtensionMpFour="mp4".
+
+#{The extension of JSON files (json)}
 $fileExtensionJson="json".
 
 $fileTypeHtml=fileExtensionHtml;fileMimeHtml.

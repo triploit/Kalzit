@@ -16,6 +16,15 @@
 		return 0;
 	}
 
+	/* @kalzit.for float
+	Converts a number (or a string that represents a number) and returns the floating-point number it represents.
+	
+	Usage example:
+		```
+		$a = float: "2.3".		`Produces 2.3`
+		$b = float: "10e3"		`Produces 10000`
+		```
+	*/
 	thiz.float = function(numberlikeValue){
 		var f = parseFloat(numberlikeValue + "");
 		if(f !== f || f === null){
@@ -24,6 +33,16 @@
 		return f;
 	}
 	
+	/* @kalzit.for int
+	Converts a number (or a string that represents a number) and returns the integer number it represents.
+	If the represented value is floating-point, the decimal part is cut off. So something like 5.6 becomes 5.
+	
+	Usage example:
+		```
+		$a = int: "2.3".		`Produces 2`
+		$b = int: "10e3"		`Produces 10000`
+		```
+	*/
 	thiz.int = function(numberlikeValue){
 		var i = parseInt(numberlikeValue + "");
 		if(i !== i || i === null){

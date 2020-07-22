@@ -1,4 +1,0 @@
-$youtubeUserRssDomAsync=($callback;$user) fun {callback loadDomAsync youtubeUserRssUrl + user}.
-$youtubeChannelRssDomAsync=($callback;$user) fun {callback loadDomAsync youtubeChannelRssUrl + user}.
-$youtubePlaylistRssDomAsync=($callback;$user) fun {callback loadDomAsync youtubePlaylistRssUrl + user}.
-$youtubeVideoDomAsync=($callback;$user) fun {callback loadDomAsync youtubeVideoWatchUrl + user + "&format=xml"}.

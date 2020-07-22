@@ -18,5 +18,8 @@
 	A text
 	Something else
 }
+@(deprecated: "Flag annotations will be removed in future language versions, so this function will as well. Please use a combination of normal functions and 'bind' instead")
 $flag = ($_x) fun {["flag"];[_x]} ? Annotation.
+
+@(deprecated: "Flag annotations will be removed in future language versions, so this function will as well. Please use a combination of normal functions and 'bind' instead")
 $applyFlag = ($_value ; $_flagNameArg ? (Tuple:String;Any)) fun {(second:_flagNameArg) (resolveName: "flag_" + calcitUnifyName:first:_flagNameArg) _value}.

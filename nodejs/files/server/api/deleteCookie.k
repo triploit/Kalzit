@@ -1,10 +1,12 @@
-$cookieName = $cookie urlGetParameter ("url" objFirstProperty _request).
+$session = ($getHeader objFirstProperty _request): "kalzit-session".
+$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
+
+$cookieName = ($getHeader objFirstProperty _request): "kalzit-cookie-name".
 $rawCookieString = ($cookie objFirstProperty _request).
 
 print: "Deleting cookie " + cookieName + " from the server".
-$userTokenExists = false eq (void eq $userToken = rawCookieString parseCookieValue $calcitUserToken).
 userTokenExists ifElse {
-	$fname = ("./nogit/users/data/" + userToken + "/cookie_" + urlEncodeParameter: cookieName + ".txt").
+	print: $fname = ("./nogit/users/data/v3/" + userToken + "/keys/" + urlEncodeParameter: cookieName).
 	(not: fileIsFile: fname) ifElse {
 		resultRef = "1" + strNewline + "No cookie named " + cookieName + " was found on the server"
 	};{

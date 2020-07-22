@@ -1,0 +1,10 @@
+{
+	"info":{
+		"description":"Libraries for accessing OpenStreetMap"
+	},
+	"libraries":[
+		{"provides":["osm_node_url", "osm_node_name", "osm_node_name_from_dom", "osm_node_name_async", "osm_node_names_async"],  "scriptUrl":"osmNodes.txt"},
+		{"provides":["osm_search_url", "osm_search_json", "osm_search_places", "osm_place_coordinates", "osm_place_name", "osm_search_place_coordinates", "osm_search_place_names"],  "scriptUrl":"osmSearch.txt"},
+		{"provides":["osm_static_map_complex", "osm_static_map_by_coordinates"],  "scriptUrl":"osmStaticMap.txt"}
+	]
+}

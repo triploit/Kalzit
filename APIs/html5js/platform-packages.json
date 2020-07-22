@@ -10,6 +10,7 @@
 		{"provides":["app_url", "dynamic_app_url"],  "scriptUrl":"appUrl.js"},
 		{"provides":["repeat_async"],  "scriptUrl":"repeat.js"},
 		{"provides":["get_user_language"], "scriptUrl":"userLanguage.js"},
-		{"provides":["redirect"], "scriptUrl":"redirect.js"}
+		{"provides":["redirect"], "scriptUrl":"redirect.js"},
+		{"provides":["is_ios_app", "is_android_app"],  "scriptUrl":"osDetection.js"}
 	]
 }

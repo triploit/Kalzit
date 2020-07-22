@@ -1,3 +1,4 @@
+@(useInstead: "uiModifiableStringListEditPopup")
 $uiEditableStringList = ($_values ? ModifiableList ; $addText ? ("+ Add item" default String)) fun {
 	$views ? ModifiableList = getArray of _values.
 	

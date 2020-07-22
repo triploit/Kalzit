@@ -1,7 +1,0 @@
-$osmSearchUrl = "https://nominatim.openstreetmap.org/search?format=json&q=".
-$osmSearchJson = ($term ? String) fun {loadGlobal: osmSearchUrl + urlEncodeParameter: term}.
-$osmSearchPlaces = ($term ? String) fun {parseJson: osmSearchJson: term}.
-$osmPlaceCoordinates = ($_place) fun { ["lat" objFirstProperty _place];["lon" objFirstProperty _place] }.
-$osmPlaceName = ($_place) fun {"display_name" objFirstProperty _place}.
-$osmSearchPlaceCoordinates = ($term ? String) fun {osmPlaceCoordinates each osmSearchPlaces: term}.
-$osmSearchPlaceNames = ($term ? String) fun {;/ osmPlaceName each osmSearchPlaces: term}.

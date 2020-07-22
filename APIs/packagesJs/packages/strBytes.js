@@ -1,3 +1,6 @@
+/* @kalzit.for str_bytes
+Returns an array of bytes (numbers) representing a given string.
+*/
 this.strBytes = function(string){
 	var chars = [];
 	for (var i = 0; i < string.length; ++i) {

@@ -1,8 +1,8 @@
-$kalzitMediaProtocolFromYoutubeVideo = (($id ? YoutubeVideoId) fun {
+$kmpFromYoutubeVideo = $kalzitMediaProtocolFromYoutubeVideo = (($id ? YoutubeVideoId) fun {
 	parseJson: loadLocal: "/api/s/ytvidkmp?id=" + urlEncodeParameter: id
 }) cachedFun autoClearedCache: hoursToMillis: 2.
 
-$kalzitMediaProtocolFromYoutubeUrl = (($url ? String) fun {
+$kmpFromYoutubeUrl = $kalzitMediaProtocolFromYoutubeUrl = (($url ? String) fun {
 	loadLocal: "/api/s/yturlkmp?url=" + urlEncodeParameter: url
 }) cachedFun autoClearedCache: hoursToMillis: 2.
 
@@ -16,7 +16,7 @@ $kmpFromYoutubeVideoNoTitles = ($id ? YoutubeVideoId) fun {
 		["kind";"video"];
 		["protocolVersion";"2.0.0"];
 		[$thumbnail;[thumbnailObject]];
-		["html";{<iframe src="https://www.youtube.com/embed/} + id + {"></iframe>}].
+		["embedUrl";"https://www.youtube-nocookie.com/embed/" + id].
 }.
 $kmpFromYoutubeUrlNoTitles = (($url ? String) fun {
 	$ids = youtubeVideoIdsByUrl: url.

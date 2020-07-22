@@ -9,7 +9,7 @@ $_ide_package_hint_ui = ($varName) fun {
 		{@(cssClass: "ideButton") x} each (;/ do each !switch (do:varName)
 			[{not '"' strContains x};{_ide_insert_button: '"' + (do:varName) + '"'}];
 			[{not ('{' strContains x) | '}' strContains x};{_ide_insert_button: '{' + (do:varName) + '}'}];
-			[{"[a-zA-Z_]+" matches x};{
+			[{"[a-zA-Z_]+" isMatch x};{
 				(_ide_insert_button: "$" + first: "[a-zA-Z_]+" match do:varName);
 				(_ide_insert_button: "(reference: $" + (first: "[a-zA-Z_]+" match do:varName) + ")")
 			}]

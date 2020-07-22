@@ -19,22 +19,14 @@
 		{"provides":["ui_hide"],  "scriptUrl":"uiHide.js"},
 		{"provides":["ui_horizontal_px_space", "ui_horizontal_percent_space", "ui_vertical_px_space", "ui_vertical_percent_space"],  "scriptUrl":"uiSpace.js"},
 		{"provides":["ui_clear_app_container"],  "scriptUrl":"uiAppContainer.js"},
-		{"provides":["flag_width", "flag_height", "flag_percent_width", "flag_percent_height", "flag_px_width", "flag_px_height", "flag_em_width", "flag_em_height", "flag_mm_width", "flag_mm_height", "flag_cm_width", "flag_cm_height", "flag_inch_width", "flag_inch_height"],  "scriptUrl":"annotations/widthHeight.js"},
-		{"provides":["flag_background_color", "flag_background_gradient_left_to_right", "flag_background_gradient_top_to_bottom", "flag_foreground_color", "flag_opacity", "flag_border_color"],  "scriptUrl":"annotations/bgfg.js"},
-		{"provides":["flag_on_hover", "flag_on_tap", "flag_on_pointer_up", "flag_on_pointer_down", "flag_on_pointer_move"],  "scriptUrl":"annotations/mouse.js"},
-		{"provides":["flag_on_text_select"],  "scriptUrl":"annotations/onTextSelect.js"},
-		{"provides":["flag_px_roundness", "flag_percent_roundness"],  "scriptUrl":"annotations/roundness.js"},
-		{"provides":["flag_font_family", "flag_px_font_size", "flag_em_font_size"],  "scriptUrl":"annotations/font.js"},
-		{"provides":["flag_columns"], "scriptUrl":"annotations/columns.js"},
 		{"provides":["ui_container", "ui_element_collection"], "scriptUrl":"uiContainer.js"},
 		{"provides":["ui_stack"], "scriptUrl":"uiStack.js"},
 		{"provides":["ui_text"], "scriptUrl":"uiText.js"},
-		{"provides":["flag_box_shadow"], "scriptUrl":"annotations/shadow.js"},
-		{"provides":["flag_vertical_scroller"], "scriptUrl":"annotations/scroller.js"},
-		{"provides":["flag_css_class"], "scriptUrl":"annotations/cssClass.js"},
 		{"provides":["set_css_color_combination"], "scriptUrl":"setCssColorCombination.js"},
 		{"provides":["open_sub_app", "register_sub_app", "close_sub_app", "get_current_sub_app"], "scriptUrl":"subApp.js"},
 		{"provides":["ui_title"], "scriptUrl":"setActiveAppName.js"},
-		{"provides":["flag_on_drop", "ui_file_picker"],  "scriptUrl":"annotations/drop.js"}
+		{"provides":["expand_with_content"], "scriptUrl":"autoExpand.js"},
+		{"provides":["ui_check"], "scriptUrl":"check.js"},
+		{"provides":["ui_expand", "ui_collapse", "ui_toggle_expansion", "ui_is_collapsed", "ui_is_expanded"], "scriptUrl":"uiCollapse.js"}
 	]
 }

@@ -173,6 +173,9 @@ $searchFolderForRedirects = $folder fun {
 redirectsRef = searchFolderForRedirects: "./".
 
 print "Start port listening ...".
+!ifNot (fileExists: "./nogit/https/key.pem") {
+	runCommand: "./cli https certificate " + strFirstLine: runCommand: "hostname".
+}.
 !if (fileExists "./nogit/https/key.pem") {
     onClientConnect httpsServer 5001
 }.

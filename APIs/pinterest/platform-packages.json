@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries for accessing Pinterest"
+	},
+	"libraries":[
+		{"provides":["pinterest_url", "pinterest_rss_url"],  "scriptUrl":"pinterestUrls.txt"},
+        {"provides":["pinterest_feed_rss_dom", "pinterest_feed_rss_item_doms", "pinterest_feed_item_descriptions", "pinterest_feed_images"],  "scriptUrl":"pinterestFeeds.txt"}
+	]
+}

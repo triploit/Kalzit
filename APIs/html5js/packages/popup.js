@@ -1,4 +1,4 @@
-/*
+/* @kalzit.for popup_html
 Opens the given HTML code in a new browser window or tab (whatever the user prefers).
 
 Usage example:
@@ -10,7 +10,7 @@ this.popupHtml = function(html){
 	window.open("", "", "").document.body.innerHTML = html;
 }
 
-/*
+/* @kalzit.for popup_values
 Opens a list of values in a new browser window or tab (whatever the user prefers).
 
 Usage example:
@@ -31,7 +31,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("popup_values", {value:function
 	return {value:0, display:"none"};
 }});
 
-/*
+/* @kalzit.for popup_message
 Shows the given text in a dialog box with a close option.
 
 Usage example:
@@ -41,7 +41,7 @@ The code execution will pause here until the user closed the dialog.
 */
 this.popupMessage = function(textMessage){alert(textMessage)};
 
-/*
+/* @kalzit.for popup_question
 Shows the given text in a dialog box with an input field both a "confirm" and a "close" option.
 If the user selects "confirm", the text that was written into the input field is returned. If "close" is selected, this function returns "void".
 

@@ -1,3 +1,9 @@
+#{
+	Converts a piece of text to a KMP (Kalzit Media Protocol) representation.
+	
+	Usage example:
+		$kmp = kalzitMediaProtocolFromText: "Hello World".
+}
 $kalzitMediaProtocolFromText = ($text ? String) fun {
-	'{"protocolVersion":"1.0.0", "kind":"text", "text":{"raw":' + (objToJson: text) + '}}'
+	'{"protocolVersion":"2.0.0", "kind":"text", "text":' + (objToJson: text) + '}'
 }

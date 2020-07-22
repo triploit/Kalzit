@@ -1,3 +1,4 @@
+@(deprecated: "This function is very unintuitive to use (for example, it uses set- and get- functions and forces you to use property names with underscores). You should probably use 'modifiableObject' or 'modifiableList' instead, or just create your own data structure yourself.")
 $structure = ($_fields ? (List:String)) fun {
 	;/ {
 		$name = calcitUnifyName: x.
@@ -11,6 +12,8 @@ $structure = ($_fields ? (List:String)) fun {
 		[("set_on_change_of_" + name); ($listener) fun {listenerRef = listener}]
 	} each _fields
 }.
+
+@(deprecated: "This function is very unintuitive to use (for example, it uses set- and get- functions and forces you to use property names with underscores). You should probably use 'modifiableObject' or 'modifiableList' instead, or just create your own data structure yourself.")
 $structureFun = ($_fields ? (List:String)) fun {
 	() fun {structure: _fields}
 }.

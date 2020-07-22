@@ -1,2 +1,23 @@
+#{
+	Returns the title of a URL by reading the contents of the "title" HTML tag in the referenced website.
+	
+	If that fails, the URL itself is returned.
+	
+	Usage example:
+		$title = urlTitle: "https://www.duckduckgo.com".
+}
 $urlTitle = $anyUrl fun {(default: anyUrl): second: "<\s*title\s*>(.*)</\s*title\s*>" match loadGlobal: anyUrl}.
+
+#{
+	Obtains the title of a URL in an asynchronous way.
+	The title is obtained by reading the contents of the "title" HTML tag in the referenced website.
+	
+	To handle the title information, you can specify a callback which is called with the title as its first parameter.
+	If no title can be found, the first parameter is the original URL itself.
+	
+	Usage example:
+		{
+			popupMessage: "The found title is " + x.	
+		} urlTitleAsync "https://www.duckduckgo.com".
+}
 $urlTitleAsync = ($then;$anyUrl) fun {{then: (default: anyUrl): second: "<\s*title\s*>(.*)</\s*title\s*>" match x} loadGlobalAsync anyUrl}.

@@ -5,4 +5,5 @@
 	Example:
 	@nofreeze $globalString = "Modifiable".
 }
+@(deprecated: "Freezing of variables will be removed in future language versions. If you want to fix the value of a variable, use the 'final' type. Modifiable variables do no longer need a marker annotation.")
 $nofreeze ? Annotation = "nofreeze".

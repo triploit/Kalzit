@@ -1,1 +1,0 @@
-$youtubeVideoIdsByUrl = ($anyUrl ? Url) fun {removeDuplicates: second each "/watch\?v=([a-zA-Z0-9\-_]+)" allMatches loadGlobal: anyUrl} ? (List:YoutubeVideoId).

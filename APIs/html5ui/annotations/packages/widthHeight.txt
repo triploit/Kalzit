@@ -1,0 +1,133 @@
+#{
+	An annotation factory that specifies the width of an element dynamically.
+	This is done using the CSS "calc()" function.
+	
+	If you write something like:
+		@(width: {100% - 5px}) uiElement.
+	Then the element will be displayed 5 pixels less tall than its container.
+	
+	Ideally, this function should never be used, because it is very specific to the web platform.
+	However, you can obviously still use it to achieve effects that are not possible with the other functions.
+}
+$width = {flagWidth bind "calc(" + x + ")"}.
+
+#{
+	An annotation factory that specifies the heigit of an element dynamically.
+	This is done using the CSS "calc()" function.
+	
+	If you write something like:
+		@(height: {100% - 5px}) uiElement.
+	Then the element will be displayed 5 pixels less wide than its container.
+	
+	Ideally, this function should never be used, because it is very specific to the web platform.
+	However, you can obviously still use it to achieve effects that are not possible with the other functions.
+}
+$height = {flagHeight bind "calc(" + x + ")"}.
+
+#{
+	An annotation factory that specifies the width of an element in pixels.
+	
+	If you write something like:
+		@(pxWidth: 100) uiElement.
+	Then the element will be displayed 100 pixels wide.
+}
+$pxWidth = curry: flagPxWidth.
+
+#{
+	An annotation factory that specifies the height of an element in pixels.
+	
+	If you write something like:
+		@(pxHeight: 100) uiElement.
+	Then the element will be displayed 100 pixels high.
+}
+$pxHeight = curry: flagPxHeight.
+
+#{
+	An annotation factory that specifies the width of an element in percent.
+	
+	If you write something like:
+		@(percentWidth: 100) uiElement.
+	Then the element will be displayed as wide as its container.
+}
+$percentWidth = curry: flagPercentWidth.
+
+#{
+	An annotation factory that specifies the height of an element in percent.
+	
+	If you write something like:
+		@(percentHeight: 100) uiElement.
+	Then the element will be displayed as tall as its container.
+}
+$percentHeight = curry: flagPercentHeight.
+
+#{
+	An annotation factory that specifies the width of an element in relative font size.
+	
+	If you write something like:
+		@(emWidth: 2) uiElement.
+	Then the element will be displayed as wide as two letters would be.
+}
+$emWidth = curry: flagEmWidth.
+
+#{
+	An annotation factory that specifies the height of an element in relative font size.
+	
+	If you write something like:
+		@(emHeight: 2) uiElement.
+	Then the element will be displayed as tall as two letters would be when put on top of each other.
+}
+$emHeight = curry: flagEmHeight.
+
+#{
+	An annotation factory that specifies the width of an element in millimeters.
+	
+	If you write something like:
+		@(mmWidth: 20) uiElement.
+	Then the element will be displayed 20 millimeters wide.
+}
+$mmWidth = curry: flagMmWidth.
+
+#{
+	An annotation factory that specifies the height of an element in millimeters.
+	
+	If you write something like:
+		@(mmHeight: 20) uiElement.
+	Then the element will be displayed 20 millimeters tall.
+}
+$mmHeight = curry: flagMmHeight.
+
+#{
+	An annotation factory that specifies the width of an element in centimeters.
+	
+	If you write something like:
+		@(mmWidth: 3) uiElement.
+	Then the element will be displayed 3 centimeters wide.
+}
+$cmWidth = curry: flagCmWidth.
+
+#{
+	An annotation factory that specifies the height of an element in centimeters.
+	
+	If you write something like:
+		@(mmHeight: 3) uiElement.
+	Then the element will be displayed 3 centimeters tall.
+}
+$cmHeight = curry: flagCmHeight.
+
+#{
+	An annotation factory that specifies the width of an element in inches.
+	
+	If you write something like:
+		@(inchWidth: 3) uiElement.
+	Then the element will be displayed 3 inches wide.
+}
+$inchWidth = curry: flagInchWidth.
+
+#{
+	An annotation factory that specifies the height of an element in inches.
+	
+	If you write something like:
+		@(inchHeight: 3) uiElement.
+	Then the element will be displayed 3 inches tall.
+}
+$inchHeight = curry: flagInchHeight.

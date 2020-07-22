@@ -1,4 +1,14 @@
 ;(function(thiz){
+
+    /*
+    This variable allows the following functions to easily access the storage interface provided by a KNI (Kalzit Native Interface).
+    
+	This variable can have two states:
+		1. It can contain the "null" value, which represents that this variable should not be used. (No KNI present)
+		2. It can contain a value other than "null". In this case, the value is expected to be an object with the following properties (KNI present):
+		    "loadString", "saveString", "remove", "listKeysAsJson" and "wantsFullPush", all of which are functions.
+    */
+    var nativeStorage = KNI.hasStorage() ? KNI.getStorage() : null;
     
     /*
     This is a helper function used for anything that has to do with local storage.
@@ -28,8 +38,12 @@
     /**
     Expects a key (JS string) as a parameter and searches the storage for this key.
     If it was found, the value stored with it is returned (also a JS string).
+    
+    The exact implementation details vary, depending on wether a KNI with storage capability is present or not.
     */
-    var native_loadString = function(name){
+    var native_loadString = nativeStorage ? function(key){
+        return nativeStorage.loadString(key) || null;
+    } : function(name){
         //browser
         var result;
         withLocalStorage(function(storage){
@@ -40,8 +54,12 @@
     
     /**
     Expects a key (JS string) and a value to store with it (JS string) as a parameter and stores the value under the given key.
+    
+    The exact implementation details vary, depending on wether a KNI with storage capability is present or not.
     */
-    var native_saveString = function(name, value){
+    var native_saveString = nativeStorage ? function(key, value){
+        nativeStorage.saveString(key, value);
+    } : function(name, value){
         //browser
         withLocalStorage(function(storage){
             storage.setItem(name, value);
@@ -125,31 +143,43 @@
     */
     function pushCookies(nameList){
         var pushedObject = {};
-        var actualPush = false;
+        var pushCount = 0;
+        
         for(var i = 0; i < nameList.length; i++){
             var name = nameList[i];
             if(deleted.includes(name)) continue;
             pushedObject[name] = native_loadString(name);
-            actualPush = true;
+            pushCount++;
         }
-        if(!actualPush) return;
+        if(pushCount === 0) return;
         
-        //Send JSON to special API
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/updateCookieJson");
-        xhr.setRequestHeader("kalzit-cookie-json", JSON.stringify(pushedObject));
-        xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
-        xhr.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
-                //Success!
-            } else {
+        try{
+            //Send JSON to special API
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/api/updateCookieJson");
+            xhr.setRequestHeader("kalzit-cookie-json", JSON.stringify(pushedObject));
+            xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
+            xhr.onload = function () {
+                if (this.status >= 200 && this.status < 300) {
+                    //Success!
+                } else {
+                    toPush.push(name);
+                }
+            };
+            xhr.onerror = function () {
                 toPush.push(name);
+            };
+            xhr.send();   
+        }catch(error){
+            //If anything goes wrong, attempt to push the cookies one by one
+            if (pushCount > 1){
+                for(var i = 0; i < nameList.length; i++){
+                    var name = nameList[i];
+                    if(deleted.includes(name)) continue;
+                    pushCookie(name);
+                }
             }
-        };
-        xhr.onerror = function () {
-            toPush.push(name);
-        };
-        xhr.send();
+        }
     }
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
@@ -194,8 +224,15 @@
     function deleteCookie(name) {
         console.log("Trying to delete cookie " + name);
         deleted.push(name);
-        GLang.packageManager.loadUrl("/api/deleteCookie?cookie=" + encodeURIComponent(name));
         
+        //Delete from server
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/api/deleteCookie");
+        xhr.setRequestHeader("kalzit-cookie-name", encodeURIComponent(name));
+        xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
+        xhr.send();
+        
+        //Delete locally
         withLocalStorage(function(storage){
             storage.removeItem(name);
         });
@@ -206,9 +243,9 @@
         native_saveString(name, value)
         toPush.push(name);
     };
-    thiz.storageRemove = deleteCookie;
+    thiz.storageRemove = nativeStorage ? function(k){nativeStorage.remove(k)} : deleteCookie;
     thiz.storageLoadString = native_loadString;
-    thiz.storageListKeys = function(){
+    thiz.storageListKeys = nativeStorage ? function(){return JSON.parse(nativeStorage.listKeysAsJson())} : function(){
         var list = [];
         withLocalStorage(function(storage){
             var length = storage.getLength ? storage.getLength() : storage.length;
@@ -248,6 +285,11 @@
     //Pull values from the server and initiate the pushing services
     //Only do this if a session is active - otherwise, data could be overwritten after login
     if (token){
+        //Push all values if requested by the app (rather dangerous, might be removed later)
+        if(nativeStorage && nativeStorage.wantsFullPush()){
+            pushAllCookies();
+        }
+        
         //Pulling needs to happen before starting the push services
         pullAllCookies();
         startCookieRefreshLoop();

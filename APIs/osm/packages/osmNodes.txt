@@ -1,0 +1,18 @@
+@(deprecated: "I have no idea what this API does anymore, so it should probably be removed")
+$osmNodeUrl='https://www.openstreetmap.org/api/0.6/node/'.
+
+@(deprecated: "I have no idea what this API does anymore, so it should probably be removed")
+$osmNodeNameFromDom={{"v" domAttribute x} each {"name" eq "k" domAttribute x} filter "tag" domTags x}.
+
+@(deprecated: "I have no idea what this API does anymore, so it should probably be removed")
+$osmNodeName={osmNodeNameFromDom: domParse: loadGlobal: osmNodeUrl + x}.
+
+@(deprecated: "I have no idea what this API does anymore, so it should probably be removed")
+$osmNodeNameAsync=($callback;$id) fun {
+	{(osmNodeNameFromDom: domParse: x) callback id} loadGlobalAsync osmNodeUrl + id
+}.
+
+@(deprecated: "I have no idea what this API does anymore, so it should probably be removed")
+$osmNodeNamesAsync=($callback;$_ids) fun {
+	{callback osmNodeNameAsync x} each _ids
+}.

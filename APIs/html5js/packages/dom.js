@@ -1,5 +1,6 @@
 (function(){
 	/*
+	* @kalzit.for dom_parse
 	* Provides a simple way to parse data from XML.
 	* You can do something like this:
 	*
@@ -13,8 +14,9 @@
 	})});
 	
 	/*
+	* @kalzit.for dom_tags
 	* Returns all tags with a given name that are found in a given DOM object.
-	* 
+	*
 	* Usage: $tagName domTags dom.
 	* This produces a list which contains zero or more DOM objects.
 	*/
@@ -31,6 +33,7 @@
 	})});
 	
 	/*
+	* @kalzit.for dom_attribute
 	* Returns the value of an attribute which was given to a Tag.
 	* For example, in the case of <a href="test"></a>, the attribute "href" has the value test.
 	* If no attribute with the given name can be found, an empty list (equivalent to "void"), is returned.
@@ -45,6 +48,7 @@
 	})});
 	
 	/*
+	* @kalzit.for dom_inner_text
 	* Returns the text content of a DOM element.
 	* Usage: domInnerText: dom.
 	*/
@@ -53,6 +57,7 @@
 	})});
 	
 	/*
+	* @kalzit.for dom_inner
 	* Returns a list of the DOM elements that are contained in another one.
 	* If there are nested elements inside, only the ons on the first layer are returned.
 	* Usage: domInner: dom.

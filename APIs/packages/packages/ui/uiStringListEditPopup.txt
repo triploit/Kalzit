@@ -5,7 +5,7 @@ $uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemov
 	
 	$nameViewsRef = reference: $nameViews.
 	$updateNameViews = () fun {
-		nameViewsRef = (($_item) fun {uiContainer: (@(percentWidth 84) uiContainer: urlDecodeParameter: first: _item);@(percentWidth 16) $button = (() fun {
+		nameViewsRef = (($_item) fun {@center @(percentWidth 90) uiContainer: (@(percentWidth 84) uiContainer: urlDecodeParameter: strFirstLine: String: first: _item);@(percentWidth 16) $button = (() fun {
 			($removeEquals of list): _item.
 		}) uiButton "Remove"}) each getArray: list.
 	}.
@@ -17,7 +17,7 @@ $uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemov
 			(@(percentWidth 85) newAdditionRef uiTextfieldVariableOnchange "");
 			(@(percentWidth 10) {($push of list): newAddition. do:updateNameViews} uiButton "Add")
 	];[
-		@verticalScroller @center @(height {100% - 1.5cm}) @(percentWidth 90) uiContainer: uiShowVariableAsList: nameViewsRef
+		@verticalScroller @center @(height {100% - 1.5cm}) @(percentWidth 100) uiContainer: uiShowVariableAsList: nameViewsRef
 	]
 }.
 
@@ -32,6 +32,11 @@ $uiStringListEditor = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
 
 $uiStringListEditPopup = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
 	(@(percentHeight 100) listRef uiStringListEditor _onAdditionAndOnRemoval) uiPopup {
+		!closeSubApp
+	}
+}.
+$uiModifiableStringListEditPopup = ($list ? ModifiableList ; $_onAdditionAndOnRemoval) fun {
+	(@(percentHeight 100) list uiModifiableStringListEditor _onAdditionAndOnRemoval) uiPopup {
 		!closeSubApp
 	}
 }.

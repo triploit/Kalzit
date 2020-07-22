@@ -17,16 +17,18 @@
 		}
 	}
 	
-	/*
+	/* @kalzit.for speech_say
 	Causes text to be spoken using a given voice.
 	Both the text parameter and the voice parameter are required.
 	
 	Usually, the voice is obtained using "speechGetVoicesByLanguage", like this:
 		
+		```kalzit
 		$voice = first: speechGetVoicesByLanguage: "en".
 		"This will be said" speechSay voice.
+		```
 		
-	If you want to speek text that the user wrote, consider these two options:
+	If you want to speak text that the user wrote, consider these two options:
 		1. Ask for the preferred language. This could be done using something like "uiPicker".
 		2. Assume that the user writes something in the system language and obtain that using "getSimpleUserLanguage".
 	*/
@@ -37,12 +39,15 @@
 		return text;
 	}
 	
-	/*
+	/* @kalzit.for speech_get_voices_by_language
 	Returns a list of voices (represented by their name as a string) that are able to talk in a given language.
 	The language can be a string such as "en" or "en-US".
 	
 	Usage example:
+		
+		```kalzit
 		$voice = first: speechGetVoicesByLanguage: "en".
+		```
 	*/
 	thiz.speechGetVoicesByLanguage = function(language){
 		var list = [];
@@ -54,13 +59,16 @@
 		return list;
 	}
 	
-	/*
+	/* @kalzit.for speech_get_voices
 	Returns a list of all available voices (represented by their name as a string).
 	This is probably not useful because there is no way to get any information about a voice (yet?).
 	So this function might be removed in later versions.
 	
 	Usage example:
+		
+		```kalzit
 		$allVoices = !speechGetVoices.
+		```
 	*/
 	thiz.speechGetVoices = function(){
 		var list = [];

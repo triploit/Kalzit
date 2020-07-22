@@ -1,5 +1,5 @@
 $modifiableList = ($_normalList ? (List:Any)) fun {
-	!ifElse ((first each _normalList) eq $push;$getArray;$clear;$setOnAddition;$setOnRemoval;$setOnChange;$addToEnd;$removeEquals;$removeIndex;$removeMatch) {
+	!ifElse ((first each _normalList) eq $push;$getArray;$clear;$setOnAddition;$setOnRemoval;$setOnChange;$removeEquals;$removeIndex;$setIndex) {
 		_normalList
 	};{
 		$listVar ? (List:Any) = _normalList. $listVarRef = reference: $listVar.
@@ -20,22 +20,22 @@ $modifiableList = ($_normalList ? (List:Any)) fun {
 		["setOnAddition";($function) fun {onAdditionRef = function}];
 		["setOnRemoval";($function) fun {onRemovalRef = function}];
 		["setOnChange";($function) fun {onChangeRef = function}];
-		["addToEnd";($_endItems) fun {listEndRef = listEnd;_endItems}];
 		["removeEquals";($_item) fun {
 			listVarRef = {not: _item eq x} filter listVar.
 			!onRemoval.
 			!onChange.
 			listVar
 		}];
-		["removeIndex";($index) fun {
+		["removeIndex";($index ? Int) fun {
 			listVarRef = ({not: index eq x} filter arrayIndexes) at listVar.
 			!onRemoval.
 			!onChange.
 			listVar
 		}];
-		["removeMatch";($function) fun {
-			listVarRef = {not: function: x} filter listVar.
-			!onRemoval.
+		["setIndex";($index ? Int ; $_item) fun {
+			listVarRef = ($i fun {
+				!ifElse (i eq index) {_item};{i at listVar}
+			}) all arrayIndexes: listVar.
 			!onChange.
 			listVar
 		}]

@@ -8,9 +8,8 @@
 		{"provides":["random"],  "scriptUrl":"random.js"},
 		{"provides":["float", "int"],  "scriptUrl":"numericTypes.js"},
 		{"provides":["str_bytes"],  "scriptUrl":"strBytes.js"},
-		{"provides":["pi", "p_i", "e", "floor", "abs"],  "scriptUrl":"math.js"},
+		{"provides":["pi", "e", "floor", "abs"],  "scriptUrl":"math.js"},
 		{"provides":["native_file_mime"],  "scriptUrl":"nativeFileMime.js"},
-		{"provides":["calcit_compile"],  "scriptUrl":"calcitCompile.js"},
-		{"provides":["is_ios_app", "is_android_app"],  "scriptUrl":"osDetection.js"}
+		{"provides":["calcit_compile"],  "scriptUrl":"calcitCompile.js"}
 	]
 }

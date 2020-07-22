@@ -8,7 +8,9 @@ $sourcesRef = reference: $sources.
 
 applyTheme: colorCombinationTheme: greenColorCombination.
 $standardImageView = ($_action ; $url) fun {
-	@(onTap _action) (200;200) uiShowScaledAndRoundedImageUrl url
+	@(backgroundColor black) @fit
+	@(onTap _action) (200;200)
+		uiShowScaledAndRoundedImageUrl url
 }.
 
 $scrollerForTerm = ($url ? String) fun {
@@ -31,31 +33,20 @@ $scrollerForTerm = ($url ? String) fun {
 		$imageUrls = first each urlPairs.
 			
 		$index = 0. $indexRef = reference: $index.
-		$popup = void. $popupRef = reference: $popup.
-		
-		$readyRef = reference: $ready.
 		
 		$title = (default: "Untitled collection"): $title propOf kmpData.
 		
-		runLater: {
-			popupRef = ((@(setLength: length: imageUrls) {
-					(second: x at urlPairs) uiLink @center @fit uiShowImageUrl: x at imageUrls
-				}) uiLazySlidesWithNavigation indexRef) uiPopup {!closeSubApp}.
-				
-			("collection_" + urlEncodeParameter: url) registerSubApp {
-					print popup
-				};{uiHide popup}.
+		$slides = (@(setLength: length: imageUrls) {
+				(second: x at urlPairs) uiLink @center @fit uiShowImageUrl: x at imageUrls
+			}) uiLazySlidesWithNavigation indexRef.
 			
-			readyRef = true.
+		("collection_" + urlEncodeParameter: url) registerSubApp popupSubApp: {
+			slides
 		}.
 		
 		$showIndex = $index fun {
-			!if (ready) {
-				indexRef = index.
-				openSubApp: "collection_" + urlEncodeParameter: url.
-			}. !else {
-				popupMessage: "Not ready yet"	
-			}
+			indexRef = index.
+			openSubApp: "collection_" + urlEncodeParameter: url.
 		}.
 		
 		uiContainer: (@(fontFamily "Arial, Helvetica") uiContainer: title);uiHorizontalScroller: 15 uiAddHorizontalPxSpaces {
@@ -71,8 +62,10 @@ $update = () fun {
 }.
 
 $useInput = !fun ($currentInput) {
-	"kalzit.images.sources" storageSaveString ";" strJoin sourcesRef=sources;currentInput.
-	scrollersRef = scrollers;scrollerForTerm:currentInput
+	!ifNot (currentInput listContains sources) {
+		"kalzit.images.sources" storageSaveString ";" strJoin sourcesRef=sources;currentInput.
+		scrollersRef = scrollers;scrollerForTerm:currentInput
+	}
 }.
 
 $editPanelRef = reference: $editPanel.
@@ -88,17 +81,17 @@ $showEditPanel = () fun {
 sourcesRef = {not: "" eq x} filter ";" strSplit storageLoadString: "kalzit.images.sources".
 do:update.
 
+`Potentially add a source from the parameter`
+$added = appParameter: $add.
+!ifNot (added eq void) {
+	useInput: added
+}.
+
 $edit registerSubApp showEditPanel;{uiHide: editPanel}.
 
-`Tool bar testing`
-print: uiToolbar:
-	[@verticalCenter @left ({openSubApp: $edit} uiButton "Edit")];[
-		@verticalCenter @right @(percentHeight 50) @(percentWidth 10) uiContainer:
-			[@(percentWidth 40) !uiUserButton];
-			[uiHorizontalPercentSpace 10];
-			[@(percentWidth 40) !uiAppsButton];
-			[uiHorizontalPercentSpace 10]
-	].
+`Tool bar`
+toolAtLeft: "Edit" buttonTool {openSubApp: "edit"}.
+print: !uiGlobalToolbar.
 
 print: uiShowVariableAsList: scrollersRef.
 void

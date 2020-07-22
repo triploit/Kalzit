@@ -1,9 +1,13 @@
 $youtubeVideoTitle = $id fun {
 	print: id.
 	!ifElse (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {
-		fileContent: "./nogit/cache/yttitles/" + id + ".txt"
+		$result = fileContent: print: $titleFile = "./nogit/cache/yttitles/" + id + ".txt".
+		!if (result eq "YouTube") {
+			fileDelete: titleFile
+		}.
+		result
 	};{
-		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
+		$result = $title propOf parseJson: loadGlobal: "https://www.youtube.com/oembed?format=json&url=" + urlEncodeParameter: "https://youtube.com/watch?v=" + id.
 		("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
 		result
 	}
@@ -14,7 +18,7 @@ $youtubeVideoTitleAsync = ($then;$id) fun {
 		then fileContentAsync "./nogit/cache/yttitles/" + id + ".txt"
 	}.
 	!else {
-		$result = (default: "Unknown title (" + id + ")"): urlTitle: "https://youtube.com/watch?v=" + id.
+		$result = $title propOf parseJson: loadGlobal: "https://www.youtube.com/oembed?format=json&url=" + urlEncodeParameter: "https://youtube.com/watch?v=" + id.
 		!if (not result eq "https://youtube.com/watch?v=" + id) {
 			("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
 			then: result.

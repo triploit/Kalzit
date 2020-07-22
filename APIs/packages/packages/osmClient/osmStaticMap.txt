@@ -1,5 +1,0 @@
-$osmStaticMapComplex = ($_args ? (List:Tuple:String;Any)) fun {"&" strJoin "http://geomap.nagvis.org/?module=map"; {x + "=" + "," strJoin y} doEach _args} ? url.
-$osmStaticMapByCoordinates = ($_coordinates ? (2 SizedList Float) ; $_dimensionsAndZoom ? ((300;300;5) default 3 SizedList Int)) fun {
-	$daz = _dimensionsAndZoom.
-	osmStaticMapComplex: ["width";0 at daz];["height";1 at daz];["center";[(1 at _coordinates);0 at _coordinates]];["zoom";2 at daz]
-} ? Url.

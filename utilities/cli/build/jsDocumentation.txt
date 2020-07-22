@@ -1,0 +1,44 @@
+$generateJsDocumentation = !fun ($jsScriptPath) {
+	`The regex gives you everything between /* and */ (block comment content)`
+	$comments = second each "/\*\*?\s*([\s\S]*?)\s*\*/" allMatches fileContent: jsScriptPath.
+	
+	($comment fun {
+		
+		`Check if it is a Kalzit-specific comment`
+		$documentedName = second: "\@kalzit\.for ([a-z_]*)" match comment.
+		
+		!ifNot (void eq documentedName) {
+			print "Building a documentation file for " + documentedName.
+			
+			`Get all lines without whitespaces at start and end`
+			$lines = {second: "\s*([\s\S]*)\s*" match x} each strLines: comment.
+			$leadingAsteriskPresent = {"*" strStartsWith x} all lines.
+			
+			$finalComment = !ifElse ((sum leadingAsteriskPresent) eq length: lines) {
+				print: "Leading asterisks are used - they will be removed".
+				strNewline strJoin {second: "\*(.*)" match x} all lines.
+			};{
+				`Just use the original lines - nothing to remove or add`
+				strNewline strJoin lines
+			}.
+			
+			`Produce an actual documentation file`
+			("./docs/jsLibrary/" + documentedName + ".md") fileWrite
+				"## comment" + strNewline + ("@kalzit.for " + documentedName) strRemove finalComment.
+		}
+		
+	}) each comments.
+}.
+
+`Main app`
+($packageBasePath fun {
+
+	`Get all registered script paths`
+	$scripts = {
+		packageBasePath + "/packages/" + $scriptUrl propOf x
+	} each $libraries propOf parseJson: fileContent: packageBasePath + "/platform-packages.json".
+	
+	`Try to get the documentation from the .js files`
+	generateJsDocumentation each {".js" strEndsWith x} filter scripts.
+	
+}) each $usableLibraries = parseJson: fileContent: "html5/usable-libraries.json".

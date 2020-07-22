@@ -198,12 +198,19 @@ code {
   font-family: Courier;
   display: inline-block;
 }
+a {
+  color: rgba(var(--kv-text_color_rgb),var(--kv-text_color_alpha));
+}
+iframe {
+	border: none;
+}
 .k-desktop_only {
     display: inherit;
 }
 .k-mobile_only {
     display: none;   
 }
+
 @media (prefers-color-scheme: dark) {
 :root {
   --kv-background_color: #393939;
@@ -212,9 +219,6 @@ code {
 body {
   background-color: var(--kv-background_color);
   color: white;
-}
-a {
-  color: orange;
 }
 code {
   background-color: #656565;
