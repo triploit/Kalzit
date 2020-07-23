@@ -5,6 +5,7 @@ then
 	cd ~/.kalzit
 else
 	# Remove a potential ~/.kalzit folder
+	cd /usr/share/kalzit-root
 	rm -rf ~/.kalzit > /dev/null 2>&1
 	cp -r ./ ~/.kalzit/ > /dev/null 2>&1
 	
