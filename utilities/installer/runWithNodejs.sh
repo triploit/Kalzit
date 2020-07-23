@@ -9,10 +9,14 @@ bash ./utilities/installer/parts/cli.sh
 mkdir ./generated
 ./cli build everything
 
-echo
-echo We will now attempt to make the "kalzit" command accessible anywhere.
-echo This requires root privileges - please authenticate.
-
 #Attempt do link the file without root access first
-ln -sf "$(pwd)/kalzit" /usr/local/bin/kalzit
-sudo ln -sf "$(pwd)/kalzit" /usr/local/bin/kalzit
+#If the --no-link option is the first parameter, skip this step
+if  [ "$1" != "--no-link" ]
+then
+	echo
+	echo We will now attempt to make the "kalzit" command accessible anywhere.
+	echo This requires root privileges - please authenticate.
+	
+	ln -sf "$(pwd)/kalzit" /usr/local/bin/kalzit
+	sudo ln -sf "$(pwd)/kalzit" /usr/local/bin/kalzit
+fi
