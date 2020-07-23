@@ -5,9 +5,8 @@ then
 	cd ~/.kalzit
 else
 	# Remove a potential ~/.kalzit folder
-	cd /usr/share/kalzit-root
 	rm -rf ~/.kalzit > /dev/null 2>&1
-	cp -r ./ ~/.kalzit/ > /dev/null 2>&1
+	cp -r /usr/share/kalzit-root/ ~/.kalzit > /dev/null 2>&1
 	
 	# Set up Kalzit for the current user
 	echo
