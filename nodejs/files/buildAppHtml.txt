@@ -55,4 +55,12 @@ $prefix = !ifElse (fileIsFile: translationMapFile) {
 
 (rootFolder + "/generated/appBuildingTempFile.js") fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
 
-((".k";".html") strReplace app) fileWrite ("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '"')) strReplace skeletonCode.
+
+`Now we can generate the final HTML file`
+`Replace the last .k in the file name (file extension) by .html to get the path of the generated HTML file`
+$generatedHtmlPath = ("(.+)\.k" ; "$1.html") strReplaceRegex app.
+
+`Write the file content`
+generatedHtmlPath fileWrite
+	`We replace $app$ from the app skeleton by a minified version of the app code (available in /generated/appBuildingTempFile.js)`
+	("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '"')) strReplace skeletonCode.
