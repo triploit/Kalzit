@@ -1,3 +1,4 @@
 function build {
-    bash ./utilities/installer/runLocallyWithoutNodejs.sh
+    cat ./pkg/kalzit-for-tridy.txt > ./kalzit
+    chmod +x ./kalzit
 }

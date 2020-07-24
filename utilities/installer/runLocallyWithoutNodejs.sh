@@ -13,7 +13,7 @@ nvm install node
 
 
 #Stuff that uses 'node'
-bash ./utilities/installer/runWithNodejs.sh
+bash ./utilities/installer/runWithNodejs.sh $@
 
 echo
 echo The Kalzit installation should be done now.
