@@ -39,11 +39,6 @@ $wikipediaSearch = ($term ? String ; $language ? ("en" default String)) fun {
 	} each indexes
 }.
 
-@(deprecated: "The list of description appears to be always empty and not very useful")
-$wikipediaSearchDescriptions = ($term ? String ; $language ? ("en" default String)) fun {
-	{$description propOf x} each term wikipediaSearch language.
-}.
-
 #{
 	Returns a list of URLs for a given search term. The URLs do not need to have something to do with the topic of the term, but they usually include it.
 	

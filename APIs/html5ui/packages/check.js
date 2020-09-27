@@ -10,5 +10,5 @@ uiCheck: box.
 */
 this.uiCheck = function(checkbox){
 	//The Checkbox from the standard library is inside a div, so we need to get the "real" checkbox (firstChild)
-	checkbox.firstChild.checked = true;
+	checkbox.getElementsByTagName("input")[0].checked = true;
 }

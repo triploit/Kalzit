@@ -1,0 +1,10 @@
+.k-horizontal_scroller {
+	-webkit-overflow-scrolling: touch;
+	white-space: nowrap;
+	overflow-x: scroll;
+	overflow-y: hidden;
+	width: 100%;
+}
+.k-vertical_scroller {
+	overflow-y: auto;
+}

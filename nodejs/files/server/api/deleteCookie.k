@@ -6,11 +6,19 @@ $rawCookieString = ($cookie objFirstProperty _request).
 
 print: "Deleting cookie " + cookieName + " from the server".
 userTokenExists ifElse {
+	`Prepare the tracking of deleted entries (prevents other devices from uploading them again)`
+	$deletionsFolder = "./nogit/users/data/v3/" + userToken + "/deletedkeys/".
+	fileCreateFolder: deletionsFolder.
+	
 	print: $fname = ("./nogit/users/data/v3/" + userToken + "/keys/" + urlEncodeParameter: cookieName).
 	(not: fileIsFile: fname) ifElse {
 		resultRef = "1" + strNewline + "No cookie named " + cookieName + " was found on the server"
 	};{
-		fileDelete: fname.
+		fname fileRenameFile (deletionsFolder + "/" + urlEncodeParameter: cookieName).
+		
+		`Remove the cached version of the user data .json file`
+		fileDelete: "./nogit/users/data/v3/" + userToken + "/keys.json".
+		
 		resultRef = "0".
 	}
 };{

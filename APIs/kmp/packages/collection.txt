@@ -1,0 +1,5 @@
+$kmpFromObjectCollection = !fun ($_kmpObjects) {
+	["protocolVersion";"2.0.0"];
+	["kind";"collection"];
+	["collection";[_kmpObjects]]
+}

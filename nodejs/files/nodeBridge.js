@@ -9,6 +9,6 @@
 
 	//Initialize package manager
 	GLang.packageManager = new GLang.NodePackageManager();
-	GLang.packageManager.initialize(["core/platform-packages.json", "nodejs/platform-packages.json", "APIs/packagesJs/platform-packages.json", "APIs/packages/platform-packages.json", "APIs/twitch/packages/platform-packages.json", "APIs/instagram/platform-packages.json", "APIs/youtube/platform-packages.json", "APIs/youtube/server/platform-packages.json", "APIs/reddit/packages/platform-packages.json", "APIs/reddit/server/platform-packages.json", "APIs/osm/platform-packages.json", "APIs/wikipedia/platform-packages.json", "APIs/pinterest/platform-packages.json", "APIs/websearch/platform-packages.json"])
+	GLang.packageManager.initialize(["core/platform-packages.json", "nodejs/platform-packages.json", "APIs/packagesJs/platform-packages.json", "APIs/packages/platform-packages.json", "APIs/twitch/packages/platform-packages.json", "APIs/instagram/platform-packages.json", "APIs/youtube/platform-packages.json", "APIs/youtube/server/platform-packages.json", "APIs/reddit/packages/platform-packages.json", "APIs/reddit/server/platform-packages.json", "APIs/osm/platform-packages.json", "APIs/wikipedia/platform-packages.json", "APIs/pinterest/platform-packages.json", "APIs/websearch/platform-packages.json", "APIs/kmp/platform-packages.json"])
 	
 })(this);

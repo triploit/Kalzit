@@ -41,39 +41,60 @@ $uiCrossButton = () fun {
 } ? UiElement.
 
 `#apps sub app`
-do:{
-	$appsPopup =  (uiContainer: (uiVerticalPercentSpace 10); @(percentHeight 80) uiHomeScreen: {launchAppName: x}) uiPopup {
-		!closeSubApp
-	}.
-	$apps registerSubApp {
-		print: appsPopup.
-	};{uiHide: appsPopup}
-}.
+$apps registerSubApp popupSubApp:
+	(uiContainer: (uiVerticalPercentSpace 10); @(percentHeight 80) uiHomeScreen: {launchAppName: x}).
 
 `#login sub app`
-do:{
-	$loginPopup = (
-		(uiTitleToolbar: "Login");
-		(@(percentWidth 90) @(percentHeight 90) @center uiLoginForm: {
-			!if x {
-				!relaunchApp
-			}
-		})
-	) uiPopup {
-		!closeSubApp
-	}.
-	$login registerSubApp {
-		print: loginPopup.
-	};{uiHide: loginPopup}.
-}.
+$login registerSubApp popupSubApp:
+	(uiTitleToolbar: "Login");
+	(@(percentWidth 90) @(percentHeight 90) @center uiLoginForm: {
+		!if x {
+			!relaunchApp
+		}
+	}).
 
+$register registerSubApp popupSubApp:
+	(uiTitleToolbar: "Register");
+	(@(percentWidth 90) @(percentHeight 90) @center uiRegisterForm: {
+		!if x {
+			!relaunchApp
+		}
+	}).
+
+`#account sub app`
+$account registerSubApp popupSubApp: {
+	$popupContent =
+		(uiTitleToolbar: "Account: " + (default: "Unknown"): storageLoadString: "calcitUserName");
+		@center @(width "100% - 14px") uiContainer:
+			(uiVerticalPxSpace: 14);
+			($timeoutCheckbox = @(percentWidth 100) {
+				"kalzit.timeoutWanted" storageSaveString String: x.
+				!if x timeoutContinue. !else timeoutPause.
+			} uiCheckbox "Enable time out after 30 minutes");
+			(uiVerticalPxSpace: 7);
+			(@center {
+				storageRemove: "calcitSession".
+				storageRemove: "calcitUserName".
+				!relaunchApp
+			} uiButton "Logout").
+	
+	!if ("1" eq storageLoadString: "kalzit.timeoutWanted") {
+		uiCheck: timeoutCheckbox
+	}.
+	
+	`return` popupContent.
+}.
+`Check if the timeout should be paused initially`
+!ifNot ("1" eq storageLoadString: "kalzit.timeoutWanted") {
+	!timeoutPause
+}.
 
 $uiAccountButton = () fun {@fit (() fun {
 	!if (void eq storageLoadString: "calcitSession") {
 		openSubApp: $login
 	}.
 	!else {
-		popupMessage: "You are already logged in"
+		openSubApp: $account
 	}
 }) uiImageButton userOutlineImageUrl}.
 
@@ -82,7 +103,7 @@ $uiUserConfigButton = () fun {@fit  (() fun {
 		popupMessage: "You are not logged in"
 	}.
 	!else {
-		popupMessage: "You are already logged in"
+		openSubApp: $account
 	}
 }) uiImageButton userImageUrl}.
 

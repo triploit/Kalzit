@@ -1,12 +1,3 @@
-@(deprecated: "This function is never used")
-$storageSetDescription = ($key ? String ; $description ? String) fun {
-	("__calcitKeyDescription__" + key) storageSaveString description
-}.
-@(deprecated: "This function is never used and broken")
-$storageGetDescription = ($key) fun {
-	storageLoadString: $key
-}.
-
 $storageSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
 	$values = (List:String): getArray of _list.
 	{

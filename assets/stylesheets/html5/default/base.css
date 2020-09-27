@@ -1,0 +1,53 @@
+:root {
+    --kv-background_color: white;
+    
+    /*Just a default color combination (based on white) to make custom elements work*/
+    --kv-black_accent_color: rgba(20, 20, 20, 1);
+    --kv-white_accent_color: rgba(240, 240, 240, 1);
+    --kv-twilight_accent_color: rgba(110, 110, 110, 1);
+    --kv-darker_twilight_accent_color: rgba(80, 80, 80, 1);
+    --kv-lighter_twilight_accent_color: rgba(140, 140, 140, 1);
+    --kv-light_accent_color: rgba(210, 210, 210, 1);
+    --kv-dark_accent_color: rgba(50, 50, 50, 1);
+    
+    --kv-text_color_rgb: 255,255,255;
+    --standard-button-gradient: linear-gradient(
+        rgba(200,200,200,0.3),
+        rgba(0,0,0,0.6)
+    );
+    --button-gradient: var(--standard-button-gradient);
+    --button-on-dark-hover-gradient: linear-gradient(
+        rgba(200,200,200,0.6),
+        rgba(0,0,0,0.8)
+    );
+    --button-hover-gradient: var(--button-on-dark-hover-gradient);
+    
+    --kv-border_color_alpha: 1;
+    --kv-text_color_alpha: 1;
+    
+    --button-shadow-color: black;
+    
+    --white-select-arrow: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    --select-arrow: var(--white-select-arrow);
+    
+    --small-button-border-radius: 3px;
+	--big-button-border-radius: 4px;
+	--default-roundness: 10px;
+	--parent-border-radius: 0px;
+}
+
+.calcitStandardBackground {
+    --kv-text_color_rgb: 255,255,255;
+    --button-gradient: var(--standard-button-gradient);
+    --button-hover-gradient: var(--button-on-dark-hover-gradient);
+    --kv-border_color_alpha: 1;
+    --kv-text_color_alpha: 1;
+    --button-shadow-color: black;
+    
+    --select-arrow: var(--white-select-arrow);
+}
+
+html, textarea {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  line-height: 1.5;
+}

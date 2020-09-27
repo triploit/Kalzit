@@ -160,20 +160,8 @@
 			var code = args[1].value;
 			var returnType = GLang.getType(args[1]);
 			if("string" === typeof code) code = GLang.generateTree(code);
-			var result = GLang.functionFromTree(code, env, {value:argList}, returnType);
 			
-			for(var i = 0; i < argList.length; i++){
-				if((argList[i].value + "").startsWith("_")){
-					return result;
-				}
-			}
-			var res = {value:GLang.arrayFun(function(env, args){
-				return GLang.callObject(result, env, args);
-			}), display:"function"};
-			GLang.setAnnotation(res, {value:[
-				GLang.stringValue("argumentList"), {value:argList}
-			]});
-			return res;
+			return result = GLang.functionFromTree(code, env, {value:argList}, returnType);
 		}}},
 		{varName:";", varValue:{value:function(env, args){
 			var val1 = args[0];

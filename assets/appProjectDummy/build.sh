@@ -103,5 +103,8 @@ if [ -f "$appFolder/platform-packages.json" ]
 		rm "$appFolder/doNotTouch/_min.js"
 	fi
 
-
 bash "$rootFolder/utilities/cli/build/kalzitFile.sh" "$appFolder/$appId.k" "$rootFolder"
+
+#Create a listing of all project files which are not hidden (useful for downloading from the internet)
+cd "$appFolder"
+find . -not -path "*/.*" -not -path "./doNotTouch/*" -type f > ./doNotTouch/fileListing.txt

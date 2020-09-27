@@ -1,1 +1,3 @@
-terser $(< ../bootstrap/platformScripts.txt) --mangle --output ./_min.js
+echo "Minifying core language files"
+
+terser $(< ../bootstrap/platformScripts.txt) --keep-fnames --output ./_min.js

@@ -1,0 +1,3 @@
+a {
+  color: rgba(var(--kv-text_color_rgb),var(--kv-text_color_alpha));
+}

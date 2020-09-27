@@ -2,6 +2,8 @@ npm install follow-redirects xmldom
 npm install -g terser
 npm install -g uglifycss
 npm install -g markdown-to-html
+npm install -g ffbinaries
+ffbinaries -o ./utilities
 
 bash ./utilities/installer/parts/nogit.sh
 bash ./utilities/installer/parts/cli.sh

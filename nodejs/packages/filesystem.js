@@ -92,6 +92,9 @@ this.fileIsFolder = function(filePath){
 		return false;
 	}
 }
+this.fileRenameFile = function(oldPath, newPath){
+	fs.renameSync(oldPath, newPath);
+}
 this.fileIsFile = function(filePath){
 	try{
 		return fs.lstatSync(filePath).isFile();

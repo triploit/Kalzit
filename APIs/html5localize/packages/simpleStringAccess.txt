@@ -1,0 +1,24 @@
+$simpleStringAssetAccess = cachedFun: ($path ; $_loader ? (default: {loadLocal: x})) fun {
+	$object = {(calcitUnifyName: first: x);second: x} each parseJson: _loader: path.
+	!if (not object eq void) {
+		cachedFun: ($key ? String) fun {
+			(calcitUnifyName: key) objFirstProperty object
+		}
+	}
+}.
+
+#{
+	A function for easily accessing app-specific localized strings.
+	The strings are specified in JSON files which are placed in the /strings folder of your app project.
+}
+$appStrings = !ifElse (void eq stringAssetMap) {
+	localizedStringAssetAccess: "/apps/" + (!getAppId) + "/strings/"
+};{
+	$languageKey = (!getUserLanguage) objFirstProperty stringAssetMap.
+	!ifElse (void eq languageKey) {
+		$simpleKey = (!getSimpleUserLanguage) objFirstProperty stringAssetMap.
+		simpleStringAssetAccess: "/apps/" + (!getAppId) + "/static/" + ((default: $strings objFirstProperty stringAssetMap): simpleKey) + ".json"
+	};{
+		simpleStringAssetAccess: "/apps/" + (!getAppId) + "/static/" + languageKey + ".json"
+	}
+}.

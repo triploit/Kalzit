@@ -17,6 +17,7 @@ this.nativeFileMime = function(extension){
 		case "mp4": return "video/mp4";
 		case "svg": return "image/svg+xml";
 		case "json": return "application/json";
+		case "css": return "text/css";
 		default: return "*"
 	}
 }

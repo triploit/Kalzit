@@ -1,0 +1,7 @@
+.k-closed {
+	max-height: 0;
+}
+.k-closable {
+	overflow: hidden;
+	transition: max-height 1s ease-out;
+}

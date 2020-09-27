@@ -1,6 +1,6 @@
 this.flagFontFamily = function(familyName, object){
 	if(familyName === -1){
-		object.classList.add("calcitDynamic_fontFamily");
+		object.classList.add("k-standard_font");
 	}else{
 		object.style.fontFamily = familyName;
 	}

@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Libraries for good HTTP access"
+	},
+	"libraries":[
+		{"provides":["http_get_local_async", "http_post_local_async"],  "scriptUrl":"local.js"}
+	]
+}

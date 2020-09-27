@@ -1,10 +1,6 @@
-($uiSkinRightButtonRef = reference: $uiSkinRightButton) = ($uiSkinLeftButtonRef = reference: $uiSkinLeftButton) = {(200;200;200;200) flagBackgroundColor x. (0;0;0;255) flagForegroundColor x}.
-
-$uiLeftButton = ($_text ? ("<" default String)) fun {	
-	uiSkinLeftButton: $b = @(cssClass "k-left_button") @centerText @left @verticalCenter uiContainer: _text.
-	b
+$uiLeftButton = ($text ? ("<" default String)) fun {	
+	@(cssClass "k-left_button") @centerText @left @verticalCenter uiContainer: text.
 }.
-$uiRightButton = ($_text ? (">" default String)) fun {
-	uiSkinRightButton: $b = @(cssClass "k-right_button") @centerText @right @verticalCenter uiContainer: _text.
-	b
+$uiRightButton = ($text ? (">" default String)) fun {
+	@(cssClass "k-right_button") @centerText @right @verticalCenter uiContainer: text.
 }.

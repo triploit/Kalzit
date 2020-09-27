@@ -1,4 +1,4 @@
-$youtubeEmbedUrl ? Url = "https://www.youtube.com/embed/".
+$youtubeEmbedUrl ? Url = "https://www.youtube-nocookie.com/embed/".
 $youtubeVideoUrl ? Url = "https://www.youtube.com/watch?v=".
 $youtubeUserRssUrl ? Url = "https://www.youtube.com/feeds/videos.xml?user=".
 $youtubeChannelRssUrl ? Url= "https://www.youtube.com/feeds/videos.xml?channel_id=".

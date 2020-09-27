@@ -1,24 +1,6 @@
-@(deprecated: "This URL does no longer point to a useful service - the gathered data are basically always empty / useless, so this API will be removed soon")
-$twitterUserRssUrl = "http://queryfeed.net/twitter?q=%40".
-
 #{
 	A URL which can be used to point to a specific twitter user.
 	To generate a user-specific URL, you can do this:
 		$userUrl = twitterUserUrl + "username".
 }
 $twitterUrl = $twitterUserUrl = "https://twitter.com/".
-
-@(deprecated: "This URL does no longer point to a useful service - the gathered data are basically always empty / useless, so this API will be removed soon")
-$twitterUserRssDom = ($user ? String) fun {loadDom: twitterUserRssUrl + user}.
-
-@(deprecated: "This URL does no longer point to a useful service - the gathered data are basically always empty / useless, so this API will be removed soon")
-$twitterUserTweetDoms = ($user ? String) fun {"item" domTags twitterUserRssDom: user}.
-
-@(deprecated: "This URL does no longer point to a useful service - the gathered data are basically always empty / useless, so this API will be removed soon")
-$twitterUserTweetLinks = ($user ? String) fun {domInnerText: ;/ "link" domTags twitterUserTweetDoms: user}.
-
-@(deprecated: "This URL does no longer point to a useful service - the gathered data are basically always empty / useless, so this API will be removed soon")
-$twitterUserTweetContents = ($user ? String) fun {domInnerText: ;/ "description" domTags twitterUserTweetDoms: user}.
-
-@(deprecated: "This URL does no longer point to a useful service - the gathered data are basically always empty / useless, so this API will be removed soon")
-$twitterUserImages = ($userName ? String) fun {removeDuplicates: second each {"(https://pbs.twimg.com/media/[^"]+)"} allMatches loadGlobal: twitterUserUrl + userName + "/media/"}.

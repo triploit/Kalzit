@@ -1,12 +1,3 @@
-@duckDeprecatedSiteChanged
-$duckSearchDomAsync = ($callback ; $term ? String) fun {callback loadDomAsync "https://www.duckduckgo.com/html/?q=" + urlEncodeParameter: term}.
-
-@duckDeprecatedSiteChanged
-$duckSearchResultDomsAsync = ($callback ; $term ? String) fun {{callback: {"result " strStartsWith "class" domAttribute x} filter "div" domTags x} duckSearchDomAsync term}.
-
-@duckDeprecatedSiteChanged
-$duckSearchUrlDomsAsync = ($callback ; $term ? String) fun {{callback: {{"result__url" eq "class" domAttribute x} filter x} each "a" domTags x} duckSearchResultDomsAsync term}.
-
 #{
     Performs an asynchronous DuckDuckGo search and returns the first few URL results.
     

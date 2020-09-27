@@ -1,2 +1,0 @@
-@(deprecated: "The Qwant site seems to have changed, so this function became broken")
-$qwantSearchImageUrls = ($term ? String) fun {{$u urlGetParameter x} each second each {"(//s\-lite\.qwant\.com/thumbr/[^"]+)"} allMatches loadGlobal: qwantImageSearchUrl + urlEncodeParameter: term} ? Images.

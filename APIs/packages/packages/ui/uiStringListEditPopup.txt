@@ -12,10 +12,19 @@ $uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemov
 	do:updateNameViews.
 	($setOnChange of list): updateNameViews.
 	
-	uiContainer: [uiToolbarWithCloseButton: @right @(width "100% - 1.7cm") uiContainer:
+	uiContainer: [uiToolbarWithCloseButton: @($toolbarContent fun {
+			!if isIosApp {
+				`Leave space for the close button`
+				@right @(width "100% - 1.7cm") toolbarContent
+			}. !else {
+				`Use the entire toolbar`
+				@(width "96% - 5px") @right toolbarContent
+			}
+		}) uiContainer:
 		@(percentWidth 100) @center uiContainer:
 			(@(percentWidth 85) newAdditionRef uiTextfieldVariableOnchange "");
-			(@(percentWidth 10) {($push of list): newAddition. do:updateNameViews} uiButton "Add")
+			(uiHorizontalPxSpace: 5);
+			(@(width "10% - 5px") {($push of list): newAddition. do:updateNameViews} uiButton "Add")
 	];[
 		@verticalScroller @center @(height {100% - 1.5cm}) @(percentWidth 100) uiContainer: uiShowVariableAsList: nameViewsRef
 	]

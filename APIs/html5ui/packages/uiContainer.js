@@ -1,6 +1,5 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiContainer", {value:function(env, args){
 	var div = document.createElement("div");
-	div.classList.add("calcitContainer")
 	
 	var arr = args[0].value;
 	if(!(arr instanceof Array)){

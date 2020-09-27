@@ -6,12 +6,18 @@ function resetBackground(object){
 	object.style.backgroundColor = object.style.backgroundImage = null;
 }
 
-global.flagBackgroundColor = function(_color, object){
+global.flagBackgroundColor = function(color, object){
 	resetBackground(object);
-	object.style.backgroundColor = _color;
+	object.style.backgroundColor = color;
 }
-global.flagForegroundColor = function(_color, object){
-	object.style.color = _color;
+global.flagBackgroundImageUrl = function(imageUrl, object){
+	resetBackground(object);
+	object.style.backgroundImage = 'url("' + imageUrl + '")';
+	object.style.backgroundRepeat = "no-repeat";
+	object.style.backgroundPosition = "center";
+}
+global.flagForegroundColor = function(color, object){
+	object.style.color = color;
 }
 global.flagBackgroundGradientLeftToRight = function(_colors, object){
 	resetBackground(object);
@@ -24,8 +30,8 @@ global.flagBackgroundGradientTopToBottom = function(_colors, object){
 global.flagOpacity = function(opacity, object){
 	object.style.opacity = opacity;
 }
-global.flagBorderColor = function(_color, object){
-	object.style.borderColor = _color;
+global.flagBorderColor = function(color, object){
+	object.style.borderColor = color;
 	object.style.borderStyle = "solid";
 	object.style.borderWidth = "2px";
 }

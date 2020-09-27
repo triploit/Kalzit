@@ -1,0 +1,5 @@
+.k-toolbar {
+	color: var(--kv-lighter_twilight_accent_color);
+	background-color: var(--kv-lighter_twilight_accent_color);
+	box-shadow: 0 0 15px black;
+}

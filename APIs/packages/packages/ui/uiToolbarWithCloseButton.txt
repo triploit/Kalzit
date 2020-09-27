@@ -3,7 +3,7 @@ $uiToolbarWithCloseButton = $_views fun {
 
 	uiToolbar:
 		_views;
-		close
+		!if isIosApp close
 }.
 
 $uiTitleToolbar = ($title ? String) fun {

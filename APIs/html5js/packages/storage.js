@@ -132,8 +132,8 @@
     Pushes a single key-value-pair (represented by its "key"-part) to the server.
     The main function for this purpose would be "pushCookies" (with an "s") - if you want to push multiple key-value-pairs, that one is a lot faster.
     */
-    function pushCookie(name){
-       pushCookies([name]);
+    function pushCookie(name, undelete){
+       pushCookies([name], undelete);
     }
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
@@ -141,7 +141,7 @@
     Pushes multiple key-value-pairs (represented by their "key"-parts) to the server.
     TODO: Document additional behavior like "deleted" checks
     */
-    function pushCookies(nameList){
+    function pushCookies(nameList, undelete){
         var pushedObject = {};
         var pushCount = 0;
         
@@ -159,9 +159,17 @@
             xhr.open("GET", "/api/updateCookieJson");
             xhr.setRequestHeader("kalzit-cookie-json", JSON.stringify(pushedObject));
             xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
+            if (undelete) {
+                //Mark the cookie as "new / purposefully created"
+                xhr.setRequestHeader("kalzit-undelete", "true");
+            }
             xhr.onload = function () {
                 if (this.status >= 200 && this.status < 300) {
-                    //Success!
+                    var deleted = JSON.parse(this.responseText).deleted;
+                    //Go ahead and delete all the values from local storage
+                    for(var i = 0; i < deleted.length; i++){
+                        thiz.storageRemove(deleted[i]);
+                    }
                 } else {
                     toPush.push(name);
                 }
@@ -176,7 +184,7 @@
                 for(var i = 0; i < nameList.length; i++){
                     var name = nameList[i];
                     if(deleted.includes(name)) continue;
-                    pushCookie(name);
+                    pushCookie(name, undelete);
                 }
             }
         }
@@ -190,7 +198,7 @@
     function pushNewCookies(){
         var toPushCopy = toPush;
         toPush = [];
-        pushCookies(toPushCopy);
+        pushCookies(toPushCopy, true);
     }
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
@@ -240,10 +248,14 @@
     
     //TODO: Add the ability to use arrow functions ( arg => stuff() ) without breaking everything.
     thiz.storageSaveString = function(name, value) {
-        native_saveString(name, value)
+        native_saveString(name, value);
+        if (deleted.includes(name)) {
+            //Un-delete the value, so it gets pushed
+            deleted.splice(deleted.indexOf(name), 1);
+        }
         toPush.push(name);
     };
-    thiz.storageRemove = nativeStorage ? function(k){nativeStorage.remove(k)} : deleteCookie;
+    thiz.storageRemove = nativeStorage ? function(k){nativeStorage.remove(k); deleteCookie(k)} : deleteCookie;
     thiz.storageLoadString = native_loadString;
     thiz.storageListKeys = nativeStorage ? function(){return JSON.parse(nativeStorage.listKeysAsJson())} : function(){
         var list = [];

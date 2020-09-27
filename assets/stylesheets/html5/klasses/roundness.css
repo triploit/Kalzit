@@ -1,0 +1,4 @@
+/*Defines a default border radius*/
+.k-rounded {
+	border-radius: var(--default-roundness);
+}

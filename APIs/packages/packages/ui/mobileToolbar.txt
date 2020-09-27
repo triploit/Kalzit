@@ -25,41 +25,36 @@ $generateMobileToolbarOverlay = () fun {
 		toolName registerSubApp {
 			$view = do: first: _tool.
 			!if (not view eq void) {
-				print: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
-			}. !else {
-				$currentSubApp = !getCurrentSubApp.
-				!closeSubApp. `Make sure that the "back" button takes you back to the main app`
-				
-				`If the sub-app changed, re-open the last one`
-				!ifNot (currentSubApp eq toolName) {openSubApp currentSubApp}
-			}
-		};{uiHide: popup}
+				uiShowPopup: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
+			}. !else closeSubApp
+		};{}
 	}) each mobileTools.
 	
-	$toolsPopup = 
+	$tools registerSubApp popupSubApp: {
 		(
 			(uiTitleToolbar: "Tools");
 			(
-				@center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm") {
+				@verticalScroller @center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm") {
 					openSubApp: $id objFirstProperty calcitAnnotations: x
 				} uiSingleViewPicker {
 					@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiContainer: second: x
 				} each mobileTools
 			)
-		) uiPopup {openSubApp: ""}.
-	$tools registerSubApp {
-		print: toolsPopup.
-	};{uiHide: toolsPopup}.
+		)
+	}.
 
 	@(cssClass: "k-mobile_only") uiToolbarOverlay:
 		[
-			@dynamicSize @(percentWidth 12,5) @(percentHeight 75) @verticalCenter @left uiHamburgerButton:{
-				openSubApp: $tools.
-			}
+			@dynamicSize @(percentHeight 75) @(width: (toolbarCmHeight * 0,75) + "cm + 7px") @verticalCenter @left uiContainer:
+				[uiHorizontalPxSpace: 7];
+				[@(cmWidth toolbarCmHeight * 0,75) uiHamburgerButton: { openSubApp: $tools }]
 		];
+		`Add the default navigation buttons (uiUserButton and uiAppsButton) at the right`
 		[
-			@verticalCenter @right @(percentHeight 75) @(percentWidth 25) uiContainer:
-				[@(percentWidth 50) !uiAppsButton];
-				[@(percentWidth 50) !uiUserButton]
+			@verticalCenter @right @(percentHeight 75) @(cmWidth: (toolbarCmHeight * 1,5) + 0,7) uiContainer:
+				[@(cmWidth toolbarCmHeight * 0,75) !uiAppsButton];
+				[@(cmWidth 0,4) uiContainer:void];
+				[@(cmWidth toolbarCmHeight * 0,75) !uiUserButton];
+				[uiHorizontalPxSpace: 7]
 		].
 }.

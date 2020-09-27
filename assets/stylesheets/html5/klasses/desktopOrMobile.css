@@ -1,0 +1,20 @@
+.k-desktop_only {
+    display: inherit;
+}
+.k-mobile_only {
+    display: none;   
+}
+
+@media (max-width: 600px) {
+    .k-popup {
+        width: 100%;
+        height: 100%;
+        --parent-border-radius: 0px;
+    }
+    .k-mobile_only {
+        display: initial;   
+    }
+    .k-desktop_only {
+        display: none;   
+    }
+}

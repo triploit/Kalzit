@@ -17,10 +17,17 @@ $appleTouchIcon = $appleTouchIcon propOf configObject.
 $hasCustomLibrary = fileIsFile: (fileParent: app) + "/doNotTouch/_min.js".
 
 $skeletonCode = !ifElse ((not: hasCustomLibrary) & void eq excludedLibraries) {
+		
+		`No custom or excluded libraries - use the prepared file with all default APIs in it`
 		fileContent: rootFolder + "/generated/_browser_app_singlefile.html"
+		
 	};{
 		$usedLibraries = 
-			(rootFolder + "/" + {not: x listContains excludedLibraries} filter parseJson: fileContent: rootFolder + "/" + platform + "/usable-libraries.json");
+			(rootFolder + "/" + {
+				`Check if the API should be actually included with the app`
+				not: 
+					x listContains excludedLibraries
+			} filter parseJson: fileContent: rootFolder + "/" + platform + "/usable-libraries.json");
 			!if (hasCustomLibrary) {
 				(fileParent: app) + "/doNotTouch"
 			}.
@@ -45,13 +52,20 @@ $skeletonCode = !ifElse ((not: hasCustomLibrary) & void eq excludedLibraries) {
 				strReplace withoutAppleIcon
 		}
 	}.
+	
+
+`This is JavaScript code responsible for setting the "appId" variable (makes !getAppId work offline)`
+$appIdCode = "GLang.packageManager.installJs(function(){this.appId='" + ((".k";"") strReplace fileName: app) + "'});".
 
 $translationMapFile = appFolder + "/doNotTouch/translationMap.json".
-$prefix = !ifElse (fileIsFile: translationMapFile) {
-	"GLang.packageManager.installJs(function(){this.stringAssetMap=" + (fileContent: translationMapFile) + "})"
-};{
-	""
-}.
+$prefix =
+	!ifElse (fileIsFile: translationMapFile) {
+		`Add JavaScript code which fills the "stringAssetMap" variable`
+		appIdCode + "GLang.packageManager.installJs(function(){this.stringAssetMap=" + (fileContent: translationMapFile) + "})"
+	};{
+		`Do not fill "stringAssetMap" - just set "appId"`
+		appIdCode
+	}.
 
 (rootFolder + "/generated/appBuildingTempFile.js") fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
 
@@ -63,4 +77,4 @@ $generatedHtmlPath = ("(.+)\.k" ; "$1.html") strReplaceRegex app.
 `Write the file content`
 generatedHtmlPath fileWrite
 	`We replace $app$ from the app skeleton by a minified version of the app code (available in /generated/appBuildingTempFile.js)`
-	("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '"')) strReplace skeletonCode.
+	("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '" --keep-fnames')) strReplace skeletonCode.

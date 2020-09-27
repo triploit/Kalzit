@@ -5,16 +5,18 @@ options="${@:3}"
 
 echo "<html><head>" > "$out"
 
+#Default head
+cat "head.html" >> "$out"
+
 #Script tags
 bash "html5/files/listHtmlScriptTags.sh" --platform html5 $options >> "$out"
 
 #Styling
 echo "<style>" >> "$out"
 cat "assets/stylesheets/html5/_min.css" >> "$out"
+echo '</style><style media="print">' >> "$out"
+cat "assets/stylesheets/html5/print.css" >> "$out"
 echo "</style>" >> "$out"
-
-#Default head
-cat "head.html" >> "$out"
 
 #Body from first argument
 echo "</head><body>" >> "$out"

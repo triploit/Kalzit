@@ -1,0 +1,11 @@
+.k-single_view_picker:hover {
+	background-image: linear-gradient(to right, var(--kv-light_accent_color), var(--kv-lighter_twilight_accent_color));
+	color: var(--kv-darker_twilight_accent_color);
+}
+.k-single_view_picker_select {
+	background-image: linear-gradient(to right, var(--kv-twilight_accent_color), var(--kv-darker_twilight_accent_color));
+}
+.k-single_view_picker {
+	background-color: var(--kv-black_accent_color);
+	color: var(--kv-white_accent_color);
+}

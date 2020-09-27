@@ -26,7 +26,13 @@
 	    var elemBottom = rect.bottom;
 	
 	     // Partially visible elements return true:
-	    isVisible = (elemTop - 100) < window.innerHeight && elemBottom >= -100;
+	    isVisibleVertical = (elemTop - 100) < window.innerHeight && elemBottom >= -100;
+	    
+	   	var elemLeft = rect.left;
+	    var elemRight = rect.right;
+	
+	     // Partially visible elements return true:
+	    isVisible = isVisibleVertical && (elemLeft - 100) < window.innerWidth && elemRight >= -100;
 	    return isVisible;
 	}
 	
@@ -49,8 +55,7 @@
 		return image;
 	}
 	
-	setInterval(function(){
-		if(!scrollStateChanged()) return;
+	function refresh() {
 		for(var i = 0; i < urlViews.length; i++){
 			var view = urlViews[i];
 			var hasAttrib = view.view.hasAttribute("src");
@@ -61,6 +66,10 @@
 				view.view.removeAttribute("src");
 			}
 		}
+	}
+	
+	setInterval(function(){
+		refresh();
 	}, 100);
 	
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrl", {value:GLang.arrayFun(function(env, args){
@@ -79,7 +88,7 @@
 		var image = urlView(args[1].value);
 		image.style.width = args[0].value[0].value + "px";
 		image.style.height = args[0].value[1].value + "px";
-		image.style.borderRadius = 10 + "px";
+		image.classList.add("k-rounded");
 		return {value:image, display:"dom"};
 	}, display:"function"});
 	
@@ -93,6 +102,19 @@
 				GLang.callObject(args[0], env, []);
 			}, 100);
 		};
+		//Idea from https://www.w3schools.com/howto/howto_js_trigger_button_enter.asp
+		image.addEventListener("keyup", function(event) {
+			// Number 13 is the "Enter" key on the keyboard
+			if (event.keyCode === 13) {
+				// Cancel the default action, if needed
+				event.preventDefault();
+				// Trigger the main action
+				setTimeout(function(){
+					GLang.callObject(args[0], env, []);
+				}, 100);
+			}
+		});
+		image.setAttribute("tabindex", 0);
 		return {value:image, display:"dom"};
 	}), display:"function"});
 	

@@ -1,0 +1,5 @@
+.k-toolbar {
+	border-radius: var(--big-button-border-radius);
+	border-top-left-radius: var(--parent-border-radius);
+	border-top-right-radius: var(--parent-border-radius);
+}

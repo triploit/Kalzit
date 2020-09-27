@@ -1,5 +1,5 @@
 $uiIndexPickerForMobile = $uiActionPickerForMobile = ($action ; $_options ? ModifiableList) fun {
-	@(percentWidth 95) @center {
+	@verticalScroller @(percentWidth 95) @center {
 			action y.
 		} uiSingleViewPicker
 			{uiContainer: uiText: x} each getArray: _options

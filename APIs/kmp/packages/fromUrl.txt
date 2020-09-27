@@ -1,0 +1,22 @@
+$kmpFromUrlWithoutKind = !fun ($url ? String) {
+	["protocolVersion";"2.1.0"];
+	["file";
+		[["default";url]]
+	];
+	["embed";url]
+}.
+
+$kmpFromVideoFileUrl = !fun ($videoUrl ? String) {
+	(kmpFromUrlWithoutKind: videoUrl);
+	["kind";"video"]
+}.
+
+$kmpFromImageFileUrl = !fun ($imageUrl ? String) {
+	(kmpFromUrlWithoutKind: imageUrl);
+	["kind";"image"]
+}.
+
+$kmpFromAudioFileUrl = !fun ($audioUrl ? String) {
+	(kmpFromUrlWithoutKind: audioUrl);
+	["kind";"audio"]
+}.

@@ -8,12 +8,6 @@ The constant number e (about 2.71828)
 */
 this.E = Math.E;
 
-/* @kalzit.for floor
-## deprecated
-Please use "Int" instead - it should have the same effect for numbers.
-*/
-this.floor = function(num){return Math.floor(num)};
-
 /* @kalzit.for abs
 Returns the absolute value of a number.
 Basically if the number is negative, the minus sign is removed.

@@ -1,0 +1,10 @@
+.k-single_view_picker:hover {
+	background-color: var(--kv-light_accent_color);
+}
+.k-single_view_picker_select {
+	background-color: var(--kv-lighter_twilight_accent_color);
+}
+.k-single_view_picker {
+	background-color: white;
+	color: var(--kv-black_accent_color);
+}

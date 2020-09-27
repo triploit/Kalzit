@@ -5,3 +5,8 @@
 .k-center_text {
 	text-align: center;
 }
+
+/*Automatically selects the default font of the client system*/
+.k-standard_font {
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}

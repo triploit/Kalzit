@@ -1,4 +1,4 @@
-.k-image_button:hover {
+.k-image_button:hover, .k-image_button:focus {
 	opacity: 0.75;
 }
 .k-image_button:active {

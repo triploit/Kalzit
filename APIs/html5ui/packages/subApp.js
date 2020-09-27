@@ -15,6 +15,11 @@
 	window.onhashchange = function(){
 		console.log(hashes);
 		var hash = location.hash.replace("#", "");
+		switch(hash) {
+			case "none":
+			case "":
+				GLang.eval("!popupAnimateOut");
+		}
 		initiate(hash);
 	}
 	
@@ -31,5 +36,12 @@
 	thiz.getCurrentSubApp = function(){
 		return location.hash.replace("#", "");	
 	};
+	
+	//Make sure that the sub-app is closed when the user hits escape
+	window.addEventListener("keydown", function(event){
+		if("Escape" === event.key) {
+			location.hash = "#none";
+		}
+	})
 	
 })(this);

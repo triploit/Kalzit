@@ -172,13 +172,31 @@ $searchFolderForRedirects = $folder fun {
 }.
 redirectsRef = searchFolderForRedirects: "./".
 
+$methodBasedHttpServer = !fun ($_objectWithMethods ; $port ? Int) {
+	($_request fun {
+		$action = ($method propOf _request) propOf _objectWithMethods.
+		action: _request
+	}) httpServer port
+}.
+
+$methodBasedHttpsServer = !fun ($_objectWithMethods ; $port ? Int) {
+	($_request fun {
+		$action = (print: $method propOf _request) propOf _objectWithMethods.
+		action: _request
+	}) httpsServer port
+}.
+
+$methodHandlers =
+	["GET"; onClientConnect];
+	["POST"; $_request fun fileContent: "./nodejs/files/server/post.k"].
+
 print "Start port listening ...".
 !ifNot (fileExists: "./nogit/https/key.pem") {
 	runCommand: "./cli https certificate " + strFirstLine: runCommand: "hostname".
 }.
 !if (fileExists "./nogit/https/key.pem") {
-    onClientConnect httpsServer 5001
+    methodHandlers methodBasedHttpsServer 5001
 }.
-onClientConnect httpServer 5000.
+methodHandlers methodBasedHttpServer 5000.
 print "Server is running now!".
 print "------".

@@ -9,13 +9,10 @@ GLang.tokenize = function(text){
 		["Space",function(n){return n.match("\\s")}]
 	]).map(
 		function(tokenArray){
-			var tokenObject = {textValue:tokenArray[1].join(""), category:tokenArray[0]};
-			var rows = tokenObject.textValue.split("\n");
-			
-			currentColumn = rows.length > 1 ? rows[rows.length - 1].length : currentColumn + tokenObject.textValue.length;
-			currentRow += (rows.length - 1);
-			
-			return tokenObject;
+			return {
+				textValue: tokenArray[1].join(""),
+				category: tokenArray[0]
+			};
 		}
 	);
 };

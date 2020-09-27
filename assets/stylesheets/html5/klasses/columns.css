@@ -1,0 +1,26 @@
+/*The following media sections automatically detect an appropriate value for "column-count", depending on the width of the window*/
+@media (min-width: 1201px) {
+	.k-columns {
+		column-count: 5
+	}
+}
+@media (max-width: 1200px) {
+	.k-columns {
+		column-count: 4
+	}
+}
+@media (max-width: 1000px) {
+	.k-columns {
+		column-count: 3
+	}
+}
+@media (max-width: 800px) {
+	.k-columns {
+		column-count: 2
+	}
+}
+@media (max-width: 400px) {
+	.k-columns {
+		column-count: 1
+	}
+}

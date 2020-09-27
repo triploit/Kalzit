@@ -1,0 +1,45 @@
+`Helper functions`
+$isValidAppId = !fun ($appId) {
+	appId eq first: "[a-z0-9\.]+" match appId.
+}.
+$downloadFile = !fun ($relativeFilePath ? SafeFilePath) {
+	$fileUrl = appUrl + "/" + relativeFilePath.
+	print: "Downloading " + fileUrl.
+	
+	$fileContent = loadGlobal: fileUrl.
+	fileCreateFolders: fileParent: $downloadPath = "./apps/" + appId + "/" + relativeFilePath.
+	downloadPath fileWrite fileContent.
+}.
+$setupDoNotTouchFolder = !fun () {
+	fileCreateFolder: $dntPath = "./apps/" + appId + "/doNotTouch".
+	(dntPath + "/appId.txt") fileWrite appId.
+	(dntPath + "/rootFolder.txt") fileWrite runCommand: "./cli get rootFolder".
+}.
+
+
+`Main code`
+$appUrl = appParameter: $url.
+
+print: "Downloading app ID ...".
+$appId = first: strLines: loadGlobal: $appIdUrl = appUrl + "/doNotTouch/appId.txt".
+
+!ifElse (not: isValidAppId: appId) {
+	print: "Unable to install the app - invalid app ID (expected at '" + appIdUrl + "'), can include letters (lowercase a to z), digits (0 to 9) and dots".
+};{
+	$foundFilesWithThisId = {not: "" eq x} filter strLines: print: runCommand: 'find ./apps -name "' + appId + '.*"'.
+	!ifElse (not: void eq foundFilesWithThisId) {
+		print: "An app with this ID (" + appId + ") already exists in your apps folder - please remove that before you continue".
+	};{
+		fileCreateFolder: "./apps/" + appId.
+		
+		$fileListingUrl = appUrl + "/doNotTouch/fileListing.txt".
+		$fileListing = loadGlobal: fileListingUrl.
+		
+		!ifElse (not: void eq fileListing) {
+			downloadFile each {not: "" eq x} filter strLines: fileListing.
+			!setupDoNotTouchFolder.
+		};{
+			print "Unable to install the app - no list of project files was provided (expected at '" + fileListingUrl + "')"
+		}
+	}.
+}.

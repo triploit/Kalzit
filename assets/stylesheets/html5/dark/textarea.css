@@ -1,0 +1,5 @@
+textarea {
+	color: var(--kv-white_accent_color);
+	border: 1px solid var(--kv-lighter_twilight_accent_color);
+	background-color: var(--kv-darker_twilight_accent_color);
+}

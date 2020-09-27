@@ -1,9 +1,11 @@
-cat ./byJs/light.css > ./_darklight.css
+echo "Minifying HTML stylesheets"
+
+cat ./light/*.css > ./_darklight.css
 echo "@media (prefers-color-scheme: dark) {" >> ./_darklight.css
-cat ./byJs/dark.css >> ./_darklight.css
+cat ./dark/*.css >> ./_darklight.css
 echo "}" >> ./_darklight.css
 
-uglifycss ./_darklight.css ./default/*.css ./klasses/*.css ./dynamic/*.css ./lastly/*.css --output _min.css
+uglifycss ./_darklight.css ./default/*.css ./klasses/*.css --output _min.css
 sum=($(shasum "./_min.css"))
 cat ./_min.css > "./static/$sum.css"
 echo $sum > "_min.css.shasum"

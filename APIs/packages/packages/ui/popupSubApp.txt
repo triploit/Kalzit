@@ -20,8 +20,8 @@
 $popupSubApp = ($contentGenerator) fun {
 	$popupRef = reference: $popup.
 	$show = () fun {
-		print: popupRef = (!contentGenerator) uiPopup closeSubApp.
+		uiShowPopup: popupRef = (!contentGenerator) uiPopup closeSubApp.
 	}.
 	
-	show;{uiHide: popup}.
+	show;{}.
 }.

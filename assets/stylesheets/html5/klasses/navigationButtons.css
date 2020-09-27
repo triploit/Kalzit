@@ -1,0 +1,32 @@
+.k-left_button, .k-right_button {
+	--button-gradient: linear-gradient(
+        rgba(225,225,225,0.7),
+        rgba(0,0,0,0.5)
+    );
+	background-color: transparent;
+	background-image: var(--button-gradient);
+	border: 2px solid rgba(100,100,100,0.8);
+	width: initial;
+	padding: 13px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	box-shadow: 1px 1px 3px black;
+	color: rgba(255,255,255,0.8);
+}
+.k-left_button:hover, .k-right_button:hover {
+	--button-gradient: linear-gradient(
+        rgba(255,255,255,0.8),
+        rgba(0,0,0,0.7)
+    );
+}
+
+.k-right_button {
+	border-right-color: transparent;
+	border-top-left-radius: var(--big-button-border-radius);
+	border-bottom-left-radius: var(--big-button-border-radius);
+}
+.k-left_button {
+	border-left-color: transparent;
+	border-top-right-radius: var(--big-button-border-radius);
+	border-bottom-right-radius: var(--big-button-border-radius);
+}

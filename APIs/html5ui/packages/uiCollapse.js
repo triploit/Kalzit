@@ -1,15 +1,15 @@
 ;(function(global){
 	function isCollapsed(element){
-		return element.classList.contains("closed");
+		return element.classList.contains("k-closed");
 	}
 	
 	function collapse(element){
-		element.classList.add("closable", "closed");
+		element.classList.add("k-closable", "k-closed");
 		element.style.maxHeight = null;
 	};
 	
 	function expand(element){
-		element.classList.remove("closed");
+		element.classList.remove("k-closed");
 		element.style.maxHeight = element.scrollHeight + "px";
 		
 		setTimeout(() => {

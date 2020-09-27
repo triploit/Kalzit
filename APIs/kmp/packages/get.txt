@@ -1,0 +1,34 @@
+$kmpGetObjectFromUrl = !fun ($kmpUrl ; $loader ? (default: loadGlobal)) {
+	(parseJson: loadGlobal: kmpUrl);
+	["source";kmpUrl].
+}.
+
+$kmpGetKeptArgumentsExtension = !fun ($keptArguments ? (List:String) ; $sourceUrl) {
+	"" strJoin {
+		"&" + x + "=" + urlEncodeParameter: x urlGetParameter sourceUrl
+	} each keptArguments
+}.
+
+$kmpGetFileObject = !fun ($kmpObject) {
+	$kept = $keptArguments propOf kmpObject.
+	
+	$fileObject = ($pair fun {
+		`Resolution marker`
+		(0 at pair);
+		
+		`URL`
+		(1 at pair) + (kept kmpGetKeptArgumentsExtension $source propOf kmpObject)
+	}) each $file propOf kmpObject
+}.
+
+$kmpGetThumbnailObject = !fun ($kmpObject) {
+	$kept = $keptArguments propOf kmpObject.
+	
+	$fileObject = ($pair fun {
+		`Resolution marker`
+		(0 at pair);
+		
+		`URL`
+		(1 at pair) + (kept kmpGetKeptArgumentsExtension $source propOf kmpObject)
+	}) each $thumbnail propOf kmpObject
+}.

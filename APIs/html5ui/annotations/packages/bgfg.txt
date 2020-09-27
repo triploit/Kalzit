@@ -1,6 +1,8 @@
 #{Produces an annotation that sets the background color of an element, using the "flagBackgroundColor" function}
 $backgroundColor = ($_color ? ColorString) fun {flagBackgroundColor bind _color}.
 
+$backgroundImageUrl = ($url) fun {flagBackgroundImageUrl bind url}.
+
 #{Produces an annotation that sets the foreground color of an element, using the "flagForegroundColor" function}
 $foregroundColor = ($_color ? ColorString) fun {flagForegroundColor bind _color}.
 

@@ -1,0 +1,16 @@
+{
+	"info":{
+		"description":"Libraries that work in a browser with HTML5"
+	},
+	"libraries":[
+		{"provides":["default_cookie_banner"], "scriptType":"z", "scriptUrl":"defaultCookieBanner.txt"},
+		{"provides":["app_parameter"], "scriptUrl":"appParameter.txt"},
+		{"provides":["service_call_api", "service_login_user", "service_register_user", "service_eval_on_local_server"], "scriptUrl":"services.txt"},
+		{"provides":["folder_content", "file_content", "file_is_file", "file_is_folder", "file_exists"], "scriptUrl":"filesystem.txt"},
+		{"provides":["ui_login_form", "ui_register_form"], "scriptUrl":"uiLoginForm.txt"},
+		{"provides":["ui_toolbar", "ui_skin_toolbar_ref", "ui_toolbar_reserved_space", "ui_toolbar_overlay", "toolbar_cm_height"], "scriptUrl":"uiToolbar.txt"},
+		{"provides":["window_center", "window_top", "window_bottom", "window_left", "window_right", "center", "top", "bottom", "left", "right", "horizontal_center", "vertical_center", "front", "dynamic_size", "dynamic_width", "dynamic_height", "fit", "center_text", "italic", "vertical_scroller"], "scriptUrl":"cssFlags.txt"},
+		{"provides":["run_command"],  "scriptUrl":"runCommand.txt"},
+		{"provides":["get_app_id"],  "scriptUrl":"getAppId.txt"}
+	]
+}

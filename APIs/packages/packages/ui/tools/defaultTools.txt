@@ -1,0 +1,63 @@
+#{
+	Produces a button-like tool to add to the mobile or desktop tool set.
+	This tool was meant to use with something like "toolsAtLeft" or "toolAtRight".
+	
+	UsageExample:
+		toolsAtLeft: [otherTools];["Title" button {popupMessage: "Button action"}].
+}
+$buttonTool = !fun ($title ; $action) {
+	["mobile";{!action. void}];
+	["desktop";{action uiButton title}];
+	["title";title]
+}.
+
+$indexPickerTool = !fun ($titleAndRef ? (Tuple: String;Reference) ; $_values ? ModifiableList) {
+	$title = first: titleAndRef.
+	$ref = second: titleAndRef.
+	
+	["desktop";{@dynamicWidth ref uiLiveReferenceIndexPicker _values}];
+	["mobile";{
+		(uiTitleToolbar: title);
+		(@(height: "100% - " + toolbarCmHeight + "cm")
+			{ref = x. !closeSubApp} uiIndexPickerForMobile strFirstLine each getArray: _values)
+	}];
+	["title";title]
+}.
+
+$modifiableListEditTool = !fun ($titleAndCallbacks ; $_values ? ModifiableList) {
+	$callbacks = !if (3 eq length: titleAndCallbacks) {
+		(1 at titleAndCallbacks);
+		2 at titleAndCallbacks
+	}.
+	$title = 0 at titleAndCallbacks.
+	
+	`Sub app registration - only used by the desktop button`
+	$subAppName = "tool_" + urlEncodeParameter: title.
+	
+	["desktop";{
+		(() fun {openSubApp: subAppName}) uiButton title
+	}];
+	["mobile";{
+		_values uiModifiableStringListEditor callbacks
+	}];
+	["title";title]
+}.
+
+$listEditTool = !fun ($titleAndCallbacks ; $listRef ? Reference) {
+	$callbacks = !if (3 eq length: titleAndCallbacks) {
+		(1 at titleAndCallbacks);
+		2 at titleAndCallbacks
+	}.
+	$title = 0 at titleAndCallbacks.
+	
+	`Sub app registration - only used by the desktop button`
+	$subAppName = "tool_" + urlEncodeParameter: title.
+	
+	["desktop";{
+		(() fun {openSubApp: subAppName}) uiButton title
+	}];
+	["mobile";{
+		@(percentHeight 100) listRef uiStringListEditor callbacks
+	}];
+	["title";title]
+}.

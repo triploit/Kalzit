@@ -1,0 +1,9 @@
+$uiShowPopup = !fun ($popup) {
+	$active = !isPopupActive.
+	!hideAllPopups.
+	
+	!ifNot active {
+		@(cssClass "k-popup_animated_in") popup
+	}.
+	print: popup.
+}.

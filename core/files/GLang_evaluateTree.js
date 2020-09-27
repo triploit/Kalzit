@@ -1,4 +1,4 @@
-GLang.evaluateTree = function(tree, env){
+GLang.evaluateTree = function evaluateTree(tree, env){
 	var sentence = [];
 	var result = GLang.voidValue;
 	for(var i = 0; i < tree.length; i++){
@@ -15,7 +15,7 @@ GLang.evaluateTree = function(tree, env){
 	return result;
 }
 
-GLang.evaluateSentence = function(sentence, env){
+GLang.evaluateSentence = function evaluateSentence(sentence, env){
 	var len = sentence.length;
 	if(len === 0) return GLang.voidValue;
 	if(0 === len % 2){
@@ -27,7 +27,7 @@ GLang.evaluateSentence = function(sentence, env){
 	return GLang.evaluateOperation([sentence[0]], [sentence[1]], sentence.slice(2), env);
 }
 
-GLang.evaluateOperation = function(a, operator, b, env){
+GLang.evaluateOperation = function evaluateOperation(a, operator, b, env){
 	var aValue = GLang.evaluateTree(a, env);
 	var bValue = GLang.evaluateTree(b, env);
 	var operatorValue = GLang.evaluateTree(operator, env);
@@ -35,7 +35,7 @@ GLang.evaluateOperation = function(a, operator, b, env){
 	return GLang.callObject(operatorValue, env, [aValue, bValue]);
 }
 
-GLang.evaluateSentenceFragment = function(fragment, env){
+GLang.evaluateSentenceFragment = function evaluateSentenceFragment(fragment, env){
 	switch(fragment.kind){
 		case "string": 
 			var str = GLang.stringValue(fragment.string);

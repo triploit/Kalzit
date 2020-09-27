@@ -1,0 +1,3 @@
+$stringListEditSubApp = ($_stringList ? ModifiableList ; $_onAdditionAndOnRemoval) fun {
+	popupSubApp: _stringList uiModifiableStringListEditor _onAdditionAndOnRemoval.
+}.

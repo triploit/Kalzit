@@ -1,14 +1,5 @@
 $duckDeprecatedSiteChanged = deprecated: "The DuckDuckGo site seems to have changed, so this function became broken. The new DuckDuckGo API will be implemented in a more generic way, making it less likely to break".
 
-@duckDeprecatedSiteChanged
-$duckSearchDom = ($term ? String) fun {loadDom: "https://www.duckduckgo.com/html/?q=" + urlEncodeParameter: term}.
-
-@duckDeprecatedSiteChanged
-$duckSearchResultDoms = ($term ? String) fun {{"result " strStartsWith "class" domAttribute x} filter "div" domTags duckSearchDom: term}.
-
-@duckDeprecatedSiteChanged
-$duckSearchUrlDoms = $term fun {{{"result__url" eq "class" domAttribute x} filter x} each "a" domTags duckSearchResultDoms: term}.
-
 #{
     Performs a DuckDuckGo search and returns the first few URL results.
     
@@ -17,19 +8,6 @@ $duckSearchUrlDoms = $term fun {{{"result__url" eq "class" domAttribute x} filte
 }
 $duckSearchUrls = $term fun {
     $resultHtml = loadGlobal: "https://www.duckduckgo.com/html?q=" + urlEncodeParameter: term.
-    $pattern = {"/l/\?.*\&amp;uddg=([^"]+)"}.
+    $pattern = {/l/\?.*\&amp;uddg=([^"]+)}.
     urlDecodeParameter each removeDuplicates: second each pattern allMatches resultHtml
 }.
-
-@duckDeprecatedSiteChanged
-$duckSearchResultFromDom = ($dom) fun {
-    $links = "a" domTags dom.
-    $resultUrls = "uddg" urlGetParameter "http://localhost" + "href" domAttribute {"result__url" eq "class" domAttribute x} filter links.
-    $resultSnippets = domInnerText: {"result__snippet" eq "class" domAttribute x} filter links.
-    
-    [[$url];[first: resultUrls]];
-    [[$snippet];[first: resultSnippets]]
-}.
-
-@duckDeprecatedSiteChanged
-$duckSearchResults = $duckSearch = ($term ? String) fun {duckSearchResultFromDom: duckSearchResultDoms: term}.

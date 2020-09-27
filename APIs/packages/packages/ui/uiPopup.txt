@@ -1,5 +1,8 @@
 $uiPopup = ($_values ? (List:Any) ; $then) fun {
 	$popup = @front @windowCenter @(cssClass "calcitExtremeBackground") @(cssClass "k-popup") uiContainer: _values.
-	$background = @(cssClass "k-popup_background") @front @(onTap: () fun {uiHide: container; do:then}) @(percentWidth: 100) @(percentHeight: 100) @windowTop @windowLeft uiContainer: ().
-	$container = uiContainer: background;popup
+	$background = @(cssClass "k-popup_background") @front @(onTap: () fun {
+		!popupAnimateOut. do:then
+	}) @(percentWidth: 100) @(percentHeight: 100) @windowTop @windowLeft uiContainer: ().
+	
+	$container = @(cssClass "k-popup_container") uiContainer: background;popup
 }
