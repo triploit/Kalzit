@@ -74,7 +74,7 @@
         {"provides":["video_url_visualizer", "video_urls_visualizer", "video", "videos"],  "scriptUrl":"ui/visualizers/videoUrlVisualizer.txt"},
         {"provides":["base_url_visualizer"],  "scriptUrl":"ui/visualizers/baseUrlVisualizer.txt"},
         {"provides":["base_list_visualizer"],  "scriptUrl":"ui/visualizers/baseListVisualizer.txt"},
-        {"provides":["image_strings_from_text", "image_strings_from_url"],  "scriptUrl":"str/imageStrings.txt"},
+        {"provides":["image_strings_from_text", "image_strings_from_url", "image_strings_from_url_async"],  "scriptUrl":"str/imageStrings.txt"},
         {"provides":["ui_home_screen", "ui_home_screen_icon", "ui_simple_home_screen_app"],  "scriptUrl":"ui/uiHome.txt"},
         {"provides":["ui_account_button", "ui_apps_button", "ui_user_button", "ui_user_config_button", "ui_hamburger_button", "ui_cross_button", "user_outline_image_url", "user_image_url", "menu_image_url", "apps_image_url", "cross_image_url"],  "scriptUrl":"ui/globalButtons.txt"},
         {"provides":["fade_in_animation", "fade_out_animation", "shadow_fade_in_animation", "shadow_fade_out_animation"],  "scriptUrl":"fadeAnimation.txt"},
@@ -93,11 +93,14 @@
 		{"provides":["ui_action_picker_for_mobile", "ui_index_picker_for_mobile"],  "scriptUrl":"pickerForMobile.txt"},
 		{"provides":["ui_live_action_picker", "ui_live_index_picker", "ui_live_reference_index_picker"],  "scriptUrl":"ui/actionPickerVariants.txt"},
 		{"provides":["tool_at_left", "tools_at_left", "tool_at_right"],  "scriptUrl":"ui/tools/toolAutoLayout.txt"},
-		{"provides":["button_tool", "index_picker_tool", "modifiable_list_edit_tool", "list_edit_tool"],  "scriptUrl":"ui/tools/defaultTools.txt"},
+		{"provides":["button_tool", "index_picker_tool", "modifiable_list_edit_tool", "list_edit_tool", "popup_tool"],  "scriptUrl":"ui/tools/defaultTools.txt"},
 		{"provides":["popup_sub_app"], "scriptUrl":"ui/popupSubApp.txt"},
 		{"provides":["push_if_empty"],  "scriptUrl":"pushIfEmpty.txt"},
 		{"provides":["file_path", "safe_file_path"],  "scriptUrl":"filepath.txt"},
 		{"provides":["ui_show_popup"],  "scriptUrl":"ui/uiShowPopup.txt"},
-		{"provides":["string_list_edit_sub_app"],  "scriptUrl":"ui/stringListEditSubApp.txt"}
+		{"provides":["string_list_edit_sub_app"],  "scriptUrl":"ui/stringListEditSubApp.txt"},
+		{"provides":["ui_image_link"],  "scriptUrl":"ui/uiImageLink.txt"},
+		{"provides":["ui_search_panel"],  "scriptUrl":"ui/uiSearchPanel.txt"},
+		{"provides":["ui_text_action_toolbar"],  "scriptUrl":"ui/uiTextActionToolbar.txt"}
 	]
 }

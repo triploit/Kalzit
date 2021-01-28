@@ -1,4 +1,3 @@
-;(function(global){
 function makeCanvas(){
 	var canvas = document.createElement("canvas");
 	
@@ -140,4 +139,3 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("ui_plot_point", {value:functio
 	
 	return {value:canvas, display:"dom"};
 }})
-})(this);

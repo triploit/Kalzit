@@ -4,25 +4,26 @@ $uiLoginForm = ($onLoginAttempt) fun {
 	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
 	
 	$views =
-		[uiText: "Name"];
+		[uiText: strings: $username];
 		[@(percentWidth: 100) nameField];
-		[uiText: "Password"];
+		[uiText: strings: $password];
 		[@(percentWidth: 100) passwordField];
 		[@center {
-			$response = nameInput serviceLoginUser passwordInput.
-			!if ("0" eq first: response) {
-				$calcitSession storageSaveString second: response.
-				$calcitUserName storageSaveString nameInput.
-				popupMessage: "Success! Your are now logged in".
-				onLoginAttempt: true.
-			}. else {
-				popupMessage: second: response.
-				onLoginAttempt: false.
-			}.
-		} uiButton "Login"];
+			($response fun {
+				!if ("0" eq first: response) {
+					$calcitSession storageSaveString second: response.
+					$calcitUserName storageSaveString nameInput.
+					popupMessage: strings: $loginSuccess.
+					onLoginAttempt: true.
+				}. else {
+					popupMessage: second: response.
+					onLoginAttempt: false.
+				}.
+			}) serviceLoginUserAsync nameInput;passwordInput.
+		} uiButton strings: $login];
 		[@(emHeight 2) uiContainer: void];
-		[@centerText uiText: "-- or you could --"];
-		[@center {openSubApp: "register"} uiButton "Register a new user"].
+		[@centerText uiText: strings: $optionsSeparator];
+		[@center {openSubApp: "register"} uiButton strings: $registerButton].
 		
 	uiContainer: views
 }.
@@ -33,18 +34,19 @@ $uiRegisterForm = () fun {
 	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
 	
 	$views =
-		[uiText: "Name"];
+		[uiText: strings: $username];
 		[@(percentWidth: 100) nameField];
-		[uiText: "Password"];
+		[uiText: strings: $password];
 		[@(percentWidth: 100) passwordField];
 		[@center {
-        	$response = nameInput serviceRegisterUser passwordInput.
-        	!if ("0" eq first: response) {
-        		popupMessage: "Success! Your user was created. You can now log in.".
-        	}. else {
-        		popupMessage: second: response
-        	}.
-        } uiButton "Register"].
+			($response fun {
+				!if ("0" eq first: response) {
+					popupMessage: strings: $registrationSuccess.
+	        	}. else {
+	        		popupMessage: second: response
+	        	}.
+			}) serviceRegisterUserAsync nameInput;passwordInput.
+        } uiButton strings: $register].
 		
 	uiContainer: views
 }

@@ -4,7 +4,7 @@ input[type=button], select, .k-checkbox_mark {
 	color: rgba(var(--kv-text_color_rgb),var(--kv-text_color_alpha));
 
 	/*font-family: Arial, Helvetica, sans-serif;*/
-	height: 1.7em;
+	height: 1.7rem;
 	border: 1px solid rgba(var(--kv-text_color_rgb),var(--kv-text_color_alpha));
 	border-radius: var(--small-button-border-radius);
 	font-size: 0.9em;
@@ -13,6 +13,7 @@ input[type=button], select, .k-checkbox_mark {
 }
 input[type=button]:hover, select:hover, .k-checkbox_container:hover, input[type=button]:focus, select:focus, .k-checkbox_container:focus {
 	--button-gradient: var(--button-hover-gradient);
+	cursor: pointer;
 }
 
 input[type=button]:active, select:active, .k-checkbox_container:active {

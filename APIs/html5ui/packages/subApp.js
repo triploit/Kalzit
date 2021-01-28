@@ -1,47 +1,66 @@
-;(function(thiz){
-	var hashes = new Map();
-	var lastSubApp = null;
-	
-	function initiate(name){
-		if(hashes.has(lastSubApp)){
-			GLang.callObject(hashes.get(lastSubApp).close, GLang.defaultRuntimeEnvironment, []);	
-		}
-		if(hashes.has(name)){
-			GLang.callObject(hashes.get(name).open, GLang.defaultRuntimeEnvironment, []);
-		}
-		lastSubApp = name;
+var hashes = new Map();
+var lastSubApp = null;
+
+//Idea for how to disable page scrolling is from: https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/
+var mainPageScrollingDisabled = false;
+
+function initiate(name){
+	if(hashes.has(lastSubApp)){
+		//Close the sub app
+		GLang.callObject(hashes.get(lastSubApp).close, GLang.defaultRuntimeEnvironment, []);
 	}
-	
-	window.onhashchange = function(){
-		console.log(hashes);
-		var hash = location.hash.replace("#", "");
-		switch(hash) {
-			case "none":
-			case "":
-				GLang.eval("!popupAnimateOut");
+	if(hashes.has(name)){
+		GLang.callObject(hashes.get(name).open, GLang.defaultRuntimeEnvironment, []);
+		
+		//If it is not done already, disable scrolling of the main page content
+		if(!mainPageScrollingDisabled) {
+			const scrollY = window.scrollY;
+			document.body.style.position = 'fixed';
+			document.body.style.top = -scrollY + "px";
+			document.body.style.width = "calc(100% - 14px)";
+			document.body.style.height = "calc(100% - 14px)";
+			mainPageScrollingDisabled = true;
 		}
-		initiate(hash);
 	}
-	
-	thiz.openSubApp = function(name) {
-		location.hash = name;
-	};
-	thiz.closeSubApp = function() {
+	lastSubApp = name;
+}
+
+window.onhashchange = function(){
+	console.log(hashes);
+	var hash = location.hash.replace("#", "");
+	switch(hash) {
+		case "none":
+		case "":
+			const scrollY = document.body.style.top;
+			GLang.eval("!popupAnimateOut");
+			//If it is not done already, re-enable scrolling of the main page content
+			if(mainPageScrollingDisabled) {
+				document.body.style.position = '';
+				document.body.style.top = '';
+				window.scrollTo(0, parseInt(scrollY || '0') * -1);
+				mainPageScrollingDisabled = false;
+			}
+	}
+	initiate(hash);
+}
+
+this.openSubApp = function(name) {
+	location.hash = name;
+};
+this.closeSubApp = function() {
+	location.hash = "#none";
+};
+this.registerSubApp = function(name, _openAndClose){
+	hashes.set(name, {open:_openAndClose[0], close:_openAndClose[1]});
+	if(location.hash == "#" + name) location.hash = "none"
+};
+this.getCurrentSubApp = function(){
+	return location.hash.replace("#", "");	
+};
+
+//Make sure that the sub-app is closed when the user hits escape
+window.addEventListener("keydown", function(event){
+	if("Escape" === event.key) {
 		location.hash = "#none";
-	};
-	thiz.registerSubApp = function(name, _openAndClose){
-		hashes.set(name, {open:_openAndClose[0], close:_openAndClose[1]});
-		if(location.hash == "#" + name) location.hash = "none"
-	};
-	thiz.getCurrentSubApp = function(){
-		return location.hash.replace("#", "");	
-	};
-	
-	//Make sure that the sub-app is closed when the user hits escape
-	window.addEventListener("keydown", function(event){
-		if("Escape" === event.key) {
-			location.hash = "#none";
-		}
-	})
-	
-})(this);
+	}
+})

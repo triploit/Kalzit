@@ -9,11 +9,12 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 		print "pushCookie FAILED! (no cookie value provided; probably a bug on the server)".
 		`Return name` "failed";cookieName
 	};{
-		($calcitUserPassword eq cookieName) ifElse {
-			print: "WARNING: The user " + userToken + " tried to push a password to the server.".
+		(($calcitSession eq cookieName) | $calcitUserPassword eq cookieName) ifElse {
+			print: "WARNING: The user " + userToken + " tried to push a password or session to the server.".
 			`Return name anyway` "failed";cookieName
 		};{
 			$deletionMarker = "./nogit/users/data/v3/" + userToken + "/deletedkeys/" + urlEncodeParameter: cookieName.
+			fileDelete: "./nogit/users/data/v3/" + userToken + "/keys.json".
 			
 			!if undelete {
 				`Remove a potential deletion marker`
@@ -50,14 +51,11 @@ userTokenExists ifElse {
 		$succeeded = '[' + ("," strJoin objToJson each $succeeded objPropertyValues results) + ']'.
 		$deleted = '[' + ("," strJoin objToJson each $deleted objPropertyValues results) + ']'.
 		
-		`Return code 0, plus failed updates as JSON`
-		!ifNot (0 eq length: cookieJson) {
-			fileDelete: "./nogit/users/data/v3/" + userToken + "/keys.json".
-		}.
+		`Build and return a JSON response`
 		resultRef = print: '{"failed":' + failed + ',"deleted":' + deleted + ',"succeeded":' + succeeded + '}'
 	}
 };{
-	`Failed - return code 1 to make this known`
-	resultRef = '{"error":"No session provided"}'.
+	`Failed - return a proper JSON respons`
+	resultRef = '{"error":"No session provided", "logout":true}'.
 	print "pushCookie FAILED! (no user token)".
 }.

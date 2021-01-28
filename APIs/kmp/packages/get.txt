@@ -1,6 +1,14 @@
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $kmpGetObjectFromUrl = !fun ($kmpUrl ; $loader ? (default: loadGlobal)) {
 	(parseJson: loadGlobal: kmpUrl);
 	["source";kmpUrl].
+}.
+$kmpLoadObjectAsync = !fun ($callback ; $kmpUrl) {
+	{
+		callback:
+			(parseJson: x);
+			["source";kmpUrl].
+	} loadGlobalAsync: kmpUrl
 }.
 
 $kmpGetKeptArgumentsExtension = !fun ($keptArguments ? (List:String) ; $sourceUrl) {

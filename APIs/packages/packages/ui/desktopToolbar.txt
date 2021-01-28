@@ -37,20 +37,34 @@ $registerDesktopTool = ($toolFactory) fun {
 	It takes care of adding all necessary UI elements to make the toolbar look nice.
 }
 $generateDesktopToolbarOverlay = () fun {
+	$properToolsAreaWidth = !ifElse isStandaloneApp {
+		"100% - " + ((toolbarCmHeight % 2) +  0,6) + "cm"
+	};{
+		"100% - " + (toolbarCmHeight +  0,9) + "cm"
+	}.
+
 	`Generate the toolbar overlay and make it only visible on the desktop`
 	@(cssClass: "k-desktop_only") uiToolbarOverlay: 
 	
 		`Add the app-specific tools (added using registerDesktopTool)`
-		[@verticalCenter @dynamicSize @left @(width: "100% - " + (toolbarCmHeight +  0,9) + "cm") uiContainer:
+		[@verticalCenter @dynamicSize @left @(width: properToolsAreaWidth) uiContainer:
 			{@verticalCenter @dynamicSize do:x} each getArray: registeredDesktopTools
-		];
+		]; `Semicolon - not a dot, because more content follows`
 		
-		`Add the default navigation buttons (uiUserButton and uiAppsButton) at the right`
-		[
-			@verticalCenter @right @(percentHeight 50) @(cmWidth toolbarCmHeight +  0,6) uiContainer:
-				[@(cmWidth toolbarCmHeight % 2) !uiAppsButton];
-				[@(cmWidth 0,3) uiContainer:void];
-				[@(cmWidth toolbarCmHeight % 2) !uiUserButton];
-				[@(cmWidth 0,3) uiContainer:void]
-		].
+		`Add the default navigation buttons (uiUserButton and uiAppsButton), or only uiUserButton for standalone apps, at the right`
+		!ifElse isStandaloneApp {
+			[
+				@verticalCenter @right @(percentHeight 50) @(cmWidth (toolbarCmHeight % 2) +  0,3) uiContainer:
+					[@(cmWidth toolbarCmHeight % 2) !uiUserButton];
+					[@(cmWidth 0,3) uiContainer:void]
+			]
+		};{
+			[
+				@verticalCenter @right @(percentHeight 50) @(cmWidth toolbarCmHeight +  0,6) uiContainer:
+					[@(cmWidth toolbarCmHeight % 2) !uiAppsButton];
+					[@(cmWidth 0,3) uiContainer:void];
+					[@(cmWidth toolbarCmHeight % 2) !uiUserButton];
+					[@(cmWidth 0,3) uiContainer:void]
+			]
+		}
 }.

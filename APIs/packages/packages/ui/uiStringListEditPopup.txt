@@ -1,32 +1,28 @@
 $uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemoval) fun {
-	$newAdditionRef = reference: $newAddition.
 	($setOnAddition of list): first: _onAdditionAndOnRemoval.
 	($setOnRemoval of list): second: _onAdditionAndOnRemoval.
 	
 	$nameViewsRef = reference: $nameViews.
 	$updateNameViews = () fun {
-		nameViewsRef = (($_item) fun {@center @(percentWidth 90) uiContainer: (@(percentWidth 84) uiContainer: urlDecodeParameter: strFirstLine: String: first: _item);@(percentWidth 16) $button = (() fun {
-			($removeEquals of list): _item.
-		}) uiButton "Remove"}) each getArray: list.
+		nameViewsRef = (($_item) fun {@center uiContainer:
+			(uiHorizontalPxSpace: 7);
+			[@(cssClass: "width-tet-textfield") uiContainer: urlDecodeParameter: strFirstLine: String: first: _item];
+			[uiHorizontalPxSpace: 7];
+			[@(cssClass: "width-tet-button") $button = (() fun {
+				($removeEquals of list): _item.
+			}) uiButton strings: $removeButton];
+			(uiHorizontalPxSpace: 7)
+		}) each getArray: list.
 	}.
 	do:updateNameViews.
 	($setOnChange of list): updateNameViews.
 	
-	uiContainer: [uiToolbarWithCloseButton: @($toolbarContent fun {
-			!if isIosApp {
-				`Leave space for the close button`
-				@right @(width "100% - 1.7cm") toolbarContent
-			}. !else {
-				`Use the entire toolbar`
-				@(width "96% - 5px") @right toolbarContent
-			}
-		}) uiContainer:
-		@(percentWidth 100) @center uiContainer:
-			(@(percentWidth 85) newAdditionRef uiTextfieldVariableOnchange "");
-			(uiHorizontalPxSpace: 5);
-			(@(width "10% - 5px") {($push of list): newAddition. do:updateNameViews} uiButton "Add")
+	uiContainer: [
+		($newAddition fun {
+			($push of list): newAddition. do:updateNameViews
+		}) uiTextActionToolbar strings: $addButton
 	];[
-		@verticalScroller @center @(height {100% - 1.5cm}) @(percentWidth 100) uiContainer: uiShowVariableAsList: nameViewsRef
+		@verticalScroller @center @(height "100% - " + toolbarCmHeight + "cm") @(percentWidth 100) uiContainer: uiShowVariableAsList: nameViewsRef
 	]
 }.
 

@@ -1,18 +1,15 @@
-#We seemingly have to do the NodeJS stuff here and not somewhere else
-#Otherwise the command is not found
+#TODO: check for the nodejs command
+if ! command -v node &> /dev/null
+then
+    echo "Node.js needs to be installed. You can download it here:"
+    echo
+    echo "https://nodejs.org/en/download/"
+    echo
+    echo "Please run this script again after installing Node.js"
+    exit
+fi
 
-#Install NVM
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-#Make NVM usable right now
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-#Install NodeJS
-nvm install node
-
-
-#Stuff that uses 'node'
+#Stuff that uses 'node' and 'npm'
 bash ./utilities/installer/runWithNodejs.sh $@
 
 echo

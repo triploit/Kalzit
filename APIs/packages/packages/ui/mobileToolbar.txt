@@ -30,31 +30,37 @@ $generateMobileToolbarOverlay = () fun {
 		};{}
 	}) each mobileTools.
 	
-	$tools registerSubApp popupSubApp: {
+	$tools registerSubApp popupSubApp: 
+		(uiTitleToolbar: strings: $menu);
 		(
-			(uiTitleToolbar: "Tools");
-			(
-				@verticalScroller @center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm") {
-					openSubApp: $id objFirstProperty calcitAnnotations: x
-				} uiSingleViewPicker {
-					@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiContainer: second: x
-				} each mobileTools
-			)
-		)
-	}.
+			@verticalScroller @center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm") {
+				openSubApp: $id objFirstProperty calcitAnnotations: x
+			} uiSingleViewPicker {
+				@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiContainer: second: x
+			} each mobileTools
+		).
 
 	@(cssClass: "k-mobile_only") uiToolbarOverlay:
 		[
 			@dynamicSize @(percentHeight 75) @(width: (toolbarCmHeight * 0,75) + "cm + 7px") @verticalCenter @left uiContainer:
 				[uiHorizontalPxSpace: 7];
-				[@(cmWidth toolbarCmHeight * 0,75) uiHamburgerButton: { openSubApp: $tools }]
+				[@(cmWidth toolbarCmHeight * 0,75) !uiHamburgerButton]
 		];
+		
 		`Add the default navigation buttons (uiUserButton and uiAppsButton) at the right`
-		[
-			@verticalCenter @right @(percentHeight 75) @(cmWidth: (toolbarCmHeight * 1,5) + 0,7) uiContainer:
-				[@(cmWidth toolbarCmHeight * 0,75) !uiAppsButton];
-				[@(cmWidth 0,4) uiContainer:void];
-				[@(cmWidth toolbarCmHeight * 0,75) !uiUserButton];
-				[uiHorizontalPxSpace: 7]
-		].
+		!ifElse isStandaloneApp {
+			[
+				@verticalCenter @right @(percentHeight 75) @(cmWidth: (toolbarCmHeight * 0,75) + 0,3) uiContainer:
+					[@(cmWidth toolbarCmHeight * 0,75) !uiUserButton];
+					[uiHorizontalPxSpace: 7]
+			]
+		};{
+			[
+				@verticalCenter @right @(percentHeight 75) @(cmWidth: (toolbarCmHeight * 1,5) + 0,7) uiContainer:
+					[@(cmWidth toolbarCmHeight * 0,75) !uiAppsButton];
+					[@(cmWidth 0,4) uiContainer:void];
+					[@(cmWidth toolbarCmHeight * 0,75) !uiUserButton];
+					[uiHorizontalPxSpace: 7]
+			]
+		}
 }.

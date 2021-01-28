@@ -6,6 +6,7 @@
 	Usage example:
 		$title = urlTitle: "https://www.duckduckgo.com".
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $urlTitle = $anyUrl fun {(default: anyUrl): second: "<\s*title\s*>(.*)</\s*title\s*>" match loadGlobal: anyUrl}.
 
 #{

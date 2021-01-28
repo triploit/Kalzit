@@ -4,6 +4,12 @@
 .k-mobile_only {
     display: none;   
 }
+.width-tet-textfield {
+	width: calc(85% - 21px);
+}
+.width-tet-button {
+	width: 15%;
+}
 
 @media (max-width: 600px) {
     .k-popup {
@@ -16,5 +22,11 @@
     }
     .k-desktop_only {
         display: none;   
+    }
+    .width-tet-textfield {
+    	width: calc(80% - 21px);
+    }
+    .width-tet-button {
+    	width: 20%;
     }
 }

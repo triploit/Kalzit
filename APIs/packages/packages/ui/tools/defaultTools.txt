@@ -38,7 +38,7 @@ $modifiableListEditTool = !fun ($titleAndCallbacks ; $_values ? ModifiableList) 
 		(() fun {openSubApp: subAppName}) uiButton title
 	}];
 	["mobile";{
-		_values uiModifiableStringListEditor callbacks
+		@(percentHeight 100) _values uiModifiableStringListEditor callbacks
 	}];
 	["title";title]
 }.
@@ -61,3 +61,15 @@ $listEditTool = !fun ($titleAndCallbacks ; $listRef ? Reference) {
 	}];
 	["title";title]
 }.
+$popupTool = !fun ($title ; $popupContentGenerator) {
+	`Sub app registration - only used by the desktop button`
+	$subAppName = "tool_" + urlEncodeParameter: title.
+	
+	["desktop";{
+		(() fun {openSubApp: subAppName}) uiButton title
+	}];
+	["mobile";{
+		@(percentHeight 100) uiContainer: !popupContentGenerator
+	}];
+	["title";title]
+}

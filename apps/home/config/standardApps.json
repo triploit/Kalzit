@@ -1,5 +1,4 @@
-{
-	"igDemo":"Images",
-	"ide":"Playground",
-	"docs":"API documentation"
-}
+[
+	{"id":"notes", "title":"Notes", "color":"blue", "icon":"static/7f952eb1fd23566c1519debbe15cdf634099b5ca.png"},
+	{"id":"links", "title":"Websites", "color":"red"}
+]

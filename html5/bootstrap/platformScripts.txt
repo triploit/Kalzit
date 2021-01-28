@@ -1,3 +1,4 @@
 ideBridge.js
 GLang_displayDefinitions.js
+libraries/KStorage.js
 modifiedTimeout.js

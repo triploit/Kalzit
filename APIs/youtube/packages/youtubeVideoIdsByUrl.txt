@@ -1,1 +1,4 @@
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $youtubeVideoIdsByUrl = ($anyUrl ? Url) fun {removeDuplicates: second each "/watch\?v=([a-zA-Z0-9\-_]+)" allMatches loadGlobal: anyUrl} ? (List:YoutubeVideoId).
+
+$youtubeVideoIdsByUrlAsync = ($callback ; $anyUrl ? Url) fun {{callback: removeDuplicates: second each "/watch\?v=([a-zA-Z0-9\-_]+)" allMatches x} loadGlobalAsync anyUrl}.

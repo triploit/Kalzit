@@ -17,7 +17,12 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 						[
 							["default"; "/api/thumbnail?id=standard-videos/thumbnails/" + (fileName: path) + "&session=" + session]
 						]
-					]	
+					];
+					!if (fileIsFile: print: $metadataFile = "./nogit/users/data/v3/" + userToken + "/files/standard-videos/metadata/" + id + ".json") {
+						["k-metadata";[
+							parseJson: fileContent: metadataFile
+						]]
+					}
 				}
 			}) each folderContent: "./nogit/users/data/v3/" + userToken + "/files/standard-videos/raw");
 			["title"; "My videos"].

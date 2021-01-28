@@ -6,6 +6,7 @@ $duckDeprecatedSiteChanged = deprecated: "The DuckDuckGo site seems to have chan
     Usage example:
         duckSearchUrls: "Search term"
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $duckSearchUrls = $term fun {
     $resultHtml = loadGlobal: "https://www.duckduckgo.com/html?q=" + urlEncodeParameter: term.
     $pattern = {/l/\?.*\&amp;uddg=([^"]+)}.

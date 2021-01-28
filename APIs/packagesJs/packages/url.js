@@ -14,7 +14,7 @@ this.urlGetParameter = function(parameterName, url) {
 	try{
 		if(url.split("?").length !== 2) return null; //No parameters
 		
-		var vars = url.split("?")[1].split("&");
+		var vars = url.split("#")[0].split("?")[1].split("&");
 		for (var i = 0; i < vars.length; i++) {
 			var pair = vars[i].split("=");
 			if(decodeURIComponent(pair[0]) === parameterName){

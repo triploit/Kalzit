@@ -14,11 +14,12 @@ $simpleStringAssetAccess = cachedFun: ($path ; $_loader ? (default: {loadLocal: 
 $appStrings = !ifElse (void eq stringAssetMap) {
 	localizedStringAssetAccess: "/apps/" + (!getAppId) + "/strings/"
 };{
-	$languageKey = (!getUserLanguage) objFirstProperty stringAssetMap.
+	$languageKey = (!getUserLanguage) propOf stringAssetMap.
 	!ifElse (void eq languageKey) {
 		$simpleKey = (!getSimpleUserLanguage) objFirstProperty stringAssetMap.
-		simpleStringAssetAccess: "/apps/" + (!getAppId) + "/static/" + ((default: $strings objFirstProperty stringAssetMap): simpleKey) + ".json"
+		$actualKey = (default: $strings objFirstProperty stringAssetMap): simpleKey.
+		cachedFun: $key fun {key propOf actualKey}
 	};{
-		simpleStringAssetAccess: "/apps/" + (!getAppId) + "/static/" + languageKey + ".json"
+		cachedFun: $key fun {key propOf languageKey}
 	}
 }.

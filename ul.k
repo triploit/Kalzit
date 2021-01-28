@@ -4,8 +4,8 @@
 		1 if the upload succeeded.
 		2 if the upload failed because of an unknown reason.
 }
-$attemptMultiFileUpload = !fun ($_files ; $callback) {
-	{x attemptSingleFileUpload callback} each _files.
+$uploadMultipleFiles = !fun ($_files ; $callback) {
+	{x uploadSingleFile callback} each _files.
 }.
 
 #{
@@ -14,7 +14,7 @@ $attemptMultiFileUpload = !fun ($_files ; $callback) {
 		1 if the upload succeeded.
 		2 if the upload failed because of an unknown reason.
 }
-$attemptSingleFileUpload = !fun ($_file ; $callback) {
+$uploadSingleFile = $attemptSingleFileUpload = !fun ($_file ; $callback) {
 	($_status fun {
 		$success = $success propOf parseJson: !if (200 eq $code propOf _status) {
 			$text propOf _status
@@ -36,15 +36,17 @@ $makeUploadView = !fun ($_files) {
 	$progress = 0. $progressRef = reference: $progress.
 	$total = length: _files.
 	$failures ? ModifiableList = ().
+	$failCount = 0. $failCountRef = reference: $failCount.
 	
-	_files attemptMultiFileUpload ($status ; $_file) fun {
+	_files uploadMultipleFiles ($status ; $_file) fun {
 		progressRef = progress + 1.
 		!if (status eq 2) {
 			print: "Upload of " + ($name propOf _file) + " failed for unknown reasons".
 			($push propOf failures): [_file].
+			failCountRef = failCount + 1.
 		}.
 		!if (progress eq total) {
-			print: "Upload is done (" + ($failCount = length: getArray: failures) + " failed)".
+			print: "Upload is done (" + failCount + " failed)".
 			!if (failCount > 0) {
 				$button = {
 					print: makeUploadView: getArray: failures.
@@ -56,7 +58,7 @@ $makeUploadView = !fun ($_files) {
 		}
 	}.
 	
-	uiShowFunction: {"Progress: " + progress + " of " + total}.
+	uiShowFunction: {"Progress: " + progress + " of " + total + " files uploaded (" + failCount + " failed)"}.
 }.
 
 $picker = uiMultiFilePicker: $_files fun {

@@ -9,6 +9,7 @@
 		
 	If you want to access the found results in a more direct way, consider using "wikipediaSearch" instead of this function.
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $wikipediaSearchJson = ($term ? String ; $language ? String) fun {
 	loadGlobal: "https://" + language + ".wikipedia.org/w/api.php?action=opensearch&search=" + (urlEncodeParameter: term) + "&format=json"
 }.
@@ -26,6 +27,7 @@ $wikipediaSearchJson = ($term ? String ; $language ? String) fun {
 		
 	To specify the language, you could do something like "Search term" wikipediaSearch "de"
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $wikipediaSearch = ($term ? String ; $language ? ("en" default String)) fun {
 	$raw = parseJson: term wikipediaSearchJson language.
 	$titles = 1 at raw.
@@ -48,6 +50,7 @@ $wikipediaSearch = ($term ? String ; $language ? ("en" default String)) fun {
 	As with "wikipediaSearch", you can specify an optional language (usually as a two-letter code):
 		"Pineapple" wikipediaSearchUrls "en"
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $wikipediaSearchUrls = ($term ? String ; $language ? ("en" default String)) fun {
 	{$url propOf x} each term wikipediaSearch language.
 }.

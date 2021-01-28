@@ -32,10 +32,11 @@ $skeletonCode = !ifElse ((not: hasCustomLibrary) & void eq excludedLibraries) {
 				(fileParent: app) + "/doNotTouch"
 			}.
 			
-		$scriptTags = "<script>" + (";" strJoin {
-			print: "Adding not-excluded library " + x.
-			"GLang.packageManager.installJs(function(){" + (fileContent: x + "/_min.js") + "})"
-		} each usedLibraries) + ";</script>".
+		`Include the needed standard APIs`
+		print each "Adding non-excluded library " + usedLibraries.
+		$scriptTags = "<script>" + (";" strJoin
+			fileContent: usedLibraries + "/_min.js"
+		) + ";</script>".
 		
 		$withoutAppcache = ("$scriptTags$";scriptTags) strReplace fileContent: rootFolder + "/generated/_browser_app_skeleton.html".
 		
@@ -58,14 +59,18 @@ $skeletonCode = !ifElse ((not: hasCustomLibrary) & void eq excludedLibraries) {
 $appIdCode = "GLang.packageManager.installJs(function(){this.appId='" + ((".k";"") strReplace fileName: app) + "'});".
 
 $translationMapFile = appFolder + "/doNotTouch/translationMap.json".
-$prefix =
-	!ifElse (fileIsFile: translationMapFile) {
+$prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
+	(!ifElse (fileIsFile: translationMapFile) {
 		`Add JavaScript code which fills the "stringAssetMap" variable`
-		appIdCode + "GLang.packageManager.installJs(function(){this.stringAssetMap=" + (fileContent: translationMapFile) + "})"
+		"this.stringAssetMap=" + fileContent: translationMapFile
 	};{
 		`Do not fill "stringAssetMap" - just set "appId"`
-		appIdCode
-	}.
+		""
+	}) + 
+	
+	`Include the standard- and developer-apps, so that fewer HTTP requests are needed`
+	";this.developerApps=" + (fileContent: rootFolder + "/apps/home/config/developerApps.json") +
+	";this.standardApps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + "});".
 
 (rootFolder + "/generated/appBuildingTempFile.js") fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
 

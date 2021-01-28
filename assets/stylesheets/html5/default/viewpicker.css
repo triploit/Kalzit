@@ -1,3 +1,5 @@
-.k-single_view_picker:hover {
+.k-single_view_picker {
+	background-color: transparent;
 	border-radius: var(--big-button-border-radius);
+	overflow: hidden;
 }

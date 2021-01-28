@@ -1,29 +1,29 @@
 ;(function(){
 	var optimized = false;
 
-	function waiting(){
-		return {
-			next:function(token){
-				switch(token.category){
-					case "Word": return name(token);
-					case "Digit": return integer(token);
-					case "Space": return waiting();
-				}
-				switch(token.textValue){
-					case "}": return codeBlock("", 1);
-					case "]": return arrayBlock("", 1);
-					case ")": return parenthesesBlock("", 1);
-					case "'": return singleQuoteBlock("");
-					case '"': return doubleQuoteBlock("");
-					case '`': return commentBlock();
-					case '´': return commentBlock();
-				}
-				return group([waiting(), special(token)]);
-			},
-			waiting:true,
-			kind:"waiting"
-		}
-	}
+	const WAITING = {
+		next:function(token){
+			switch(token.category){
+				case "Word": return name(token);
+				case "Digit": return integer(parseInt(token.textValue));
+				case "Space": return WAITING;
+			}
+			switch(token.textValue){
+				case "{": return codeBlock(1);
+				case "[": return arrayBlock(1);
+				case "(": return parenthesesBlock(1);
+				case "'":
+				case '"': return quoteBlock(token.textValue);
+				case "$": return DOLLAR_STRING;
+				case "\\": return NEGATIVE_SIGN;
+				case '`':
+				case '´': return COMMENT_BLOCK;
+			}
+			return group([special(token), WAITING]);
+		},
+		waiting:true,
+		kind:"waiting"
+	};
 	
 	function special(specialToken){
 		return {
@@ -33,123 +33,119 @@
 	}
 	
 	function depthBlock(open, close, then){
-		return function blockFunction(text, depth){
+		return function(depth /*of the block - increased with every 'open' character*/){
 			return {
 				next:function(token){
-					if(token.textValue === open){
+					if(token.textValue === close){
 						if(depth === 1){
-							return then(text);
+							return then(this.text);
 						}
 						depth -= 1;
-					}else if(token.textValue === close){
+						if(depth < 0) throw new Error("Block depth is smaller than zero - caused by this character: " + close);
+					}else if(token.textValue === open){
 						depth += 1;
 					}
-					return blockFunction(token.textValue + text, depth);
+					
+					this.text += token.textValue;
+					return this;
 				},
+				text: "",
 				kind:"depthBlock"
 			}
 		}
 	}
 	
-	var codeBlock = depthBlock("{", "}", function(text){return group([waiting(), string(text)])});
-	var arrayBlock = depthBlock("[", "]", function(text){return group([waiting(), {kind:"array", array:GLang.generateTree(text)}])});
+	var codeBlock = depthBlock("{", "}", function(text){return group([string(text), WAITING])});
+	var arrayBlock = depthBlock("[", "]", function(text){return group([{kind:"array", array:GLang.generateTree(text)}, WAITING])});
 	var parenthesesBlock = depthBlock("(", ")", function(text){
 		var parenthesesTree = GLang.generateTree(text, optimized);
-		if(optimized && parenthesesTree.length == 1){
-			return group([waiting(), parenthesesTree[0]])
+		if(parenthesesTree.length == 1){
+			return group([parenthesesTree[0], WAITING])
 		}
 		return group([
-			waiting(), {
+			{
 				kind:"parentheses",
 				parentheses:parenthesesTree
-			}
+			},
+			WAITING
 		])
 	});
 	
-	function doubleQuoteBlock(text){
+	function quoteBlock(closer){
 		return {
 			next:function(token){
-				if(token.textValue === '"') return group([waiting(), string(text)]);
-				return doubleQuoteBlock(token.textValue + text)
+				if(token.textValue === closer) return group([string(this.text), WAITING]);
+				this.text += token.textValue;
+				return this;
 			},
-			kind:"doubleQuoteBlock"
+			text:"",
+			kind:"quoteBlock"
 		}
 	}
 	
-	function singleQuoteBlock(text){
-		return {
-			next:function(token){
-				if(token.textValue === "'") return group([waiting(), string(text)]);
-				return singleQuoteBlock(token.textValue + text)
-			},
-			kind:"singleQuoteBlock"
-		}
-	}
-	
-	function commentBlock(){
-		return {
-			next:function(token){
-				if(token.textValue === "´" || token.textValue === "`") return waiting();
-				return commentBlock()
-			},
-			kind:"commentBlock"
-		}
-	}
-	
-	function error(token){
-		return {
-			next:function(token){return this},
-			error: token,
-			kind:"error"
-		}
+	const COMMENT_BLOCK = {
+		next:function(token){
+			if(token.textValue === "´" || token.textValue === "`") return WAITING;
+			return this;
+		},
+		kind:"commentBlock"
 	}
 	
 	function name(wordToken){
 		return {
 			next:function(token){
-				if(token.textValue === "$") return group([waiting(), string(wordToken.textValue)])
-				return group([waiting(), this]).next(token);
+				return group([this, WAITING]).next(token);
 			},
 			name:wordToken.textValue,
 			kind:"name"
 		}
 	}
 	
-	function integer(intToken){
+	const DOLLAR_STRING = {
+		next:function(token){
+			if(token.category === "Word") return group([string(token.textValue), WAITING])
+			throw new Error("The dollar sign ($) has to be followed by a 'Word' token - but is followed by: " + token.textValue);
+		},
+		kind:"dollarString"
+	};
+	
+	const NEGATIVE_SIGN = {
+		next:function(token){
+			if(token.category === "Digit") return group([integer(-parseInt(token.textValue)), WAITING])
+			throw new Error("The minus sign (\\) has to be followed by a 'Digit' token - but is followed by: " + token.textValue);
+		},
+		kind:"negativeSign"
+	}
+	
+	function integer(intNumber){
 		return {
 			next:function(token){
-				if(token.textValue === ",") return commaNumber(intToken);
-				if(token.textValue === "\\") return group([waiting(), negativeNumber(this.num)]);
-				return group([waiting(), this]).next(token);
+				if(token.textValue === ",") return commaNumber(intNumber);
+				return group([this, WAITING]).next(token);
 			},
-			num:parseInt(intToken.textValue),
+			num:intNumber,
 			kind:"num"
 		}
 	}
 	
-	function commaNumber(intToken){
+	function commaNumber(intNumber){
 		return {
 			next:function(token){
-				if(token.category === "Digit") return group([waiting(), float(token, intToken)]);
+				if(token.category === "Digit") return group([float(intNumber, token), WAITING]);
 				return error(token);
 			},
 			kind:"commaNumber"
 		}
 	}
 	
-	function float(wholeToken, decimalToken){
+	function float(wholeNumber, decimalToken){
 		return {
 			next:function(token){
-				if(token.textValue === "\\") return group([waiting(), negativeNumber(this.num)]);
-				return group([waiting(), this]).next(token);
+				return group([this, WAITING]).next(token);
 			},
-			num:parseFloat(wholeToken.textValue + "." + decimalToken.textValue),
+			num:parseFloat(wholeNumber + "." + decimalToken.textValue),
 			kind:"num"
 		}
-	}
-	
-	function negativeNumber(positive){
-		return {kind:"num", num:-positive}
 	}
 	
 	function string(string){
@@ -162,11 +158,11 @@
 	function group(stateList){
 		return {
 			next:function(token){
-				var nextState = stateList[0].next(token);
+				var nextState = stateList.pop().next(token);
 				if(nextState.group){
-					return group(nextState.group.concat(stateList.slice(1)));
+					return group(stateList.concat(nextState.group));
 				}
-				return group([nextState].concat(stateList.slice(1)));
+				return group(stateList.concat([nextState]));
 			},
 			group: stateList,
 			kind:"group"
@@ -177,7 +173,7 @@
 		var sentences = [];
 		var sentence = [];
 		for(var i = 0; i < tree.length; i++){
-			if(tree[i].special === "."){
+			if(tree[i].special == "."){
 				sentences.push(loopState(sentence));
 				sentence = [];
 			}else sentence.push(tree[i]);
@@ -194,17 +190,16 @@
 	}
 	
 	function loopState(state){
+		//Accept empty state list
+		if(!state.length) return state;
+		
+		//Remove remaining waiting element
+		if(state[state.length - 1].waiting) state.pop();
+		
 		//Loop over tree and group items that need to be looped
 		for(var i = 0; i < state.length; i++){
-			//Remove remaining waiting element
-			if(state[i].waiting){
-				state.splice(i, 1);
-				i--;
-				continue;
-			}
 			//Check for type indicators
-			else if(state[i].special === "?"){
-				var op = [{kind:"name", name:"calcitAnnotate"}];
+			if(state[i].special === "?"){
 				var a = state[i + 1];
 				var b = state[i - 1];
 				var typedValue = {kind:"parentheses", parentheses:[a, {name:"calcitSetType", kind:"name"}, b]};
@@ -225,7 +220,7 @@
 				var op = [{kind:"name", name:"calcitSetAnnotation"}];
 				var a = state.splice(i + 1, 1);
 				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
-				state = state.slice(0, i).concat(a).concat(op).concat(b);
+				state = state.slice(0, i).concat(a, op, b);
 				
 				//The loop will end after this
 				break;
@@ -239,7 +234,7 @@
 				if(optimized) {
 					state = state.slice(0, i).concat(b);
 				}else{
-					state = state.slice(0, i).concat(a).concat(op).concat(b);
+					state = state.slice(0, i).concat(a, op, b);
 				}
 				
 				//The loop will end after this
@@ -251,19 +246,20 @@
 				switch(i){
 					case state.length - 2:
 						var op = loopState(state.splice(i + 1, 1));
-						state = state.slice(0, i).concat([
-							{kind:"name", name:"do"},
-							{kind:"name", name:":"}
-						]).concat(op);
+						state = state.slice(0, i).concat(
+							[
+								{kind:"name", name:"do"},
+								{kind:"name", name:":"}
+							],
+							op
+						);
 						
 						done = true; break;
 						
 					case state.length - 3:
 						var op = loopState(state.splice(i + 1, 1));
 						var arg = loopState(state.splice(i + 1, 1));
-						state = state.slice(0, i).concat(op).concat([
-							{kind:"name", name:":"}
-						]).concat(arg);
+						state = state.slice(0, i).concat(op, {kind:"name", name:":"}, arg);
 						
 						done = true; break;
 				}
@@ -277,7 +273,7 @@
 				var op = loopState(state.splice(i + 1, 1));
 				var a = loopState(state.splice(i + 1, 1));
 				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
-				state = state.slice(0, i).concat(a).concat(op).concat(b);
+				state = state.slice(0, i).concat(a, op, b);
 				
 				//The loop will end after this
 				break;
@@ -290,12 +286,12 @@
 	GLang.generateTree= function(string, optimize){
 		optimized = optimize;
 		
-		var state = waiting();
-		var state = GLang.tokenize(string).concat(state).reverse().reduce(
-			(state, token) => state.next(token)
-		);
-		state = state.group ? state.group : [state];
+		var state = WAITING;
+		var tokens = GLang.tokenize(string);
 		
-		return makeSentences(state);
+		for(var i = 0; i < tokens.length; i++){
+			state = state.next(tokens[i]);
+		}
+		return makeSentences(state.group || [state]);
 	}
 })();

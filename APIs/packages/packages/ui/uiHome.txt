@@ -2,18 +2,50 @@ $uiHomeScreenIcon = ($iconGraphic ? UiElement ; $_applySpecificLook ? (default: 
 	$ico = @rounded @(emWidth 5) @(emHeight 5) iconGraphic.
 	_applySpecificLook: ico
 }.
-$uiSimpleHomeScreenApp = ($description ? String ; $action) fun {
-	$color = randomItem: [red];[green];[blue].
+$uiHomeScreenAppButton = ($action ; $appInfo) fun {
+	$color ? RgbColor = (default: 122): eval: $color propOf appInfo.
+	$description = (default: "Untitled"): $title propOf appInfo.
+	$iconPath = $icon propOf appInfo.
+	
 	$gradient = backgroundGradientTopToBottom: [color];[{max: 0;x} each color - 150].
 	$border = borderColor: {max: 0;x} each color - 50.
-	@(onTap action) @centerText uiContainer: ((uiContainer: @(emFontSize 1,5) uiText: first of "" strSplit description) uiHomeScreenIcon {@(foregroundColor white) @border @gradient x});uiText: description
+	$graphic = !ifElse (not: void eq iconPath) {
+		uiShowImageUrl: "/apps/" + ($id propOf appInfo) + "/" + iconPath.
+	};{
+		uiContainer: @(emFontSize 1,5) uiText: first of "" strSplit description.
+	}.
+	
+	@(onTap action) @centerText uiContainer: (graphic uiHomeScreenIcon {@(foregroundColor white) @border @gradient x});uiText: description
+}.
+$uiSimpleHomeScreenApp = ($description ? String ; $action) fun {
+	action uiHomeScreenAppButton
+		[$title;description];
+		[$color;[
+			randomItem: "red";"green";"blue"
+		]].
 }.
 $uiHomeScreen = ($_action ? (default: launchAppName)) fun {
-	`Load the app data from JSON`
-	$apps = (parseJson: loadLocal: "/apps/home/config/standardApps.json");
-		!if developerMode {
-			parseJson: loadLocal: "/apps/home/config/developerApps.json"
-		}.
+	$view = uiColumns: void.
+	$print = uiPrint: view.
+
+	$appView = !fun ($_app) {
+		print: @(percentWidth 100) (() fun {_action: $id propOf _app}) uiHomeScreenAppButton _app
+	}.
 	
-	uiColumns: ($_app fun {@(percentWidth 100) (second of _app) uiSimpleHomeScreenApp () fun {_action: first of _app}}) each apps.
+	`Check where to get the app data from`
+	!if (void eq standardApps) {
+		`Load the app data from JSON`
+		($appsJson fun { appView each parseJson: appsJson }) loadLocalAsync "/apps/home/config/standardApps.json".
+		!if developerMode {
+			($appsJson fun { appView each parseJson: appsJson }) loadLocalAsync "/apps/home/config/developerApps.json".
+		}.
+	}. !else {
+		`Load the app data from memory - no server requests required (same structure as above)`
+		appView each standardApps.
+		!if developerMode {
+			appView each developerApps.
+		}.
+	}.
+	
+	view.
 }.

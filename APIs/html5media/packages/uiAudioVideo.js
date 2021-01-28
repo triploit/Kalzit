@@ -100,6 +100,12 @@
 		return {value:audio, display:"dom"};
 	}, display:"function"});
 	
+	GLang.defaultRuntimeEnvironment.setInnerVariable("audioPlayer", {value:function(env, args){
+		var audio = new Audio(args[0].value);
+		GLang.callObject((args.length >= 2 ? args[1] : GLang.stringValue("")), env, [makePlayerInterface(audio)]);
+		return {value:audio};
+	}, display:"function"});
+	
 	/* @kalzit.for ui_video_player
 	Creates a media controller and a graphical representation of the video (usually shows a frame of the video, control buttons and a progress indicator) from any URL that points to a video file.
 	The function expects two parameters: The URL and a callback, which will be called when the media controller is ready.

@@ -8,4 +8,10 @@ then
     exit
 fi
 
-bash utilities/cli/run/blockingServer.sh &> "./generated/logs/server-log-$(date +'%Y-%m-%d_%H.%M.%S').txt" &
+#Before starting the server, save a potential recent log file (and remove older ones)
+mkdir ./generated/logs/managed &> /dev/null
+mkdir ./generated/logs/managed/old &> /dev/null
+rm ./generated/logs/managed/old/*.txt &> /dev/null
+mv ./generated/logs/managed/current-server-log.txt "./generated/logs/managed/old/server-log-prior-$(date +'%Y-%m-%d_%H.%M.%S').txt" &> /dev/null
+
+bash utilities/cli/run/blockingServer.sh &> ./generated/logs/managed/current-server-log.txt &

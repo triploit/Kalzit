@@ -6,4 +6,5 @@
 }
 .k-image_button {
 	opacity: 1;
+	display: inline-block;
 }

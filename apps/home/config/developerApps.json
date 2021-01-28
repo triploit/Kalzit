@@ -1,1 +1,11 @@
-{}
+[
+	{"id":"ide", "title":"Development Tools"},
+	{"id":"images", "title":"Images", "color":"green", "icon":"static/ee4a0dad5cdc61ec26191f96f5a2db322e61d6ec.png"},
+	{"id":"rss", "title":"Feeds"},
+	{"id":"videos", "title":"Videos", "color":"128;0"},
+	{"id":"docs", "title":"Library documentation"},
+	{"id":"todo", "title":"TODOs", "color":"magenta", "icon":"static/d5dee058c385c24ec553396d36b9a5b36759bdbb.png"},
+	{"id":"reader", "title":"Reader"},
+	{"id":"files", "title":"Files"},
+	{"id":"music", "title":"Music", "color":"cyan", "icon":"static/ad3451dc08b081d296685ee287fb68fd4e5b73c5.png"}
+]

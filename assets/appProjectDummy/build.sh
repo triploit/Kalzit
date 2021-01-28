@@ -7,28 +7,21 @@ rm ./static/*.*
 
 #Make the home widget work
 echo CACHE MANIFEST > ./doNotTouch/manifest.appcache
-echo /apps/home/config/standardApps.json >> ./doNotTouch/manifest.appcache
-echo /apps/home/config/developerApps.json >> ./doNotTouch/manifest.appcache
 
 #Generate static string assets and translationMap.json for quick access, as well as manifest.appcache
 hasPrevious=0
 for jsonFile in $(find "$appFolder" -name default.json)
 do
 	parent="$(dirname $jsonFile)"
-	sum=($(shasum "$jsonFile"))
-	echo $sum
-	cat "$jsonFile" > ./static/$sum.json
-	
 	key='"'$(basename $parent)'"'
-	value='"'$sum'"'
+	
 	if [ $hasPrevious == 1 ]
 	then
-		echo ,$key:$value >> ./doNotTouch/translationMap.json
+		echo ,$key:$(cat "$jsonFile") >> ./doNotTouch/translationMap.json
 	else
-		echo {$key:$value > ./doNotTouch/translationMap.json
+		echo {$key:$(cat "$jsonFile") > ./doNotTouch/translationMap.json
 		hasPrevious=1
 	fi
-	echo ../static/$sum.json >> ./doNotTouch/manifest.appcache
 done
 if [ $hasPrevious == 1 ]
 then
@@ -63,12 +56,11 @@ then
 	echo "\"appleTouchIcon\":\"/apps/$appId/static/$sum.png\"" >> ./$appId.json
 	echo "../static/$sum.png" >> ./doNotTouch/manifest.appcache
 fi
-#Standard icons
-for file in $(ls "$rootFolder/assets/images/static"); do
-	echo "/assets/images/static/$file" >> ./doNotTouch/manifest.appcache
+#Make all standard string files available for offline access
+for stringFile in $(find "$rootFolder/assets/strings" -name default.json)
+do
+	echo "${stringFile#"$rootFolder"}" >> ./doNotTouch/manifest.appcache
 done
-#Default language file
-echo "/assets/strings/default.json" >> ./doNotTouch/manifest.appcache
 #Application Cache (should be the last item)
 echo NETWORK: >> ./doNotTouch/manifest.appcache
 echo "*" >> ./doNotTouch/manifest.appcache

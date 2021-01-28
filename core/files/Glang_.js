@@ -13,5 +13,6 @@ this.KNI = this.KNI || {
 	//KNI polyfill
 	hasStorage: GLang.returnFalse,
 	hasSynchronousLoader: GLang.returnFalse,
-	hasAsynchronousLoader: GLang.returnFalse
+	hasAsynchronousLoader: GLang.returnFalse,
+	isDefault: true
 };

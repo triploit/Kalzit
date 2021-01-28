@@ -1,0 +1,3 @@
+$uiImageLink = !fun ($linkUrl ; $imageUrl) {
+	@(cssClass: "k-image_button") linkUrl uiLink @fit uiShowImageUrl: (default: linkUrl): imageUrl
+}

@@ -23,6 +23,7 @@
 					[true; "default"].
 				fileCreateFolder: destinationFolder.
 				fileDelete: destinationFolder + "/kmp.json".
+				fileDelete: destinationFolder + "/../audio-kmp.json".
 				fileCreateFolder: destinationFolder + "/raw".
 				
 				$checksum = mdFiveHash: fileContentRaw: _postedFileName.

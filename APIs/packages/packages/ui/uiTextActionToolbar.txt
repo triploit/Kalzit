@@ -1,0 +1,18 @@
+$uiTextActionToolbar = !fun ($action ; $buttonText ? String) {
+	$newAdditionRef = reference: $newAddition.
+
+	uiToolbarWithCloseButton: @($toolbarContent fun {
+			!ifElse isIosApp {
+				`Leave space for the close button`
+				@right @(width "100% - " + (toolbarCmHeight % 1,5) + "cm") toolbarContent
+			};{
+				`Use the entire toolbar`
+				@(width "100%") @right toolbarContent
+			}
+		}) @center uiContainer:
+			(uiHorizontalPxSpace: 7);
+			(@(cssClass: "width-tet-textfield") @(onEnter: () fun {action: newAddition}) newAdditionRef uiTextfieldVariableOnchange "");
+			(uiHorizontalPxSpace: 7);
+			(@(cssClass: "width-tet-button") {action: newAddition. do:updateNameViews} uiButton buttonText);
+			(uiHorizontalPxSpace: 7)
+}.

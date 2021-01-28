@@ -18,11 +18,12 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 				kmpFromObjectCollection: ($fn fun {
 					print: $fileName = "./" + fn.
 					
-					!ifElse (fileIsFolder: fileName + "/access") {
+					!ifElse (fileIsFolder: fileName) {
 						`Add a folder entry to the result`
 							["redirect";print: "/api/folder?session=" + session + "&id=" + urlEncodeParameter: fn];
 							["protocolVersion";"2.1.0"];
-							["title";getFileName: fileName].
+							["title";getFileName: fileName];
+							["kind";"folder"].
 					};{
 						`Add a file entry to the result`
 						(parseJson: fileContent: filesFolder + "/" + (fileContent: fileName));

@@ -3,3 +3,9 @@
 	border-top-left-radius: var(--parent-border-radius);
 	border-top-right-radius: var(--parent-border-radius);
 }
+.k-toolbar p {
+	/* add a ... effect if there is too much text */
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}

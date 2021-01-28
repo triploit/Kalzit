@@ -25,11 +25,11 @@ $createUserSession = ($userToken ? String) fun {
 	
 	`Store session id in user folder`
 	$userDataFolder = "./nogit/users/data/"  + structureVersion + "/" + userToken.
-	fileCreateFolder: userDataFolder + "/session".
-	(userDataFolder + "/session/id.txt") fileWrite sessionId.
+	fileCreateFolder: userDataFolder + "/sessions".
+	fileCreateFolder: userDataFolder + "/sessions/" + sessionId.
 	
 	`Store expiration date (session is valid for three days)`
-	(userDataFolder + "/session/expiration.txt") fileWrite String: (daysToMillis: 3) + !getCurrentDate.
+	(userDataFolder + "/sessions/" + sessionId + "/expiration.txt") fileWrite String: (daysToMillis: 30) + !getCurrentDate.
 	
 	`Return session id`
 	sessionId

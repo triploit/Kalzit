@@ -1,0 +1,30 @@
+$_expected = true. $_expectedRef = reference: $_expected.
+$testExpectation = !fun $expectedValue {
+	_expectedRef = expectedValue.
+}.
+
+$_description = "Not known". $_descriptionRef = reference: $_description.
+$testDescription = !fun ($description ? String) {
+	_descriptionRef = description.
+}.
+
+
+`Actually run the test`
+$testResult = do: !fun () fileContent: appParameter: $file.
+
+!ifElse (testResult eq _expected) {
+	!if ("true" eq appParameter: "show-success") {
+		print: "Test succeeded. Purpose: " + _description.
+		print: "File: " + appParameter: $file.
+		print: "------".
+	}
+};{
+	`Not OK`
+	print: "Test failed. Purpose: " + _description.
+	print: "File: " + appParameter: $file.
+	print: "Expectation:".
+	print: _expected.
+	print: "Result:".
+	print: testResult.
+	print "------".
+}

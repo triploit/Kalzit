@@ -1,3 +1,4 @@
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $youtubeVideoTitle = $id fun {
 	print: id.
 	!ifElse (fileExists: "./nogit/cache/yttitles/" + id + ".txt") {

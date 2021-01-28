@@ -1,4 +1,5 @@
 $jsonFile = appParameter: "input-file".
+
 !if (fileIsFile: jsonFile) {
 	$jsonParent = fileParent: jsonFile.
 
@@ -20,5 +21,6 @@ $jsonFile = appParameter: "input-file".
 	
 	(appParameter: "output-file") fileWrite (runCommand: 'terser "' + (appParameter: "output-file") + '"')
 }. !else {
-	print: "The json file you specified is not a file! (--input-file)"
+	print: "The json file you specified is not a file! (--input-file):".
+	print: jsonFile.
 }

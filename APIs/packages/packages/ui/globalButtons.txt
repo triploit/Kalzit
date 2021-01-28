@@ -46,15 +46,15 @@ $apps registerSubApp popupSubApp:
 
 `#login sub app`
 $login registerSubApp popupSubApp:
-	(uiTitleToolbar: "Login");
-	(@(percentWidth 90) @(percentHeight 90) @center uiLoginForm: {
+	(uiTitleToolbar: strings: $loginDialogTitle);
+	@(height "100% - " + toolbarCmHeight + "cm") @verticalScroller uiContainer: (@(percentWidth 90) @center uiLoginForm: {
 		!if x {
 			!relaunchApp
 		}
 	}).
 
 $register registerSubApp popupSubApp:
-	(uiTitleToolbar: "Register");
+	(uiTitleToolbar: strings: $registrationDialogTitle);
 	(@(percentWidth 90) @(percentHeight 90) @center uiRegisterForm: {
 		!if x {
 			!relaunchApp
@@ -62,21 +62,24 @@ $register registerSubApp popupSubApp:
 	}).
 
 `#account sub app`
-$account registerSubApp popupSubApp: {
+$account registerSubApp popupSubApp: do:{
 	$popupContent =
-		(uiTitleToolbar: "Account: " + (default: "Unknown"): storageLoadString: "calcitUserName");
+		(uiTitleToolbar: (strings: $accountDialogTitlePrefix) + (default: "Unknown"): storageLoadString: "calcitUserName");
 		@center @(width "100% - 14px") uiContainer:
 			(uiVerticalPxSpace: 14);
 			($timeoutCheckbox = @(percentWidth 100) {
 				"kalzit.timeoutWanted" storageSaveString String: x.
 				!if x timeoutContinue. !else timeoutPause.
-			} uiCheckbox "Enable time out after 30 minutes");
+			} uiCheckbox strings: $automaticTimeoutCheckbox);
 			(uiVerticalPxSpace: 7);
 			(@center {
+				$session = storageLoadString: "calcitSession".
+				loadLocal: "/api/logoutUser?session=" + session.
+				
 				storageRemove: "calcitSession".
 				storageRemove: "calcitUserName".
 				!relaunchApp
-			} uiButton "Logout").
+			} uiButton strings: $logoutButton).
 	
 	!if ("1" eq storageLoadString: "kalzit.timeoutWanted") {
 		uiCheck: timeoutCheckbox
@@ -89,34 +92,15 @@ $account registerSubApp popupSubApp: {
 	!timeoutPause
 }.
 
-$uiAccountButton = () fun {@fit (() fun {
-	!if (void eq storageLoadString: "calcitSession") {
-		openSubApp: $login
-	}.
-	!else {
-		openSubApp: $account
-	}
-}) uiImageButton userOutlineImageUrl}.
-
-$uiUserConfigButton = () fun {@fit  (() fun {
-	!if (void eq storageLoadString: "calcitSession") {
-		popupMessage: "You are not logged in"
-	}.
-	!else {
-		openSubApp: $account
-	}
-}) uiImageButton userImageUrl}.
+$uiAccountButton = () fun {@fit "#login" uiImageLink userOutlineImageUrl}.
+$uiUserConfigButton = () fun {@fit "#account" uiImageLink userImageUrl}.
 
 $uiUserButton = () fun {
-	!ifElse (void eq storageLoadString: "calcitSession") {
-		do:uiAccountButton
-	};{
-		do:uiUserConfigButton.
-	}
+	!ifElse (void eq storageLoadString: "calcitSession")
+		uiAccountButton;
+		uiUserConfigButton
 }.
 
-$uiAppsButton = {@fit {
-	openSubApp: $apps
-} uiImageButton appsImageUrl}.
+$uiAppsButton = {@fit "#apps" uiImageLink appsImageUrl}.
 
-$uiHamburgerButton = ($action) fun {@fit action uiImageButton menuImageUrl}.
+$uiHamburgerButton = () fun {@fit "#tools" uiImageLink menuImageUrl}.

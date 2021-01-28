@@ -1,5 +1,5 @@
 /*
-A rather function to determine the appropriate MIME type for a given file extension.
+A function to determine the appropriate MIME type for a given file extension.
 This function is optimized for speed, not convenience.
 If you want to get MIME types in a more convenient way, use "fileMime" instead - it also accepts complete file names, for example.
 
@@ -18,6 +18,8 @@ this.nativeFileMime = function(extension){
 		case "svg": return "image/svg+xml";
 		case "json": return "application/json";
 		case "css": return "text/css";
+		case "mp3": return "audio/mpeg";
+		case "m4a": return "audio/mp4";
 		default: return "*"
 	}
 }

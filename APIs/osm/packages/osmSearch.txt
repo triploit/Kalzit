@@ -15,7 +15,9 @@ $osmSearchUrl = "https://nominatim.openstreetmap.org/search?format=json&q=".
 	
 	If you just want to access the search data, consider using "osmSearchPlaces" instead.
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $osmSearchJson = ($term ? String) fun {loadGlobal: osmSearchUrl + urlEncodeParameter: term}.
+$osmSearchJsonAsync = ($callback ; $term ? String) fun {callback loadGlobalAsync osmSearchUrl + urlEncodeParameter: term}.
 
 #{
 	Returns a list of places found by the OpenStreetMap search API.
@@ -26,7 +28,9 @@ $osmSearchJson = ($term ? String) fun {loadGlobal: osmSearchUrl + urlEncodeParam
 	
 	To easily access information about the found places, consider using "osmPlaceCoordinates" or "osmPlaceName".
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $osmSearchPlaces = ($term ? String) fun {parseJson: osmSearchJson: term}.
+$osmSearchPlacesAsync = ($callback ; $term ? String) fun {{callback: parseJson: x} osmSearchJsonAsync term}.
 
 #{
 	Returns the location (a 2-item list with two numbers, describing the latitude and longitude) of an OpenStreetMap place.
@@ -54,7 +58,9 @@ $osmPlaceName = ($_place) fun {"display_name" objFirstProperty _place}.
 	
 	If you need to get coordinates from a place object, consider using "osmPlaceCoordinates".
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $osmSearchPlaceCoordinates = ($term ? String) fun {osmPlaceCoordinates each osmSearchPlaces: term}.
+$osmSearchPlaceCoordinatesAsync = ($callback ; $term ? String) fun {{callback: osmPlaceCoordinates each x} osmSearchPlacesAsync term}.
 
 #{
 	Returns a list of place names that describe places matching a search term.
@@ -64,4 +70,6 @@ $osmSearchPlaceCoordinates = ($term ? String) fun {osmPlaceCoordinates each osmS
 	
 	If you need to get a name from a place object, consider using "osmPlaceName".
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $osmSearchPlaceNames = ($term ? String) fun {;/ osmPlaceName each osmSearchPlaces: term}.
+$osmSearchPlaceNamesAsync = ($callback ; $term ? String) fun {{callback: ;/ osmPlaceName each x} osmSearchPlacesAsync term}.

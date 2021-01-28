@@ -1,6 +1,12 @@
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $loadDom=$x fun {domParse: loadGlobal: x}.
+
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $loadDomTags=($x;$y) fun {x domTags loadDom: y}.
+
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $loadDomInner=$x fun {domInner: loadDom: x}.
+
 
 $loadDomAsync=($callback;$url) fun {{callback: domParse: x} loadGlobalAsync url}.
 $loadDomInnerAsync=($callback;$url) fun {{callback: domInner: x} loadDomAsync url}.

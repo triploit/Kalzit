@@ -1,0 +1,16 @@
+$uiSearchPanel = !fun ($searchResultFactory) {
+	$currentSearchResults = @centerText uiContainer: strings: "pressGoHint". $currentSearchResultsRef = reference: $currentSearchResults.
+	@(percentHeight 100) uiContainer: do:{
+		$currentSearchTerm = "". $currentSearchTermRef = reference: $currentSearchTerm.
+		$action = !fun ($currentSearchTerm ? strTrim) {
+			!if ("" eq currentSearchTerm) {
+				currentSearchResultsRef = @centerText uiText: "Please enter a search term".
+			}. !else {
+				currentSearchResultsRef = @verticalScroller uiContainer: @(width "100% - 14px") @(percentHeight 100) @center uiContainer: searchResultFactory: currentSearchTerm.
+			}
+		}.
+		
+		[action uiTextActionToolbar strings: "go"];
+		[@(height: "100% - " + toolbarCmHeight + "cm") uiShowVariable: currentSearchResultsRef]
+	}.
+}
