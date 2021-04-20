@@ -1,3 +1,4 @@
+#{This does not appear to do anyching}
 $folderContentDeepAsync = ($callback ; $path ? String) fun {
 	($content fun {
 		(length: {0 eq x} filter callback each content) ifElse {};{

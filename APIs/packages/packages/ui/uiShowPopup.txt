@@ -1,4 +1,4 @@
-$uiShowPopup = !fun ($popup) {
+$showPopup = $uiShowPopup = !fun ($popup) {
 	$active = !isPopupActive.
 	!hideAllPopups.
 	
@@ -7,3 +7,45 @@ $uiShowPopup = !fun ($popup) {
 	}.
 	print: popup.
 }.
+
+`Only show the notification decision prompt when notifications are theoretically allowed. If they are not supported or forbidden, this variable is true - no dialog will appear`
+$notificationPromptShown = !notificationForbidden.
+$notificationPromptShownRef = reference: $notificationPromptShown.
+
+$showNotificationPrompt = !fun ($message ? String) {
+	!ifNot (notificationPromptShown | !notificationAllowed) {
+		$action = {uiHide: popup. do:callback}.
+		
+		$popupContent = @(cssClass: "k-vertical_scroller") @(percentHeight 100) uiContainer:
+			[@centerText uiText: message];
+			[@center uiContainer:
+				[{
+					notificationPromptShownRef = true.
+					uiHide: popup.
+					!ifNot (!notificationsAllowed) notificationRequestPermission.
+				} uiButton "Allow notifications"];
+				[{notificationPromptShownRef = true. uiHide: popup} uiButton "Don't allow"]
+			].
+		
+		print: $popup = popupContent uiSmallPopup action.
+	}
+}.
+
+$showMessageAsync = !fun ($callback ; $message ? String) {
+	$action = {uiHide: popup. do:callback}.
+
+	$popupContent = @(cssClass: "k-vertical_scroller") @(percentHeight 100) uiContainer:
+		[@centerText uiText: message];
+		[@center action uiButton "OK"].
+	
+	print: $popup = popupContent uiSmallPopup action.
+}.
+$showMessage = !fun ($message ? String ; $notificationQuestion ? String) {
+	!if (!notificationAllowed) {
+		notificationShowShortText: message.
+	}. !else {
+		{
+			!ifNot (void eq notificationQuestion) {showNotificationPrompt: notificationQuestion}.
+		} showMessageAsync message
+	}
+}

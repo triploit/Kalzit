@@ -35,19 +35,23 @@ function isScrolledIntoView(el) {
 }
 
 var urlViews = [];
-function urlView(url){
+function urlView(url, lazy){
 	var image = document.createElement("img");
 	image.classList.add("calcitImage");
 	
-	if(!windowLoaded){
-		//Idea: http://blog.dynamicdrive.com/5-brilliant-ways-to-lazy-load-images-for-faster-page-loads/
-		window.addEventListener('load', function(){
+	if(lazy) {
+		if(!windowLoaded){
+			//Idea: http://blog.dynamicdrive.com/5-brilliant-ways-to-lazy-load-images-for-faster-page-loads/
+			window.addEventListener('load', function(){
+				urlViews.push({url:url, view:image});
+				refreshImages = true;
+			}, false);
+		}else{
 			urlViews.push({url:url, view:image});
 			refreshImages = true;
-		}, false);
+		}
 	}else{
-		urlViews.push({url:url, view:image});
-		refreshImages = true;
+		image.src = url;
 	}
 	
 	return image;
@@ -76,14 +80,14 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrl", {value:GLang.
 }), display:"function"});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowScaledImageUrl", {value:function(env, args){
-	var image = urlView(args[1].value);
+	var image = urlView(args[1].value, true); //Lazy image loading
 	image.style.width = args[0].value[0].value + "px";
 	image.style.height = args[0].value[1].value + "px";
 	return {value:image, display:"dom"};
 }, display:"function"});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowScaledAndRoundedImageUrl", {value:function(env, args){
-	var image = urlView(args[1].value);
+	var image = urlView(args[1].value, true); //Lazy image loading
 	image.style.width = args[0].value[0].value + "px";
 	image.style.height = args[0].value[1].value + "px";
 	image.classList.add("k-rounded");

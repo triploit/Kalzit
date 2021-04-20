@@ -3,7 +3,6 @@ appFolder="$(pwd)"
 appId=$(cat ./doNotTouch/appId.txt)
 
 mkdir ./static
-rm ./static/*.*
 
 #Make the home widget work
 echo CACHE MANIFEST > ./doNotTouch/manifest.appcache
@@ -52,7 +51,15 @@ then
 	fi
 	#Build static version of iOS.png
 	sum=($(shasum "./icons/iOS.png"))
-	cat ./icons/iOS.png > ./static/$sum.png
+	
+	#Instead of simply copying the image, scale it using ffmpeg to make the static version - this should ensure better performance for higher resolution images
+	#Default size is 128x128 pixels
+	#Do that only if it was not done before - if the resulting file does not exist already
+	if [ ! -f ./static/$sum.png ]; then
+	    ffmpeg -i ./icons/iOS.png -vf scale=128x128 ./static/$sum.png
+	fi
+	
+	#Add the icon to the app config file <appId>.json
 	echo "\"appleTouchIcon\":\"/apps/$appId/static/$sum.png\"" >> ./$appId.json
 	echo "../static/$sum.png" >> ./doNotTouch/manifest.appcache
 fi
@@ -69,8 +76,6 @@ echo "*" >> ./doNotTouch/manifest.appcache
 sum=($(shasum "./doNotTouch/manifest.appcache"))
 appBaseSum=($(shasum "$rootFolder/generated/_browser_app_singlefile.html"))
 appCodeSum=($(shasum "$appFolder/$appId.k"))
-cat ./doNotTouch/manifest.appcache > ./static/$sum-$appBaseSum-$appCodeSum.appcache
-echo "/apps/$appId/static/$sum-$appBaseSum-$appCodeSum.appcache" > ./doNotTouch/appcache-manifest.txt
 ##Actually include it in app .json
 if [ -f "./doNotTouch/appcache-manifest.txt" ]
 then

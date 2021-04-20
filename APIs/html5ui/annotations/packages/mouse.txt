@@ -48,3 +48,19 @@ $onPointerUp = curry: flagOnPointerUp.
 	If you want to figure out if the pointer is over an element, use @onHover instead.
 }
 $onPointerMove = curry: flagOnPointerMove.
+
+$onDrag = curry: !fun ($function ; $object) {
+	$dragging = false.
+	$draggingRef = reference: $dragging.
+	
+	`Register relevant listeners for the object to know when to drag it`
+	@(onPointerDown: () fun {draggingRef = true. !disableHighlighting}) object.
+	
+	`Register a global pointer listeners (finger or mouse) to fire the drag event when needed and stop it if appropriate`
+	onGlobalPointerMove: ($xPos;$yPos) fun {
+		!if dragging {
+			xPos function yPos
+		}
+	}.
+	onGlobalPointerUp: () fun {draggingRef = false. !enableHighlighting}.
+}.

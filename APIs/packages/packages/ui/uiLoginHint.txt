@@ -1,0 +1,5 @@
+$uiLoginHint = () fun {
+	@center uiContainer:
+		[@centerText uiText: strings: $loginHint];
+		[@center {openSubApp: "login"} uiButton strings: $openLogin].
+}

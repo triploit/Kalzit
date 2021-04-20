@@ -1,7 +1,0 @@
-#{
-	A function which gives you easy access to the global string library, which provides a few standard texts (but not many right now).
-	
-	For example, you can get a text saying something meaning "Accept cookies" - if available in the user's language:
-		print: strings: $cookieAcceptText.
-}
-$strings = do: localizedStringAssetAccess.

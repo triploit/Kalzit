@@ -42,7 +42,8 @@ this.fileWrite = function(filePath, data){
 	}
 }
 this.fileCreateFolder = function(folderPath){
-	!fs.existsSync(folderPath) && fs.mkdirSync(folderPath);
+	console.log("File system: creating folder " + folderPath);
+	!fs.existsSync(folderPath) && fs.mkdirSync(folderPath, {recursive: true});
 }
 this.fileDelete = function(filePath){
 	fs.existsSync(filePath) && fs.unlinkSync(filePath);

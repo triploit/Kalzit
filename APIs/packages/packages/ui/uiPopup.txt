@@ -1,8 +1,26 @@
-$uiPopup = ($_values ? (List:Any) ; $then) fun {
+#{Creates the foreground element of a popup, with the default styling applied to it. All other styles (especially sizes) have to be added manually.}
+$uiBasicPopup = ($_values ? (List:Any)) fun {
 	$popup = @front @windowCenter @(cssClass "calcitExtremeBackground") @(cssClass "k-popup") uiContainer: _values.
+}.
+
+#{Creates the background element of a popup. That element takes over the full window, grays out the background, and makes all elements with the "k-popup" class disappear when clicked on.}
+$uiPopupBackground = ($then) fun {
 	$background = @(cssClass "k-popup_background") @front @(onTap: () fun {
 		!popupAnimateOut. do:then
 	}) @(percentWidth: 100) @(percentHeight: 100) @windowTop @windowLeft uiContainer: ().
-	
-	$container = @(cssClass "k-popup_container") uiContainer: background;popup
-}
+}.
+
+#{Adds the default popup background to a popup without a background, as created with "uiBasicPopup". The base popup is not modified and the resulting UI element is returned.}
+$uiPopupWithBackground = ($popupWithoutBackground ; $then) fun {
+	$container = @(cssClass "k-popup_container") uiContainer: (uiPopupBackground: then);popupWithoutBackground
+}.
+
+#{Creates a complete popup (fully styled and with a grayed out background). The popup takes over most (if not all) of the window. Popups like these are appropriate for showing rich content.}
+$uiPopup = $uiLargePopup = ($_values ? (List:Any) ; $then) fun {
+	(@(cssClass "k-large_popup") uiBasicPopup: _values) uiPopupWithBackground then
+}.
+
+#{Creates a complete popup (fully styled and with a grayed out background). The popup takes over a rather small part of the window. Popups like these are appropriate for showing short texts.}
+$uiSmallPopup = ($_values ? (List:Any) ; $then) fun {
+	(@(cssClass "k-small_popup") uiBasicPopup: _values) uiPopupWithBackground then
+}.

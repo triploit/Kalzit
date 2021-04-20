@@ -23,3 +23,22 @@ $appStrings = !ifElse (void eq stringAssetMap) {
 		cachedFun: $key fun {key propOf languageKey}
 	}
 }.
+
+#{
+	A function which gives you easy access to the global string library, which provides a few standard texts (but not many right now).
+	
+	For example, you can get a text saying something meaning "Accept cookies" - if available in the user's language:
+		print: strings: $cookieAcceptText.
+}
+$strings = !ifElse (void eq globalStringAssetMap) {
+	localizedStringAssetAccess: "/assets/strings/"
+};{
+	$languageKey = (!getUserLanguage) propOf globalStringAssetMap.
+	!ifElse (void eq languageKey) {
+		$simpleKey = (!getSimpleUserLanguage) objFirstProperty globalStringAssetMap.
+		$actualKey = (default: $strings objFirstProperty globalStringAssetMap): simpleKey.
+		cachedFun: $key fun {key propOf actualKey}
+	};{
+		cachedFun: $key fun {key propOf languageKey}
+	}
+}.

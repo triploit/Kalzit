@@ -1,7 +1,7 @@
 $toolsAtLeft = !fun ($_subTools) {
 	`Desktop`
 	registerDesktopTool: {
-		@(percentWidth 75) @left uiContainer: 
+		@left uiContainer: 
 			`At the very left, add a little space`
 			(uiHorizontalPxSpace: 7);
 			`Add the tools registered by the app`

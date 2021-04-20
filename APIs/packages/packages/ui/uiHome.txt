@@ -29,7 +29,7 @@ $uiHomeScreen = ($_action ? (default: launchAppName)) fun {
 	$print = uiPrint: view.
 
 	$appView = !fun ($_app) {
-		print: @(percentWidth 100) (() fun {_action: $id propOf _app}) uiHomeScreenAppButton _app
+		print: (() fun {_action: $id propOf _app}) uiHomeScreenAppButton _app
 	}.
 	
 	`Check where to get the app data from`

@@ -1,0 +1,23 @@
+.k-loading_indicator {
+	visibility: var(--kv-loading_indicator_visibility);
+	width: 100%;
+	height: 5px;
+	animation: k-keyframes_loading_indicator 2s infinite;
+	background-image: linear-gradient(to right, rgba(0,0,0,0.5), rgba(255,255,255,0.5));
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	border-radius: 2.5px;
+}
+.k-loading_indicator_visible {
+	--kv-loading_indicator_visibility: visible;
+}
+
+@keyframes k-keyframes_loading_indicator {
+	from {
+		transform: translate(-100%);
+	}
+	to {
+		transform: translate(100%);
+	}
+}

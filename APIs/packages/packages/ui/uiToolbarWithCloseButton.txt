@@ -8,7 +8,7 @@ $uiToolbarWithCloseButton = $_views fun {
 		_views
 }.
 
-$uiTitleToolbar = ($title ? String) fun {
+$uiTitleToolbar = ($title ? String ; $additionalViews) fun {
 	$appropriateWidth = !ifElse isIosApp {
 		"100% - " + (toolbarCmHeight % 2) + "cm - 7px"
 	};{
@@ -16,7 +16,7 @@ $uiTitleToolbar = ($title ? String) fun {
 	}.
 
 	uiToolbarWithCloseButton:
-		@right @(percentHeight 100) @(width appropriateWidth) uiContainer: (@left @verticalCenter @(width appropriateWidth) @centerText uiContainer:
+		[@right @(percentHeight 100) @(width appropriateWidth) uiContainer: (@left @verticalCenter @(width appropriateWidth) @centerText uiContainer:
 			(@(foregroundColor white) @(emFontSize: 1,5) uiText: title)
-		)
+		)];additionalViews
 }.

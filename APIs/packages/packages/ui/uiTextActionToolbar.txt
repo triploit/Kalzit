@@ -9,7 +9,7 @@ $uiTextActionToolbar = !fun ($action ; $buttonText ? String) {
 				`Use the entire toolbar`
 				@(width "100%") @right toolbarContent
 			}
-		}) @center uiContainer:
+		}) @verticalCenter uiContainer:
 			(uiHorizontalPxSpace: 7);
 			(@(cssClass: "width-tet-textfield") @(onEnter: () fun {action: newAddition}) newAdditionRef uiTextfieldVariableOnchange "");
 			(uiHorizontalPxSpace: 7);

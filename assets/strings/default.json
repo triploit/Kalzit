@@ -21,5 +21,7 @@
 	"menu": "Menu",
 	"search":"Search...",
 	"go":"Go!",
-	"pressGoHint":"Press 'Go!' to see search results"
+	"pressGoHint":"Press 'Go!' to see search results",
+	"loginHint":"You need to log in in order to use this app",
+	"openLogin":"Open login window"
 }

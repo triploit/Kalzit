@@ -1,1 +1,0 @@
-print: uiHorizontalScroller: 10 uiAddHorizontalPxSpaces {@(pxWidth 300) uiShowImageUrl: x} each qwantSearchImageUrls: "Fire"

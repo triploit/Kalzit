@@ -11,17 +11,15 @@ $configObject = parseJson: !if (fileIsFile: configPath) { fileContent: configPat
 
 `define options and default values for them`
 $excludedLibraries = $excludedLibraries `TODO: Make other valid name forms work` objFirstProperty configObject.
-$appcacheManifest = $appcacheManifest propOf configObject.
+$appcacheManifest = void. `$appcacheManifest propOf configObject`.
 $appleTouchIcon = $appleTouchIcon propOf configObject.
 
 $hasCustomLibrary = fileIsFile: (fileParent: app) + "/doNotTouch/_min.js".
 
-$skeletonCode = !ifElse ((not: hasCustomLibrary) & void eq excludedLibraries) {
-		
-		`No custom or excluded libraries - use the prepared file with all default APIs in it`
-		fileContent: rootFolder + "/generated/_browser_app_singlefile.html"
-		
-	};{
+`Generate a custom CSS tag here if needed`
+$styling = (default: ""): "<style>" + (fileContent: ("(.+)\.k" ; "$1.css") strReplaceRegex app) +  "</style>".
+
+$skeletonCode = do:{
 		$usedLibraries = 
 			(rootFolder + "/" + {
 				`Check if the API should be actually included with the app`
@@ -33,25 +31,20 @@ $skeletonCode = !ifElse ((not: hasCustomLibrary) & void eq excludedLibraries) {
 			}.
 			
 		`Include the needed standard APIs`
-		print each "Adding non-excluded library " + usedLibraries.
 		$scriptTags = "<script>" + (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
 		) + ";</script>".
 		
-		$withoutAppcache = ("$scriptTags$";scriptTags) strReplace fileContent: rootFolder + "/generated/_browser_app_skeleton.html".
+		$withoutAppleIcon = ("$scriptTags$";scriptTags) strReplace fileContent: rootFolder + "/generated/_browser_app_skeleton.html".
 		
-		$withoutAppleIcon = !ifElse (void eq appcacheManifest) {
-			withoutAppcache	
-		};{
-			("<html>"  ;  '<html manifest="' + appcacheManifest + '">')
-				strReplace withoutAppcache
-		}.
-		!ifElse (void eq appleTouchIcon) {
+		$withoutCustomStyling = !ifElse (void eq appleTouchIcon) {
 			withoutAppleIcon
 		};{
 			("<head>" ; '<head><link rel="apple-touch-icon" href="' + appleTouchIcon + '" /><meta name="apple-mobile-web-app-capable" content="yes">')
 				strReplace withoutAppleIcon
-		}
+		}.
+		
+		("</head>"; styling + "</head>") strReplace withoutCustomStyling
 	}.
 	
 
@@ -70,7 +63,10 @@ $prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
 	
 	`Include the standard- and developer-apps, so that fewer HTTP requests are needed`
 	";this.developerApps=" + (fileContent: rootFolder + "/apps/home/config/developerApps.json") +
-	";this.standardApps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + "});".
+	";this.standardApps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + 
+	
+	`Include the global stringAssetMap`
+	";this.globalStringAssetMap=" + (fileContent: rootFolder + "/generated/translationMap.json") + "});".
 
 (rootFolder + "/generated/appBuildingTempFile.js") fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
 
@@ -81,5 +77,5 @@ $generatedHtmlPath = ("(.+)\.k" ; "$1.html") strReplaceRegex app.
 
 `Write the file content`
 generatedHtmlPath fileWrite
-	`We replace $app$ from the app skeleton by a minified version of the app code (available in /generated/appBuildingTempFile.js)`
+	`We replace $app$ from the app skeleton with a minified version of the app code (available in /generated/appBuildingTempFile.js)`
 	("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '" --keep-fnames')) strReplace skeletonCode.

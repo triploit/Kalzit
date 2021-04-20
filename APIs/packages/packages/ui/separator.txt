@@ -1,0 +1,12 @@
+$uiHorizontalSeparator = !fun () {
+	@(pxWidth 1)
+	@(percentHeight 100)
+	@(backgroundColor: "rgba(var(--kv-text_color_rgb),var(--kv-text_color_alpha))") `TODO: This is very ugly code`
+	uiContainer: ()
+}.
+$uiVerticalSeparator = !fun () {
+	@(pxHeight 1)
+	@(percentWidth 100)
+	@(backgroundColor: "rgba(var(--kv-text_color_rgb),var(--kv-text_color_alpha))") `TODO: This is very ugly code`
+	uiContainer: ()
+}.

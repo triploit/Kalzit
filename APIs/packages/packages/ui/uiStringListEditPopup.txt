@@ -1,29 +1,52 @@
-$uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemoval) fun {
-	($setOnAddition of list): first: _onAdditionAndOnRemoval.
-	($setOnRemoval of list): second: _onAdditionAndOnRemoval.
+#{
+	The "configuration" parameter is an object that can have the following fields:
+		- $toStringConverter (converts each item to a string)
+		- $fromStringConverter (converts a string to a valid list item)
+		- $onTap (when an item is selected - gets the selected index as parameter)
+		- $onAddition (triggered when an item is added)
+		- $onRemoval (triggered when an item is removed)
+}
+$uiCustomModifiableStringListEditor = ($list ? ModifiableList ; $configuration) fun {
+	($setOnAddition of list): first: $onAddition propOf configuration.
+	($setOnRemoval of list): $onRemoval propOf configuration.
+	
+	$stringFactory ? (default: {String: x}) = $toStringConverter propOf configuration.
+	$itemFactory ? (default: {x}) = $fromStringConverter propOf configuration.
+	$tapAction = $onTap propOf configuration.
 	
 	$nameViewsRef = reference: $nameViews.
 	$updateNameViews = () fun {
-		nameViewsRef = (($_item) fun {@center uiContainer:
-			(uiHorizontalPxSpace: 7);
-			[@(cssClass: "width-tet-textfield") uiContainer: urlDecodeParameter: strFirstLine: String: first: _item];
-			[uiHorizontalPxSpace: 7];
-			[@(cssClass: "width-tet-button") $button = (() fun {
-				($removeEquals of list): _item.
-			}) uiButton strings: $removeButton];
-			(uiHorizontalPxSpace: 7)
-		}) each getArray: list.
+		nameViewsRef = (($index) fun {
+			$_item = index at rawList.
+		
+			@center uiContainer:
+				(uiHorizontalPxSpace: 7);
+				[@(cssClass: "width-tet-textfield") @(onTap: () fun {tapAction: index}) uiContainer: strFirstLine: stringFactory: _item];
+				[uiHorizontalPxSpace: 7];
+				[@(cssClass: "width-tet-button") $button = (() fun {
+					($removeEquals of list): _item.
+				}) uiButton strings: $removeButton];
+				(uiHorizontalPxSpace: 7)
+		}) each arrayIndexes: $rawList = getArray: list.
 	}.
 	do:updateNameViews.
 	($setOnChange of list): updateNameViews.
 	
 	uiContainer: [
 		($newAddition fun {
-			($push of list): newAddition. do:updateNameViews
+			($push of list): itemFactory: newAddition. do:updateNameViews
 		}) uiTextActionToolbar strings: $addButton
 	];[
 		@verticalScroller @center @(height "100% - " + toolbarCmHeight + "cm") @(percentWidth 100) uiContainer: uiShowVariableAsList: nameViewsRef
 	]
+}.
+
+$uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemoval) fun {
+	$config =
+		[$onAddition; first: _onAdditionAndOnRemoval];
+		[$onRemoval; second: _onAdditionAndOnRemoval].
+		
+	list uiCustomModifiableStringListEditor config
 }.
 
 $uiStringListEditor = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {

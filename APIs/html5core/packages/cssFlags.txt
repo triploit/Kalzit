@@ -19,6 +19,8 @@ $dynamicWidth = cssClass: "k-dynamic_width".
 $dynamicHeight = cssClass: "k-dynamic_height".
 $fit = cssClass: "k-fit".
 
+$horizontalResizeCursor = cssClass: "k-horizontal_resize_cursor".
+
 #{
 	An annotation that causes text inside a UI element to be written in italics.
 	
@@ -27,6 +29,7 @@ $fit = cssClass: "k-fit".
 }
 $italic = cssClass: "k-italic".
 $centerText = cssClass: "k-center_text".
+$ellipsis = cssClass: "k-ellipsis".
 
 #{
 	This annotation allows the content of a uiContainer to scroll vertically, if they need more space than they get.

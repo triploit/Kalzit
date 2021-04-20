@@ -113,7 +113,14 @@
 			varName:"+", varValue:{value:arrayFun(function(env, args){return {value:args[0].value+args[1].value, display:args[0].display || args[1].display}})}
 		},
 		{
-			varName:"-", varValue:{value:arrayFun(function(env, args){return {value:args[0].value-args[1].value}})}
+			varName:"-", varValue:{value:arrayFun(function(env, args){
+				if (args.length === 1) {
+					//If called with one Parameter, the - function negates the given number
+					return {value: -args[0].value}
+				}
+				//In any other case, subtract the two parameters and return the result
+				return {value:args[0].value-args[1].value}})
+			}
 		},
 		{
 			varName:"%", varValue:{value:arrayFun(function(env, args){return {value:args[0].value/args[1].value}})}

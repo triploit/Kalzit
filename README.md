@@ -13,7 +13,7 @@ Sadly, there are not many other options. The choice seems to be "you upload your
 I wanted to own my data, but I did not want to take years to get there.
 So this is the second big part of Kalzit: It is an easy way to set up a little web server for your home. And just for that. All devices in your home can see it, and others can not. There are currently not many web applications that run on it, but the idea is still the same. Of course, you could try to create some apps yourself - with Kalzit, is it not as hard as you think.
 
-The current version of this project is `0.8.0`. If you are interested in the latest changes to the project, [take a look at the changelog](/docs/changelog/0.8.0.md).
+The current version of this project is `0.9.0`. If you are interested in the latest changes to the project, [take a look at the changelog](/docs/changelog/0.9.0.md).
 
 # Setup
 

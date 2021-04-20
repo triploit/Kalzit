@@ -1,6 +1,4 @@
 .k-popup {
-	width: 80%;
-	height: 80%;
 	transform: translate(-50%, -50%);
 	--parent-border-radius: var(--big-button-border-radius);
 	border-radius: var(--parent-border-radius);

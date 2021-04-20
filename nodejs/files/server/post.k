@@ -12,7 +12,7 @@
 				_request httpEndServingRaw strRaw: '{"success": 0}'.
 			}. !else {
 				`Figure out where to store the file (which category)`
-				$mime =  ($getHeader propOf _request): "content-type".
+				$mime =  print: runCommand: "file --mime-type -b " + _postedFileName.
 				$destinationFolder = filesFolder + "/" + $category = first: mime switch
 					[{x eq first: "image/[a-z0-9]+" match x}; "standard-images"];
 					[{"image/" strStartsWith x}; "images"];
@@ -39,13 +39,19 @@
 				`Make this file accessible under a specific name if wanted`
 				$accessName ? SafeFilePath = print: $accessName urlGetParameter $url propOf _request.
 				!ifNot (void eq accessName) {
-					fileCreateFolders: fileParent: print: $accessFile = filesFolder + "/access/" + accessName.
-					accessFile fileWrite (fileName: destinationFolder) + "/kmp/" + checksum + ".json".
+					`Create the access file`
+					fileCreateFolders: print: $accessFile = filesFolder + "/versionedAccess/v2/" + accessName.
+					$currentVersion = String: !getCurrentDate.
+					(accessFile + "/" + currentVersion) fileWrite (fileName: destinationFolder) + "/kmp/" + checksum + ".json".
+					(accessFile + "/currentVersion.txt") fileWrite currentVersion.
+					
+					`Remove a potential generated file-listing of the parent folder, so it is updated on access`
+					fileDelete: filesFolder + "/accessListings/" + (fileParent: accessName) + "/listing.json".
 				}.
 				
 				fileCreateFolder: destinationFolder + "/thumbnails".
 				`Attempt a quick thumbnail creation`
-				runCommand: print: "./utilities/ffmpeg -i '" + destinationFolder + "/raw/" + checksum + "' -vf 'scale=300:-2' '" + destinationFolder + "/thumbnails/" + checksum + ".thumbnail.png'".
+				runCommand: "ffmpeg -i '" + destinationFolder + "/raw/" + checksum + "' -vf 'scale=300:-2' '" + destinationFolder + "/thumbnails/" + checksum + ".thumbnail.png'".
 				
 				fileCreateFolder: destinationFolder + "/metadata".
 				`Attempt a quick metadata listing`

@@ -3,24 +3,24 @@ $uiLoginForm = ($onLoginAttempt) fun {
 	$passwordInput = "". $passwordInputRef = reference: $passwordInput.
 	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
 	
+	$action = !fun () {
+		($response fun {
+			!if ("0" eq first: response) {
+				$calcitSession storageSaveString second: response.
+				$calcitUserName storageSaveString nameInput.
+				{onLoginAttempt: true} showMessageAsync strings: $loginSuccess.
+			}. else {
+				{onLoginAttempt: false} showMessageAsync second: response.
+			}.
+		}) serviceLoginUserAsync nameInput;passwordInput.
+	}.
+	
 	$views =
 		[uiText: strings: $username];
 		[@(percentWidth: 100) nameField];
 		[uiText: strings: $password];
-		[@(percentWidth: 100) passwordField];
-		[@center {
-			($response fun {
-				!if ("0" eq first: response) {
-					$calcitSession storageSaveString second: response.
-					$calcitUserName storageSaveString nameInput.
-					popupMessage: strings: $loginSuccess.
-					onLoginAttempt: true.
-				}. else {
-					popupMessage: second: response.
-					onLoginAttempt: false.
-				}.
-			}) serviceLoginUserAsync nameInput;passwordInput.
-		} uiButton strings: $login];
+		[@(percentWidth: 100) @(onEnter action) passwordField];
+		[@center action uiButton strings: $login];
 		[@(emHeight 2) uiContainer: void];
 		[@centerText uiText: strings: $optionsSeparator];
 		[@center {openSubApp: "register"} uiButton strings: $registerButton].

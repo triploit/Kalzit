@@ -1,5 +1,7 @@
-.k-horizontal_scroller {
+.k-horizontal_scroller, .k-vertical_scroller {
 	-webkit-overflow-scrolling: touch;
+}
+.k-horizontal_scroller {
 	white-space: nowrap;
 	overflow-x: scroll;
 	overflow-y: hidden;
@@ -7,4 +9,7 @@
 }
 .k-vertical_scroller {
 	overflow-y: auto;
+	
+	/*Only works with a parent that has display: flex*/
+	flex-grow: 1;
 }

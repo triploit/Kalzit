@@ -3,9 +3,18 @@
 	border-top-left-radius: var(--parent-border-radius);
 	border-top-right-radius: var(--parent-border-radius);
 }
-.k-toolbar p {
+
+.k-toolbar p, .k-ellipsis {
 	/* add a ... effect if there is too much text */
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+/*Firefox only*/
+@-moz-document url-prefix() {
+	.k-ellipsis {
+		/*Firefox breaks some layouts with overflow: hidden, so we use overflow: clip to fix that*/
+		overflow: clip;
+	}
 }

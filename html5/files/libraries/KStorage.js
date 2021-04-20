@@ -173,12 +173,13 @@ const KStorage = {};
                     
                     //Check if an automatic logout should happen
                     if(jsonResponse.logout) {
+                        var session = native_loadString("calcitSession");
                         thiz.storageRemove("calcitSession");
                         if(!logoutTriggered) {
                             logoutTriggered = true;
                             alert("Your login details appear to be invalid - to protect your account security, you have to log in again");
                         }
-                        location.reload();
+                        KFetch.important("/api/logoutUser?session=" + session).then(ok => location.reload()).catch(error => location.reload());
                     }
                     
                     var deleted = jsonResponse.deleted;
@@ -249,12 +250,13 @@ const KStorage = {};
         console.log("Trying to delete cookie " + name);
         deleted.push(name);
         
-        //Delete from server
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/api/deleteCookie");
-        xhr.setRequestHeader("kalzit-cookie-name", encodeURIComponent(name));
-        xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
-        xhr.send();
+        //Delete from server (asynchronously)
+        KFetch.important("/api/deleteCookie", {
+            headers: new Headers({
+                "kalzit-cookie-name": name,
+                "kalzit-session": native_loadString("calcitSession")
+            })
+        });
         
         //Delete locally
         withLocalStorage(function(storage){

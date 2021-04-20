@@ -10,12 +10,31 @@
 .width-tet-button {
 	width: 15%;
 }
+.k-large_popup {
+	width: 80%;
+	height: 80%;
+}
+.k-small_popup {
+    max-height: 65%;
+    max-width: 450px;
+    padding: 0.5em;
+    width: initial;
+    
+    /*TODO: Maybe find a better place for this - is used for scrolling*/
+    display: flex;
+    flex-direction: column;
+}
 
 @media (max-width: 600px) {
-    .k-popup {
+    .k-large_popup {
         width: 100%;
         height: 100%;
         --parent-border-radius: 0px;
+    }
+    .k-small_popup {
+        max-width: 90%;
+        width: 90%; /* If not specified, popups are very narrow and look bad on phones */
+        max-height: 75%;
     }
     .k-mobile_only {
         display: initial;   

@@ -34,6 +34,7 @@ function write(buffer, encoding, res){
 		readable.push(buffer.subarray(start))
 		readable.push(null)
 		
+		res.willEnd = true;
 		readable.pipe(res) // consume the stream
 		res.on('close', function() {
 			if (res.fileStream) {
@@ -42,9 +43,14 @@ function write(buffer, encoding, res){
 					fs.close(this.fileStream.fd);
 				}
 			}
+			res.end();
 		});
 	}else{
-		res.write(buffer, encoding);	
+		if(!res.finished) {
+        	res.end(buffer)
+        }else{
+        	console.log("Data is supposed to be written, but 'end was already called'");	
+        }
 	}
 	
 }
@@ -52,6 +58,7 @@ function write(buffer, encoding, res){
 function writeFileChunk(filePath, stats, res, req){
     //Write head and chunk data - base code from https://stackoverflow.com/questions/37866895/using-nodejs-to-serve-an-mp4-video-file#37867816
     var range = req.headers.range;
+    console.log("Requested range is " + range);
     var parts = range.replace(/bytes=/, "").split("-");
     var partialstart = parts[0];
     var partialend = parts[1];
@@ -68,6 +75,7 @@ function writeFileChunk(filePath, stats, res, req){
 	});
     headWritten = true;
 
+	res.willEnd = true;
     var fileStream = fs.createReadStream(filePath, {
         start: start,
         end: end
@@ -80,6 +88,21 @@ function writeFileChunk(filePath, stats, res, req){
                 fs.close(this.fileStream.fd);
             }
         }
+        res.end()
+    });
+}
+
+function writeFileSaveRam(filePath, res) {
+    fs.createReadStream(filePath).pipe(res);
+    res.willEnd = true;
+    res.on('close', function() {
+        if (res.fileStream) {
+            res.fileStream.unpipe(this);
+            if (this.fileStream.fd) {
+                fs.close(this.fileStream.fd);
+            }
+        }
+        res.end();
     });
 }
 
@@ -88,9 +111,11 @@ function writeFile(filePath, res, req){
         var stats = fs.statSync(filePath);
         if(!headWritten){
             if(wantsRange){
+            	console.log(filePath + ": Head not written - serving requested file chunk. File size is " + stats.size + " bytes");
                 writeFileChunk(filePath, stats, res, req);
             }else{
                 console.log("This should be quick");
+                console.log(filePath + ": Head not written - using fs.createReadStream and pipe(res) to serve file content. File size is " + stats.size + " bytes");
                 //Idea from https://github.com/daspinola/video-stream-sample/blob/master/server.js
                 res.writeHead(200, {
                     'Content-Length': stats.size,
@@ -98,18 +123,11 @@ function writeFile(filePath, res, req){
                 });
                 headWritten = true;
                 
-                fs.createReadStream(filePath).pipe(res);
-                res.on('close', function() {
-                    if (res.fileStream) {
-                        res.fileStream.unpipe(this);
-                        if (this.fileStream.fd) {
-                            fs.close(this.fileStream.fd);
-                        }
-                    }
-                });
+                writeFileSaveRam(filePath, res);
             }
         }else{
-            res.write(fs.readFileSync(filePath), lastUsedEncoding)
+			console.log(filePath + ": Head already written - using writeFileSaveRam (fs.createReadStream). File size is " + stats.size + " bytes");
+			writeFileSaveRam(filePath, res);
         }
     }else{
         res.writeHead(404, {});
@@ -126,13 +144,16 @@ function start(mime, res, req){
 }
 
 function end(responseText, encoding, res){
-	if(wantsRange){
+	//For debug purposes, do nothing
+	//console.log("writeHelper.js end() is called - nothing will be done");
+	//return;
+	
+	if(res.willEnd){
 		//Do nothing - stream might still be written	
 		return responseText;
 	}else{
 		if(responseText != null) {
 			res.end(responseText + "", getEncoding(encoding));
-			return responseText;
 		} else {
 			res.end();
 		}

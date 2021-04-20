@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"APIs to create apps with a sidebar"
+	},
+	"libraries":[
+		{"provides":["left_sidebar_resize_tool", "left_sidebar_manager", "left_sidebar_toggle_button_tool"],  "scriptUrl":"sidebar.txt"},
+		{"provides":["set_sidebar_content_width", "collapse_sidebar", "expand_sidebar", "toggle_sidebar_expansion"],  "scriptUrl":"setSidebarContentWidth.js"}
+	]
+}

@@ -5,7 +5,7 @@ $uiToolbarReservedSpace = () fun {
 	(@(cmHeight toolbarCmHeight) uiContainer: ())
 }.
 $uiToolbarOverlay = $_views fun {
-	$result = @(cssClass "calcitStandardBackground") @(cssClass "k-toolbar") @front @windowLeft @windowTop @(cmHeight toolbarCmHeight) @(percentWidth 100) uiContainer: _views.
+	$result = @(cssClass "calcitStandardBackground") @(cssClass "k-toolbar") @front @windowLeft @windowTop @(cmHeight toolbarCmHeight) @(percentWidth 100) uiContainer: _views;(@(cssClass: "k-loading_indicator") uiContainer: ()).
 	uiSkinToolbar: result.
 	result
 }.

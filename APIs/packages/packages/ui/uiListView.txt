@@ -1,0 +1,4 @@
+$uiListView = ($itemViewFactory ; $_options ? ModifiableList) fun {
+	$rawValues = getArray: _options.
+	@verticalScroller @(width "100% - 14px") @center uiContainer: @(percentWidth 100) {(x at rawValues) itemViewFactory x} each arrayIndexes: rawValues.
+}.

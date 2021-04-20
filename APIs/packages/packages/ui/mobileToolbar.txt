@@ -1,5 +1,5 @@
 $registeredMobileTools ? ModifiableList = ().
-$registerMobileTool = ($toolFactory ; $_label ? ("Needs a label" default String)) fun {
+$registerMobileTool = ($toolFactory ; $_label) fun {
 	($push of registeredMobileTools): [toolFactory;_label].
 }.
 
@@ -18,27 +18,42 @@ $registerMobileTool = ($toolFactory ; $_label ? ("Needs a label" default String)
 }
 $generateMobileToolbarOverlay = () fun {
 	$mobileTools = getArray: registeredMobileTools.
+	
+	`This view will contain all the tool shortcuts`
+	@verticalScroller @center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm")
+		$toolListView = uiContainer: ().
+	$addToListView = uiPrint: toolListView.
+	
 	(($_tool) fun {
-		$popupRef = reference: $popup.
-		$toolName = "tool_" + urlEncodeParameter: second: _tool.
+		$toolInfo = second: _tool.
 		
-		toolName registerSubApp {
-			$view = do: first: _tool.
-			!if (not view eq void) {
-				uiShowPopup: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
-			}. !else closeSubApp
-		};{}
+		!if ("string" eq displayType: toolInfo) {
+			
+			`If the tool info is a string, register an appropriate sub app...`
+			$popupRef = reference: $popup.
+			$toolName = "tool_" + urlEncodeParameter: second: _tool.
+			
+			toolName registerSubApp {
+				$view = do: first: _tool.
+				!if (not view eq void) {
+					uiShowPopup: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
+				}. !else closeSubApp
+			};{}.
+			
+			`... and add a view to the list view`
+			addToListView: @(cssClass: "k-single_view_picker") @(onTap: () fun {openSubApp: toolName})
+				uiContainer: toolInfo.
+				
+		}. !else {
+			`If the tool info is not a string, treat it as a UI element, and add it to the list view right away`
+			addToListView: toolInfo
+		}
 	}) each mobileTools.
 	
+	`Make the tool list available as a sub app`
 	$tools registerSubApp popupSubApp: 
 		(uiTitleToolbar: strings: $menu);
-		(
-			@verticalScroller @center @(percentWidth: 95) @(height "95% - " + toolbarCmHeight + "cm") {
-				openSubApp: $id objFirstProperty calcitAnnotations: x
-			} uiSingleViewPicker {
-				@("id";"tool_" + urlEncodeParameter: second: x) @(percentWidth: 100) uiContainer: second: x
-			} each mobileTools
-		).
+		toolListView.
 
 	@(cssClass: "k-mobile_only") uiToolbarOverlay:
 		[

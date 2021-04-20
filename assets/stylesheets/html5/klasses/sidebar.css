@@ -1,0 +1,27 @@
+:root {
+	--kv-sidebar_content_width: 25vw;
+}
+
+.k-sidebar_content_wide {
+	width: var(--kv-sidebar_content_width);
+}
+.k-sidebar_mainview_wide {
+	width: calc(100% - var(--kv-sidebar_content_width) - 14px);
+}
+
+.k-sidebar_hidden .k-sidebar_part {
+	visibility: hidden;
+	width: 0;
+}
+.k-sidebar_hidden .k-sidebar_mainview_wide {
+	width: 100%;
+}
+
+@media (max-width: 600px) {
+	.k-sidebar_mainview_wide {
+		width: 100%;	
+	}
+	.k-sidebar_part {
+		display: none;	
+	}
+}

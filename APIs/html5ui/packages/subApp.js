@@ -3,6 +3,20 @@ var lastSubApp = null;
 
 //Idea for how to disable page scrolling is from: https://css-tricks.com/prevent-page-scrolling-when-a-modal-is-open/
 var mainPageScrollingDisabled = false;
+var mainPageScrollingShouldBeDisabled = false;
+
+function disableScrolling() {
+	const scrollY = window.scrollY;
+	document.body.style.position = 'fixed';
+	document.body.style.top = -scrollY + "px";
+	document.body.style.width = "calc(100% - 14px)";
+	document.body.style.height = "calc(100% - 14px)";
+	mainPageScrollingDisabled = true;
+}
+this.disableScrolling = function() {
+	disableScrolling();
+	mainPageScrollingShouldBeDisabled = true;
+}
 
 function initiate(name){
 	if(hashes.has(lastSubApp)){
@@ -14,12 +28,7 @@ function initiate(name){
 		
 		//If it is not done already, disable scrolling of the main page content
 		if(!mainPageScrollingDisabled) {
-			const scrollY = window.scrollY;
-			document.body.style.position = 'fixed';
-			document.body.style.top = -scrollY + "px";
-			document.body.style.width = "calc(100% - 14px)";
-			document.body.style.height = "calc(100% - 14px)";
-			mainPageScrollingDisabled = true;
+			disableScrolling();
 		}
 	}
 	lastSubApp = name;
@@ -34,7 +43,7 @@ window.onhashchange = function(){
 			const scrollY = document.body.style.top;
 			GLang.eval("!popupAnimateOut");
 			//If it is not done already, re-enable scrolling of the main page content
-			if(mainPageScrollingDisabled) {
+			if(mainPageScrollingDisabled && !mainPageScrollingShouldBeDisabled) {
 				document.body.style.position = '';
 				document.body.style.top = '';
 				window.scrollTo(0, parseInt(scrollY || '0') * -1);

@@ -22,11 +22,13 @@
 	display: inline-block;
 	left: 50%;
 	transform: translateX(-50%);
+	position: absolute;
 }
 .k-vertical_center {
 	display: inline-block;
 	top: 50%;
 	transform: translateY(-50%);
+	position: absolute;
 }
 
 .k-window_bottom {
@@ -46,7 +48,6 @@
 	right: 0;
 }
 .k-window_center {
-	display: block;
 	position: fixed;
 	left: 50%;
 	top: 50%;

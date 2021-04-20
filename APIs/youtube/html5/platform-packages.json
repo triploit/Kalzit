@@ -5,7 +5,7 @@
 	"libraries":[
 		{"provides":["ui_native_youtube_player"], "scriptUrl":"youtubePlayer.js"},
 		{"provides":["youtube_video_title"],  "scriptUrl":"youtubeVideoTitle.txt"},
-		{"provides":["kalzit_media_protocol_from_youtube_video", "kalzit_media_protocol_from_youtube_url", "kmp_from_youtube_url_no_titles", "kmp_from_youtube_video_no_titles", "kmp_from_youtube_video", "kmp_from_youtube_url"],  "scriptUrl":"kalzitMediaProtocolFromYoutubeVideo.txt"},
+		{"provides":["kalzit_media_protocol_from_youtube_video", "kalzit_media_protocol_from_youtube_video_async", "kalzit_media_protocol_from_youtube_url", "kalzit_media_protocol_from_youtube_url_async", "kmp_from_youtube_url_no_titles", "kmp_from_youtube_video_no_titles", "kmp_from_youtube_video", "kmp_from_youtube_video_async", "kmp_from_youtube_url", "kmp_from_youtube_url_async"],  "scriptUrl":"kalzitMediaProtocolFromYoutubeVideo.txt"},
         {"provides":["ui_youtube_player"],  "scriptUrl":"uiYoutubePlayer.txt"}
 	]
 }

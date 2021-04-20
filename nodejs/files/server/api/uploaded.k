@@ -17,7 +17,7 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 		};{
 			$fileName = fileName: id.
 			$fileKind = first: "[a-z\-]+" match id.
-			($startServing propOf _request): (default: "*"): fileContent: filesFolder + "/" + fileKind + "/mime/" + fileName + ".mime.txt".
+			($startServing propOf _request): (default: "*"): strFirstLine: fileContent: filesFolder + "/" + fileKind + "/mime/" + fileName + ".mime.txt".
 			($writeFile propOf _request): filesFolder + "/" + id.
 		}.
 		

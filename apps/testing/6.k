@@ -1,1 +1,0 @@
-print: {popupMessage: "Hello"} uiButton "Click me!".
