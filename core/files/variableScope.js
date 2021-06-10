@@ -17,17 +17,31 @@ GLang.scopePrototype = {
 	resolveName: function(n){
 		var unified = this.unifyStringName(n);
 		var value = this["kv_" + unified];
+		var result = null;
 		
+		//Resolve the name and put it in "result".
 		if(value){
-			return value.varValue;
+			result = value.varValue;
 		}else if(GLang.packageManager.installPackage(unified)){
-			return GLang.defaultRuntimeEnvironment["kv_" + unified].varValue;
-		}else if(unified !== this.resolveUnknownName){
-			return GLang.callObject(this.resolveName(this.resolveUnknownName), null, [GLang.stringValue(unified)]);
+			result = GLang.defaultRuntimeEnvironment["kv_" + unified].varValue;
 		}else{
-			return {value:GLang.voidValue.value, varName:this.resolveUnknownName}
+			result = {value:GLang.voidValue.value}
 		}
 		
+		if(result == null) {
+			//There was a serious problem when the result is undefined now
+			throw new Error("Variable resolve about to return null or undefined - this is a serious language implementation problem and should be addressed. Attempted to resolve '" + n + "'");
+		}
+		
+		//This exists to make function call stacks easier to understand
+		try{
+			result.varName = n;
+		} catch (error) {
+			console.warn("There was a non-critical problem with adding a variable name to a resolved value: (" + n + ")")
+			console.warn(error);	
+		}
+		
+		return result;
 	},
 	unifyStringName: function(originalName){
 		if("string" !== typeof originalName) throw new Error("unifyStringName only accepts strings - " + JSON.stringify(originalName) + " does not fit this rule");

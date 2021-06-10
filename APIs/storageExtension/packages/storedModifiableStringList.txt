@@ -1,0 +1,41 @@
+$storedModifiableStringList = !fun ($storageKey ? String) {
+	$onAdditionList = (). $onAdditionListRef = reference: $onAdditionList. $onAddition = referenceBasedComposedFunction: onAdditionListRef.
+	$onRemovalList = (). $onRemovalListRef = reference: $onRemovalList. $onRemoval = referenceBasedComposedFunction: onRemovalListRef.
+	$onChangeList = (). $onChangeListRef = reference: $onChangeList. $onChange = referenceBasedComposedFunction: onChangeListRef.
+	
+	@($uiGenerator ; uiLiveListView)
+	["push"; ($_items) fun {
+		storageKey storageExtendStringList _items.
+		onAddition:_items.
+		!onChange.
+		void
+	}];
+	["getArray"; () fun {
+		storageLoadStringList storageKey
+	}];
+	["clear";() fun {
+		storageClearList storageKey
+	}];
+	["setOnAddition";($function) fun {onAdditionListRef = onAdditionList;function}];
+	["setOnRemoval";($function) fun {onRemovalListRef = onRemovalList;function}];
+	["setOnChange";($function) fun {onChangeListRef = onChangeList;function}];
+	["removeEquals";($_item) fun {
+		storageKey storageRemoveStringListItem _item.
+		storageOptimizeStringList: storageKey.
+		!onRemoval.
+		!onChange.
+		void
+	}];
+	["removeIndex";($index ? Int) fun {
+		storageKey storageRemoveStringListIndex index.
+		storageOptimizeStringList: storageKey.
+		!onRemoval.
+		!onChange.
+		void
+	}];
+	["setIndex";($index ? Int ; $_item) fun {
+		storageKey storageSaveStringListItem  [index];[_item].
+		!onChange.
+		void
+	}]
+}

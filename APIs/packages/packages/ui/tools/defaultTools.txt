@@ -3,7 +3,7 @@
 	This tool was meant to use with something like "toolsAtLeft" or "toolAtRight".
 	
 	UsageExample:
-		toolsAtLeft: [otherTools];["Title" button {popupMessage: "Button action"}].
+		toolsAtLeft: [otherTools];["Title" buttonTool {popupMessage: "Button action"}].
 }
 $buttonTool = !fun ($title ; $action) {
 	["mobile";{!action. void}];

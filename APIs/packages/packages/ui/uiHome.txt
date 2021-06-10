@@ -29,22 +29,22 @@ $uiHomeScreen = ($_action ? (default: launchAppName)) fun {
 	$print = uiPrint: view.
 
 	$appView = !fun ($_app) {
-		print: (() fun {_action: $id propOf _app}) uiHomeScreenAppButton _app
+		!ifElse (developerMode) {
+			print: (() fun {_action: $id propOf _app}) uiHomeScreenAppButton _app
+		};{
+			!if (not: $dev propOf _app) {
+				print: (() fun {_action: $id propOf _app}) uiHomeScreenAppButton _app
+			}
+		}
 	}.
 	
 	`Check where to get the app data from`
 	!if (void eq standardApps) {
 		`Load the app data from JSON`
 		($appsJson fun { appView each parseJson: appsJson }) loadLocalAsync "/apps/home/config/standardApps.json".
-		!if developerMode {
-			($appsJson fun { appView each parseJson: appsJson }) loadLocalAsync "/apps/home/config/developerApps.json".
-		}.
 	}. !else {
 		`Load the app data from memory - no server requests required (same structure as above)`
 		appView each standardApps.
-		!if developerMode {
-			appView each developerApps.
-		}.
 	}.
 	
 	view.

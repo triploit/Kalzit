@@ -1,0 +1,91 @@
+#{
+	A helper function for managing view based apps, where the user can switch from one view to another by picking it.
+	
+	The `config` parameter is an object with the following fields:
+	* `$storageName` (optional) - contains a storage handle (string) where the currently active view should be stored, so it can be restored when relaunching the app.
+	* `$viewDefinitions` - an array (or modifiable list) of name-function-pairs. The name is what will be displayed in the view picker, the function is what will produce the view once it is picked. The return value of these functions will be shown on the screen.
+	* `$changeViewTitle` (optional) - a title (string) which shows up when the user is on mobile, in the main menu. When clicked on, the view options are shown.
+	
+	You need to provide either the `viewDefinitions` field or these other two; that is exclusive:
+	* `$viewTitles` - an array (or modifiable list) of only the view titles.
+	* `$viewGenerators` - an array (or modifiable list) of only the view generators.
+	
+	The view generator functions (provided by `viewDefinitions` or `viewGenerators`) will get called when needed, with the then desired view index as their parameter.
+	
+	The return value is an object with the following fields:
+	* `$getTool` - returns a tool for adding the view picker to the toolbar.
+	* `$getCurrentViewIndex` - returns the currently selected view index (starts at zero).
+	* `$setCurrentViewIndex` - sets the currently selected view index (starts at zero) and makes the displayed view update accordingly.
+	* `$getCurrentView` - returns the currently shown view; can change later.
+	* `$mainView` - this is what you put in your UI to make the currently active view visible to the user. Updates automatically when the selection changes.
+}
+$viewBasedAppManager = !fun ($config) {
+	$storageName ? (default: "kalzit." + (!getAppId) + ".selectedView") = $storageName propOf config.
+	$viewTitles ? ModifiableList = $viewTitles propOf config.
+	$viewGenerators ? ModifiableList = $viewGenerators propOf config.
+	
+	$viewDefinitions = $viewDefinitions propOf config.
+	$fillOthersBasedOnViewDefinitions = !fun () {
+		$viewDefinitions ? ModifiableList = viewDefinitions.
+		`Fill the other lists`
+		($push propOf viewTitles): first each getArray: viewDefinitions.
+		($push propOf viewGenerators): second each getArray: viewDefinitions.
+	}.
+	
+	`If the $viewDefinitions parameter is present, connect that with the other two lists`
+	!if (not: void eq viewDefinitions) {
+		$viewDefinitions ? ModifiableList = viewDefinitions.
+		!fillOthersBasedOnViewDefinitions
+		
+		`React to new additions`
+		($setOnAddition propOf viewDefinitions): {
+			($push propOf viewTitles): first each getArray: x.
+			($push propOf viewGenerators): second each getArray: x.
+		}.
+		
+		`React to item removals`
+		($setOnRemoval propOf viewDefinitions): {
+			do: ($clear propOf viewTitles).
+			do: ($clear propOf viewGenerators).
+			!fillOthersBasedOnViewDefinitions.
+			
+			`After updating the other lists, set the current view index to zero`
+			currentViewIndex = 0.
+		}
+	}.
+	
+	$changeViewTitle ? (default: "Change view...") = $changeViewTitle propOf config.
+	
+	
+	`Implementation`
+	$currentViewIndex = (0 default Int): storageLoadString: storageName.
+	$currentViewIndexRef = reference: $currentViewIndex.
+	
+	$getViewFromIndex = !fun ($index) {
+		(index at getArray: viewGenerators): index.
+	}.
+	
+	`The selected view will be put in here`
+	$currentView = getViewFromIndex: currentViewIndex.
+	$currentViewRef = reference: $currentView.
+	
+	`If the selected view index changes, update the current view`
+	!listenVariable currentViewIndexRef {
+		currentViewRef = getViewFromIndex: x.
+		!scrollToTop.
+		storageName storageSaveString String: x.
+	}.
+	
+	
+	`Return value`
+	@($uiGenerator; viewBasedAppManagerVisualizer)
+	[$getTool; () fun {
+		(changeViewTitle;currentViewIndexRef) indexPickerTool
+    		viewTitles.
+	}];
+	[$getCurrentViewIndex; () fun {currentViewIndex}];
+	[$setCurrentViewIndex; ($newViewIndex) fun {currentViewIndexRef = newViewIndex}];
+	[$currentViewIndexRef; currentViewIndexRef];
+	[$getCurrentView; () fun {currentView}];
+	[$mainView; uiShowVariable: currentViewRef]
+}.

@@ -3,21 +3,10 @@
 	//Service worker registration
 	//Idea from https://developers.google.com/web/fundamentals/primers/service-workers/
 	window.addEventListener('load', function() {
+		if(!("serviceWorker" in navigator)) return;
+		
 		navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
-			// Registration was successful
-			console.log('ServiceWorker registration successful with scope: ', registration.scope);
-			
-			//Cache the current site
-			caches.open('my-site-cache-v2').then(cache => {
-				cache.add(window.location.href).then(() => {
-					console.log("The main site was cached! " + window.location.href)
-				})
-			});
-			
-			//Attempt to establish a connection to the network - let through by the service worker in any case
-			fetch("/nocache/fetched.txt").then(response => {
-				console.log("A connection to the server was established - code " + response.status);
-			})
+			//No need to do anything - we just need a service worker
 		}, function(err) {
 			// registration failed :(
 			console.log('ServiceWorker registration failed: ', err);

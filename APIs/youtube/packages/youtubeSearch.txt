@@ -1,3 +1,5 @@
 $youtubeSearchVideos=$query fun {$ids = youtubeSearchVideoIds: query. ids mingle ("https://www.youtube.com/watch?v=" + ids)}.
 $youtubeSearchVideoIds=$query fun {youtubeVideoIdsByUrl: "https://www.youtube.com/results?search_query=" + urlEncodeParameter: query}.
 $youtubeSearchVideoIdsAsync=($callback ; $query) fun {callback youtubeVideoIdsByUrlAsync "https://www.youtube.com/results?search_query=" + urlEncodeParameter: query}.
+
+$youtubeSearchDataAsync=($callback ; $query) fun {callback youtubeDataByUrlAsync "https://www.youtube.com/results?search_query=" + urlEncodeParameter: query}.

@@ -10,11 +10,12 @@
 		{"provides":["youtube_channel_video_doms", "youtube_channel_video_ids", "youtube_channel_video_thumbnails", "youtube_channel_videos"],  "scriptUrl":"youtubeChannel.txt"},
 		{"provides":["youtube_user_video_doms_async", "youtube_user_video_ids_async", "youtube_user_video_thumbnails_async", "youtube_user_videos_async"],  "scriptUrl":"youtubeUserAsync.txt"},
 		{"provides":["youtube_video_thumbnail", "youtube_video_author", "youtube_video_author_name", "youtube_video_id_from_watch_url", "youtube_video_ids"],  "scriptUrl":"youtubeVideo.txt"},
-		{"provides":["youtube_search_videos", "youtube_search_video_ids", "youtube_search_video_ids_async"],  "scriptUrl":"youtubeSearch.txt"},
+		{"provides":["youtube_search_videos", "youtube_search_video_ids", "youtube_search_video_ids_async", "youtube_search_data_async"],  "scriptUrl":"youtubeSearch.txt"},
 		{"provides":["youtube_video_ids_by_url", "youtube_video_ids_by_url_async"],  "scriptUrl":"youtubeVideoIdsByUrl.txt"},
 		{"provides":["youtube_video_id"],  "scriptUrl":"youtubeVideoId.txt"},
         {"provides":["youtube_channel_id"],  "scriptUrl":"youtubeChannelId.txt"},
         {"provides":["youtube_user_id"],  "scriptUrl":"youtubeUserId.txt"},
-        {"provides":["youtube_page_id"],  "scriptUrl":"youtubePageId.txt"}
+        {"provides":["youtube_page_id"],  "scriptUrl":"youtubePageId.txt"},
+        {"provides":["youtube_data_by_url_async"],  "scriptUrl":"youtubeDataByUrlAsync.txt"}
 	]
 }

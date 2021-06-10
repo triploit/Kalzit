@@ -45,3 +45,4 @@ $ellipsis = cssClass: "k-ellipsis".
 	@(pxHeight 200) @verticalScroller uiContainer: 1 to 40.
 }
 $verticalScroller = cssClass: "k-vertical_scroller".
+$relative = cssClass: "k-relative".

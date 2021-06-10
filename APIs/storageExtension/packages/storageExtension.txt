@@ -1,0 +1,54 @@
+$storageSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
+	$values = (List:String): getArray of _list.
+	{
+		("listItem_" + x + "_of_" + key) storageSaveString x at values
+	} each ($listLength = length of values) rangeDown 0.
+	("listLength_of_" + key) storageSaveString String:listLength.
+	
+	_list
+}.
+$storageAutoSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
+	key storageSaveStringList _list.
+	($setOnChange of _list): {key storageSaveStringList _list}.
+	_list
+}.
+
+$storageLoadStringList = ($key ? String) fun {
+	$len ? Int = storageLoadString: ("listLength_of_" + key).
+	
+	;/ {
+		storageLoadString: "listItem_" + x + "_of_" + key
+	} each (0 rangeUp len) - 1
+}.
+$storageLoadListLength = ($key ? String) fun {
+	storageLoadString: ("listLength_of_" + key)
+} ? (0 default Int).
+$storageExtendStringList = ($key ? String ; $_list ? ModifiableList) fun {
+	$startLength = storageLoadListLength: key.
+	$values = (List:String): getArray of _list.
+	{
+		("listItem_" + x + "_of_" + key) storageSaveString x at values
+	} each startLength + ($listLength = length of values) rangeDown 0.
+	("listLength_of_" + key) storageSaveString String:startLength + listLength.
+	
+	_list
+}.
+$storageRemoveStringListIndex = ($key ? String ; $index ? Int) fun {
+	$originalList = storageLoadStringList: key.
+	key storageSaveStringList ({not: x eq index} filter arrayIndexes: originalList) at originalList
+}.
+$storageRemoveStringListItem = ($key ? String ; $item ? String) fun {
+	key storageSaveStringList {not x eq item} filter storageLoadStringList: key
+}.
+$storageLoadStringListItem = ($key ? String ; $index ? Int) fun {
+	storageLoadString "listItem_" + index + "_of_" + key
+}.
+$storageSaveStringListItem = ($key ? String ; $_indexAndItem ? (Tuple:Int;String)) fun {
+	("listItem_" + (first: _indexAndItem) + "_of_" + key) storageSaveString second: _indexAndItem
+}.
+$storageClearList = ($key ? String) fun {
+	("listLength_of_" + key) storageSaveString 0
+}.
+$storageOptimizeStringList = ($key ? String) fun {
+	key storageSaveStringList storageLoadStringList: key
+}.

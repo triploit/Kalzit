@@ -3,14 +3,14 @@ $kmpFromYoutubeVideo = $kalzitMediaProtocolFromYoutubeVideo = (($id ? YoutubeVid
 }) cachedFun autoClearedCache: hoursToMillis: 2.
 $kmpFromYoutubeVideoAsync = $kalzitMediaProtocolFromYoutubeVideoAsync = (($callback ; $id ? YoutubeVideoId) fun {
 	{callback: parseJson: x} loadLocalAsync "/api/s/ytvidkmp?id=" + urlEncodeParameter: id
-}) cachedFun autoClearedCache: hoursToMillis: 2.
+}).
 
 $kmpFromYoutubeUrl = $kalzitMediaProtocolFromYoutubeUrl = (($url ? String) fun {
 	parseJson: loadLocal: "/api/s/yturlkmp?url=" + urlEncodeParameter: url
 }) cachedFun autoClearedCache: hoursToMillis: 2.
 $kmpFromYoutubeUrlAsync = $kalzitMediaProtocolFromYoutubeUrlAsync = (($callback ; $url ? String) fun {
 	{callback: parseJson: x} loadLocalAsync "/api/s/yturlkmp?url=" + urlEncodeParameter: url
-}) cachedFun autoClearedCache: hoursToMillis: 2.
+}).
 
 
 `Implementations without titles`

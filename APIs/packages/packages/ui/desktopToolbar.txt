@@ -26,17 +26,14 @@ $registerDesktopTool = ($toolFactory) fun {
 }.
 
 #{
-	Generates a toolbar overlay with a standardized layout for the desktop.
-	This bar is only visible when the app window is wide enough for desktop controls, otherwise it is hidden.
-	
-	This toolbar is empty by default, except for two buttons on the right ("user" and "apps").
-	To add custom tools for an app, use "registerDesktopTool".
-	For more information about adding desktop tools, see the documentation of "registerDesktopTool".
-	
-	Please note that if you are making an app for mobile and desktop, you sould use "uiGlobalToolbar" instead of this function.
-	It takes care of adding all necessary UI elements to make the toolbar look nice.
+	Type function for desktop tools - can convert a function or a "desktop + mobile" tool (like a `buttonTool`) to something appropriate for desktop toolbars.
 }
-$generateDesktopToolbarOverlay = () fun {
+$DesktopTool = !fun ($objectOrFunction) {
+	`We could have an object with a $desktop property here, or we could have a function / UI element`
+	(default: objectOrFunction): $desktop propOf objectOrFunction
+}.
+
+$uiDesktopToolbarOverlay = !fun ($toolList ? ModifiableList) {
 	$properToolsAreaWidth = !ifElse isStandaloneApp {
 		"100% - " + ((toolbarCmHeight % 2) +  0,6) + "cm"
 	};{
@@ -48,7 +45,7 @@ $generateDesktopToolbarOverlay = () fun {
 	
 		`Add the app-specific tools (added using registerDesktopTool)`
 		[@verticalCenter @dynamicSize @left @(width: properToolsAreaWidth) uiContainer:
-			{@verticalCenter @dynamicSize do:x} each getArray: registeredDesktopTools
+			{@verticalCenter @dynamicSize do:x} each DesktopTool each getArray: toolList
 		]; `Semicolon - not a dot, because more content follows`
 		
 		`Add the default navigation buttons (uiUserButton and uiAppsButton), or only uiUserButton for standalone apps, at the right`
@@ -67,4 +64,19 @@ $generateDesktopToolbarOverlay = () fun {
 					[@(cmWidth 0,3) uiContainer:void]
 			]
 		}
+}.
+
+#{
+	Generates a toolbar overlay with a standardized layout for the desktop.
+	This bar is only visible when the app window is wide enough for desktop controls, otherwise it is hidden.
+	
+	This toolbar is empty by default, except for two buttons on the right ("user" and "apps").
+	To add custom tools for an app, use "registerDesktopTool".
+	For more information about adding desktop tools, see the documentation of "registerDesktopTool".
+	
+	Please note that if you are making an app for mobile and desktop, you sould use "uiGlobalToolbar" instead of this function.
+	It takes care of adding all necessary UI elements to make the toolbar look nice.
+}
+$generateDesktopToolbarOverlay = () fun {
+	uiDesktopToolbarOverlay: registeredDesktopTools
 }.

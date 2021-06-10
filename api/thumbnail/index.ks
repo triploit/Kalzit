@@ -1,0 +1,28 @@
+$id = SafeFilePath: "id" urlGetParameter $url propOf _request.
+$session ? Float = "session" urlGetParameter $url propOf _request.
+
+$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
+
+!if userTokenExists {
+	$filesFolder = "./nogit/users/data/v3/" + userToken + "/files/v2/main".
+	
+	!if (fileIsFile: print: ($uploadName = filesFolder + "/" + id) + "/currentVersion.txt") {
+		asyncRef = true.
+		$latestVersion = strFirstLine: fileContent: uploadName + "/currentVersion.txt".
+		
+		!ifElse (fileIsFile: uploadName + "/" + latestVersion + "/thumbnail.png") {
+			"Cache-Control" ($setHeader propOf _request) "public, max-age=604800".
+			"ETag" ($setHeader propOf _request) $etag = latestVersion.
+			!ifElse (etag eq ($getHeader propOf _request): "if-none-match") {
+				($respondCode propOf _request): 304.
+			};{
+				($startServing propOf _request): nativeFileMime: "png".
+				($writeFile propOf _request): print: uploadName + "/" + latestVersion + "/thumbnail.png".
+			}
+		};{
+			($respondCode propOf _request): 404.
+		}.
+		
+		do:($endServing propOf _request).
+	}
+}

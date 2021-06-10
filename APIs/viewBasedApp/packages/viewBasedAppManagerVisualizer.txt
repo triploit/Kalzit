@@ -1,0 +1,3 @@
+$viewBasedAppManagerVisualizer = !fun ($managerObject) {
+	$mainView propOf managerObject
+}.

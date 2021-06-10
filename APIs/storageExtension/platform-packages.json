@@ -1,0 +1,10 @@
+{
+	"info":{
+		"description":"Libraries that extend the default storage API"
+	},
+	"libraries":[
+		{"provides":["storage_save_automatically", "storage_load_automatically", "storage_auto"],  "scriptUrl":"storageAuto.txt"},
+        {"provides":["storage_save_string_list", "storage_auto_save_string_list", "storage_load_string_list", "storage_load_list_length", "storage_extend_string_list", "storage_remove_string_list_index", "storage_remove_string_list_item", "storage_load_string_list_item", "storage_save_string_list_item", "storage_clear_list", "storage_optimize_string_list"],  "scriptUrl":"storageExtension.txt"},
+        {"provides":["stored_modifiable_string_list"],  "scriptUrl":"storedModifiableStringList.txt"}
+	]
+}

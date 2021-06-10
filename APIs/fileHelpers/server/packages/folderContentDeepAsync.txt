@@ -1,0 +1,16 @@
+$folderContentDeepAsync = ($callback ; $path ? String) fun {
+	($content fun {
+		`Use the callback with every found entry`
+		callback each content.
+		
+		`Go through the sub-folders as well`
+		{callback folderContentDeepAsync x} each fileIsFolder filter content
+	}) folderContentAsync path.
+} ? void.
+$folderContentDeepChunksAsync = ($callback ; $path ? String) fun {
+	($content fun {
+		(callback: content) ifElse {
+			{callback folderContentDeepChunksAsync x} each fileIsFolder filter content
+		};{}
+	}) folderContentAsync path.
+} ? void.

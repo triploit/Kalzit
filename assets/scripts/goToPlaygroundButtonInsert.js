@@ -12,5 +12,6 @@ document.querySelectorAll("pre code.lang-kalzit").forEach(codeBlock => {
 	//Action
 	link.href = "/app/ide?code=" + encodeURIComponent(codeBlock.textContent);
 	
+	codeBlock.append(document.createElement("br"))
 	codeBlock.appendChild(link);
 });

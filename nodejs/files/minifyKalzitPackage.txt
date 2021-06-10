@@ -8,7 +8,7 @@ $jsonFile = appParameter: "input-file".
 	(appParameter: "output-file") fileWrite ";" strJoin {
 		$jsonEntry = x.
 		$scriptPath = jsonParent + "/packages/" + $scriptUrl propOf jsonEntry.
-		do: first: !switch (scriptPath)
+		do: !switchFirst (scriptPath)
 			[{(".k" strEndsWith x) | ".txt" strEndsWith x};{
 				"GLang.packageManager.registerPrecompiledPackage([" + ("," strJoin {"} + ($provides propOf jsonEntry) + {"}) + "]," +
 					((fileContent: scriptPath) calcitCompile true `optimized`) +

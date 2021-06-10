@@ -23,7 +23,8 @@ $generateJsDocumentation = !fun ($jsScriptPath) {
 			}.
 			
 			`Produce an actual documentation file`
-			("./docs/jsLibrary/" + documentedName + ".md") fileWrite
+			("./docs/library/" + documentedName + ".md") fileWrite
+				"# " + documentedName + strNewline +
 				"## comment" + strNewline + ("@kalzit.for " + documentedName) strRemove finalComment.
 		}
 		

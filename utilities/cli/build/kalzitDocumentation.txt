@@ -1,0 +1,21 @@
+`Main app`
+($toDocument ? calcitUnifyName fun {
+	print: toDocument.
+
+	`Get the documentation from a "normal" Kalzit value`
+	$value = resolveName: toDocument.
+	$annotations = {
+		`Do not show the UI generator function in the documentation`
+		not: "uiGenerator" eq first: x
+	} filter calcitAnnotations: value.
+	
+	!ifNot (void eq annotations) {
+		("./docs/library/" + toDocument + ".md") fileWrite print: strNewline strJoin ("# " + toDocument);
+		{
+			"## " + (strTrim: first: x) + strNewline + (strNewline strJoin strTrim each strLines: second: x)
+		} each annotations.
+	}.
+	
+	void
+}) loopEach !pmListNames.
+print: "DONE!".

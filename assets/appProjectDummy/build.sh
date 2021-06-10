@@ -9,7 +9,7 @@ echo CACHE MANIFEST > ./doNotTouch/manifest.appcache
 
 #Generate static string assets and translationMap.json for quick access, as well as manifest.appcache
 hasPrevious=0
-for jsonFile in $(find "$appFolder" -name default.json)
+for jsonFile in $(find -L "$appFolder" -name default.json)
 do
 	parent="$(dirname $jsonFile)"
 	key='"'$(basename $parent)'"'
@@ -104,4 +104,4 @@ bash "$rootFolder/utilities/cli/build/kalzitFile.sh" "$appFolder/$appId.k" "$roo
 
 #Create a listing of all project files which are not hidden (useful for downloading from the internet)
 cd "$appFolder"
-find . -not -path "*/.*" -not -path "./doNotTouch/*" -type f > ./doNotTouch/fileListing.txt
+find . -not -path "*/.*" -not -path "./doNotTouch/*" -not -path "./*.app/*" -type f > ./doNotTouch/fileListing.txt

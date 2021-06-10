@@ -8,5 +8,5 @@ print: @(percentWidth 100) ($search fun {
 }) uiTextfieldOnchange "".
 
 print: uiShowFunctionAsList: {
-	{("/services/documentation/" + x) uiLink x} each searchResults
+	{("/api/documentation?name=" + x) uiLink x} each searchResults
 }

@@ -59,9 +59,14 @@ this.openSubApp = function(name) {
 this.closeSubApp = function() {
 	location.hash = "#none";
 };
+
+var keepInitial = false;
+this.subAppKeepInitial = function() {
+	keepInitial = true;
+};
 this.registerSubApp = function(name, _openAndClose){
 	hashes.set(name, {open:_openAndClose[0], close:_openAndClose[1]});
-	if(location.hash == "#" + name) location.hash = "none"
+	if(location.hash == "#" + name && !keepInitial) location.hash = "none"
 };
 this.getCurrentSubApp = function(){
 	return location.hash.replace("#", "");	

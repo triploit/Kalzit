@@ -1,0 +1,1 @@
+python ./utilities/cli/set/macFileIcon.py "$1" "$2"

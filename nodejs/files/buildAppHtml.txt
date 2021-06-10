@@ -61,8 +61,7 @@ $prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
 		""
 	}) + 
 	
-	`Include the standard- and developer-apps, so that fewer HTTP requests are needed`
-	";this.developerApps=" + (fileContent: rootFolder + "/apps/home/config/developerApps.json") +
+	`Include the standard-apps, so that fewer HTTP requests are needed`
 	";this.standardApps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + 
 	
 	`Include the global stringAssetMap`
@@ -73,7 +72,7 @@ $prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
 
 `Now we can generate the final HTML file`
 `Replace the last .k in the file name (file extension) by .html to get the path of the generated HTML file`
-$generatedHtmlPath = ("(.+)\.k" ; "$1.html") strReplaceRegex app.
+$generatedHtmlPath = appFolder + "/index.html".
 
 `Write the file content`
 generatedHtmlPath fileWrite

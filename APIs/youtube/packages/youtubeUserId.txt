@@ -1,7 +1,7 @@
 $YoutubeUserId = !fun ($idOrUrl ? String) {
 	$regex = "http(s)?://(www\.)?youtube.com/user/([a-zA-Z0-9_\-]+)". $matchRef = reference: $match.
 	
-	do: first: (idOrUrl switch
+	do: (idOrUrl switchFirst
 		[{length: matchRef = regex match idOrUrl};{3 at match}]
 	);{idOrUrl}
 }.

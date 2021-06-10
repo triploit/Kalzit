@@ -1,3 +1,6 @@
+#Before doing anything else, build the home screen data
+./cli build homescreenData
+
 rootFolder="$(pwd)"
 appSkeleton="$(pwd)/_browser_app_singlefile.html"
 cd ./apps
@@ -15,22 +18,10 @@ build_all_k_files_in_folder () {
 	done
 }
 
-#Look for .redirect files in /apps
-for redirect in $(find "$appFolder" -type f -name "*.redirect" -or -type d)
+#Look for build.sh files in /apps/*
+for buildFile in $(find -L "$appFolder" -type f -name "build.sh")
 do
-	if [ -f "$redirect" ]; then
-		redirectedFile=$(cat "$redirect")
-	else
-		redirectedFile="$redirect"
-	fi
-	if [ -e "$redirectedFile" ]; then
-		#Check if a custom build script exists
-		if [ -e "$redirectedFile/build.sh" ]; then
-			echo "Running custom build script for app '$redirectedFile/build.sh'"
-			cd "$redirectedFile"
-			bash ./build.sh
-		else
-			build_all_k_files_in_folder "$redirectedFile"
-		fi
-	fi
+	echo "Running app build script '$buildFile'"
+	cd "$(dirname "$buildFile")"
+	bash ./build.sh
 done

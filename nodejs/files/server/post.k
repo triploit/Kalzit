@@ -5,7 +5,7 @@
 	
 	!if userTokenExists {
 		($getPostDataFileAsync propOf _request) $_postedFileName fun {
-			$filesFolder = "./nogit/users/data/v3/" + userToken + "/files".
+			$filesFolder = "./nogit/users/data/v3/" + userToken + "/files/v2".
 			fileCreateFolder: filesFolder.
 			
 			!if (void eq _postedFileName) {
@@ -13,71 +13,69 @@
 			}. !else {
 				`Figure out where to store the file (which category)`
 				$mime =  print: runCommand: "file --mime-type -b " + _postedFileName.
-				$destinationFolder = filesFolder + "/" + $category = first: mime switch
-					[{x eq first: "image/[a-z0-9]+" match x}; "standard-images"];
+				$categoryFolder = filesFolder + "/categories/" + $category = mime switchFirst
 					[{"image/" strStartsWith x}; "images"];
-					[{x eq first: "video/[a-z0-9]+" match x}; "standard-videos"];
 					[{"video/" strStartsWith x}; "videos"];
-					[{x eq first: "audio/[a-z0-9]+" match x}; "standard-audio"];
 					[{"audio/" strStartsWith x}; "audio"];
 					[true; "default"].
-				fileCreateFolder: destinationFolder.
-				fileDelete: destinationFolder + "/kmp.json".
-				fileDelete: destinationFolder + "/../audio-kmp.json".
-				fileCreateFolder: destinationFolder + "/raw".
+				fileCreateFolder: categoryFolder.
+				fileDelete: categoryFolder + "/kmp.json".
+				fileDelete: filesFolder + "/" + category + "/kmp.json".
 				
 				$checksum = mdFiveHash: fileContentRaw: _postedFileName.
-				_postedFileName fileRenameFile destinationFolder + "/raw/" + checksum.
-				
-				print: "Upload done".
-				!ifNot (void eq mime) {
-					`Create a file which stores the mime type`
-					fileCreateFolder: destinationFolder + "/mime".
-					(destinationFolder + "/mime/" + checksum + ".mime.txt") fileWrite mime
-				}.
 				
 				`Make this file accessible under a specific name if wanted`
 				$accessName ? SafeFilePath = print: $accessName urlGetParameter $url propOf _request.
 				!ifNot (void eq accessName) {
 					`Create the access file`
-					fileCreateFolders: print: $accessFile = filesFolder + "/versionedAccess/v2/" + accessName.
 					$currentVersion = String: !getCurrentDate.
-					(accessFile + "/" + currentVersion) fileWrite (fileName: destinationFolder) + "/kmp/" + checksum + ".json".
-					(accessFile + "/currentVersion.txt") fileWrite currentVersion.
+					fileCreateFolders: print: $accessFile = filesFolder + "/main/" + accessName + "/" + currentVersion.
+					
+					(accessFile + "/../currentVersion.txt") fileWrite currentVersion.
 					
 					`Remove a potential generated file-listing of the parent folder, so it is updated on access`
-					fileDelete: filesFolder + "/accessListings/" + (fileParent: accessName) + "/listing.json".
+					fileDelete: filesFolder + "/main/" + (fileParent: accessName) + "/listing.json".
+					
+					_postedFileName fileRenameFile print: filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw".
+					
+					print: "Upload done".
+					!ifNot (void eq mime) {
+						`Create a file which stores the mime type`
+						(filesFolder + "/main/" + accessName + "/" + currentVersion + "/mime.txt") fileWrite mime
+					}.
+					
+					`Attempt a quick thumbnail creation`
+					runCommand: print: "ffmpeg -i '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw' -vf 'scale=300:-2' '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/thumbnail.png'".
+					
+					`Attempt a quick metadata listing`
+					(filesFolder + "/main/" + accessName + "/" + currentVersion + "/metadata.json") fileWrite runCommand: print: "ffprobe  -v quiet -print_format json -show_format '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw'".
+					
+					$kmpKind = first: (category switchEq
+						["images";"image"];
+						["audio";"audio"];
+						["videos";"video"]);
+						`default` "file".
+					$kmpObject =
+						(kmpFromUrlWithoutKind: "/api/uploaded?id=" + urlEncodeParameter: accessName);
+						["kind";kmpKind];
+						["keptArguments";
+							[["session"]]
+						];
+						!if (fileIsFile: filesFolder + "/main/" + accessName + "/" + currentVersion + "/thumbnail.png"){
+							["thumbnail";
+								[
+									["default";"/api/thumbnail?id=" + urlEncodeParameter: accessName]
+								]
+							]
+						}.
+					(filesFolder + "/main/" + accessName + "/" + currentVersion + "/kmp.json") fileWrite objToJson: kmpObject.
+					
+					_request httpEndServingRaw strRaw: '{"success": 1, "endpoint": ' + (objToJson: "/api/uploaded?id=" + category + "/" + checksum) + '}'.
+					
+					`Link the thing to the category folder (category determined above)`
+					runCommand: print: "ln -s '" + (fileRealpath: filesFolder + "/main/" + accessName + "/" + currentVersion) +  "' '" + categoryFolder + "/" + checksum + "'".
 				}.
 				
-				fileCreateFolder: destinationFolder + "/thumbnails".
-				`Attempt a quick thumbnail creation`
-				runCommand: "ffmpeg -i '" + destinationFolder + "/raw/" + checksum + "' -vf 'scale=300:-2' '" + destinationFolder + "/thumbnails/" + checksum + ".thumbnail.png'".
-				
-				fileCreateFolder: destinationFolder + "/metadata".
-				`Attempt a quick metadata listing`
-				(destinationFolder + "/metadata/" + checksum + ".json") fileWrite runCommand: "./utilities/ffprobe  -v quiet -print_format json -show_format '" + destinationFolder + "/raw/" + checksum + "'".
-				
-				fileCreateFolder: destinationFolder + "/kmp".
-				$kmpKind = first: (category switchEq
-					["standard-images";"image"];
-					["standard-audio";"audio"];
-					["standard-videos";"video"]);
-					`default` "file".
-				$kmpObject =
-					(kmpFromUrlWithoutKind: "/api/uploaded?id=" + category + "/raw/" + checksum);
-					["kind";kmpKind];
-					["keptArguments";
-						[["session"]]
-					];
-					["thumbnail";
-						[
-							["default";"/api/thumbnail?id=" + category + "/thumbnails/" + checksum + ".png"]
-						]
-					].
-				(destinationFolder + "/kmp/" + checksum + ".json") fileWrite objToJson: kmpObject.
-				
-				
-				_request httpEndServingRaw strRaw: '{"success": 1, "endpoint": ' + (objToJson: "/api/uploaded?id=" + category + "/" + checksum) + '}'.
 			}
 		}.
 	}. !else {

@@ -56,3 +56,6 @@
 .k-front {
 	z-index: 1;
 }
+.k-relative {
+	position: relative;
+}

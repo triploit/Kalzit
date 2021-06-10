@@ -4,7 +4,9 @@
 	The media type (field "kind") is "video".
 	
 	Usage example:
+		```kalzit
 		$kmpData = kmpFromYoutubeVideo: "videoId".
+		```
 	
 	If you do not want to access the watch page or if you do not need the title, use "kmpFromYoutubeVideoNoTitles".
 }
@@ -26,7 +28,9 @@ $kmpFromYoutubeVideo = $kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVide
 	The media type (field "kind") is "collection", and the items are of type "video".
 	
 	Usage example:
+		```kalzit
 		$startPageVideos = kmpFromYoutubeUrl: "https://www.youtube.com".
+		```
 	
 	If you do not want to access the watch page or if you do not need the title, use "kmpFromYoutubeVideoNoTitles".
 }
@@ -43,7 +47,9 @@ $kmpFromYoutubeUrl = $kalzitMediaProtocolFromYoutubeUrl = (($url ? String) fun {
 	The media type (field "kind") is "video".
 	
 	Usage example:
+		```kalzit
 		$kmpData = kmpFromYoutubeVideoNoTitles: "videoId".
+		```
 	
 	If you do not want to access the titles, use "kmpFromYoutubeVideo".
 }
@@ -64,7 +70,9 @@ $kmpFromYoutubeVideoNoTitles = ($id ? YoutubeVideoId) fun {
 	The media type (field "kind") is "collection", and the items are of type "video".
 	
 	Usage example:
+		```kalzit
 		$startPageVideos = kmpFromYoutubeUrlNoTitles: "https://www.youtube.com".
+		```
 	
 	If you do not want to access the titles, use "kmpFromYoutubeUrl".
 }

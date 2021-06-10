@@ -33,6 +33,9 @@ mkdir ./generated
 bash ./utilities/installer/parts/nogit.sh
 bash ./utilities/installer/parts/cli.sh
 
+#Create the app.redirect file (to support the "old" /app handle, from previous server versions)
+echo ./apps > ./app.redirect
+
 ./cli build everything
 
 #Attempt do link the cli file to "kalzit"

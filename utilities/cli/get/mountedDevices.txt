@@ -1,0 +1,7 @@
+$mountOutput = runCommand: "mount".
+
+$mountedDevices = {
+	(1;2) at "(/[^\s]+)\s+on\s+(/[^\s]+)" match x
+} each strLines: mountOutput.
+
+{print: 1 at x} each {not: x eq void} filter mountedDevices.

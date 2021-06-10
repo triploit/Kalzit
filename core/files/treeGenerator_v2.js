@@ -18,11 +18,43 @@
 				case "\\": return NEGATIVE_SIGN;
 				case '`':
 				case '´': return COMMENT_BLOCK;
+				case '-': return MINUS_SIGN;
+				case '=': return EQUALS_SIGN;
 			}
 			return group([special(token), WAITING]);
 		},
 		waiting:true,
 		kind:"waiting"
+	};
+	
+	const MINUS_SIGN = {
+		next:function(token){
+			if(token.textValue === ">") {
+				// -> (MINUS + >) is an arrow
+				return group([ARROW, WAITING]);
+			} else {
+				return group([this, WAITING.next(token)]);	
+			}
+		},
+		special:"-",
+		kind:"special"
+	};
+	
+	const EQUALS_SIGN = {
+		next:function(token){
+			if(token.textValue === ">") {
+				// => (MINUS + >) is an arrow
+				return group([ARROW, WAITING]);
+			} else {
+				return group([this, WAITING.next(token)]);	
+			}
+		},
+		special: "=",
+		kind: "special"
+	};
+	
+	const ARROW = {
+		kind: "arrow"
 	};
 	
 	function special(specialToken){
@@ -272,11 +304,34 @@
 				//Form: !op a b
 				var op = loopState(state.splice(i + 1, 1));
 				var a = loopState(state.splice(i + 1, 1));
-				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
+				var b = null;
+				if(state[i + 1].kind === "arrow") {
+					//If there is an arrow between a and b, skip it ...
+					state.splice(i + 1, 1);
+					//... and switch a and b
+					b = a;
+					a = loopState(state.splice(i + 1, (state.length - i) - 1));
+				} else {
+					b = loopState(state.splice(i + 1, (state.length - i) - 1));
+				}
 				state = state.slice(0, i).concat(a, op, b);
 				
 				//The loop will end after this
 				break;
+			}
+			//Check for arrows
+			else if (state[i].kind === "arrow") {
+				if(i <= 0) {
+					throw new Error("For the arrow syntax, you need this format : a => b. That switches a and b, so it becomes b a");
+				}
+				//Form: a -> b (becomes b a; items switch)
+				var a = loopState(state.splice(i - 1, 1));
+				var arrow = state.splice(i - 1, 1); //Ignored
+				var b = loopState(state.splice(i - 1, 1));
+				var rest = state.splice(i - 1, (state.length - i) + 1);
+				state = state.slice(0, i - 1).concat(b, a, rest);
+				
+				continue;
 			}
 		}
 		return state;

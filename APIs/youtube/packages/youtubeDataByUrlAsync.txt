@@ -1,0 +1,21 @@
+#{
+	Generates a list of YouTube links found at a given url (anyUrl) and passes that list to a specified function (callback).
+	The list contains objects with the following properties: $kind and $id.
+	
+	$kind is the kind of search result which was found. It can be "video", "user", "channel" or "playlist".
+	$id is the id representing the found item. In order to work with the item, use $kind to figure out which functions to use.
+}
+$youtubeDataByUrlAsync = ($callback ; $anyUrl ? Url) fun {
+	($urlContent fun {
+		
+		`Generate partial results`
+		$videos = {["kind";"video"];["id";x]} each removeDuplicates: second each "/watch\?v=([a-zA-Z0-9\-_]+)" allMatches urlContent.
+		$channels = {["kind";"channel"];["id";x]} each removeDuplicates: second each "/channel/([a-zA-Z0-9\-_]+)" allMatches urlContent.
+		$users = {["kind";"user"];["id";x]} each removeDuplicates: second each "/user/([a-zA-Z0-9\-_]+)" allMatches urlContent.
+		$playlists = {["kind";"playlist"];["id";x]} each removeDuplicates: second each "list=([a-zA-Z0-9\-_]+)" allMatches urlContent.
+		
+		`Build the full result and pass it to the callback`
+		callback: videos;channels;users;playlists
+		
+	}) loadGlobalAsync anyUrl.
+}.

@@ -13,6 +13,7 @@
 		{"provides":["redirect"], "scriptUrl":"redirect.js"},
 		{"provides":["is_ios_app", "is_android_app", "is_standalone_app"],  "scriptUrl":"osDetection.js"},
 		{"provides":["timeout_pause", "timeout_continue"],  "scriptUrl":"timeoutBridge.js"},
-		{"provides":["download_url"], "scriptUrl":"download.js"}
+		{"provides":["download_url"], "scriptUrl":"download.js"},
+		{"provides": ["scroll_to_top"], "scriptUrl":"scrollToTop.js"}
 	]
 }

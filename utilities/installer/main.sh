@@ -6,6 +6,8 @@ LOCATION="https://github.com/triploit/Kalzit/archive/$TAG.zip"
 
 curl -L -o ./latestRelease.zip "$LOCATION"
 
+#TODO: Check for unzip (and zip) commands and install them if needed
+
 #Unzip the downloaded repository
 unzip ./latestRelease.zip -d .
 

@@ -1,0 +1,13 @@
+$timeoutNow = !fun () {
+	"kalzit.timeoutSince" storageSaveString String: !getCurrentDate.
+	"kalzit.timeoutMinutes" storageSaveString "0".
+	
+	showMessage: "Your timeout will start soon - you can use this app for 30 more seconds.".
+	
+	`Activate after 30 seconds`
+	$reallyRelaunch = false. $reallyRelaunchRef = reference: $reallyRelaunch.
+	(30 * 1000) repeatAsync {
+		!if reallyRelaunch relaunchApp.
+		!else {reallyRelaunchRef = true}.
+	}.
+}.

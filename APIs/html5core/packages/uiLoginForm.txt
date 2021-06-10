@@ -20,6 +20,7 @@ $uiLoginForm = ($onLoginAttempt) fun {
 		[@(percentWidth: 100) nameField];
 		[uiText: strings: $password];
 		[@(percentWidth: 100) @(onEnter action) passwordField];
+		[@(emHeight 1) uiContainer: void];
 		[@center action uiButton strings: $login];
 		[@(emHeight 2) uiContainer: void];
 		[@centerText uiText: strings: $optionsSeparator];
@@ -38,6 +39,7 @@ $uiRegisterForm = () fun {
 		[@(percentWidth: 100) nameField];
 		[uiText: strings: $password];
 		[@(percentWidth: 100) passwordField];
+		[@(emHeight 1) uiContainer: void];
 		[@center {
 			($response fun {
 				!if ("0" eq first: response) {

@@ -17,7 +17,8 @@ const Timeout = {
 		}, 30 * 1000)
     },
     onBeforeTimeout(minutes){
-    	alert("You have used the Kalzit apps for about " + minutes + " minutes now. You will automatically get a 20 minute timeout in about 5 minutes");
+        //TODO: Test this. Should show in any case, and the timer should not continue until after (!) the popup is closed
+        GLang.eval("!timeoutPause. {!timeoutContinue} showMessageAsync '" + "You have used the Kalzit apps for about " + minutes + " minutes now. You will automatically get a 20 minute timeout in about 5 minutes" + "'")
     },
     onTick(minutes){
     	GLang.eval("'kalzit.timeoutMinutes' storageSaveString String: " + minutes);

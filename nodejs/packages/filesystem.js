@@ -48,6 +48,9 @@ this.fileCreateFolder = function(folderPath){
 this.fileDelete = function(filePath){
 	fs.existsSync(filePath) && fs.unlinkSync(filePath);
 }
+this.fileDeleteFolder = function(filePath){
+	fs.existsSync(filePath) && fs.rmdirSync(filePath);
+}
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("fileContentRaw", {value:GLang.arrayFun(function(env, args){
 	return {value:fileContentRaw(args[0].value)};
@@ -88,17 +91,22 @@ this.fileExists = function(filePath){
 }
 this.fileIsFolder = function(filePath){
 	try{
-		return fs.lstatSync(filePath).isDirectory();
+		return fs.lstatSync(fs.realpathSync(filePath)).isDirectory();
 	}catch(e){
 		return false;
 	}
 }
+this.fileRealpath = function(filePath){
+	return fs.realpathSync(filePath);
+}
 this.fileRenameFile = function(oldPath, newPath){
-	fs.renameSync(oldPath, newPath);
+	if (fs.existsSync(oldPath)) {
+		fs.renameSync(oldPath, newPath);
+	}
 }
 this.fileIsFile = function(filePath){
 	try{
-		return fs.lstatSync(filePath).isFile();
+		return fs.lstatSync(fs.realpathSync(filePath)).isFile();
 	}catch(e){
 		return false;
 	}

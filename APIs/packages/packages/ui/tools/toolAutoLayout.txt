@@ -1,12 +1,59 @@
-$toolsAtLeft = !fun ($_subTools) {
-	`Desktop`
-	registerDesktopTool: {
+$generateDesktopToolsAtLeft = !fun ($_subTools) {
+	{
 		@left uiContainer: 
 			`At the very left, add a little space`
 			(uiHorizontalPxSpace: 7);
 			`Add the tools registered by the app`
 			5 uiAddHorizontalPxSpaces {do:$desktop propOf x} each _subTools
-	}.
+	}
+}.
+$generateDesktopToolAtLeft = !fun ($_tool) {
+	{
+		@left uiContainer:
+			`At the very left, add a little space`
+			(uiHorizontalPxSpace: 5);
+			`Add the tool registered by the app`
+			do:$desktop propOf _tool
+	}
+}.
+$generateDesktopToolAtRight = !fun ($_tool) {
+	{
+		@right do:$desktop propOf _tool
+	}
+}.
+
+$toolLayoutManager = !fun () {
+	$desktopTools ? ModifiableList = void.
+	$mobileTools ? ModifiableList = void.
+	
+	[$setToolsAtLeft; ($_subTools) fun {
+		($push propOf desktopTools): generateDesktopToolsAtLeft: _subTools.
+		($push propOf mobileTools): ($_subTool fun {
+			($mobile propOf _subTool);($title propOf _subTool)
+		}) each _subTools.
+	}];
+	[$setToolAtLeft; ($_subTool) fun {
+		($push propOf desktopTools): generateDesktopToolAtLeft: _subTool.
+		($push propOf mobileTools): [($mobile propOf _subTool);($title propOf _subTool)]
+	}];
+	[$setToolAtRight; ($_subTool) fun {
+		($push propOf desktopTools): generateDesktopToolAtRight: _subTool.
+		($push propOf mobileTools): [($mobile propOf _subTool);($title propOf _subTool)]
+	}];
+	[$getDesktopToolbarOverlay; () fun {
+		uiDesktopToolbarOverlay: desktopTools
+	}];
+	[$getMobileToolbarOverlay; () fun {
+		uiMobileToolbarOverlay: mobileTools
+	}];
+	[$applyMobileTools; () fun {
+		applyMobileTools: getArray: mobileTools
+	}]
+}.
+
+$toolsAtLeft = !fun ($_subTools) {
+	`Desktop`
+	registerDesktopTool: generateDesktopToolsAtLeft: _subTools.
 	
 	`Mobile`
 	($_subTool fun {
@@ -15,22 +62,14 @@ $toolsAtLeft = !fun ($_subTools) {
 }.
 $toolAtLeft = !fun ($_tool) {
 	`Desktop`
-	registerDesktopTool: {
-		@left uiContainer:
-			`At the very left, add a little space`
-			(uiHorizontalPxSpace: 5);
-			`Add the tool registered by the app`
-			do:$desktop propOf _tool
-	}.
+	registerDesktopTool: generateDesktopToolAtLeft: _tool.
 	
 	`Mobile`
 	($mobile propOf _tool) registerMobileTool ($title propOf _tool).
 }.
 $toolAtRight = !fun ($_tool) {
 	`Desktop`
-	registerDesktopTool: {
-		@right do:$desktop propOf _tool
-	}.
+	registerDesktopTool: generateDesktopToolAtRight: _tool..
 	
 	`Mobile`
 	($mobile propOf _tool) registerMobileTool ($title propOf _tool).

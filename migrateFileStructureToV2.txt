@@ -1,0 +1,76 @@
+`Migration script to get from files/versionedAccess/v2 to files/v2`
+`The goal of this migration is to greatly simlify the file structure. Each file is represented by a single folder, with all additional data (versions, for example) inside that`
+$kalzitRootFolder = strFirstLine: runCommand: "pwd".
+
+$migrateUserFolder = !fun ($userFolder) {
+	`Loop through all the "currentVersion.txt" files inside that user's file folder`
+	($fileInsideFolder fun {
+		!if ("currentVersion.txt" eq fileName: fileInsideFolder) {
+			userFolder migrateCurrentVersionFile fileInsideFolder.
+		}
+	}) folderContentDeepAsync userFolder + "/files/versionedAccess/v2".
+}.
+
+$migrateCurrentVersionFile = !fun ($userFolder ; $currentVersionFile) {
+	`Get the actual name of the file we have to migrate`
+	$fname = ((userFolder + "/files/versionedAccess/v2/");"") strReplace fileParent: currentVersionFile.
+	
+	`Create a corresponding folder in /userFolder/files/v2`
+	fileCreateFolder: $newFileLocation = userFolder + "/files/v2/main/" + fname.
+	
+	`Go through all of the existing versions and migrate those`
+	($potentialVersionFile fun {
+		`Check if we really have a version file; exclude currentVersion.txt`
+		!if (not: currentVersionFile eq potentialVersionFile) {
+			$versionFile = potentialVersionFile.
+			$versionNumber = fileName: versionFile.
+			
+			`Create a folder with the version number as its name in /files/v2/fname`
+			fileCreateFolder: $versionFolder = newFileLocation + "/" + versionNumber.
+			`Get a bit more info about the file (category and hash)`
+			$additionalFileInfo = "(.*)/kmp/([a-f0-9]+)" match fileContent: versionFile.
+			$fileCategory = second: additionalFileInfo.
+			$fileHash = third: additionalFileInfo.
+			
+			`Move the actual file content to "raw"`
+			!fileRenameFile (userFolder + "/files/" + fileCategory + "/raw/" + fileHash) (versionFolder + "/raw").
+			`Move the mime information to "mime.txt"`
+			!fileRenameFile (userFolder + "/files/" + fileCategory + "/mime/" + fileHash + ".mime.txt") (versionFolder + "/mime.txt").
+			`Move the thumbnail to "thumbnail.png"`
+			!fileRenameFile (userFolder + "/files/" + fileCategory + "/thumbnails/" + fileHash + ".thumbnail.png") (versionFolder + "/thumbnail.png").
+			`Move the metadata to "metadata.json"`
+			!fileRenameFile (userFolder + "/files/" + fileCategory + "/metadata/" + fileHash + ".json") (versionFolder + "/metadata.json").
+			
+			`Generate a kmp.json file`
+			(versionFolder + "/kmp.json") fileWrite objToJson:
+				["protocolVersion"; "2.1.0"];
+				["file"; [
+					["default";"/api/uploaded?id=" + urlEncodeParameter: fname];
+				]];
+				["embed"; "/api/uploaded?id=" + urlEncodeParameter: fname];
+				["kind";"file"];
+				["keptArguments";["session"]];
+				!if (fileIsFile: versionFolder + "/thumbnail.png") {
+					["thumbnail";[
+						["default";"/api/thumbnail?id=" + urlEncodeParameter: fname]
+					]]
+				}.
+			
+			`Create a redirect file in the right category folder (can be changed into symlinks later, there is a script for that already)`
+			$newCategory = third: "(.*-)?([a-z]+)" match fileCategory.
+			fileCreateFolder: userFolder + "/files/v2/categories/" + newCategory.
+			!ifNot (fileIsFolder: userFolder + "/files/v2/categories/" + newCategory + "/" + fileHash) {
+				(userFolder + "/files/v2/categories/" + newCategory + "/" + fileHash + ".redirect") fileWrite kalzitRootFolder + "/" + versionFolder.
+			}.
+			
+			`Copy the currentVersion.txt file over`
+			(newFileLocation + "/currentVersion.txt") fileWrite fileContent: currentVersionFile.
+		}
+	}) each folderContent: fileParent: currentVersionFile.
+}.
+
+`List all the users`
+$userFolders = {fileIsFolder x} filter folderContent: "./nogit/users/data/v3/".
+
+`Do the migration for all the users`
+migrateUserFolder each userFolders.

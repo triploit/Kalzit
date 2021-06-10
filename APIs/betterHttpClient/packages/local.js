@@ -34,6 +34,7 @@
 		};
 		
 		request.send();
+		return GLang.voidValue;
 	}
 	
 	function httpPostLocalAsync(env, args) {
@@ -61,6 +62,7 @@
 		};
 		
 		request.send(dataString);
+		return GLang.voidValue;
 	}
 
 	GLang.defaultRuntimeEnvironment.setInnerVariable("httpGetLocalAsync", {value: httpGetLocalAsync});

@@ -1,14 +1,30 @@
 $registerLabeledTool = ($label ? String ; $_platformImplementations) fun {
-	registerDesktopTool: $desktop objFirstProperty _platformImplementations.
+	registerDesktopTool: _platformImplementations.
 	$mobile = ($mobile objFirstProperty _platformImplementations).
 	!if (not mobile eq void) {
 		mobile registerMobileTool label.
 	}.
 }.
 
+
+`These variables will be used by the uiGlobalToolbar function below, and they allow developers to update the toolbar later`
+$globalDesktopToolbar = void. 
+#{Update this if you want to replace the currently active desktop toolbar}
+$globalDesktopToolbarRef = reference: $globalDesktopToolbar.
+
+$globalMobileToolbar = void.
+#{Update this if you want to replace the currently active mobile toolbar}
+$globalMobileToolbarRef = reference: $globalMobileToolbar.
+
+
 $uiGlobalToolbar = () fun {
+	`Initialize the global toolbar variables (above)`
+	globalDesktopToolbarRef = !generateDesktopToolbarOverlay.
+	globalMobileToolbarRef = !generateMobileToolbarOverlay.
+
+	`Build a UI element that includes both the desktop and mobile toolbar`
 	uiElementCollection:
 		[!uiToolbarReservedSpace];
-		[!generateMobileToolbarOverlay];
-		[!generateDesktopToolbarOverlay]
+		[uiShowVariable: globalMobileToolbarRef];
+		[uiShowVariable: globalDesktopToolbarRef]
 }.

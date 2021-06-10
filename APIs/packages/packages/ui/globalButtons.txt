@@ -81,6 +81,10 @@ $account registerSubApp popupSubApp: do:{
 				"kalzit.timeoutWanted" storageSaveString String: x.
 				!if x timeoutContinue. !else timeoutPause.
 			} uiCheckbox strings: $automaticTimeoutCheckbox);
+			(uiVerticalPxSpace: 14);
+			(@center timeoutNow uiButton "I need a break right now");
+			(uiVerticalPxSpace: 14);
+			(!uiVerticalSeparator);
 			(uiVerticalPxSpace: 7);
 			($cacheLoadCheckbox = {
 				("kalzit.cacheWantedFor." + !getAppId) storageSaveString String: x.

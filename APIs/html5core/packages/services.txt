@@ -32,8 +32,3 @@ $serviceRegisterUserAsync = ($callback ; $nameAndPassword) fun {
 			["kalzit-user-password"; second: nameAndPassword]
 		]].
 }.
-
-@(deprecated: "This might be a security risk, because the commands are hard to verify")
-$serviceEvalOnLocalServer = ($command ? String) fun {
-	serviceCallApi: "eval?command=" + urlEncodeParameter: command.
-}.

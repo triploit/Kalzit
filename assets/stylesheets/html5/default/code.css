@@ -1,4 +1,8 @@
 code {
-  font-family: Courier;
-  display: inline-block;
+	font-family: Courier;
+	display: inline-block;
+  
+  	/*Mostly the same as .k-horizontal_scroller*/
+	overflow-x: scroll;
+	overflow-y: hidden;
 }

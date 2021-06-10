@@ -1,0 +1,13 @@
+$preventAppUseWithoutLogin = !fun () {
+	`Check if user is logged in`
+	$session = storageLoadString: "calcitSession".
+	!if (void eq session) {
+		popupMessage: "If you want to use this app, you need to log in.".
+		openSubApp: "login".
+		!subAppKeepInitial.
+		
+		`Prevent user from closing sub apps (hacky)`
+		$none registerSubApp [relaunchApp];[void].
+		"" registerSubApp [relaunchApp];[void].
+	}.
+}
