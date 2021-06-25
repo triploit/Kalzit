@@ -1,7 +1,7 @@
 echo Changing old .redirect files into symlinks ...
 bash ./getRidOfRedirects.sh
 
-./cli run clean/level0
+./cli run clean/onStartup
 
 echo Removing calcitSession and keys.json files...
 rm ./nogit/users/data/v3/*/keys/calcitSession

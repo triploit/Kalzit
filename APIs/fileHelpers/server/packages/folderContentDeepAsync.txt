@@ -1,10 +1,37 @@
 $folderContentDeepAsync = ($callback ; $path ? String) fun {
 	($content fun {
 		`Use the callback with every found entry`
-		callback each content.
+		!loopEach content -> callback.
 		
 		`Go through the sub-folders as well`
-		{callback folderContentDeepAsync x} each fileIsFolder filter content
+		!loopEach (fileIsFolder filter content) -> {callback folderContentDeepAsync x}
+	}) folderContentAsync path.
+} ? void.
+$folderContentDeepAsyncNotHidden = ($callback ; $path ? String) fun {
+	($content fun {
+		`Use the callback with every found entry`
+		!loopEach content -> callback.
+		
+		`Go through the sub-folders as well`
+		!loopEach ({not: "/." strContains x} filter fileIsFolder filter content) -> {callback folderContentDeepAsync x}
+	}) folderContentAsync path.
+} ? void.
+$folderContentDeepAsyncNotLink = ($callback ; $path ? String) fun {
+	($content fun {
+		`Use the callback with every found entry`
+		!loopEach content -> callback.
+		
+		`Go through the sub-folders as well`
+		!loopEach (fileIsFolderNotLink filter content) -> {callback folderContentDeepAsyncNotLink x}
+	}) folderContentAsync path.
+} ? void.
+$folderContentDeepAsyncNotLinkOrHidden = ($callback ; $path ? String) fun {
+	($content fun {
+		`Use the callback with every found entry`
+		!loopEach content -> callback.
+		
+		`Go through the sub-folders as well`
+		!loopEach ({not: "/." strContains x} filter fileIsFolderNotLink filter content) -> {callback folderContentDeepAsyncNotLinkOrHidden x}
 	}) folderContentAsync path.
 } ? void.
 $folderContentDeepChunksAsync = ($callback ; $path ? String) fun {

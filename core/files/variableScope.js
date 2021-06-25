@@ -25,7 +25,7 @@ GLang.scopePrototype = {
 		}else if(GLang.packageManager.installPackage(unified)){
 			result = GLang.defaultRuntimeEnvironment["kv_" + unified].varValue;
 		}else{
-			result = {value:GLang.voidValue.value}
+			throw new Error("You used this non-existent variable: " + n);
 		}
 		
 		if(result == null) {

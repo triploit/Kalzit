@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Libraries that extend the default storage API"
+		"description":"Libraries that extend the default storage API",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["storage_save_automatically", "storage_load_automatically", "storage_auto"],  "scriptUrl":"storageAuto.txt"},

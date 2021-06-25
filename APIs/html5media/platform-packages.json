@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Optional packages for video, audio and images that work in a browser"
+		"description":"Optional packages for video, audio and images that work in a browser",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["ui_vimeo_player"], "scriptUrl":"vimeoPlayer.js"},

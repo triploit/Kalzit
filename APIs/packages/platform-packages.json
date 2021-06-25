@@ -97,10 +97,11 @@
 		{"provides":["ui_text_action_toolbar"],  "scriptUrl":"ui/uiTextActionToolbar.txt"},
 		{"provides":["ui_login_hint"],  "scriptUrl":"ui/uiLoginHint.txt"},
 		{"provides":["ui_horizontal_separator", "ui_vertical_separator"],  "scriptUrl":"ui/separator.txt"},
-		{"provides":["ui_list_view"],  "scriptUrl":"ui/uiListView.txt"},
+		{"provides":["ui_custom_list_view", "ui_list_view"],  "scriptUrl":"ui/uiListView.txt"},
 		{"provides":["prevent_app_use_without_login"],  "scriptUrl":"preventAppUseWithoutLogin.txt"},
 		{"provides":["timeout_now"],  "scriptUrl":"timeoutNow.txt"},
 		{"provides":["composed_function"],  "scriptUrl":"composedFunction.txt"},
-		{"provides":["reference_based_composed_function"],  "scriptUrl":"referenceBasedComposedFunction.txt"}
+		{"provides":["reference_based_composed_function"],  "scriptUrl":"referenceBasedComposedFunction.txt"},
+		{"provides":["ui_additional_actions_button"],  "scriptUrl":"ui/uiAdditionalActionsButton.txt"}
 	]
 }

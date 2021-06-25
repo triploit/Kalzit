@@ -1,0 +1,45 @@
+$linkApp = !fun ($appFolder ; $appId) {
+	!ifElse (fileIsFolder: (appParameter: "root-folder") + "/apps/" + appId) {
+		print: "There is already an app registered with ID " + appId + " - not linking " + appFolder
+	};{
+		$linkOrigin = appFolder.
+		$linkFile = ((appParameter: "root-folder") + "/apps/" + appId).
+		print: "Linking " + linkFile + " to " + linkOrigin.
+		runCommand "ln -s '" + linkOrigin + "' '" + linkFile + "'"
+	}
+}.
+
+$linkLibrary = !fun ($libraryFolder ; $libraryId) {
+	!ifElse (fileIsFolder: (appParameter: "root-folder") + "/APIs/" + libraryId) {
+		print: "There is already a library registered with ID " + libraryId + " - not linking " + libraryFolder
+	};{
+		$linkOrigin = libraryFolder.
+		$linkFile = ((appParameter: "root-folder") + "/APIs/" + libraryId).
+		print: "Linking " + linkFile + " to " + linkOrigin.
+		runCommand "ln -s '" + linkOrigin + "' '" + linkFile + "'"
+	}
+}.
+
+($file fun {
+		!if (fileIsFile: file) {
+			!if ("appId.txt" eq fileName: file) {
+				$appFolder = fileParent: fileParent: file.
+				$appId = strFirstLine: fileContent: file.
+				
+				`Check for a matching source file`
+				!if (fileIsFile: appFolder + "/" + appId + ".k") {
+					!linkApp appFolder appId
+				}
+			}.
+			
+			!if ("libraryId.txt" eq fileName: file) {
+				$libraryFolder = fileParent: fileParent: file.
+				$libraryId = strFirstLine: fileContent: file.
+				
+				`Check for a matching source file`
+				!if (fileIsFolder: libraryFolder + "/packages") {
+					!linkLibrary libraryFolder libraryId
+				}
+			}
+		}.
+}) folderContentDeepAsyncNotLinkOrHidden appParameter: "folder".

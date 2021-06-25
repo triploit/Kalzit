@@ -7,12 +7,12 @@ $kmpFromInstagramUser = ($user fun {
 				["kind";"image"];
 				["link";"https://www.instagram.com/p/" + igUserParseImageShortcode: x];
 				["file";[
-					["default";igUserParseImageUrl: x]
+					["default";"/api/loadUrl/v2?mime=" + (urlEncodeParameter: "*") + "&neverExpire=true&query=" + urlEncodeParameter: igUserParseImageUrl: x]
 				]];
 				["thumbnail";[
-					["default";$src propOf third: igUserParseImageThumbnail: x]
+					["default";"/api/loadUrl/v2?mime=" + (urlEncodeParameter: "*") + "&neverExpire=true&query=" + urlEncodeParameter: $src propOf third: igUserParseImageThumbnail: x]
 				]]
 			} each igUserParseUserImages: user
 		]];
-		["protocolVersion"; "2.0.0"]
+		["protocolVersion"; "2.1.0"]
 }) cachedFun autoClearedCache: hoursToMillis: 2.

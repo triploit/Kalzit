@@ -48,9 +48,10 @@ $leftSidebarResizeTool = !fun ($callback ; $views) {
 	A helper function for generating a left-hand sidebar. The sidebar will be separated from the main content, and it will be resizable by the user.
 	To make everything work properly, the "config" parameter should be an object with the following required fields:
 	
-	"sidebarViews" is a list of views that will be added to the sidebar itself - not the toolbar.
-	"toolbarViews" is a list of views that will be added to the toolbar, so they will appear above the sidebar and next to the separator line.
-	"mainContent" is a single view that contains the main content of the app. It will appear next to the sidebar and below the toolbar, and get resized accordingly when the sidebar gets wider or smaller.
+	* "sidebarViews" is a list of views that will be added to the sidebar itself - not the toolbar. It can also be a function which returns these views.
+	* "toolbarViews" is a list of views that will be added to the toolbar, so they will appear above the sidebar and next to the separator line.
+	* "mainContent" is a single view that contains the main content of the app. It will appear next to the sidebar and below the toolbar, and get resized accordingly when the sidebar gets wider or smaller.
+	* "mobileToolTitle" (optional) is a title which will be applied to a mobile tool. If you specify this, the sidebar will be available in popup-form for mobile devices
 	
 	If you call this function, the layout configuration of your mainContent view may be automatically (like width, height, positioning, ...).
 	This can also happen any time later after the initial call, especially the width changes. To make everything work, never specify a specific width for the views passed via the "config" object.
@@ -73,7 +74,7 @@ $leftSidebarResizeTool = !fun ($callback ; $views) {
 	print: mainContent.
 }
 $leftSidebarManager = !fun ($config) {
-	$sidebarContent = @(cssClass: "k-sidebar_content_wide") @(percentHeight 100) uiContainer: $sidebarViews propOf config.
+	$sidebarContent = @(cssClass: "k-sidebar_content_wide") @(percentHeight 100) uiContainer: do: $sidebarViews propOf config.
 	$mainContent = @verticalScroller @right @bottom @(cssClass: "k-sidebar_mainview_wide") $mainContent propOf config.
 	
 	$sidebar = @(cssClass: "k-sidebar_part") @left @bottom @dynamicWidth @(height: "100% - " + toolbarCmHeight + "cm") uiContainer:
@@ -88,10 +89,19 @@ $leftSidebarManager = !fun ($config) {
 	!disableScrolling.
 
 	`This will be returned`
-	[$tool;[{
-		`Do something with the new width of the sidebar`
-	} leftSidebarResizeTool
-		$toolbarViews propOf config
+	[$tool;[
+		(!ifNot (void eq $mobileToolTitle propOf config) {
+			`We have a mobile tool title, meaning we want a mobile tool (overrides the default)`
+			["title"; $mobileToolTitle propOf config];
+			["mobile"; uiContainer:
+				(uiTitleToolbar: $mobileToolTitle propOf config);
+				@(height "100% - " + toolbarCmHeight + "cm") @(width: "100% - 14px") @center uiContainer: do: $sidebarViews propOf config
+			]
+		});
+		{
+			`Do something with the new width of the sidebar`
+		} leftSidebarResizeTool
+			$toolbarViews propOf config
 	]];
 	[$sidebar;sidebar].
 }.

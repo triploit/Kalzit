@@ -1,5 +1,7 @@
 $uiIndexPickerForMobile = $uiActionPickerForMobile = ($action ; $_options ? ModifiableList) fun {
-	(!fun ($item;$index) {
-		@(cssClass: "k-single_view_picker") @(onTap: () fun {action: index}) uiContainer: uiText: item
-	}) uiListView _options.
+	_options uiCustomListView
+		["itemViewFactory"; !fun ($item;$index) {
+			@(cssClass: "k-single_view_picker") @(onTap: () fun {action: index}) uiContainer: uiText: item
+		}];
+		["sidePadding"; 7]
 }.

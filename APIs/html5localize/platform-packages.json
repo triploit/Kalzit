@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Libraries for localizing HTML5 applications"
+		"description":"Libraries for localizing HTML5 applications",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["simple_string_asset_access", "app_strings", "strings"], "scriptUrl":"simpleStringAccess.txt"}

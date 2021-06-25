@@ -50,7 +50,10 @@ GLang.stringify = function(anything){
 		}
 	};
 	GLang.notifyVariableChange = GLang.defaultRuntimeEnvironment.notifyVariableChange;
-	GLang.registerVariableListener = GLang.defaultRuntimeEnvironment.registerVariableListener;
+	GLang.registerVariableListener = function(varName, fun){
+		console.warn("GLang.registerVariableListener should not be used anymore - use GLang.defaultRuntimeEnvironment.registerVariableListener instead");
+		GLang.defaultRuntimeEnvironment.registerVariableListener(varName, fun);
+	};
 	GLang.registerGeneralListener = function (listener){generalUpdateFunctions.push(listener)};
 	
 	GLang.disableRuntimeUpdates = 0;

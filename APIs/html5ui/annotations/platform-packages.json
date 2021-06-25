@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"UI annotations that work in an HTML5 environment"
+		"description":"UI annotations that work in an HTML5 environment",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["flag_width", "flag_height", "flag_percent_width", "flag_percent_height", "flag_px_width", "flag_px_height", "flag_em_width", "flag_em_height", "flag_mm_width", "flag_mm_height", "flag_cm_width", "flag_cm_height", "flag_inch_width", "flag_inch_height"],  "scriptUrl":"widthHeight.js"},

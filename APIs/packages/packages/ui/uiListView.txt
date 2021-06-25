@@ -1,4 +1,48 @@
+#{
+	* `_options` is a modifiable list of items to display in the list view
+	* `config` is an object with various possible fields (listed below)
+	
+	Fields of `config`:
+	* `itemViewFactory` (optional): a function which turns a value (from the list) into a view that represents it. The returned view will show up in the list view.
+	* `itemSpacing` (optional): the distance between two list items in pixels. `0` by default.
+	* `sidePadding` (optional): the size of the empty space to the left and the right of the list view items. If this is 10, there will be 10 empty pixels to the left, then the list content, then 10 empty pixels to the right. Default is 0.
+	* `fullHeight` (optional): if this is set to true, the list view will have a height of 100%. Default is false.
+}
+$uiCustomListView = !fun ($_options ? ModifiableList ; $config) {
+	$itemViewFactory ? (default: {x}) = $itemViewFactory propOf config.
+	$itemSpacing ? (default: 0) = $itemSpacing propOf config.
+	$sidePadding ? (default: 0) = $sidePadding propOf config.
+	$fullHeight ? (default: false) = $fullHeight propOf config.
+	
+	`List view implementation`
+	$generateView = !fun () {
+		$rawValues = getArray: _options.
+		$listItems = @(percentWidth 100) {(x at rawValues) itemViewFactory x} each arrayIndexes: rawValues.
+		$result = !ifElse itemSpacing {
+			`Add annotations for dealing with item spacing`
+			@verticalScroller @(width "100% - " + (sidePadding * 2) + "px") @center uiContainer: itemSpacing uiAddVerticalPxSpaces listItems
+		};{
+			`No need to deal with item spacing`
+			@verticalScroller @(width "100% - " + (sidePadding * 2) + "px") @center uiContainer: listItems
+		}.
+		
+		!if (fullHeight) {
+			@(percentHeight: 100) result	
+		}.
+		
+		`Return` result
+	}.
+	
+	$currentView = !generateView.
+	$currentViewRef = reference: $currentView.
+	
+	($setOnChange propOf _options) {
+		currentViewRef = !generateView
+	}.
+	
+	uiShowVariable: currentViewRef.
+}.
+
 $uiListView = ($itemViewFactory ; $_options ? ModifiableList) fun {
-	$rawValues = getArray: _options.
-	@verticalScroller @(width "100% - 14px") @center uiContainer: @(percentWidth 100) {(x at rawValues) itemViewFactory x} each arrayIndexes: rawValues.
+	_options uiCustomListView [$itemViewFactory;itemViewFactory]
 }.

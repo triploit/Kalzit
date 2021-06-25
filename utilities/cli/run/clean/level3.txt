@@ -1,0 +1,48 @@
+$rootFolder = (appParameter: "root-folder") + "/".
+
+$cleanFileVersions = !fun ($fileFolder) {
+	!folderContentAsync fileFolder -> {
+		$versionFolders = fileIsFolderNotLink filter x.
+		$versionHashes = {fileMdFiveHash: x + "/raw"} each versionFolders.
+		
+		!loopEach (arrayIndexes: versionHashes) -> {
+			$versionIndex = x.
+			
+			`Go through the other version folders and check if they describe the same version`
+			$wantedHash = versionIndex at versionHashes.
+			$unwantedFolder = versionIndex at versionFolders.
+			
+			!loopEach (arrayIndexes: versionFolders) -> {
+				$matchIndex = x.
+				$matchFolder = matchIndex at versionFolders.
+				!if ((fileIsFolderNotLink: matchFolder) & not: unwantedFolder eq matchFolder) {
+					
+					`We might have a potential linking destination - check hashes`
+					print: unwantedFolder + ": checking " + matchIndex + " against " + versionIndex.
+					
+					$matchHash = matchIndex at versionHashes.
+					!if (wantedHash eq matchHash) {
+						print: "We will replace " + unwantedFolder + " (with " + (fileName: matchFolder) + ")".
+						runCommandFromArray: ("rm"; "-rf"; (rootFolder + unwantedFolder)).
+						runCommandFromArray: ("ln"; "-s"; (rootFolder + matchFolder); (rootFolder + unwantedFolder)).
+					}
+					
+				}
+			}
+			
+		}
+	}
+}.
+
+!folderContentAsync "./nogit/users/data/v3" -> {
+	!loopEach x -> {
+		print: $userFolder = x.
+		!folderContentDeepAsyncNotLinkOrHidden (userFolder + "/files/v2/main") -> {
+			$filesFolderEntry = x.
+			!if ("currentVersion.txt" eq fileName: filesFolderEntry) {
+				`We have found a file!`
+				cleanFileVersions: fileParent: filesFolderEntry
+			}
+		}
+	}
+}.

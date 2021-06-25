@@ -8,8 +8,6 @@ print "Parsing internal library ...".
 
 $blacklistAllows = $fname fun {not: 0 < sum: {x isMatch fname} each blacklist}.
 
-$cachedUrlTitle = urlTitle cachedFun autoClearedCache: monthsToMillis: 2.
-
 $ifFolderThenMaybeIndexFile = !fun ($path) {
 	`Check for a folder, and if the requested file is a folder, search an index file`
 	$file = path.

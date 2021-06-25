@@ -79,7 +79,16 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("folderContentAsync", {value:GL
 		if(err){
 			folderContentCallback({value:[]});
 		}else{
-			folderContentCallback({value:data.map(name => GLang.stringValue(path.join(args[1].value, name)))});
+			var dataCopy = [];
+			for(var i = 0; i < data.length; i++) {
+				dataCopy.push(GLang.stringValue(
+					path.join(args[1].value + "", data[i])
+				));
+			}
+			
+			folderContentCallback({
+				value:dataCopy
+			});
 		}
 	}, args[1].value);
 	
@@ -88,6 +97,14 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("folderContentAsync", {value:GL
 
 this.fileExists = function(filePath){
 	return fs.existsSync(filePath);
+}
+/* Returns if a file is a folder, not a file with contents nor a symbolic link pointing to a folder */
+this.fileIsFolderNotLink = function(filePath){
+	try{
+		return fs.lstatSync(filePath).isDirectory();
+	}catch(e){
+		return false;
+	}
 }
 this.fileIsFolder = function(filePath){
 	try{
@@ -107,6 +124,14 @@ this.fileRenameFile = function(oldPath, newPath){
 this.fileIsFile = function(filePath){
 	try{
 		return fs.lstatSync(fs.realpathSync(filePath)).isFile();
+	}catch(e){
+		return false;
+	}
+}
+/* Returns if a file is a file, not a folder nor a symbolic link pointing to a file */
+this.fileIsFileNotLink = function(filePath){
+	try{
+		return fs.lstatSync(filePath).isFile();
 	}catch(e){
 		return false;
 	}

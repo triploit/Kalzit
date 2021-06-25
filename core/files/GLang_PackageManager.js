@@ -118,7 +118,11 @@
 		
 		this.supportedLanguages = {
 			lang_js: function(url, code){
-				installJs(Function(code));
+				try{
+					installJs(Function(code));
+				} catch(anyError) {
+					console.log(anyError.stack);
+				}
 			},
 			lang_txt: function(url, x){GLang.eval(x,true)},
 			lang_json: function(url, x){

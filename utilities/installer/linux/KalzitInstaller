@@ -1,5 +1,0 @@
-#!/bin/sh
-folder="$(dirname $0)"
-cd "$folder"
-
-curl https://raw.githubusercontent.com/triploit/Kalzit/master/utilities/installer/main.sh | sh

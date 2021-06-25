@@ -25,4 +25,9 @@
 		return result ? {value:result} : GLang.voidValue
 	})});
 	
+	GLang.defaultRuntimeEnvironment.setInnerVariable("loadGlobalWithStatus", {value:GLang.arrayFun(function(env, args){
+		var result = kLoad.loadGlobalWithStatus(args[0].value);
+		return GLang.wrapJsToValue(result)
+	})});
+	
 })();

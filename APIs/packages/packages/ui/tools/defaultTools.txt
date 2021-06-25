@@ -30,10 +30,6 @@ $indexPickerTool = !fun ($titleAndRef ? (Tuple: String;Reference) ; $_values ? M
 		- $title (Defines the title of this tool, shown on narrow screens / windows)
 }
 $customModifiableListEditTool = !fun ($configuration ; $_values ? ModifiableList) {
-	$callbacks = !if (3 eq length: titleAndCallbacks) {
-		(1 at titleAndCallbacks);
-		2 at titleAndCallbacks
-	}.
 	$title = (default: "Custom list editor (needs a $title)"): $title propOf configuration.
 	
 	`Sub app registration - only used by the desktop button`

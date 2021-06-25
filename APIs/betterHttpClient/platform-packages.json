@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Libraries for good HTTP access"
+		"description":"Libraries for good HTTP access",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["http_get_local_async", "http_post_local_async"],  "scriptUrl":"local.js"}

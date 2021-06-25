@@ -76,41 +76,33 @@ function getRequestValue(req, res) {
 			//Parameters
 			var sizeLimit = sizeLimit ? parseInt(sizeLimit) : 1e9; 
 			
-			var buffers = [];
-			var contentLength = 0;
+			//Figure out how long the posted file is before accepting it
+			var contentLength = parseInt(req.headers['content-length'] || "0");
+			if(contentLength > sizeLimit) {
+				//The file is larger than the size limit!
+				console.log(new Error("The file is too large!").stack);
+				callback();
+				return;
+			}
 			
-			//Data handling
-			//Idea from https://stackoverflow.com/questions/15427220/how-to-handle-post-request-in-node-js
-			var requestBody = '';
-			var errorHappened = false;
+			//File is in the accepted size range - store it somewhere
+			//Idea from https://nodejs.org/en/knowledge/advanced/streams/how-to-use-fs-create-write-stream/
 			
-			req.on('data', function(buffer) {
-				if (errorHappened) return;
-				
-				buffers.push(buffer);
-				contentLength += buffer.length;
-				
-				if(contentLength > sizeLimit) {
-					//Use the callback without a result (upload size too large)
-					callback();
-					errorHappened = true;
-				}
+			//This is the temporary file where we store the download - will be passed to the callback later
+			var tempFileName = "./generated/ul_" + Date.now();
+			var fileStream = fs.createWriteStream(tempFileName);
+			
+			// This pipes the POST data to the file
+			req.pipe(fileStream);
+			
+			// This is here in case any errors occur - not really handled well yet
+			fileStream.on('error', function (err) {
+				console.log(err.stack);
+				//Error happened - callback gets "void" as the parameter
+				callback();
 			});
 			req.on('end', function() {
-				if (errorHappened) return;
-				
-				//Create a file with the content in it
-				//Idea from https://stackoverflow.com/questions/12868089/nodejs-write-binary-buffer-into-a-file and https://www.w3schools.com/nodejs/met_buffer_concat.asp
-				var fileName = "./generated/ul_" + Date.now();
-				fs.writeFile(fileName, Buffer.concat(buffers),  "binary", function(err) {
-				    if(err) {
-				       //Error happened - callback gets "void" as the parameter
-				     	callback();
-				    } else {
-				        //All fine - callback gets the file name as the parameter
-				        callback(fileName);
-				    }
-				});
+				callback(tempFileName)
 			});
 		}
 	};

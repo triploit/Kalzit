@@ -1,0 +1,1 @@
+Please download Ffprobe (which you can find on the ffmpeg Website) and install it: https://ffmpeg.org/download.html

@@ -1,32 +1,5 @@
+#Install packages locally for this project (not too bad if it does not work)
 npm install follow-redirects xmldom
-
-#Global utility installation (needed for building)
-##Check which utilities are needed
-utilitiesNeeded=0
-if ! command -v terser &> /dev/null
-then
-	terserPackage="terser"
-	utilitiesNeeded=1
-fi
-if ! command -v uglifycss &> /dev/null
-then
-	uglifycssPackage="uglifycss"
-	utilitiesNeeded=1
-fi
-if ! command -v markdown &> /dev/null
-then
-	markdownPackage="markdown-to-html"
-	utilitiesNeeded=1
-fi
-
-##If a new installation of global tools is required, do that
-if [[ $utilitiesNeeded == 1 ]]
-then
-	echo "Trying to install some global commands which are needed for building Kalzit."
-	echo $terserPackage $uglifycssPackage $markdownPackage
-	echo "Please authenticate:"
-	sudo npm install -g $terserPackage $uglifycssPackage $markdownPackage $ffbinariesPackage
-fi
 
 mkdir ./generated
 

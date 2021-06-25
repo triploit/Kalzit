@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"APIs to create apps with multiple views, where the user can switch between views"
+		"description":"APIs to create apps with multiple views, where the user can switch between views",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["view_based_app_manager"],  "scriptUrl":"viewBasedAppManager.txt"},

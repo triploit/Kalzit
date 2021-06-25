@@ -1,0 +1,7 @@
+`We have to run this script after minifying the individual libraries and building the library lists (!)`
+
+$buildMinifiedAPI = !fun ($folderList ; $outputFile) {
+	runCommand: "terser " + (" " strJoin folderList + "/_min.js") + " --output " + outputFile + " --keep-fnames"
+}.
+
+!buildMinifiedAPI (parseJson: fileContent: "html5/usable-libraries.json") "./generated/_max.js".

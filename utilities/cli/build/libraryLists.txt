@@ -1,0 +1,19 @@
+$nodeAPIs = ModifiableList: ("core"; "nodejs").
+$htmlAPIs = ModifiableList: ("core").
+
+($file fun {
+		!if (fileIsFile: file) {
+			!if ("platform-packages.json" eq fileName: file) {
+				$relativeFolderName = fileParent: file.
+				
+				`We have a package list - check platforms`
+				$supportedPlatforms = (default: "nodejs";"html5"): $platforms propOf $info propOf parseJson: fileContent: file.
+				!if ("nodejs" listContains supportedPlatforms) {($push propOf nodeAPIs): relativeFolderName}.
+				!if ("html5" listContains supportedPlatforms) {($push propOf htmlAPIs): relativeFolderName}.
+				
+				`Update the usable-libraries.json files`
+				"nodejs/usable-libraries.json" fileWrite objToJson: getArray: nodeAPIs.
+				"html5/usable-libraries.json" fileWrite objToJson: getArray: htmlAPIs.
+			}
+		}.
+}) folderContentDeepAsync "./APIs".

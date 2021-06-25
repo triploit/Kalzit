@@ -15,3 +15,10 @@ void
 this.uiSetText = function(textControl, text){
 	textControl.value = text;
 }
+
+/* @kalzit.for ui_get_text
+Allows you to get the text displayed by a text input control (like a textfield or a textarea).
+*/
+this.uiGetText = function(textControl){
+	return textControl.value + "";
+}

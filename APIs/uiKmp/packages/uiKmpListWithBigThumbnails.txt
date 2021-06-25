@@ -1,0 +1,50 @@
+#{
+	Creates a list view from a KMP collection, with (relatively large) thumbnails and titles. Additionally, you can specify actions for tapping on a medium and add other interaction options.
+	
+	Parameters:
+	* `interactionConfig` is an object with multiple fields (listed below).
+	* `videoList` is a KMP object which either represents a collection ($kind is "collection") or a single medium (in this case, the medium will be shown as a one-item list).
+	
+	More details on the "interactionConfig" object:
+	* `onTap` is a function which is called when the user selects a medium from the list. It gets the KMP object of that medium as its first parameter.
+	* `additionalActions` is a list of pairs, where each pair contains a string (first item) and a function (second item). These pairs are used to construct an action picker ("three dot button"), where the string specifies the title of each action and the function specifies the action itself. When an action is selected by the user, the appropriate function is called with the KMP object of the medium the action is applied to (what "onTap" would get when the medium is selected)
+	* `allowTitleOverflow` is a boolean value which specifies if the title can take up more than one line. The default value is true. If this is false, titles can be cut off.
+	* `centerTitle` is a boolean value which specifies if the title is centered. Default value is true - if false, the title is aligned to the left.
+}
+$uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
+	$tapAction = $onTap propOf interactionConfig.
+	$additionalActions = $additionalActions propOf interactionConfig.
+	$allowTitleOverflow ? (default: true) = $allowTitleOverflow propOf interactionConfig.
+	$centerTitle ? (default: true) = $centerTitle propOf interactionConfig.
+	
+	($_media fun {
+		$actionMenu = _media uiAdditionalActionsButton additionalActions.
+		
+		$titleViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 20px"}.
+		
+		`The main list entry - thumbnail with a title next to it`
+		$view = uiContainer: (
+			$titleView = @(cssClass: "k-single_view_picker") @(width titleViewWidth) uiContainer:
+				[@(percentWidth 30) uiShowImageUrl: kmpGetDefaultThumbnail: _media];
+				[@(percentWidth 70) uiContainer: kmpGetTitle: _media]
+			);
+			actionMenu `If it is void, no action menu is shown`.
+			
+		!ifNot (allowTitleOverflow) {
+			@ellipsis titleView.
+		}.
+		!if (centerTitle) {
+			@centerText titleView.
+		}.
+			
+		`Here we can augment the view to give it an action`
+		`Make a button to play the video in-app`
+		@(onTap: () fun {
+			tapAction: _media.
+		})
+		titleView.
+		
+		`return` view
+		
+	}) uiListView kmpCollectionToList: videoList.
+}.

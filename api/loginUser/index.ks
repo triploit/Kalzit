@@ -37,7 +37,7 @@ $createUserSession = ($userToken ? String) fun {
 
 $getUserSession = ($userToken ? String) fun {
 	$idFile = "./nogit/users/data/" + structureVersion + "/" + userToken + "/session/id.txt".
-	!ifElse (fileIsFile: sessionFile) {
+	!ifElse (fileIsFile: idFile) {
 		`Check if session is expired`
 		$expirationFile = "./nogit/users/data/" + structureVersion + "/" + userToken + "/session/expiration.txt".
 		!ifElse (fileIsFile: expirationFile) {

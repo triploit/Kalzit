@@ -1,10 +1,11 @@
 {
 	"info":{
-		"description":"Helper functions to make working with files easier"
+		"description":"Helper functions to make working with files easier",
+		"platforms":["nodejs"]
 	},
 	"libraries":[
 		{"provides":["file_mime_html", "file_mime_js", "file_mime_text", "file_mime_jpg", "file_mime_mp_four", "file_mime_json", "file_extension_html", "file_extension_js", "file_extension_text", "file_extension_jpg", "file_extension_mp_four", "file_extension_json", "file_type_html", "file_type_js", "file_type_text", "file_type_jpg", "file_type_mp_four", "file_type_json"],  "scriptUrl":"fileTypes.txt"},
-		{"provides":["folder_content_deep_chunks_async", "folder_content_deep_async"],  "scriptUrl":"folderContentDeepAsync.txt"},
+		{"provides":["folder_content_deep_chunks_async", "folder_content_deep_async", "folder_content_deep_async_not_link", "folder_content_deep_async_not_hidden", "folder_content_deep_async_not_link_or_hidden"],  "scriptUrl":"folderContentDeepAsync.txt"},
 		{"provides":["file_path", "safe_file_path"],  "scriptUrl":"filepath.txt"}
 	]
 }

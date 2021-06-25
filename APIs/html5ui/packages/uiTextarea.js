@@ -1,12 +1,18 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaVariableOnchange", {value:GLang.arrayFun(function(env, args){
+	var varRef = args[0];
+	if(varRef.display !== "reference"){throw new Error("uiPicker needs a reference as the first parameter")}
+	
+	var varEnv = varRef.environment;
+	var varName = varRef.value;
+	
 	var textfield = document.createElement("textarea");
-	textfield.value = GLang.eval(args[0].value).value;
+	textfield.value = varEnv.resolveName(varName).value;
 	textfield.onkeyup=function(e){
-		GLang.defaultRuntimeEnvironment.setInnerVariable(args[0].value, GLang.stringValue(textfield.value), true);
+		varEnv.setInnerVariable(varName, GLang.stringValue(textfield.value), true);
 	}
 	
-	GLang.registerVariableListener(args[0].value, function(){
-		textfield.value = GLang.eval(args[0].value).value;
+	GLang.registerVariableListener(varName, function(){
+		textfield.value = varEnv.resolveName(varName).value;
 	})
 	
 	return {value:textfield, display:"dom"};

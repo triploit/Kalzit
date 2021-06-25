@@ -22,7 +22,7 @@ $hashPath = "./nogit/users/data/v3/" + userToken + "/keys-hash.txt".
 	do:($endServing propOf _request).
 }. !else {
 	!if (userTokenExists & fileIsFolder: "./nogit/users/data/v3/" + userToken + "/keys") {
-		print: "Pulling data for user " + cookieName + " from the server".
+		print: "Pulling data for user " + userToken + " from the server".
 	
 		$jsonBody = "," strJoin ($cookieFile fun {
 			(objToJson: urlDecodeParameter: fileName: cookieFile) + ":" + objToJson: fileContent: cookieFile.

@@ -1,0 +1,47 @@
+#{
+	* `file` is a KMP object (already parsed, not in JSON format)
+	* `config` is a configuration object
+	
+	Fields of `config`:
+	* `forcedThumbnail` (optional): defines a fixed thumbnail displayed by this list entry
+	* `defaultThumbnail` (optional): defines a default icon which will be used if no fixed icon is specified by the configuration or the KMP object,
+	* `onTap` (optional): defines an action which will be triggered if the user taps on this list item. Gets the KMP object (`file`) as its parameter.
+	* `titleGenerator` (optional): defines how to get a title from a KMP object. Function which gets the KMP object as its parameter. Default returns the standard KMP title.
+	* `additionalActions` (optional): a list of pairs, where each pair contains a string (first item) and a function (second item). These pairs are used to construct an action picker ("three dot button"), where the string specifies the title of each action and the function specifies the action itself. When an action is selected by the user, the appropriate function is called with the KMP object of the medium the action is applied to (what "onTap" would get when the medium is selected)
+}
+$uiKmpListItem = !fun ($file ; $config) {
+	$thumbnail = !ifElse (void eq $forcedThumbnail propOf config) {
+		`Figure out the thumbnail URL to use`
+		$potentialIcon = ($kind propOf file) switchFirst
+			[{x eq "audio"}; "/apps/music/icons/iOS.png"];
+			[{x eq "image"}; "/apps/images/icons/iOS.png"];
+			[{x eq "video"}; "/apps/videos/icons/iOS.png"];
+			[true; "/apps/files/unknown.png"].
+		$defaultIcon = (default: potentialIcon): $defaultThumbnail propOf config.
+		
+		`Return`
+		(default: defaultIcon): ($default propOf $thumbnail propOf file) + "&session=" + session.
+	};{
+		`We have a fixed thumbnail URL`
+		$forcedThumbnail propOf config
+	}.
+	
+	$additionalActions = $additionalActions propOf config.
+	$actionMenu = file uiAdditionalActionsButton additionalActions.
+	
+	$titleGenerator ? (default: {$title propOf x}) = $titleGenerator propOf config.
+
+	@(width: "100% - " + !ifElse (void eq actionMenu) {"0px"};{"30px"})
+	@(pxHeight 60)
+	@relative
+	@(onTap: () fun {
+		($onTap propOf config): file
+	})
+	@(cssClass: "k-single_view_picker")
+	$preview = uiContainer:
+			(@fit (60;60) uiShowScaledImageUrl thumbnail);
+			(uiHorizontalPxSpace: 20);
+			@(width: "100% - 100px") @(pxHeight 50) @ellipsis @verticalCenter uiText: titleGenerator: file.
+		
+	uiContainer: (@left preview);(!ifNot (void eq actionMenu) {uiHorizontalPxSpace 10});actionMenu.
+}.

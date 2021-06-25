@@ -24,26 +24,30 @@ function loadGlobalAsync(callback, url) {
 	getContentAsync(url).then(
 		result => callback(result)
 	).catch(
-		error => callback()
+		error => {console.log(e.stack); callback()}
 	)
 };
 
 function loadGlobal(url){
 	try{
-		return require("child_process").execSync("curl -L -A \"CalcitServersideLoadP/0.6\" \"" + url + "\"").toString("UTF8");
+		var result = require("child_process").execSync("curl -L -sS -A \"CalcitServersideLoadP/0.10\" \"" + url + "\"").toString("UTF8");
+		return {text: result, ok: true}
 	}catch(e){
-		return null;
+		console.log(e.stack);
+		return {error: e.message, ok: false};
 	}
 };
 
 function loadGlobalRaw(url){
 	try{
-		return require("child_process").execSync("curl -L -A \"CalcitServersideLoadP/0.2\" \"" + url + "\"");
+		return require("child_process").execSync("curl -L -sS -A \"CalcitServersideLoadP/0.10\" \"" + url + "\"");
 	}catch(e){
+		console.log(e.stack);
 		return null;
 	}
 };
 
 exports.loadGlobalAsync = loadGlobalAsync;
-exports.loadGlobal = loadGlobal;
+exports.loadGlobalWithStatus = loadGlobal;
+exports.loadGlobal = function(url){return loadGlobal(url).text};
 exports.loadGlobalRaw = loadGlobalRaw;

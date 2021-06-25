@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Libraries for client-side YouTube access"
+		"description":"Libraries for client-side YouTube access",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["ui_native_youtube_player"], "scriptUrl":"youtubePlayer.js"},

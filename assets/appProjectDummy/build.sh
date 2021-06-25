@@ -91,16 +91,16 @@ echo "}" >> ./$appId.json
 
 
 #Build the actual HTML file
-cd "$rootFolder/nodejs/files"
+cd "$rootFolder"
 
 if [ -f "$appFolder/platform-packages.json" ]
 	then
-		bash ./run.sh "$rootFolder/nodejs/files/minifyKalzitPackage.txt" --input-file "$appFolder/platform-packages.json" --output-file "$appFolder/doNotTouch/_min.js"
+		./cli run nodeApp "$rootFolder/nodejs/files/minifyKalzitPackage.txt" --input-file "$appFolder/platform-packages.json" --output-file "$appFolder/doNotTouch/_min.js"
 	else
 		rm "$appFolder/doNotTouch/_min.js"
 	fi
 
-bash "$rootFolder/utilities/cli/build/kalzitFile.sh" "$appFolder/$appId.k" "$rootFolder"
+./cli build kalzitFile "$appFolder/$appId.k" "$rootFolder"
 
 #Create a listing of all project files which are not hidden (useful for downloading from the internet)
 cd "$appFolder"

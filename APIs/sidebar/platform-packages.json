@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"APIs to create apps with a sidebar"
+		"description":"APIs to create apps with a sidebar",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["left_sidebar_resize_tool", "left_sidebar_manager", "left_sidebar_toggle_button_tool"],  "scriptUrl":"sidebar.txt"},

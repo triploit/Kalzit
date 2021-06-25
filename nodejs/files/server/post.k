@@ -22,8 +22,6 @@
 				fileDelete: categoryFolder + "/kmp.json".
 				fileDelete: filesFolder + "/" + category + "/kmp.json".
 				
-				$checksum = mdFiveHash: fileContentRaw: _postedFileName.
-				
 				`Make this file accessible under a specific name if wanted`
 				$accessName ? SafeFilePath = print: $accessName urlGetParameter $url propOf _request.
 				!ifNot (void eq accessName) {
@@ -70,10 +68,14 @@
 						}.
 					(filesFolder + "/main/" + accessName + "/" + currentVersion + "/kmp.json") fileWrite objToJson: kmpObject.
 					
-					_request httpEndServingRaw strRaw: '{"success": 1, "endpoint": ' + (objToJson: "/api/uploaded?id=" + category + "/" + checksum) + '}'.
+					_request httpEndServingRaw strRaw: '{"success": 1, "endpoint": ' + (objToJson: "/api/uploaded?id=" + urlEncodeParameter: accessName) + '}'.
 					
-					`Link the thing to the category folder (category determined above)`
-					runCommand: print: "ln -s '" + (fileRealpath: filesFolder + "/main/" + accessName + "/" + currentVersion) +  "' '" + categoryFolder + "/" + checksum + "'".
+					!fileMdFiveHashAsync (filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw") -> {
+						$checksum = x.
+						
+						`Link the thing to the category folder (category determined above)`
+						runCommand: print: "ln -s '" + (fileRealpath: filesFolder + "/main/" + accessName + "/" + currentVersion) +  "' '" + categoryFolder + "/" + checksum + "'".
+					}.
 				}.
 				
 			}

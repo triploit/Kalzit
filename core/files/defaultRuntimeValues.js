@@ -262,6 +262,18 @@
 		{varName:"resolve_reference", varValue:{value:function(env, args){
 			var ref = args[0];
 			return ref.environment.resolveName(ref.name);
+		}}},
+		{varName:"is_defined", varValue:{value:function(env, args){
+			var name = args[0].value + "";
+			//TODO: Error-driven logic is probably a bad idea, but I guess it works
+			try {
+				env.resolveName(name);
+				//When this causes no error, the variable exists
+				return {value:1};
+			} catch (e) {
+				//When there was an error, the variable does not exist
+				return {value:0};
+			}
 		}}}
 	];
 	

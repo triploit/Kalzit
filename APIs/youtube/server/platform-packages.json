@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Libraries for server-side YouTube access"
+		"description":"Libraries for server-side YouTube access",
+		"platforms":["nodejs"]
 	},
 	"libraries":[
 		{"provides":["youtube_video_title", "youtube_video_title_async"],  "scriptUrl":"youtubeVideoTitle.txt"},

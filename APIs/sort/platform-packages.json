@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries to sort lists"
+	},
+	"libraries":[
+		{"provides":["list_sort"],  "scriptUrl":"listSort.js"},
+		{"provides":["sorting_rule_numbers_ascending", "sorting_rule_numbers_descending"],  "scriptUrl":"sortingRules.txt"}
+	]
+}

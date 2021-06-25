@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Versions of the ui functions that generate HTML code"
+		"description":"Versions of the ui functions that generate HTML code",
+		"platforms":["nodejs"]
 	},
 	"libraries":[
 		{"provides":["ui_raw", "ui_text"],  "scriptUrl":"uiString.txt"},

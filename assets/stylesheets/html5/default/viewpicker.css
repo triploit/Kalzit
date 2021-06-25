@@ -1,5 +1,22 @@
+:root {
+	--kv-single_view_picker_overflow: unset;
+}
+
 .k-single_view_picker {
 	background-color: transparent;
 	border-radius: var(--big-button-border-radius);
-	overflow: hidden;
+	/* TODO: When all browsers support it, use overflow: clip here - currently, code below is needed */
+	overflow: var(--kv-single_view_picker_overflow);
+}
+
+/* Firefox needs overflow: clip to not mess up other layouts */
+@-moz-document url-prefix() {
+	:root {
+		--kv-single_view_picker_overflow: clip;
+	}
+}
+
+/* Safari does not have overflow: clip, so we use overflow: hidden */
+_::-webkit-full-page-media, _:future, :root .safari_only {
+	--kv-single_view_picker_overflow: hidden;
 }
