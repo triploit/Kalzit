@@ -15,7 +15,8 @@ add_to_homescreen () {
 	fi
 }
 
-
+#Begin writing to the "standardApps.json" file (make sure the parent folder exists first)
+mkdir "$rootFolder/apps/home/config"
 echo "[" > "$rootFolder/apps/home/config/standardApps.json"
 
 #Look for .redirect files in /apps
