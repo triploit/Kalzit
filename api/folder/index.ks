@@ -8,20 +8,23 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 	$filesFolder = "./nogit/users/data/v3/" + userToken + "/files/v2/main".
 	!if (fileIsFolder: filesFolder + "/" + id) {
 		$listingFile = filesFolder + "/" + id + "/listing.json".
+		$gzipFile = filesFolder + "/" + id + "/listing.json.gz".
 		asyncRef = true.
 		
 		$serveListingFile = !fun () {
+			"Content-Encoding" ($setHeader propOf _request) "gzip".
 			($startServing propOf _request): nativeFileMime: "json".
-			($writeFile propOf _request): listingFile.
+			($writeFile propOf _request): gzipFile.
 			do:($endServing propOf _request).
 		}.
 	
 		`Check if a file listing has already been created - if yes, use that`
-		!ifElse (fileIsFile: listingFile) {
+		!ifElse (fileIsFile: gzipFile) {
 			`File listing exists - serve it to the user`
 			!serveListingFile
 		};{
 			`No file listing is present - generate it`
+			fileDelete: listingFile.
 			print: $folderName = filesFolder + "/" + id.
 			$getFileName = fileName.
 			
@@ -43,10 +46,11 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 						(parseJson: fileContent: fileName + "/" + currentVersion + "/kmp.json");
 						["title";getFileName: fileName]
 					}
-				}) each {not: "." strStartsWith fileName: x} filter folderContent: folderName.
+				}) each {not: fileIsFile: x + "/.deleted.txt"} filter {not: "." strStartsWith fileName: x} filter folderContent: folderName.
 				
-				fileCreateFolders: fileParent: listingFile.
+				fileCreateFolder: fileParent: listingFile.
 				!fileWrite kmp -> listingFile.
+				runCommandFromArray: "gzip"; listingFile.
 				
 				`Serve the file`
 				!serveListingFile

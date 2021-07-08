@@ -1,6 +1,9 @@
 .k-italic {
 	font-style: italic;
 }
+.k-bold {
+	font-weight: bold;
+}
 
 .k-center_text {
 	text-align: center;

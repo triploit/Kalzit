@@ -1,4 +1,9 @@
-# Cleaning level 3 is supposed to remove file version duplicates in the user data folder
-# This is very likely to be effective in freeing up storage, so it is allowed to take a bit of time
+# Cleaning level 3 is supposed to remove user files that are very likely to never be used again.
+# These files have to be able to be re-generated. You must never delete a raw file here, for instance.
 
-./cli run nodeApp "$(pwd)/utilities/cli/run/clean/level3.txt" --root-folder "$(pwd)"
+echo Running clean/level3 ...
+
+# echo Removing file thumbnails ...
+# find ./nogit/users/data/v3 -name 'thumbnail.png' -type f -exec rm {} \;
+
+echo clean/level3 is done!

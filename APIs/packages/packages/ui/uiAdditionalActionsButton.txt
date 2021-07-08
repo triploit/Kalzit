@@ -6,7 +6,6 @@
 $uiAdditionalActionsButton = !fun ($object ; $additionalActions) {
 	$actionMenu = !ifNot (void eq additionalActions) {
 		`Additional actions are specified - make an action menu`
-		@right @verticalCenter @relative 
 		{
 			$action = second: (Int: x) at additionalActions.
 			action: object.

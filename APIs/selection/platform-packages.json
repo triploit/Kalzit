@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Helper functions to make working with selections easier"
+	},
+	"libraries":[
+		{"provides":["selection_manager"],  "scriptUrl":"selectionManager.txt"}
+	]
+}

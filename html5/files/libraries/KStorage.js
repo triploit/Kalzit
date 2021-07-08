@@ -160,6 +160,7 @@ const KStorage = {};
                         if(!logoutTriggered) {
                             logoutTriggered = true;
                             alert("Your login details appear to be invalid - to protect your account security, you have to log in again");
+                            thiz.storageClear();
                         }
                         KFetch.important("/api/logoutUser?session=" + session).then(ok => location.reload()).catch(error => location.reload());
                     }
@@ -268,6 +269,11 @@ const KStorage = {};
         console.log(list);
         return list;
     };
+    thiz.storageClear = function(){
+        withLocalStorage(function(storage){
+            storage.clear();
+        });
+    }
     
     //Get and validate the current session
     var token = native_loadString("calcitSession");
@@ -282,12 +288,7 @@ const KStorage = {};
             alert("Your session seems invalid (" + token + "; " + tokenAsNumber + "). You are logged out now and some of your local data are deleted to try to make the app work again. Please try to  login again. If you see an error message which does not go away after reloading or if you see this message again, please ask for help.");
             
             //Reset all data
-            thiz.storageRemove("calcitSession");
-            thiz.storageRemove("calcitUserToken");
-            withLocalStorage(function(storage){
-                storage.clear();
-            });
-            
+            thiz.storageClear();
             location.reload();
         }else{
             console.log("Session seems valid");

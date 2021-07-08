@@ -1,5 +1,5 @@
 #Install packages locally for this project (not too bad if it does not work)
-npm install follow-redirects xmldom
+npm install follow-redirects xmldom diskspace
 
 mkdir ./generated
 

@@ -16,7 +16,9 @@
 	* `$getTool` - returns a tool for adding the view picker to the toolbar.
 	* `$getCurrentViewIndex` - returns the currently selected view index (starts at zero).
 	* `$setCurrentViewIndex` - sets the currently selected view index (starts at zero) and makes the displayed view update accordingly.
+	* `$updateViewManually` - performs the view updating manually. Might be useful if you use a function as a view generator.
 	* `$getCurrentView` - returns the currently shown view; can change later.
+	* `$currentViewIndexRef` - a reference that points to the currently active view index.
 	* `$mainView` - this is what you put in your UI to make the currently active view visible to the user. Updates automatically when the selection changes.
 }
 $viewBasedAppManager = !fun ($config) {
@@ -26,25 +28,25 @@ $viewBasedAppManager = !fun ($config) {
 	
 	$viewDefinitions = $viewDefinitions propOf config.
 	$fillOthersBasedOnViewDefinitions = !fun () {
-		$viewDefinitions ? ModifiableList = viewDefinitions.
+		$modifiableViewDefinitions ? ModifiableList = viewDefinitions.
 		`Fill the other lists`
-		($push propOf viewTitles): first each getArray: viewDefinitions.
-		($push propOf viewGenerators): second each getArray: viewDefinitions.
+		($push propOf viewTitles): first each getArray: modifiableViewDefinitions.
+		($push propOf viewGenerators): second each getArray: modifiableViewDefinitions.
 	}.
 	
 	`If the $viewDefinitions parameter is present, connect that with the other two lists`
 	!if (not: void eq viewDefinitions) {
-		$viewDefinitions ? ModifiableList = viewDefinitions.
+		$modifiableViewDefinitions ? ModifiableList = viewDefinitions.
 		!fillOthersBasedOnViewDefinitions
 		
 		`React to new additions`
-		($setOnAddition propOf viewDefinitions): {
+		($setOnAddition propOf modifiableViewDefinitions): {
 			($push propOf viewTitles): first each getArray: x.
 			($push propOf viewGenerators): second each getArray: x.
 		}.
 		
 		`React to item removals`
-		($setOnRemoval propOf viewDefinitions): {
+		($setOnRemoval propOf modifiableViewDefinitions): {
 			do: ($clear propOf viewTitles).
 			do: ($clear propOf viewGenerators).
 			!fillOthersBasedOnViewDefinitions.
@@ -85,6 +87,7 @@ $viewBasedAppManager = !fun ($config) {
 	}];
 	[$getCurrentViewIndex; () fun {currentViewIndex}];
 	[$setCurrentViewIndex; ($newViewIndex) fun {currentViewIndexRef = newViewIndex}];
+	[$updateViewManually; () fun {currentViewRef = getViewFromIndex: currentViewIndex}];
 	[$currentViewIndexRef; currentViewIndexRef];
 	[$getCurrentView; () fun {currentView}];
 	[$mainView; uiShowVariable: currentViewRef]

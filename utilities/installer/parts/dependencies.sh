@@ -7,8 +7,17 @@ case "${unameOut}" in
     *)          osName="UnknownUnix"
 esac
 
-#This routine is here for installing a single dependency - parameter is the folder containing the dependency description, like an installer file
+#This is a function for showing file content and prompting user action
 manualActionNeeded=0
+promptManualAction () {
+	file="$1"
+	
+	cat $folder/installHint.txt
+	echo
+	manualActionNeeded=1
+}
+
+#This routine is here for installing a single dependency - parameter is the folder containing the dependency description, like an installer file
 installDependencyByFolder () {
 	folder=$1
 	
@@ -21,11 +30,28 @@ installDependencyByFolder () {
 		#We have an installer script specifically for the current OS - use that
 		echo We need to install the program \'$(basename $folder)\'. Please authenticate:
 		sudo bash $folder/sudoInstaller$osName.sh
+	elif [ -d $folder/$osName ]; then
+		#We have a folder with separate installer scripts for different package managers. Loop them.
+		for packageManagerSupportFile in $folder/$osName/*.sh; do
+			local packageManagerName=$(basename "${packageManagerSupportFile%.*}")
+			
+			#If the package manager command exists, just use it
+			if command -v $packageManagerName &> /dev/null
+			then
+				echo We need to install the program \'$(basename $folder)\'. Please authenticate:
+				sudo bash $folder/$osName/$packageManagerName.sh
+				
+				#Now the installation should be complete. If it is not, put up a prompt for manual action
+				if ! command -v $(basename $folder) &> /dev/null
+				then
+					promptManualAction "$folder/installHint.txt"
+				fi
+				
+				break
+			fi
+		done
 	else
-		#Tell the user to do something manually
-		cat $folder/installHint.txt
-		echo
-		manualActionNeeded=1
+		promptManualAction "$folder/installHint.txt"
 	fi
 }
 
@@ -34,7 +60,7 @@ runInstallersOnLevel () {
 	#Loop through ./utilities/installer/parts/dependencies/$level
 	for subFolder in ./utilities/installer/parts/dependencies/$level/* ; do
 		#Get the name of that folder, which corresponds to the command name of the dependency
-		dependencyName=$(basename $subFolder)
+		local dependencyName=$(basename $subFolder)
 		
 		#Check if the dependency does not exists - that means we have to do something
 		if ! command -v $dependencyName &> /dev/null

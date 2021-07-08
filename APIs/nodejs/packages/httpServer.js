@@ -83,16 +83,36 @@ function wrapRequestValue(kServerRequest) {
 				return GLang.voidValue
 			}, display: "function"
 		}]},
+		{value:[{value:"getPostDataByteSizeEstimate"}, {
+			value: function(env, args){
+				return {value:kServerRequest.getPostDataByteSizeEstimate()};
+			}, display: "function"
+		}]},
 		{value:[{value:"getPostDataFileAsync"}, {
 			value: function(env, args){
-				//Parameters
-				var callback = args[0];
-				var sizeLimit = args.length > 1 ? parseInt(args[1].value) : null; 
+				//We need to extract some named functions from a Kalzit object (first parameter)
+				var callbackObject = args[0];
+				var propOf = GLang.eval("propOf");
 				
-				kServerRequest.getPostDataFileAsync(function(filePath){
-					GLang.callObject(callback, env, filePath == null ? [] : [GLang.stringValue(filePath)])
-				}, sizeLimit);
+				//These are the needed Kalzit functions
+				var onSuccess = GLang.callObject(propOf, env, [
+					GLang.stringValue("onSuccess"), callbackObject
+				]);
+				var onError = GLang.callObject(propOf, env, [
+					GLang.stringValue("onError"), callbackObject
+				]);
+				var onPreparation = GLang.callObject(propOf, env, [
+					GLang.stringValue("onPreparation"), callbackObject
+				]);
 				
+				//We will now have to wrap these Kalzit functions into JS functions and use them with the real getPostDataFileAsync implementation
+				kServerRequest.getPostDataFileAsync({
+					onSuccess: (tempFileName) => GLang.callObject(onSuccess, env, [GLang.stringValue(tempFileName)]),
+					onError: () => GLang.callObject(onError, env, []),
+					onPrepatation: (contentLength) => GLang.callObject(onPreparation, env, [{value: contentLength}])
+				});
+				
+				//Make sure that something valid is returned
 				return GLang.voidValue
 			}, display: "function"
 		}]}

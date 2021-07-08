@@ -1,0 +1,45 @@
+#{
+	This is a helper function for creating generic list items.
+	List items can have a custom view, an action button and a tap action, as well as a value that is connected to all these actions.
+	Most standard uses for list items are probably covered by this.
+	
+	You can configure your list item with the `config` object. It has the following properties:
+	* `mainView` (required) - a UI element that is the main view of your list item. It takes up most of its space, except where the potential action button is.
+	* `additionalActions` (optional) - a set of name-function pairs that define actions for an action button. If this is specified, the list item will automatically get an action button.
+	* `onTap` (optional) - a function that will be triggered when the user clicks or taps the list item. If this is specified, the item will also get a hover effect to indicate it is clickable.
+	* `value` (optional) - this will be the first parameter for the functions specified by `additionalActions` and `onTap`.
+	* `additionalActionsButton` (optional) - you can specify a full action button (with custom styling, for example) instead of `additionalActions`. These two are exclusive.
+}
+$uiListItem = !fun ($config) {
+	$mainView ? UiElement = $mainView propOf config.
+	$value = $value propOf config.
+	$tapAction = $onTap propOf config.
+	
+	`Construct the UI element`
+	$actionMenu = !ifElse (void eq $additionalActionsButton propOf config) {
+		value uiAdditionalActionsButton $additionalActions propOf config
+	};{
+		$additionalActionsButton propOf config	
+	}.
+	$mainViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 27px"}.
+	
+	$view = uiContainer:
+		(@(width mainViewWidth) mainView);
+		!ifNot (void eq actionMenu) {
+			[uiHorizontalPxSpace 7];
+			[actionMenu] `If it is void, no action menu is shown`
+		}.
+		
+	!ifNot (void eq tapAction) {
+		`Make sure that the user can trigger an action by tapping on this element`
+		@(onTap: () fun {
+			tapAction: value.
+		})
+		@(cssClass: "k-single_view_picker")
+		mainView
+		
+	}.
+	
+	`Return the UI element that represents this list item`
+	view
+}.

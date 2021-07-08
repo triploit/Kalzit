@@ -94,8 +94,7 @@ $account registerSubApp popupSubApp: do:{
 			(@center {
 				$session = storageLoadString: "calcitSession".
 				{
-					storageRemove: "calcitSession".
-					storageRemove: "calcitUserName".
+					!storageClear.
 					!relaunchApp
 				} loadLocalAsync "/api/logoutUser?session=" + session.
 			} uiButton strings: $logoutButton).

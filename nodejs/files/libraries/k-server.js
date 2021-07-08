@@ -17,16 +17,16 @@ function getRequestValue(req, res) {
 		},
 		write(text, encoding){
 			var encoding = writeHelper.getEncoding(encoding);
-			writeHelper.write(Buffer.from(text, encoding), encoding, res);
+			writeHelper.write(Buffer.from(text, encoding), encoding, res, req);
 		},
 		writeFile(filePath){
 			writeHelper.writeFile(filePath, res, req);
 		},
 		writeBytes(numberArray, encoding){
-			writeHelper.write(Buffer.from(numberArray), encoding);
+			writeHelper.write(Buffer.from(numberArray), encoding, res, req);
 		},
 		writeRaw(buffer, encoding){
-			writeHelper.write(buffer, encoding, res);
+			writeHelper.write(buffer, encoding, res, req);
 		},
 		startServing(mime){
 			writeHelper.start(mime, res, req);
@@ -72,24 +72,34 @@ function getRequestValue(req, res) {
 				callback(requestBody);
 			});
 		},
-		getPostDataFileAsync(callback, sizeLimit){
-			//Parameters
-			var sizeLimit = sizeLimit ? parseInt(sizeLimit) : 1e9; 
+		getPostDataByteSizeEstimate(){
+			return parseInt(req.headers['content-length'] || "0");
+		},
+		getPostDataFileAsync(config){
+			var doNothing = function(){};
+			
+			//Callbacks
+			var onPreparation = config.onPreparation || doNothing;
+			var onSuccess = config.onSuccess || doNothing;
+			var onError = config.onError || doNothing;
 			
 			//Figure out how long the posted file is before accepting it
 			var contentLength = parseInt(req.headers['content-length'] || "0");
-			if(contentLength > sizeLimit) {
-				//The file is larger than the size limit!
-				console.log(new Error("The file is too large!").stack);
-				callback();
-				return;
-			}
+			onPreparation(contentLength);
 			
 			//File is in the accepted size range - store it somewhere
 			//Idea from https://nodejs.org/en/knowledge/advanced/streams/how-to-use-fs-create-write-stream/
 			
 			//This is the temporary file where we store the download - will be passed to the callback later
 			var tempFileName = "./generated/ul_" + Date.now();
+			//We need to ensure that the file does not exist yet - otherwise, another upload might break
+			try{
+				while(fs.lstatSync(fs.realpathSync(tempFileName)).isFile()) {
+					tempFileName = "./generated/ul_" + Date.now();
+				}
+			}catch(e){}
+			console.log(tempFileName);
+			
 			var fileStream = fs.createWriteStream(tempFileName);
 			
 			// This pipes the POST data to the file
@@ -99,10 +109,14 @@ function getRequestValue(req, res) {
 			fileStream.on('error', function (err) {
 				console.log(err.stack);
 				//Error happened - callback gets "void" as the parameter
-				callback();
+				onError();
 			});
-			req.on('end', function() {
-				callback(tempFileName)
+			
+			//Use "finish" event (not "end" of request) because that ensures that all data has been written to the file
+			//Prevents strange behavior were the file is incomplete
+			//Idea from https://stackoverflow.com/questions/11447872/callback-to-handle-completion-of-pipe
+			fileStream.on('finish', function() {
+				onSuccess(tempFileName)
 			});
 		}
 	};

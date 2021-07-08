@@ -1,0 +1,44 @@
+#{
+	Attempts to clean disk space so that a specified target is available afterwards. This might not work in all cases.
+	The callback is called when the cleaning is finished - its parameter is true if the required space is now available, or false if it is not.
+}
+$diskSpaceClean = !fun ($freeTargetInMegabytes ? (default: 500) ; $callback) {
+	print: "diskSpaceClean is supposed to ensure " + freeTargetInMegabytes + "mb of free space.".
+
+	`How much space do we want to have free at the end?`
+	$targetInBytes = freeTargetInMegabytes * 1000000.
+	
+	$cleanLevel = 1.
+	$cleanLevelRef = reference: $cleanLevel.
+	
+	$cleanSomething = !fun () {
+		runCommandFromArray: "./cli";"run";"clean/level" + (Int: cleanLevel).
+		cleanLevelRef = cleanLevel + 1.
+		
+		!ifElse (fileIsFile: "./utilities/cli/run/clean/level" + (Int: cleanLevel) + ".sh") {
+			`If there is another cleaning level, we can maybe use that`
+			!startNextLevelIfNeeded.
+		};{
+			`There is no next cleaning level, the cleaning seems to have failed`
+			callback: false.	
+		}
+	}.
+	
+	$startNextLevelIfNeeded = !fun () {
+		diskSpaceFreeBytesAsync: $freeBytes fun {
+			!ifElse (freeBytes < targetInBytes) {
+				`There is work to be done`
+				
+				print: "Free space (" + freeBytes + " bytes) below target (" + targetInBytes + " bytes) - starting clean level " + cleanLevel.
+				`We need to do something`
+				!cleanSomething
+			};{
+				`We are fine at this point`
+				callback: true.
+			}
+		}.
+	}.
+	
+	`Begin the process`
+	!startNextLevelIfNeeded.
+}.

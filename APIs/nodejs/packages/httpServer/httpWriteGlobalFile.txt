@@ -11,12 +11,24 @@
 	If you want to serve files which do not change later, consider using "httpWriteStaticFile".
 }
 $httpWriteGlobalFile = ($_request ; $file) fun {
+	$mime = fileMime: file.
+	$fileToServe = !ifElse (fileIsFile: file + ".gz") {
+		`We will serve a compressed file - set the header to allow that`
+		"Content-Encoding" ($setHeader propOf _request) "gzip".
+		
+		`Return the compressed version path`
+		file + ".gz"
+	};{
+		`There is no compressed version - sad :(`
+		file
+	}.
+	
 	"ETag" ($setHeader propOf _request) $etag = mdFiveHash: fileContent: file.
 	!ifElse (etag eq ($getHeader propOf _request): "if-none-match") {
 		($respondCode propOf _request): 304.
 	};{
-		($startServing propOf _request): fileMime: file.
-		($writeFile propOf _request): file.
+		($startServing propOf _request): mime.
+		($writeFile propOf _request): fileToServe.
 	}.
 }.
 

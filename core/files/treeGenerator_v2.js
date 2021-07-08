@@ -9,6 +9,9 @@
 				case "Space": return WAITING;
 			}
 			switch(token.textValue){
+				case "}":
+				case "]":
+				case ")": throw new Error("Found block closing character without an opener: " + token.textValue);
 				case "{": return codeBlock(1);
 				case "[": return arrayBlock(1);
 				case "(": return parenthesesBlock(1);

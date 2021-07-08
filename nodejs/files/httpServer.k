@@ -6,6 +6,7 @@ print "Reading blacklist ...".
 $blacklist = strNewline strSplit fileContent: "./nodejs/files/server/blacklist.txt".
 print "Parsing internal library ...".
 
+`TODO: Use the new "firstConditionMatch" function to make this a bit faster with large blacklists`
 $blacklistAllows = $fname fun {not: 0 < sum: {x isMatch fname} each blacklist}.
 
 $ifFolderThenMaybeIndexFile = !fun ($path) {
@@ -24,7 +25,59 @@ $ifFolderThenMaybeIndexFile = !fun ($path) {
 	};{file}.
 }.
 
+$sessionRemove = !fun ($sessionFolder) {
+	$sessionId = fileName: sessionFolder.
+	!if (fileIsFile: sessionFolder + "/expiration.txt") {
+		runCommandFromArray: "rm";"-rf";sessionFolder.
+		fileDelete: "./nogit/users/sessions/" + sessionId + ".txt".
+	}
+}.
+$sessionValidate = !fun ($sessionFolder ; $_request) {
+	print: "Validating session " + sessionFolder.
+
+	$securityLevelMatches = (fileContent: sessionFolder + "/securityLevel.txt") eq "standard".
+	$userAgentMatches = (fileContent: sessionFolder + "/userAgent.txt") eq ($getHeader objFirstProperty _request): "user-agent".
+	$languageMatches = (fileContent: sessionFolder + "/language.txt") eq ($getHeader objFirstProperty _request): "accept-language".
+	
+	!ifNot (securityLevelMatches & userAgentMatches & languageMatches) {
+		`We should remove the session`
+		print: "Session is invalid! Should be deleted: " + sessionFolder.
+		sessionRemove: sessionFolder
+	}
+}.
+$sessionUpgrade = !fun ($sessionFolder ; $_request) {
+	print: "We will upgrade session " + sessionFolder.
+	
+	$wantedSecurityLevel = "standard".
+	$wantedUserAgent = print: ($getHeader objFirstProperty _request): "user-agent".
+	$wantedLanguage = print: ($getHeader objFirstProperty _request): "accept-language".
+	
+	!fileWrite wantedSecurityLevel -> (sessionFolder + "/securityLevel.txt").
+	!fileWrite wantedUserAgent -> (sessionFolder + "/userAgent.txt").
+	!fileWrite wantedLanguage -> (sessionFolder + "/language.txt").
+}.
+
+$sessionValidateAndUpgrade = !fun ($userSession ; $_request) {
+	$userId = strFirstLine: fileContent: "./nogit/users/sessions/" + userSession + ".txt".
+	$sessionFolder = "./nogit/users/data/v3/" + userId + "/sessions/" + userSession.
+	
+	!if (fileIsFile: print: sessionFolder + "/expiration.txt") {
+		!ifElse (fileIsFile: sessionFolder + "/securityLevel.txt") {
+			!sessionValidate sessionFolder _request
+		};{
+			!sessionUpgrade sessionFolder _request
+		}
+	}
+}.
+
 $onClientConnect = ($_request fun {
+	`First thing we do is a quick session validation, as that is very important for security`
+	`After that comes the normal server stuff`
+	$userSession ? Float = ($getHeader objFirstProperty _request): "kalzit-session".
+	!ifNot (userSession eq void) {
+		!sessionValidateAndUpgrade userSession _request.
+	}.
+
 	$fname = ifFolderThenMaybeIndexFile: "." + first: "?" strSplit $url propOf _request.
 	
 	$result = void.
@@ -82,17 +135,19 @@ $onClientConnect = ($_request fun {
 	
 }).
 
-$methodHandlers =
-	["GET"; onClientConnect];
-	["POST"; $_request fun fileContent: "./nodejs/files/server/post.k"].
-
-print "Start port listening ...".
+print "Checking HTTPS configuration ...".
 !ifNot (fileExists: "./nogit/https/key.pem") {
 	runCommand: "./cli https certificate " + strFirstLine: runCommand: "hostname".
 }.
+
+print "Start port listening ...".
 !if (fileExists "./nogit/https/key.pem") {
-    methodHandlers methodBasedHttpsServer 5001
+    !httpsServer onClientConnect 5001.
 }.
-methodHandlers methodBasedHttpServer 5000.
+
+!httpServer onClientConnect 5000.
 print "Server is running now!".
 print "------".
+
+`Try to always have at least 500MB of disk space`
+(hoursToMillis: 0,5) repeatAsync {print: "Checking disk space...". diskSpaceClean: 500}.

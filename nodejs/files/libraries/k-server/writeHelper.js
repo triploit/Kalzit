@@ -9,7 +9,7 @@ function getEncoding(encoding){
 	return encoding ? (lastUsedEncoding = encoding) : lastUsedEncoding
 }
 
-function write(buffer, encoding, res){
+function write(buffer, encoding, res, req){
 	if(wantsRange && !headWritten){
 		//Write head and chunk data - base code from https://stackoverflow.com/questions/37866895/using-nodejs-to-serve-an-mp4-video-file#37867816
 		var range = req.headers.range;

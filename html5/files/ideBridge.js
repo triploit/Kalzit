@@ -23,7 +23,6 @@
 		}
 	}
 	GLang.printValue = function(container){
-		console.log(container);
 		document.getElementById("playground").appendChild(GLang.displayValue(container));
 	}
 

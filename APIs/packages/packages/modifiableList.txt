@@ -9,26 +9,32 @@ $modifiableList = ($_normalList ? (List:Any)) fun {
 		$listEnd = (). $listEndRef = reference: $listEnd.
 		
 		@($uiGenerator ; uiLiveListView)
-		["push"; ($_items) fun {
+		["push"; ($_items ? (List:Any)) fun {
 			listVarRef = listVar ; _items.
-			onAddition:_items.
+			onAddition each _items.
 			!onChange.
 			listVar
 		}];
 		["getArray"; () fun {listVar;listEnd}];
-		["clear";() fun {listVarRef = ()}];
+		["clear";() fun {
+			$oldListVar = listVar.
+			listVarRef = ().
+			onRemoval each oldListVar.
+			listVar
+		}];
 		["setOnAddition";($function) fun {onAdditionListRef = onAdditionList;function}];
 		["setOnRemoval";($function) fun {onRemovalListRef = onRemovalList;function}];
 		["setOnChange";($function) fun {onChangeListRef = onChangeList;function}];
 		["removeEquals";($_item) fun {
 			listVarRef = {not: _item eq x} filter listVar.
-			!onRemoval.
+			onRemoval: _item.
 			!onChange.
 			listVar
 		}];
 		["removeIndex";($index ? Int) fun {
+			$item = index at listVar.
 			listVarRef = ({not: index eq x} filter arrayIndexes) at listVar.
-			!onRemoval.
+			onRemoval: item.
 			!onChange.
 			listVar
 		}];

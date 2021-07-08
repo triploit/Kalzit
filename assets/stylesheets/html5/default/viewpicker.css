@@ -17,6 +17,9 @@
 }
 
 /* Safari does not have overflow: clip, so we use overflow: hidden */
-_::-webkit-full-page-media, _:future, :root .safari_only {
-	--kv-single_view_picker_overflow: hidden;
-}
+@media not all and (min-resolution:.001dpcm)
+{ @supports (-webkit-appearance:none) {
+	:root {
+		--kv-single_view_picker_overflow: hidden;	
+	}
+}}

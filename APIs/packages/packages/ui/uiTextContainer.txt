@@ -1,0 +1,6 @@
+$uiTextContainer = !fun ($text) {
+	uiContainer:
+		[uiHorizontalPxSpace 7];
+		[@(width "100% - 14px") uiContainer: text];
+		[uiHorizontalPxSpace 7]
+}.

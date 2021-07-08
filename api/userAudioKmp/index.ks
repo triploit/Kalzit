@@ -5,6 +5,7 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 !if userTokenExists {
 	asyncRef = true.
 	$file = "./nogit/users/data/v3/" + userToken + "/files/v2/categories/audio/kmp.json".
+	fileCreateFolder: fileParent: file.
 
 	!ifNot (fileIsFile: file) {
 		file fileWrite objToJson: 
@@ -13,12 +14,10 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 				print: path.
 				
 				(parseJson: fileContent: path + "/kmp.json");
-				!if (fileIsFile: path + "/thumbnail.png") {
-					!if (fileIsFile: print: $metadataFile =  path + "/metadata.json") {
-						["k-metadata";[
-							parseJson: fileContent: metadataFile
-						]]
-					}
+				!if (fileIsFile: print: $metadataFile =  path + "/metadata.json") {
+					["k-metadata";[
+						parseJson: fileContent: metadataFile
+					]]
 				}
 			}) each folderContent: "./nogit/users/data/v3/" + userToken + "/files/v2/categories/audio");
 			["title"; "My audio"];

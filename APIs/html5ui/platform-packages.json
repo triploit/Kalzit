@@ -28,13 +28,14 @@
 		{"provides":["ui_title"], "scriptUrl":"setActiveAppName.js"},
 		{"provides":["expand_with_content"], "scriptUrl":"autoExpand.js"},
 		{"provides":["ui_check"], "scriptUrl":"check.js"},
-		{"provides":["ui_expand", "ui_collapse", "ui_toggle_expansion", "ui_is_collapsed", "ui_is_expanded"], "scriptUrl":"uiCollapse.js"},
+		{"provides":["ui_expand", "ui_collapse", "ui_toggle_expansion", "ui_is_collapsed", "ui_is_expanded", "flag_on_expand", "flag_on_collapse"], "scriptUrl":"uiCollapse.js"},
 		{"provides":["ui_action_picker", "ui_action_picker_with_icon"],  "scriptUrl":"uiActionPicker.js"},
 		{"provides":["ui_index_picker", "ui_index_reference_picker"],  "scriptUrl":"uiIndexPicker.js"},
 		{"provides":["ui_set_text", "ui_get_text"],  "scriptUrl":"uiSetText.js"},
 		{"provides":["ui_set_picker_value", "ui_update_picker_value"],  "scriptUrl":"uiPickerValue.js"},
 		{"provides":["is_popup_active", "hide_all_popups", "popup_animate_out"],  "scriptUrl":"isPopupActive.js"},
 		{"provides":["notification_forbidden", "notification_supported", "notification_allowed", "notification_request_permission", "notification_show_long_text", "notification_show_short_text"],  "scriptUrl":"notification.js"},
-		{"provides":["enable_highlighting", "disable_highlighting"],  "scriptUrl":"highlighting.js"}
+		{"provides":["enable_highlighting", "disable_highlighting"],  "scriptUrl":"highlighting.js"},
+		{"provides":["ui_arrow_icon"],  "scriptUrl":"uiArrowIcon.js"}
 	]
 }

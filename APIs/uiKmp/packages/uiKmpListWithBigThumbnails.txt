@@ -18,17 +18,9 @@ $uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
 	$centerTitle ? (default: true) = $centerTitle propOf interactionConfig.
 	
 	($_media fun {
-		$actionMenu = _media uiAdditionalActionsButton additionalActions.
-		
-		$titleViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 20px"}.
-		
-		`The main list entry - thumbnail with a title next to it`
-		$view = uiContainer: (
-			$titleView = @(cssClass: "k-single_view_picker") @(width titleViewWidth) uiContainer:
-				[@(percentWidth 30) uiShowImageUrl: kmpGetDefaultThumbnail: _media];
-				[@(percentWidth 70) uiContainer: kmpGetTitle: _media]
-			);
-			actionMenu `If it is void, no action menu is shown`.
+		$titleView = uiContainer:
+			[@(percentWidth 30) uiShowImageUrl: kmpGetDefaultThumbnail: _media];
+			[@(percentWidth 70) uiContainer: kmpGetTitle: _media].
 			
 		!ifNot (allowTitleOverflow) {
 			@ellipsis titleView.
@@ -36,15 +28,12 @@ $uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
 		!if (centerTitle) {
 			@centerText titleView.
 		}.
-			
-		`Here we can augment the view to give it an action`
-		`Make a button to play the video in-app`
-		@(onTap: () fun {
-			tapAction: _media.
-		})
-		titleView.
 		
-		`return` view
+		`return` uiListItem:
+			["onTap"; tapAction];
+			["additionalActions"; [additionalActions]];
+			["mainView"; titleView];
+			["value"; [_media]]
 		
 	}) uiListView kmpCollectionToList: videoList.
 }.

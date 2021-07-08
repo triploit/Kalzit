@@ -24,7 +24,7 @@ function loadGlobalAsync(callback, url) {
 	getContentAsync(url).then(
 		result => callback(result)
 	).catch(
-		error => {console.log(e.stack); callback()}
+		error => {console.log(error.stack); callback()}
 	)
 };
 

@@ -2,14 +2,15 @@ $session = ($getHeader objFirstProperty _request): "kalzit-session".
 $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
 
 $jsonPath = "./nogit/users/data/v3/" + userToken + "/keys.json".
+$gzipPath = "./nogit/users/data/v3/" + userToken + "/keys.json.gz".
 $hashPath = "./nogit/users/data/v3/" + userToken + "/keys-hash.txt".
 
-!if (fileIsFile: jsonPath) {
+!ifElse (fileIsFile: jsonPath) {
 	asyncRef = true.
 	$hash = !ifElse (fileIsFile: hashPath) {
 		fileContent: hashPath	
 	};{
-		mdFiveHash: fileContent: jsonPath
+		String: !getCurrentDate
 	}.
 	
 	"ETag" ($setHeader propOf _request) hash.
@@ -20,7 +21,7 @@ $hashPath = "./nogit/users/data/v3/" + userToken + "/keys-hash.txt".
 		($writeFile propOf _request): jsonPath.
 	}.
 	do:($endServing propOf _request).
-}. !else {
+};{
 	!if (userTokenExists & fileIsFolder: "./nogit/users/data/v3/" + userToken + "/keys") {
 		print: "Pulling data for user " + userToken + " from the server".
 	
@@ -28,7 +29,7 @@ $hashPath = "./nogit/users/data/v3/" + userToken + "/keys-hash.txt".
 			(objToJson: urlDecodeParameter: fileName: cookieFile) + ":" + objToJson: fileContent: cookieFile.
 		}) each folderContent: "./nogit/users/data/v3/" + userToken + "/keys".
 		
-		$hash = mdFiveHash: jsonBody.
+		$hash = String: !getCurrentDate.
 		
 		"ETag" ($setHeader propOf _request) hash.
 		($startServing propOf _request): fileMime: "json".

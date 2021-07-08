@@ -182,9 +182,8 @@
 				throw new Error("Functions can not have more than two parameters");
 			}
 			
-			var code = args[1].value;
+			var code = GLang.generateTree(args[1].value);
 			var returnType = GLang.getType(args[1]);
-			if("string" === typeof code) code = GLang.generateTree(code);
 			
 			return result = GLang.functionFromTree(code, env, {value:argList}, returnType);
 		}}},

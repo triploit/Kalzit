@@ -1,0 +1,8 @@
+.k-arrow_icon {
+	background-image: var(--select-arrow);
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 20px;
+	background-size: contain;
+	height: 0.9rem;
+}

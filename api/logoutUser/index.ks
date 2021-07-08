@@ -11,7 +11,8 @@ $sessionFile = "./nogit/users/sessions/" + session + ".txt".
 	fileDelete: userDataFolder + "/keys.json".
 	fileDelete: userDataFolder + "/files/audio-kmp.json".
 	
-	fileDelete: userSessionFolder + "/" + session + "/expiration.txt".
-	fileDeleteFolder: userSessionFolder + "/" + session.
+	!if (fileIsFile: userSessionFolder + "/" + session + "/expiration.txt") {
+		runCommandFromArray: "rm";"-rf";(userSessionFolder + "/" + session).
+	}.
 	fileDelete: sessionFile.
 }

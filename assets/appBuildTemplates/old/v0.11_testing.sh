@@ -1,0 +1,1 @@
+bash "$(kalzit get rootFolder)/assets/appProjectDummy/build.sh" $@

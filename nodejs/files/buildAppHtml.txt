@@ -2,6 +2,7 @@ $app = appParameter: "kalzit-file".
 $appFolder = fileParent: app.
 $rootFolder = appParameter: "kalzit-root-folder".
 $platform ? (default: "html5") = appParameter: "platform".
+$debugConstant ? (default: "true") = print: appParameter: "debug-value".
 
 print: "Trying to build Kalzit app " + app.
 
@@ -16,7 +17,7 @@ $appleTouchIcon = $appleTouchIcon propOf configObject.
 
 $hasCustomLibrary = fileIsFile: (fileParent: app) + "/doNotTouch/_min.js".
 
-`Generate a custom CSS tag here if needed`
+`Generate a custom CSS tag here if needed (<appId>.css)`
 $styling = (default: ""): "<style>" + (fileContent: ("(.+)\.k" ; "$1.css") strReplaceRegex app) +  "</style>".
 
 $skeletonCode = do:{
@@ -31,7 +32,7 @@ $skeletonCode = do:{
 			}.
 			
 		`Include the needed standard APIs`
-		$scriptTags = "<script>" + (";" strJoin
+		$scriptTags = "<script>GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
 		) + ";</script>".
 		
@@ -67,7 +68,8 @@ $prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
 	`Include the global stringAssetMap`
 	";this.globalStringAssetMap=" + (fileContent: rootFolder + "/generated/translationMap.json") + "});".
 
-(rootFolder + "/generated/appBuildingTempFile.js") fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.defaultRuntimeEnvironment);'.
+`Here, we embed the actual app code - it is run in its own runtime environment / scope, not the global one`
+(rootFolder + "/generated/appBuildingTempFile.js") fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', new GLang.RuntimeEnvironment(GLang.defaultRuntimeEnvironment));'.
 
 
 `Now we can generate the final HTML file`
@@ -78,3 +80,7 @@ $generatedHtmlPath = appFolder + "/index.html".
 generatedHtmlPath fileWrite
 	`We replace $app$ from the app skeleton with a minified version of the app code (available in /generated/appBuildingTempFile.js)`
 	("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '" --keep-fnames')) strReplace skeletonCode.
+
+`In an attempt to save space, compress the file with gzip`
+fileDelete: generatedHtmlPath + ".gz".
+runCommandFromArray: "gzip"; "-k"; generatedHtmlPath.

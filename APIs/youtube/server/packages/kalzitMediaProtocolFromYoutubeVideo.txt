@@ -10,6 +10,7 @@
 	
 	If you do not want to access the watch page or if you do not need the title, use "kmpFromYoutubeVideoNoTitles".
 }
+@(deprecated: "This relies on synchronous loading, which is discouraged")
 $kmpFromYoutubeVideo = $kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVideoId) fun {
 	$thumbnailObject = ($default;$highres;$lowres) mingle "https://img.youtube.com/vi/" + id + "/" + ("mqdefault.jpg";"maxresdefault.jpg";"default.jpg").
 	
@@ -20,6 +21,33 @@ $kmpFromYoutubeVideo = $kalzitMediaProtocolFromYoutubeVideo = ($id ? YoutubeVide
 		["protocolVersion";"2.0.0"];
 		[$thumbnail;[thumbnailObject]];
 		["embedUrl";"https://www.youtube-nocookie.com/embed/" + id].
+}.
+
+#{
+	Produces a KMP (Kalzit Media Protocol) representation of a YouTube Video, represented by a video ID.
+	This includes the title information, which is parsed from the YouTube watch page.
+	The media type (field "kind") is "video".
+	
+	Usage example:
+		```kalzit
+		{$kmpData = x} kmpFromYoutubeVideoAsync "videoId".
+		```
+	
+	If you do not want to access the watch page or if you do not need the title, use "kmpFromYoutubeVideoNoTitles".
+}
+
+$kmpFromYoutubeVideoAsync = $kalzitMediaProtocolFromYoutubeVideoAsync = ($callback ; $id ? YoutubeVideoId) fun {
+	$thumbnailObject = ($default;$highres;$lowres) mingle "https://img.youtube.com/vi/" + id + "/" + ("mqdefault.jpg";"maxresdefault.jpg";"default.jpg").
+	
+	($title fun {
+		callback:
+			[$link;"https://www.youtube.com/watch?v=" + id];
+			[$title;title];
+			["kind";"video"];
+			["protocolVersion";"2.0.0"];
+			[$thumbnail;[thumbnailObject]];
+			["embedUrl";"https://www.youtube-nocookie.com/embed/" + id]
+	}) youtubeVideoTitleAsync id.
 }.
 
 #{

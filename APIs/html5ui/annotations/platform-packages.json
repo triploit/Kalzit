@@ -12,7 +12,7 @@
 		{"provides":["flag_font_family", "flag_px_font_size", "flag_em_font_size"],  "scriptUrl":"font.js"},
 		{"provides":["flag_columns"], "scriptUrl":"columns.js"},
 		{"provides":["flag_box_shadow"], "scriptUrl":"shadow.js"},
-		{"provides":["flag_css_class"], "scriptUrl":"cssClass.js"},
+		{"provides":["flag_css_class", "flag_css_remove_class"], "scriptUrl":"cssClass.js"},
 		{"provides":["flag_on_drop", "ui_file_picker"],  "scriptUrl":"drop.js"},
 		{"provides":["flag_on_enter"], "scriptUrl":"enter.js"},
 		{"provides":["flag_on_select", "flag_on_deselect"], "scriptUrl":"selection.js"},
@@ -24,9 +24,12 @@
 		{"provides":["font_family", "px_font_size", "em_font_size"],  "scriptUrl":"font.txt"},
 		{"provides":["columns"], "scriptUrl":"columns.txt"},
 		{"provides":["box_shadow"], "scriptUrl":"shadow.txt"},
-		{"provides":["css_class"], "scriptUrl":"cssClass.txt"},
+		{"provides":["css_class", "css_remove_class"], "scriptUrl":"cssClass.txt"},
 		{"provides":["on_drop", "ui_file_picker"],  "scriptUrl":"drop.txt"},
 		{"provides":["on_enter"], "scriptUrl":"enter.txt"},
-		{"provides":["on_select", "on_deselect"], "scriptUrl":"selection.txt"}
+		{"provides":["on_select", "on_deselect"], "scriptUrl":"selection.txt"},
+		{"provides":["on_collapse", "on_expand"], "scriptUrl":"collapse.txt"},
+		{"provides":["flag_rotation"], "scriptUrl":"rotation.js"},
+		{"provides":["rotation"], "scriptUrl":"rotation.txt"}
 	]
 }

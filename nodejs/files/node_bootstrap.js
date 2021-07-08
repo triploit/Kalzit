@@ -26,9 +26,10 @@ installCalcit(vm, context, fs, ["core", "nodejs"]);
 var debug = process.argv[2];
 var app;
 if(debug === "--debug"){
-	context.GLang.debug = true;
+	context.GLANG_DEBUG = true;
 	app = process.argv[3]
 }else{
+	context.GLANG_DEBUG = false;
 	app = process.argv[2]
 }
 context.GLang.eval(fs.readFileSync(app, "utf8"));

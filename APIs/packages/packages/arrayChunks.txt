@@ -33,8 +33,7 @@ $arrayJoinedChunks=($size ? Int ; $_list ? (List:Any)) fun {
 	`Result: [[1];[4]]; [[2];[5]]; [[3];[6]]`
 }
 $mingle=( $_a ? (List:Any) ; $_b ? (List:Any) ) fun {
-	$max = (length: _a) | length: _b.
-	{(x at _a);(x at _b)} each 0 range max - 1
+	{(x at _a);(x at _b)} each 0 range (max: (length: _a);(length: _b)) - 1
 }.
 
 #{

@@ -7,7 +7,7 @@
 		{"provides":["load_local", "load_global", "load_local_async", "load_local_async_without_indicator", "load_global_async", "load_disable_cache", "load_enable_cache"],  "scriptUrl":"load.js"},
 		{"provides":["dom_parse", "dom_tags", "dom_inner_text", "dom_attribute", "dom_inner"],  "scriptUrl":"dom.js"},
 		{"provides":["popup_html", "popup_values", "popup_message", "popup_question"],  "scriptUrl":"popup.js"},
-		{"provides":["storage_save_string", "storage_load_string", "storage_remove", "accept_cookies"],  "scriptUrl":"storage.js"},
+		{"provides":["storage_save_string", "storage_load_string", "storage_remove", "accept_cookies", "storage_clear"],  "scriptUrl":"storage.js"},
 		{"provides":["app_url", "dynamic_app_url"],  "scriptUrl":"appUrl.js"},
 		{"provides":["repeat_async"],  "scriptUrl":"repeat.js"},
 		{"provides":["get_user_language"], "scriptUrl":"userLanguage.js"},

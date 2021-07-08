@@ -2,8 +2,6 @@ const KLoad = {};
 
 ;(function(global){
 	
-	var load = KNI.hasSynchronousLoader() ? KNI.getSynchronousLoader() : null;
-
 	//TODO: Document this
 	function headersValuesToStringsArray(_headers){
 		if(_headers){
@@ -24,11 +22,6 @@ const KLoad = {};
 	
 	//Loads a js file by http (or relative) url and runs it.
 	function loadUrl(url, _headers){
-		if(load){
-			if(url.includes("://")) return load.global(url, GLang.headersArrayToJson(_headers));
-			return load.local(url, GLang.headersArrayToJson(_headers));
-		}
-		
 		// get some kind of XMLHttpRequest
 		var xhrObj = new XMLHttpRequest();
 		//if present, send headers (setRequestHeader())
@@ -62,7 +55,7 @@ const KLoad = {};
 	
 	If you want to use relative URLs, consider using "loadLocal".
 	*/
-	global.loadGlobal = load ? function(u, _hs){return load.global(u, GLang.headersArrayToJson(headersValuesToStringsArray(_hs)))} : function(url, _headers){
+	global.loadGlobal = function(url, _headers){
 		try{
 			return loadUrl("/api/loadUrl?query=" + encodeURIComponent(url + ""), headersValuesToStringsArray(_headers));
 		}catch(e){}
@@ -76,7 +69,7 @@ const KLoad = {};
 		
 	If you want to use absolute URLs, consider using "loadGlobal".
 	*/
-	global.loadLocal = load ? function(u, _hs){return load.local(u, GLang.headersArrayToJson(headersValuesToStringsArray(_hs)))} : function(url, _headers){
+	global.loadLocal = function(url, _headers){
 		try{
 			return loadUrl(url, headersValuesToStringsArray(_headers));
 		}catch(e){}

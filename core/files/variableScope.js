@@ -82,11 +82,37 @@ GLang.scopePrototype = {
 		
 		//Look for an existing variable with the given name...
 		n = this.unifyStringName(n);
+		//For debugging, make sure the name is sort of meaningful
+		if (GLANG_DEBUG && n.length <= 1) {
+			console.warn("You should probably give this variable a more meaningful name: " + n);
+			console.log("Kalzit call stack:");
+			console.log([...GLang.callStack]);
+			if(GLang.callStack.length) {
+				console.log("This is probably the most important value in the stack (the last one):");
+				console.log(GLang.callStack[GLang.callStack.length - 1].obj);
+			}
+			console.log("---");
+		}
+		
 		if(this.hasOwnProperty("kv_" + n)){
 			var current = this["kv_" + n];
 			if(allowOverride){
-				var newValue = current.varType ? GLang.callObject(current.varType, this, [value]) : value;
+				//Check if the variable is typed
+				var newValue = value;
 				var oldValue = current.varValue;
+				if (current.varType) {
+					//Apply the type
+					newValue = GLang.callObject(current.varType, this, [value]);
+					//For debugging: log if the value was changed by the type
+					GLang.logTypeHint({
+						message:"The following variable was automatically changed by its type",
+						oldValue:value,
+						newValue:newValue,
+						typeName:GLang.getValueVarName(current.varType),
+						varName:n
+					})
+				}
+				
 				if(oldValue !== newValue){
 					//Overwrite its value and finish
 					current.varValue = newValue;
@@ -97,11 +123,34 @@ GLang.scopePrototype = {
 				throw new Error("Not allowed to change variable $" + n);
 			}
 		}
+		
 		//If no existing variable was found, create a new one
-		var v = {varName:n, varValue: (type ? GLang.callObject(type, this, [value], type) : value), varType:type};
-		this["kv_" + n] = v;
+		//But first, check if it exists somewhere else - there should be a warning
+		if(GLANG_DEBUG && (this["kv_" + n] != undefined) ) {
+			console.warn("You attempted to define a variable that already exists in a higher scope: " +n);
+			console.log("Kalzit call stack:");
+			console.log([...GLang.callStack]);
+			console.log(new Error("JS call stack:"));
+			console.log("This is probably the most important value in that stack (the second-to-last one):");
+			console.log(GLang.callStack[GLang.callStack.length - 2].obj);
+			console.log("---");
+		}
+		
+		var v = value;
+		if(type) {
+			v = GLang.callObject(type, this, [value], type);
+			//For debugging: log if the value was changed by the type
+// 			GLang.logTypeHint({
+// 				message:"The initial value of this variable was automatically changed by its type",
+// 				oldValue:value,
+// 				newValue:v,
+// 				typeName:GLang.getValueVarName(type),
+// 				varName:n
+// 			})
+		}
+		this["kv_" + n] = {varName:n, varValue:v, varType:type};
 		this.notifyVariableChange(n);
-		return v.varValue;
+		return v;
 	},
 	setInnerWithoutListeners: function(name, value){
 		//This should only be (directly) used for things like function parameters, that are not supposed to trigger listeners

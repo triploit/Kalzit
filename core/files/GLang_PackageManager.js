@@ -51,7 +51,7 @@
 	
 	//Searches for a package by name and loads it synchronously
 	function installPackage(provides){
-		if (GLang.debug) GLang.log("Looking for name " + provides);
+		if (GLANG_DEBUG) console.log("Looking for name " + provides);
 		
 		
 		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){

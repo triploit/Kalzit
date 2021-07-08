@@ -20,28 +20,25 @@ $uiKmpListItem = !fun ($file ; $config) {
 		$defaultIcon = (default: potentialIcon): $defaultThumbnail propOf config.
 		
 		`Return`
-		(default: defaultIcon): ($default propOf $thumbnail propOf file) + "&session=" + session.
+		(default: defaultIcon): ($default propOf $thumbnail propOf file) + "&session=" + (storageLoadString: "calcitSession").
 	};{
 		`We have a fixed thumbnail URL`
 		$forcedThumbnail propOf config
 	}.
 	
-	$additionalActions = $additionalActions propOf config.
-	$actionMenu = file uiAdditionalActionsButton additionalActions.
-	
 	$titleGenerator ? (default: {$title propOf x}) = $titleGenerator propOf config.
-
-	@(width: "100% - " + !ifElse (void eq actionMenu) {"0px"};{"30px"})
+	
 	@(pxHeight 60)
 	@relative
-	@(onTap: () fun {
-		($onTap propOf config): file
-	})
-	@(cssClass: "k-single_view_picker")
 	$preview = uiContainer:
 			(@fit (60;60) uiShowScaledImageUrl thumbnail);
 			(uiHorizontalPxSpace: 20);
 			@(width: "100% - 100px") @(pxHeight 50) @ellipsis @verticalCenter uiText: titleGenerator: file.
 		
-	uiContainer: (@left preview);(!ifNot (void eq actionMenu) {uiHorizontalPxSpace 10});actionMenu.
+	`Return`
+	uiListItem:
+		["mainView"; preview];
+		["onTap"; $onTap propOf config];
+		["additionalActionsButton"; [@relative @verticalCenter file uiAdditionalActionsButton $additionalActions propOf config]];
+		["value"; [file]]
 }.

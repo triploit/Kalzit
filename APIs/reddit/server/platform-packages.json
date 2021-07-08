@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Server APIs to work with Reddit media"
+		"description":"Server APIs to work with Reddit media",
+		"platforms":["nodejs"]
 	},
 	"libraries":[
 			{"provides":["kmp_from_subreddit"], "scriptUrl":"kmpFromSubreddit.txt"}

@@ -3,6 +3,7 @@
 		"description":"Helper functions to make working with files easier"
 	},
 	"libraries":[
-		{"provides":["file_extension", "file_name", "file_list_types", "file_mime", "file_parent", "file_create_folders"],  "scriptUrl":"fileHelpers.txt"}
+		{"provides":["file_extension", "file_name", "file_list_types", "file_mime", "file_parent", "file_create_folders"],  "scriptUrl":"fileHelpers.txt"},
+		{"provides":["file_path", "safe_file_path"],  "scriptUrl":"filepath.txt"}
 	]
 }

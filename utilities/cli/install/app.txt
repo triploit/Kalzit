@@ -7,7 +7,7 @@ $downloadFile = !fun ($relativeFilePath ? SafeFilePath) {
 	print: "Downloading " + fileUrl.
 	
 	$fileContent = loadGlobal: fileUrl.
-	fileCreateFolders: fileParent: $downloadPath = "./apps/" + appId + "/" + relativeFilePath.
+	fileCreateFolder: fileParent: $downloadPath = "./apps/" + appId + "/" + relativeFilePath.
 	downloadPath fileWrite fileContent.
 }.
 $setupDoNotTouchFolder = !fun () {

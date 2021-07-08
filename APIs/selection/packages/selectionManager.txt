@@ -1,0 +1,39 @@
+#{
+	This is a function to take care of selected items.
+	It is especially intended for things like selection management, where wen you select one list item, the change needs to be reflected in both the selected and the deselected item.
+
+	Fields of the `config` object:
+	* onSelect (optional): gets triggered when an item becomes selected. First parameter is the newly selected item.
+	* onDeselect (optional): gets triggered when an item becomes deselected. First parameter is the newly deselected item.
+	* currentSelection (optional): a list of pre-selected items.
+}
+$selectionManager = !fun ($config) {
+	$onSelect = $onSelect propOf config.
+	$onDeselect = $onDeselect propOf config.
+	$currentSelection ? ModifiableList = $currentSelection propOf config.
+	
+	`Make sure that all currently selected items go through the onSelect function`
+	onSelect each getArray: currentSelection.
+	
+	`Add list events to handle new or removed items`
+	($setOnAddition propOf currentSelection): onSelect.
+	($setOnRemoval propOf currentSelection): onDeselect.
+	
+	`Return value`
+	[$addToSelection; ($item) fun {
+		($push propOf currentSelection): item
+	}];
+	[$removeFromSelection; ($item) fun {
+		($removeEquals propOf currentSelection): item.
+	}];
+	[$setSelection; ($items) fun {
+		do: ($clear propOf currentSelection).
+		($push propOf currentSelection): items.
+	}];
+	[$clearSelection; ($items) fun {
+		do: ($clear propOf currentSelection).
+	}];
+	[$getCurrentSelection; () fun {
+		currentSelection
+	}]
+}

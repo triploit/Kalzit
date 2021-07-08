@@ -6,13 +6,30 @@ GLang.createFunctionScope = function(env, argumentList, args){
 		for(var argIndex = 0; argIndex < argumentList.length; argIndex++){
 			if("string" !== typeof argumentList[argIndex].value) throw new Error("Every entry of an argument list needs to be a string value - " + JSON.stringify(argumentList[argIndex]) + " does not fit this rule");
 			
-			var argument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
+			var untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
+			var argumentName = argumentList[argIndex].value;
+			var argumentType = GLang.getType(argumentList[argIndex]);
+			
+			//Check if we need to apply a type to the argument
+			var actualArgument = untypedArgument;
+			if(argumentType) {
+				actualArgument = GLang.callObject(argumentType, env, [untypedArgument]);
+				
+				//For debugging: check if the value was changed by the type
+				/* GLang.logTypeHint({
+					message:"The following parameter was changed by its type",
+					oldValue:untypedArgument,
+					newValue:actualArgument,
+					typeName:GLang.getValueVarName(argumentType),
+					varName:argumentName
+				}) */
+			}
 			
 			functionEnvironment.setInnerWithoutListeners(
 				//Name
-				argumentList[argIndex].value,
+				argumentName,
 				//Value
-				GLang.getType(argumentList[argIndex]) ? GLang.callObject(GLang.getType(argumentList[argIndex]), env, [argument]) : argument
+				actualArgument
 			)
 		}
 		
@@ -21,24 +38,47 @@ GLang.createFunctionScope = function(env, argumentList, args){
 
 //This is a stack (push, pop) used to keep track of the currently active function calls
 GLang.callStack = [];
+GLang.getValueVarName = function(anyValue) {
+	try {
+		if(anyValue.varName) return anyValue.varName;
+		return "unnamed value (JS " + (typeof anyValue.value) + ")";
+	} catch (anyError) {
+		return "unknown value"	
+	}
+};
+//logConfig has fields oldValue,newValue,typeName,varName,message
+GLang.logTypeHint = function(logConfig) {
+	if(GLANG_DEBUG && !GLang.eq(logConfig.oldValue.value, logConfig.newValue.value)) {
+		console.warn(logConfig.message + ": " + logConfig.varName + " (type " + logConfig.typeName + ")");
+		console.log("The type changed the assigned value from this:");
+		console.log(logConfig.oldValue);
+		console.log("... to that:");
+		console.log(logConfig.newValue);
+		console.log("Kalzit call stack:");
+		console.log([...GLang.callStack]);
+		console.log("This is probably the most important value in that stack (the second-to-last one):");
+		console.log(GLang.callStack[GLang.callStack.length - 2].obj);
+		console.log("---");
+	}
+}
 GLang.getSimplifiedCallStack = function() {
-	return GLang.callStack.map(callEntry => {
-		try {
-			if(callEntry.obj.varName) return callEntry.obj.varName;
-			return "unnamed value (JS " + (typeof callEntry.obj.value) + ")";
-		} catch (anyError) {
-			return "unknown value"	
-		}
-	})
+	return GLang.callStack.map(callEntry => GLang.getValueVarName(callEntry.obj))
 };
 
 GLang.callObject = function(obj, env, args){
 	//Before doing anything else, add the thing we want to call to the call stack
 	GLang.callStack.push({obj: obj, args: args});
+	//Check if the value we want to call is deprecated - if yes, warn about that
+	if(GLANG_DEBUG && GLang.getFirstAnnotation(obj, GLang.stringValue("deprecated")) != undefined) {
+		console.warn("You called a deprecated value: " + (obj.varName ? obj.varName : "unnamed value") + ". This is OK, just for you to consider.");
+		console.log("Kalzit call stack:");
+		console.log([...GLang.callStack]);
+		console.log("---");
+	}
 	
 	try{
 		if(typeof(obj) !== "object"){
-			throw new Error("Values have to be 'normal' objects, not functions. Trying to call: " + object);
+			throw new Error("Values have to be 'normal' objects, not functions. Trying to call: " + obj);
 		}else{
 			//Keep the original parameter untouched
 			var object = obj.value;
@@ -64,7 +104,12 @@ GLang.callObject = function(obj, env, args){
 			//Before returning the result, remove the currently active function from the call stack
 			GLang.callStack.pop();
 			
-			result.varName = "return-value of " + (obj.varName ? obj.varName : "unnamed value") +  " (JS " + (typeof obj.value) + ")";
+			//We attach a variable name to the value for debugging
+			//If we are calling the ":" opearator and a name is already present, skip this step
+			if(! (result.varName && ":" === GLang.getValueVarName(obj))) {
+				//Apparently we should set the varName property
+				result.varName = "return-value of " + GLang.getValueVarName(obj);
+			}
 			return result;
 		}
 	}catch(exception){

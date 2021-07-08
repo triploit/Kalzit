@@ -1,0 +1,2 @@
+$onCollapse = curry: flagOnCollapse.
+$onExpand = curry: flagOnExpand.

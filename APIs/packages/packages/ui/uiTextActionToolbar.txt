@@ -13,6 +13,6 @@ $uiTextActionToolbar = !fun ($action ; $buttonText ? String) {
 			(uiHorizontalPxSpace: 7);
 			(@(cssClass: "width-tet-textfield") @(onEnter: () fun {action: newAddition}) newAdditionRef uiTextfieldVariableOnchange "");
 			(uiHorizontalPxSpace: 7);
-			(@(cssClass: "width-tet-button") {action: newAddition. do:updateNameViews} uiButton buttonText);
+			(@(cssClass: "width-tet-button") {action: newAddition} uiButton buttonText);
 			(uiHorizontalPxSpace: 7)
 }.

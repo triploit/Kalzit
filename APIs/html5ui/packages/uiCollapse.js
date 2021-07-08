@@ -4,17 +4,22 @@
 	}
 	
 	function collapse(element){
+		element.dispatchEvent(new CustomEvent("k-before_collapse"));
 		element.classList.add("k-closable", "k-closed");
 		element.style.maxHeight = null;
+		element.dispatchEvent(new CustomEvent("k-after_collapse"));
 	};
 	
 	function expand(element){
+		element.dispatchEvent(new CustomEvent("k-before_expand"));
 		element.classList.remove("k-closed");
 		element.style.maxHeight = element.scrollHeight + "px";
 		
 		setTimeout(() => {
 			if(!isCollapsed(element)) element.style.maxHeight = null;
-		}, 2000)
+		}, 2000);
+		
+		element.dispatchEvent(new CustomEvent("k-after_expand"));
 	};
 	
 	/* @kalzit.for ui_toggle_expansion
@@ -67,4 +72,15 @@
 	global.uiIsExpanded = function(element){
 		return ! isCollapsed(element);
 	};
+	
+	global.flagOnExpand = function(listener, object){
+		object.addEventListener("k-before_expand", function(e){
+			GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
+		});
+	}
+	global.flagOnCollapse = function(listener, object){
+		object.addEventListener("k-before_collapse", function(e){
+			GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
+		});
+	}
 })(this);

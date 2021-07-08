@@ -3,7 +3,8 @@
 		"APIs/htmlgen/platform-packages.json"
 	],
 	"info":{
-		"description":"Libraries that work in the NodeJS environment"
+		"description":"Libraries that work in the NodeJS environment",
+		"platforms":["nodejs"]
 	},
 	"libraries":[
 		{"provides":["http_server", "https_server"],  "scriptUrl":"httpServer.js"},

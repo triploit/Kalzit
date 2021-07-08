@@ -12,8 +12,12 @@ GLang.functionFromTree = function(tree, defaultEnv, argumentList, type){
 		var functionEnvironment = GLang.createFunctionScope(defaultEnv, argumentList, args);
 		
 		var result = GLang.evaluateTree(tree, functionEnvironment);
-		//Apply type (if present)
-		return type ? GLang.callObject(type, env, [result]) : result;
+		//Apply type if present
+		if(type) {
+			return GLang.callObject(type, env, [result]);
+		} else {
+			return result;
+		}
 	}, display:"function"};
 	GLang.setAnnotation(result, {value:[
 		GLang.stringValue("argumentList"),

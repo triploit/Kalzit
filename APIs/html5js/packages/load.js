@@ -1,33 +1,3 @@
-//TODO: integrate with KLoad
-
-/*
-Allows you to easily access the synchronous load functions provided by a KNI (Kalzit Native Interface).
-
-This variable can have two states:
-	1. It can contain the "null" value, which represents that this variable should not be used. (No KNI present)
-	2. It can contain a value other than "null". In this case, the value is expected to be an object with the properties "global" and "local". (KNI present)
-	
-Both of these fields ("global" and "local") are expected to be functions with two parameters: A URL and a list of headers with their values.
-*/
-let load = KNI.hasSynchronousLoader() ? KNI.getSynchronousLoader() : null;
-
-/*
-Allows you to easily access the asynchronous load functions provided by a KNI (Kalzit Native Interface).
-
-This variable can have two states:
-	1. It can contain the "null" value, which represents that this variable should not be used. (No KNI present)
-	2. It can contain a value other than "null". In this case, the value is expected to be an object with the properties "global" and "local". (KNI present)
-	
-Both of these fields ("global" and "local") are expected to be functions with two parameters: A URL and a list of headers with their values.
-*/
-let loadAsyncKNI = KNI.hasAsynchronousLoader() ? KNI.getAsynchronousLoader() : null;
-
-//Provide debug information about what is used for loading
-if(GLang.debug){
-	GLang.log("syncLoadApi: " + (load ? "KNI" : "GLang.packageManager") + " is used for loading");
-	GLang.log("asyncLoadApi: " + (loadAsyncKNI ? "KNI" : "Browser implementation") + " is used for loading asynchronously");
-}
-
 /** @kalzit.for load_global
 
 A function that is used to load data from any publicly available web server. It needs an absolute URL to do this (those relative to the current server will probably not work).
@@ -153,11 +123,11 @@ Usage example (Kalzit):
 If you want to use absolute URLs, consider using "loadGlobalAsync".
 */
 GLang.defaultRuntimeEnvironment.setInnerVariable("load_local_async", {value:GLang.arrayFun(function(env, args){
-	loadAsyncKNI ? loadAsyncKNI.localAsync(makeCallback(args[0], env), args[1].value) : loadAsync(args[0], args[1].value, env);
+	loadAsync(args[0], args[1].value, env);
 	return GLang.voidValue;
 })});
 GLang.defaultRuntimeEnvironment.setInnerVariable("load_local_async_without_indicator", {value:GLang.arrayFun(function(env, args){
-	loadAsyncKNI ? loadAsyncKNI.localAsync(makeCallback(args[0], env), args[1].value) : loadAsync(args[0], args[1].value, env, true);
+	loadAsync(args[0], args[1].value, env, true);
 	return GLang.voidValue;
 })});
 
@@ -175,7 +145,7 @@ In its current form, the server handles these load requests in a synchronous way
 If you want to use absolute URLs, consider using "loadLocalAsync".
 */
 GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_async", {value:GLang.arrayFun(function(env, args){
-	loadAsyncKNI ? loadAsyncKNI.globalAsync(makeCallback(args[0], env), args[1].value) : loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env);
+	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env);
 	return GLang.voidValue;
 })});
 

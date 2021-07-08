@@ -1,0 +1,36 @@
+$deleteOldVersions = !fun ($folder) {
+	$currentVersion = strFirstLine: fileContent: folder + "/currentVersion.txt".
+	`Go through all the versions`
+	!folderContentAsync folder -> {
+		!loopEach x -> {
+			$versionFolder = x.
+			!if (fileIsFolder: versionFolder) {
+				!ifNot ((fileName: versionFolder) eq currentVersion) {
+					!if (fileIsFile: versionFolder + "/.deleted.txt") {
+						`We have a version folder to delete! Yay!`
+						print: "Removing version " + versionFolder.
+						runCommandFromArray: "rm"; "-rf"; versionFolder.
+					}
+				}
+			}
+		}
+	}
+}.
+
+`We loop through the user data folder`
+!folderContentDeepAsyncNotLink "./nogit/users/data/v3" -> {
+	$file = x.
+	
+	`Check if we have a deletion marker`
+	!if (".deleted.txt" eq fileName: file) {
+		`Remove the folder containing that deletion marker`
+		`TODO: make sure that the most recent version is never deleted until that is really necessary (higher cleaning level).`
+		`Would be helpful for restoring later`
+		$parentFolder = fileParent: file.
+		!if (fileIsFile: parentFolder + "/currentVersion.txt") {
+			`This is a file representation! Loop through all the versions`
+			deleteOldVersions: parentFolder	
+		}
+		
+	}
+}

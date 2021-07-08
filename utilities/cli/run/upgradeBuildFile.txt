@@ -1,0 +1,12 @@
+$originalBuildFile = appParameter: "build-file".
+
+!folderContentAsync ("./assets/appBuildTemplates/old") -> {
+	print: $matchingOldBuildFile = !firstConditionMatch x -> {
+		$matchingOldBuildFile = (fileContent: x) eq (fileContent: originalBuildFile).
+	}.
+	
+	!ifNot (void eq matchingOldBuildFile) {
+		`We can upgrade an old standard build file to the most recent one!`
+		!fileWrite (fileContent: "./assets/appBuildTemplates/current.sh") -> originalBuildFile	
+	}
+}.

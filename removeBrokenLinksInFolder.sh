@@ -1,0 +1,1 @@
+find . -type l -exec sh -c 'for x; do [ -e "$x" ] || rm "$x"; done' _ {} +

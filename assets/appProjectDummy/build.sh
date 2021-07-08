@@ -1,4 +1,4 @@
-rootFolder="$(cat ./doNotTouch/rootFolder.txt)"
+rootFolder="$(kalzit get rootFolder)"
 appFolder="$(pwd)"
 appId=$(cat ./doNotTouch/appId.txt)
 
@@ -100,7 +100,7 @@ if [ -f "$appFolder/platform-packages.json" ]
 		rm "$appFolder/doNotTouch/_min.js"
 	fi
 
-./cli build kalzitFile "$appFolder/$appId.k" "$rootFolder"
+./cli build kalzitFile "$appFolder/$appId.k" "$rootFolder" $@
 
 #Create a listing of all project files which are not hidden (useful for downloading from the internet)
 cd "$appFolder"

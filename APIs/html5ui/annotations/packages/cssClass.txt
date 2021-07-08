@@ -9,3 +9,5 @@
 	Stuff like centering text, sizing and positioning other elements and so on, already have their own annotations.
 }
 $cssClass = curry: flagCssClass.
+
+$cssRemoveClass = curry: flagCssRemoveClass.

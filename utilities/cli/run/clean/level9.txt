@@ -1,0 +1,11 @@
+`We loop through the user data folder`
+!folderContentDeepAsyncNotLink "./nogit/users/data/v3" -> {
+	$file = x.
+	
+	`Check if we have a deletion marker`
+	!if (".deleted.txt" eq fileName: file) {
+		print: file.
+		`Remove the folder containing that deletion marker`
+		runCommandFromArray: "rm"; "-rf"; (fileParent: file).
+	}
+}

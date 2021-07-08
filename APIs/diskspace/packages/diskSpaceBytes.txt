@@ -1,0 +1,9 @@
+$diskSpaceFreeBytesAsync = !fun ($callback ; $disk ? (default: "./")) {
+	{callback: $free propOf x} diskSpaceNativeAsync disk
+}.
+$diskSpaceUsedBytesAsync = !fun ($callback ; $disk ? (default: "./")) {
+	{callback: $used propOf x} diskSpaceNativeAsync disk
+}.
+$diskSpaceTotalBytesAsync = !fun ($callback ; $disk ? (default: "./")) {
+	{callback: $total propOf x} diskSpaceNativeAsync disk
+}.

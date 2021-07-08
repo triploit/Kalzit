@@ -102,6 +102,8 @@
 		{"provides":["timeout_now"],  "scriptUrl":"timeoutNow.txt"},
 		{"provides":["composed_function"],  "scriptUrl":"composedFunction.txt"},
 		{"provides":["reference_based_composed_function"],  "scriptUrl":"referenceBasedComposedFunction.txt"},
-		{"provides":["ui_additional_actions_button"],  "scriptUrl":"ui/uiAdditionalActionsButton.txt"}
+		{"provides":["ui_additional_actions_button"],  "scriptUrl":"ui/uiAdditionalActionsButton.txt"},
+		{"provides":["ui_list_item"],  "scriptUrl":"ui/uiListItem.txt"},
+		{"provides":["ui_text_container"],  "scriptUrl":"ui/uiTextContainer.txt"}
 	]
 }

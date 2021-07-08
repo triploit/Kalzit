@@ -1,0 +1,11 @@
+{
+	"info":{
+		"description":"Helper functions to check the free and used disk space",
+		"platforms":["nodejs"]
+	},
+	"libraries":[
+		{"provides":["disk_space_native_async"],  "scriptUrl":"diskSpaceNative.js"},
+		{"provides":["disk_space_free_bytes_async", "disk_space_used_bytes_async", "disk_space_total_bytes_async"],  "scriptUrl":"diskSpaceBytes.txt"},
+		{"provides":["disk_space_clean"],  "scriptUrl":"diskSpaceClean.txt"}
+	]
+}

@@ -15,7 +15,7 @@ $play = ($_mediaController) fun {do $play propOf _mediaController}.
 	This value is used when calling "increaseVolume" or "decreaseVolume" on a medium.
 	To change the default value for this (0.1), use "volumeStepSizeRef"
 }
-@nofreeze $volumeStepSize = 0,1.
+$volumeStepSize = 0,1.
 
 #{A reference pointing to the global "volumeStepSize" variable}
 $volumeStepSizeRef = reference: $volumeStepSize.

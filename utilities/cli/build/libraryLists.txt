@@ -1,5 +1,5 @@
-$nodeAPIs = ModifiableList: ("core"; "nodejs").
-$htmlAPIs = ModifiableList: ("core").
+$nodeAPIs = ModifiableList: ().
+$htmlAPIs = ModifiableList: ().
 
 ($file fun {
 		!if (fileIsFile: file) {
