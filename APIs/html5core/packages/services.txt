@@ -1,14 +1,3 @@
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$serviceCallApi = ($method ? String ; $_headers) fun {
-	strNewline strSplit ("/api/" + method) loadLocal _headers.
-}.
-
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$serviceLoginUser = ($name ; $password) fun {
-	"loginUser" serviceCallApi
-		["kalzit-user-name"; name];
-		["kalzit-user-password"; password].
-}.
 $serviceLoginUserAsync = ($callback ; $nameAndPassword) fun {
 	{callback: strNewline strSplit do: $getText propOf x} httpGetLocalAsync
 		["url";"/api/loginUser"];
@@ -18,12 +7,6 @@ $serviceLoginUserAsync = ($callback ; $nameAndPassword) fun {
 		]].
 }.
 
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$serviceRegisterUser = ($name ; $password) fun {
-	"newUser" serviceCallApi
-		["kalzit-user-name"; name];
-		["kalzit-user-password"; password].
-}.
 $serviceRegisterUserAsync = ($callback ; $nameAndPassword) fun {
 	{callback: strNewline strSplit do: $getText propOf x} httpGetLocalAsync
 		["url";"/api/newUser"];

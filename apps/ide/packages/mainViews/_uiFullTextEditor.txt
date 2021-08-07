@@ -1,0 +1,7 @@
+$_ui_full_text_editor = !fun () {
+	$code = {}.
+	$codeRef = reference: $code.
+	
+	@(percentWidth 100) @(height "100% - " + toolbarCmHeight + "cm")
+	{"kalzit.playground.codeSnippet" storageSaveString x} uiTextareaOnchange (default: ""): storageLoadString: "kalzit.playground.codeSnippet"
+}.

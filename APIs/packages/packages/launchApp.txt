@@ -22,5 +22,5 @@ $launchAppName = $appName fun {
 	launchApp: "/app/" + appName.
 }.
 $relaunchApp = () fun {
-	launchAppName: second: "/app/([a-zA-Z]+)" match do:dynamicAppUrl
+	!reload
 }.

@@ -8,7 +8,6 @@ $modifiableList = ($_normalList ? (List:Any)) fun {
 		$onChangeList = (). $onChangeListRef = reference: $onChangeList. $onChange = referenceBasedComposedFunction: onChangeListRef.
 		$listEnd = (). $listEndRef = reference: $listEnd.
 		
-		@($uiGenerator ; uiLiveListView)
 		["push"; ($_items ? (List:Any)) fun {
 			listVarRef = listVar ; _items.
 			onAddition each _items.

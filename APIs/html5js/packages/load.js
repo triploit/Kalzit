@@ -53,63 +53,23 @@ Usage example (JS):
 var appId = location.pathname.split("/");
 appId = appId[appId.length - 1];
 
-console.log("kalzit.cacheWanted." + appId);
-var cacheEnabled = localStorage.getItem("kalzit.cacheWantedFor." + appId) != "0";
 function loadAsync(callbackValue, path, env, unimportant){
 	var callback = makeCallback(callbackValue, env);
+
+	//Start an important fetch
+	//If the "unimportant" parameter is set, do an unimportant fetch instead
+	var fetchMethod = unimportant ? KFetch.unimportant : KFetch.important;
 	
-	var done = false;
-	var CACHE_NAME = "KLoad-cache-v1";
-	
-	function importantFetchAndCache(){
-		//Not cached - start an important fetch
-		//If the "unimportant" parameter is set, do an unimportant fetch instead
-		var fetchMethod = unimportant ? KFetch.unimportant : KFetch.important;
-		
-		fetchMethod(path).then(fetchResponse => {
-			//Pass the result to the callback...
+	fetchMethod(path).then(fetchResponse => {
+		//Pass the result to the callback...
+		if(fetchResponse.ok) {
 			var clonedResponse = fetchResponse.clone();
 			fetchResponse.text().then(text => callback(GLang.stringValue(text)));
-			
-			// ... and cache the response if appropriate
-			if(cacheEnabled && window.caches && (path.includes("/api/s/") || path.includes("/api/loadUrl?"))) {
-				caches.open(CACHE_NAME).then(cache => {
-					cache.put(path, clonedResponse)
-				})
-			}
-		})	
-	}
-	
-	//If available, load the resource from cache
-	if(cacheEnabled && window.caches) {
-		caches.open(CACHE_NAME).then(cache => {
-			cache.match(path).then(response => {
-				if(response){
-					//Cached - pass the result to the callback and start an unimportant fetch for cacheing
-					response.text().then(text => callback(GLang.stringValue(text)));
-					KFetch.unimportant(path).then(fetchResponse => {
-						//If there is a valid fetch response, cache it
-						if(fetchResponse) {
-							cache.put(path, fetchResponse);
-						}
-					})
-				}else{
-					importantFetchAndCache();
-				}
-			})
-		}).catch(error => importantFetchAndCache());
-	}else{
-		//Attempt to clear the cache
-		if(window.caches && !cacheEnabled) {
-			caches.open(CACHE_NAME).then(cache => {
-				console.log("Clearing cache for " + path);
-				caches.delete(path);
-			})
+		}else{
+			//Not OK, call the callback with "void" as the parameter
+			callback(GLang.voidValue);	
 		}
-		//Caches library is not available - do a cached fetch
-		importantFetchAndCache()
-	}
-	
+	})
 }
 
 /*
@@ -148,6 +108,3 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_async", {value:GLa
 	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env);
 	return GLang.voidValue;
 })});
-
-this.loadDisableCache = function(){console.log("Load cache disabled"); cacheEnabled = false};
-this.loadEnableCache = function(){console.log("Load cache enabled"); cacheEnabled = true};

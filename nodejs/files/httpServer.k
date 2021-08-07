@@ -6,8 +6,8 @@ print "Reading blacklist ...".
 $blacklist = strNewline strSplit fileContent: "./nodejs/files/server/blacklist.txt".
 print "Parsing internal library ...".
 
-`TODO: Use the new "firstConditionMatch" function to make this a bit faster with large blacklists`
-$blacklistAllows = $fname fun {not: 0 < sum: {x isMatch fname} each blacklist}.
+`TODO: Test if the variant with "firstConditionMatch" works`
+$blacklistAllows = $fname fun {void eq {x isMatch fname} firstConditionMatch blacklist}.
 
 $ifFolderThenMaybeIndexFile = !fun ($path) {
 	`Check for a folder, and if the requested file is a folder, search an index file`

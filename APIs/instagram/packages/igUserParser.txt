@@ -1,5 +1,5 @@
 #{
-	Returns a (most complete) representation of the given Instagram user.
+	Passes a (most complete) representation of the given Instagram user to the callback.
 	
 	This is done by loading "https://www.instagram.com/userName" and scanning the source code for the "window._sharedData" variable.
 	The content of this variable (expected to be JSON) is then parsed, and the result is returned.
@@ -11,18 +11,12 @@
 	If you do not need all available user data, consider using a more specialized function instead of this one.
 	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$igUserParseUserComplete = ($userName ? String) fun {
-	$script = second: ".*<script\s+.*>(.*)<\s*/\s*script\s*>.*" match loadGlobal: "https://www.instagram.com/" + userName + "/".
-	$json = second: "window\._sharedData\s*=\s*(.*)\s*;" match script.
-	parseJson: json
-}.
 $igUserParseUserCompleteAsync = ($callback ; $userName ? String) fun {
-	{
+	!loadGlobalAsync ("https://www.instagram.com/" + userName + "/") -> {
 		$script = second: ".*<script\s+.*>(.*)<\s*/\s*script\s*>.*" match x.
 		$json = second: "window\._sharedData\s*=\s*(.*)\s*;" match script.
 		callback: parseJson: json
-	} loadGlobalAsync: "https://www.instagram.com/" + userName + "/".
+	}
 }.
 
 #{
@@ -44,16 +38,12 @@ $igUserParseBase = $_igUserComplete fun {
 	Instead of needing an object as its parameter, this one requires just a simple user name.
 	
 	As an example, here are two lines of code that produce the same result:
-		igUserParseBase: igUserParseUserComplete: "anyUserName".
-		igUserParseUserBase: "anyUserName".
+		print: igUserParseBase: igUserParseUserComplete: "anyUserName".
+		!igUserParseUserBaseAsync "anyUserName" -> {print x}.
 	
 	If you do not need all available user data, consider using a more specialized function instead of this one.
 	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$igUserParseUserBase = ($userName ? String) fun {
-	igUserParseBase: igUserParseUserComplete: userName
-}.
 $igUserParseUserBaseAsync = ($callback ; $userName ? String) fun {
 	{callback: igUserParseBase: x} igUserParseUserCompleteAsync userName
 }.
@@ -79,18 +69,14 @@ $igUserParseImages = $_igUserBase fun {
 	Instead of needing an object as its parameter, this one requires just a simple user name.
 	
 	As an example, here are two lines of code that produce the same result:
-		igUserParseImages: igUserParseUserBase: "anyUserName".
-		igUserParseUserImages: "anyUserName".
+		print: igUserParseImages: igUserParseUserBase: "anyUserName".
+		!igUserParseUserImagesAsync "anyUserName" -> {print: x}.
 	
 	If you are interested in only getting image thumbnails, consider using "igUserParseUserImageThumbnails".
 	In case you are only interested in the full-resolution version of images, "igUserParseUserImageUrls" is the way to go.
 	
 	Basically, this function should only be used if you need multiple different pieces of information about the images.
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$igUserParseUserImages = ($userName ? String) fun {
-	igUserParseImages: igUserParseUserBase: userName
-}.
 $igUserParseUserImagesAsync = ($callback ; $userName ? String) fun {
 	{callback: igUserParseImages: x} igUserParseUserBaseAsync userName
 }.
@@ -107,7 +93,7 @@ $igUserParseUserImagesAsync = ($callback ; $userName ? String) fun {
 }
 $igUserParseImageUrl = $_userImage fun {
 	$display_url propOf _userImage
-} ? Image.
+}.
 
 #{
 	Returns all full-resolution URLs from a list of Instagram image objects.
@@ -120,22 +106,18 @@ $igUserParseImageUrl = $_userImage fun {
 }
 $igUserParseImageUrls = $_userImages fun {
 	igUserParseImageUrl each _userImages
-} ? Images.
+}.
 
 #{
 	This function is a slightly different version of "igUserParseImageUrls".
 	Instead of needing an object as its parameter, this one requires just a simple user name.
 	
 	As an example, here are two lines of code that produce the same result:
-		igUserParseImageUrls: igUserParseUserImages: "anyUserName".
-		igUserParseUserImageUrls: "anyUserName".
+		print: igUserParseImageUrls: igUserParseUserImages: "anyUserName".
+		!igUserParseUserImageUrlsAsync "anyUserName" -> {print: x}.
 		
 	A function with the same effect as this one is also available as "instagramUserImages" to make it easier to use.
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$igUserParseUserImageUrls = ($userName ? String) fun {
-	igUserParseImageUrls: igUserParseUserImages: userName
-} ? Images.
 $igUserParseUserImageUrlsAsync = ($callback ; $userName ? String) fun {
 	{callback: Images: igUserParseImageUrls: x} igUserParseUserImagesAsync userName
 }.
@@ -174,16 +156,12 @@ $igUserParseImageShortcodes = $_userImages fun {
 }.
 
 #{
-	Returns a list of image "shortcodes" by a given instagram user.
+	Passes a list of image "shortcodes" by a given instagram user to the callback.
 	Basically, the "shortcode" is what you put after "https://instagram.com/p/" to get to the image page.
 	
 	Here is an example that opens the most recent user image in the browser:
-		redirect: "https://instagram.com/p/" + first: igUserParseUserImageShortcodes: "anyUserName".
+		!igUserParseUserImageShortcodes "anyUserName" -> {redirect: "https://instagram.com/p/" + first: x}.
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$igUserParseUserImageShortcodes = ($userName ? String) fun {
-	igUserParseImageShortcodes: igUserParseUserImages: userName
-}.
 $igUserParseUserImageShortcodesAsync = ($callback ; $userName ? String) fun {
 	{callback: igUserParseImageShortcodes: x} igUserParseUserImagesAsync userName
 }.
@@ -195,10 +173,6 @@ $igUserParseImageThumbnails = $_userImages fun {
 	igUserParseImageThumbnail each _userImages
 }.
 
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$igUserParseUserImageThumbnails = ($userName ? String) fun {
-	igUserParseImageThumbnails: igUserParseUserImages: userName
-}.
 $igUserParseUserImageThumbnailsAsync = ($callback ; $userName ? String) fun {
 	{callback: igUserParseImageThumbnails: x} igUserParseUserImagesAsync userName
 }.

@@ -1,7 +1,7 @@
-$toDocument = "name" urlGetParameter $url propOf _request.
-print: "Serving documentation for " + toDocument.
+$givenName = "name" urlGetParameter $url propOf _request.
+print: "Serving documentation for " + givenName.
 
-$unified = calcitUnifyName: toDocument.
+$unified = calcitUnifyName: givenName.
 !if (fileIsFile: "./docs/library/" + unified + ".md") {
 	`Use the external documentation`
 	asyncRef = true.
@@ -9,5 +9,5 @@ $unified = calcitUnifyName: toDocument.
 	($respondCode propOf _request): 301.
 	!($endServing propOf _request).
 }. !else {
-	resultRef = "Oh no, no documentation was found for " + toDocument.
+	resultRef = "Oh no, no documentation was found for " + givenName.
 }

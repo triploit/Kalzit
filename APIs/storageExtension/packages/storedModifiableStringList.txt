@@ -3,7 +3,6 @@ $storedModifiableStringList = !fun ($storageKey ? String) {
 	$onRemovalList = (). $onRemovalListRef = reference: $onRemovalList. $onRemoval = referenceBasedComposedFunction: onRemovalListRef.
 	$onChangeList = (). $onChangeListRef = reference: $onChangeList. $onChange = referenceBasedComposedFunction: onChangeListRef.
 	
-	@($uiGenerator ; uiLiveListView)
 	["push"; ($_items) fun {
 		storageKey storageExtendStringList _items.
 		onAddition:_items.

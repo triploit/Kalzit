@@ -1,1 +1,0 @@
-$baseUrlVisualizer = $url fun {url uiLink url}.

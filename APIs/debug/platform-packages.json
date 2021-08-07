@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Libraries for development / debugging purposes - should not be used in finished apps"
+	},
+	"libraries":[
+		{"provides":["debug_auto_refresh"],  "scriptUrl":"debugAutoRefresh.txt"}
+	]
+}

@@ -1,0 +1,1 @@
+$unixUserIsRoot = !fun () { "root" eq !getUnixUserName }.

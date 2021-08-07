@@ -1,5 +1,3 @@
 $imageStringsFromText = ($html ? String) fun {second each {"([^"]*\.(jpg|png|gif))"} allMatches html}.
 
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$imageStringsFromUrl = ($url ? String) fun {imageStringsFromText: loadGlobal: url}.
 $imageStringsFromUrlAsync = ($callback ; $url ? String) fun {{callback: imageStringsFromText: x} loadGlobalAsync url}.

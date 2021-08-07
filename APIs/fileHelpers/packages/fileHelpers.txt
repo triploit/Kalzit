@@ -43,8 +43,3 @@ $fileMime = ($extension ? FileExtension) fun {
 	nativeFileMime: extension
 }.
 $fileParent = ($path ? String) fun {$split = "/" strSplit path. "/" strJoin ((0 rangeUp (length: split) - 1) - 1) at split}.
-
-@(deprecated: "The functionality of this function is now included in 'fileCreateFolder'")
-$fileCreateFolders = ($folderPath ? String) fun {
-	fileCreateFolder: folderPath
-}.

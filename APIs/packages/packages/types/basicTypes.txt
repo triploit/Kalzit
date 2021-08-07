@@ -18,7 +18,7 @@ $Boolean = {((void eq x) | 0 eq x) at 1;0}.
 	If only a single value is given (which is not a list), the result is a list still, which contains the converted value:
 		(List:Boolean): 7 `returns [1]`
 }
-$List = $_itemType fun {{@($uiGenerator ; baseListVisualizer) _itemType each x;()}}.
+$List = $_itemType fun {{_itemType each x;()}}.
 #{
 	This is a type function that accepts any value, and leaves unchanged.
 	The function just returns its first parameter.

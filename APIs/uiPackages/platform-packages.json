@@ -1,0 +1,321 @@
+{
+    "info": {
+      "description": "UI libraries for the browser",
+      "platforms": ["html5"]
+  }
+  , "libraries": [
+      {
+        "provides": [
+          "ui_cycling_slides"
+      ]
+      , "scriptUrl": "ui/uiCyclingSlides.txt"
+    }
+    , {
+        "provides": [
+          "ui_tabs"
+        , "ui_tab_buttons"
+      ]
+      , "scriptUrl": "ui/uiTabs.txt"
+    }
+    , {
+        "provides": [
+          "ui_textfield_variable_onaction"
+        , "ui_textfield_variable_onchange"
+      ]
+      , "scriptUrl": "ui/uiTextfieldVariable.txt"
+    }
+    , {
+        "provides": [
+          "ui_slides"
+        , "ui_lazy_slides"
+      ]
+      , "scriptUrl": "ui/uiSlides.txt"
+    }
+    , {
+        "provides": [
+          "ui_single_view_picker"
+        , "ui_live_single_view_picker"
+      ]
+      , "scriptUrl": "ui/uiSingleViewPicker.txt"
+    }
+    , {
+        "provides": [
+          "ui_popup"
+        , "ui_large_popup"
+        , "ui_small_popup"
+        , "ui_basic_popup"
+        , "ui_popup_with_background"
+        , "ui_popup_background"
+      ]
+      , "scriptUrl": "ui/uiPopup.txt"
+    }
+    , {
+        "provides": [
+          "ui_left_button"
+        , "ui_right_button"
+      ]
+      , "scriptUrl": "ui/uiLeftRightButton.txt"
+    }
+    , {
+        "provides": [
+          "ui_slides_with_navigation"
+        , "ui_lazy_slides_with_navigation"
+      ]
+      , "scriptUrl": "ui/uiSlidesWithNavigation.txt"
+    }
+    , {
+        "provides": [
+          "ui_slider"
+      ]
+      , "scriptUrl": "ui/uiSlider.txt"
+    }
+    , {
+        "provides": [
+          "ui_textarea_onchange"
+        , "ui_textarea_variable_onchange"
+      ]
+      , "scriptUrl": "ui/uiTextarea.txt"
+    }
+    , {
+        "provides": [
+          "ui_add_horizontal_px_spaces"
+        , "ui_add_vertical_px_spaces"
+        , "ui_left_right_px_padded"
+        , "ui_top_bottom_px_padded"
+        , "ui_left_right_percent_padded"
+        , "ui_top_bottom_percent_padded"
+      ]
+      , "scriptUrl": "ui/uiSpacing.txt"
+    }
+    , {
+        "provides": [
+          "ui_split_view"
+      ]
+      , "scriptUrl": "ui/uiSplitView.txt"
+    }
+    , {
+        "provides": [
+          "ui_grid"
+        , "ui_columns"
+      ]
+      , "scriptUrl": "ui/uiColumns.txt"
+    }
+    , {
+        "provides": [
+          "color_combination"
+        , "blue_color_combination"
+        , "red_color_combination"
+        , "green_color_combination"
+        , "yellow_color_combination"
+        , "magenta_color_combination"
+        , "cyan_color_combination"
+      ]
+      , "scriptUrl": "ui/themes/colorCombinations.txt"
+    }
+    , {
+        "provides": [
+          "css_color_combo"
+        , "color_combination_theme"
+      ]
+      , "scriptUrl": "ui/themes/applyColorCombinationTheme.txt"
+    }
+    , {
+        "provides": [
+          "apply_theme"
+      ]
+      , "scriptUrl": "ui/themes/applyTheme.txt"
+    }
+    , {
+        "provides": [
+          "ui_home_screen"
+        , "ui_home_screen_icon"
+        , "ui_simple_home_screen_app"
+      ]
+      , "scriptUrl": "ui/uiHome.txt"
+    }
+    , {
+        "provides": [
+          "ui_account_button"
+        , "ui_apps_button"
+        , "ui_user_button"
+        , "ui_user_config_button"
+        , "ui_hamburger_button"
+        , "ui_cross_button"
+        , "user_outline_image_url"
+        , "user_image_url"
+        , "menu_image_url"
+        , "apps_image_url"
+        , "cross_image_url"
+        , "left_arrow_image_url"
+        , "ui_sidebar_toggle_button"
+      ]
+      , "scriptUrl": "ui/globalButtons.txt"
+    }
+    , {
+        "provides": [
+          "ui_app_container_background_color"
+      ]
+      , "scriptUrl": "ui/uiAppContainer.txt"
+    }
+    , {
+        "provides": [
+          "register_labeled_tool"
+        , "ui_global_toolbar"
+        , "global_desktop_toolbar"
+        , "global_desktop_toolbar_ref"
+        , "global_mobile_toolbar"
+        , "global_mobile_toolbar_ref"
+      ]
+      , "scriptUrl": "ui/registerLabeledTool.txt"
+    }
+    , {
+        "provides": [
+          "registered_mobile_tools"
+        , "register_mobile_tool"
+        , "ui_mobile_toolbar_overlay"
+        , "generate_mobile_toolbar_overlay"
+        , "apply_mobile_tools"
+        , "global_mobile_tools"
+        , "global_mobile_tools_ref"
+      ]
+      , "scriptUrl": "ui/mobileToolbar.txt"
+    }
+    , {
+        "provides": [
+          "registered_desktop_tools"
+        , "desktop_tool"
+        , "register_desktop_tool"
+        , "ui_desktop_toolbar_overlay"
+        , "generate_desktop_toolbar_overlay"
+      ]
+      , "scriptUrl": "ui/desktopToolbar.txt"
+    }
+    , {
+        "provides": [
+          "ui_string_list_edit_popup"
+        , "ui_string_list_editor"
+        , "ui_modifiable_string_list_editor"
+        , "ui_custom_modifiable_string_list_editor"
+        , "ui_modifiable_string_list_edit_popup"
+      ]
+      , "scriptUrl": "ui/uiStringListEditPopup.txt"
+    }
+    , {
+        "provides": [
+          "ui_toolbar_with_close_button"
+        , "ui_title_toolbar"
+      ]
+      , "scriptUrl": "ui/uiToolbarWithCloseButton.txt"
+    }
+    , {
+        "provides": [
+          "ui_live_action_picker"
+        , "ui_live_index_picker"
+        , "ui_live_reference_index_picker"
+      ]
+      , "scriptUrl": "ui/actionPickerVariants.txt"
+    }
+    , {
+        "provides": [
+          "generate_desktop_tool_at_left"
+        , "generate_desktop_tool_at_right"
+        , "generate_desktop_tools_at_left"
+        , "tool_at_left"
+        , "tools_at_left"
+        , "tool_at_right"
+        , "tool_layout_manager"
+      ]
+      , "scriptUrl": "ui/tools/toolAutoLayout.txt"
+    }
+    , {
+        "provides": [
+          "button_tool"
+        , "index_picker_tool"
+        , "modifiable_list_edit_tool"
+        , "custom_modifiable_list_edit_tool"
+        , "list_edit_tool"
+        , "popup_tool"
+        , "separator_tool"
+      ]
+      , "scriptUrl": "ui/tools/defaultTools.txt"
+    }
+    , {
+        "provides": [
+          "popup_sub_app"
+      ]
+      , "scriptUrl": "ui/popupSubApp.txt"
+    }
+    , {
+        "provides": [
+          "ui_show_popup"
+        , "show_popup"
+        , "show_message_async"
+        , "show_message"
+        , "showNotificationPrompt"
+      ]
+      , "scriptUrl": "ui/uiShowPopup.txt"
+    }
+    , {
+        "provides": [
+          "string_list_edit_sub_app"
+      ]
+      , "scriptUrl": "ui/stringListEditSubApp.txt"
+    }
+    , {
+        "provides": [
+          "ui_image_link"
+      ]
+      , "scriptUrl": "ui/uiImageLink.txt"
+    }
+    , {
+        "provides": [
+          "ui_search_panel"
+      ]
+      , "scriptUrl": "ui/uiSearchPanel.txt"
+    }
+    , {
+        "provides": [
+          "ui_text_action_toolbar"
+      ]
+      , "scriptUrl": "ui/uiTextActionToolbar.txt"
+    }
+    , {
+        "provides": [
+          "ui_login_hint"
+      ]
+      , "scriptUrl": "ui/uiLoginHint.txt"
+    }
+    , {
+        "provides": [
+          "ui_horizontal_separator"
+        , "ui_vertical_separator"
+      ]
+      , "scriptUrl": "ui/separator.txt"
+    }
+    , {
+        "provides": [
+          "ui_custom_list_view"
+        , "ui_list_view"
+      ]
+      , "scriptUrl": "ui/uiListView.txt"
+    }
+    , {
+        "provides": [
+          "ui_additional_actions_button"
+      ]
+      , "scriptUrl": "ui/uiAdditionalActionsButton.txt"
+    }
+    , {
+        "provides": [
+          "ui_list_item"
+      ]
+      , "scriptUrl": "ui/uiListItem.txt"
+    }
+    , {
+        "provides": [
+          "ui_text_container"
+      ]
+      , "scriptUrl": "ui/uiTextContainer.txt"
+    }
+  ]
+}

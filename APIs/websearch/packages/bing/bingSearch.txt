@@ -6,4 +6,4 @@
 	
 	bingImageSearchUrls: "Search term"
 }
-$bingImageSearchUrls = $query fun {{"://" strContains x} filter imageStringsFromUrl: "https://www.bing.com/images/search?q=" + urlEncodeParameter: query} ? Images.
+$bingImageSearchUrls = $query fun {{"://" strContains x} filter imageStringsFromUrl: "https://www.bing.com/images/search?q=" + urlEncodeParameter: query}.

@@ -14,6 +14,7 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 				print: path.
 				
 				(parseJson: fileContent: path + "/kmp.json");
+				["title"; fileName: fileParent: fileRealpath: path];
 				!if (fileIsFile: path + "/thumbnail.png") {
 					!if (fileIsFile: print: $metadataFile =  path + "/metadata.json") {
 						["k-metadata";[
@@ -21,7 +22,7 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 						]]
 					}
 				}
-			}) each folderContent: "./nogit/users/data/v3/" + userToken + "/files/v2/categories/videos");
+			}) each {not: "." strStartsWith fileName: x} filter folderContent: "./nogit/users/data/v3/" + userToken + "/files/v2/categories/videos");
 			["title"; "My videos"];
 			["keptArguments";[["session"]]].
 	}.

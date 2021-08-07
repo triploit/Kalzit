@@ -11,8 +11,6 @@ $fontFamily = curry: flagFontFamily.
 	
 	Example:
 	@(pxFontSize 10) uiText: "My text".
-	
-	TODO: Causes error. Noticed 2020.01.25
 }
 @(useInstead: "emFontSize")
 $pxFontSize =  curry: flagPxFontSize.

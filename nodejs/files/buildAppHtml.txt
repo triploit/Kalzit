@@ -2,7 +2,7 @@ $app = appParameter: "kalzit-file".
 $appFolder = fileParent: app.
 $rootFolder = appParameter: "kalzit-root-folder".
 $platform ? (default: "html5") = appParameter: "platform".
-$debugConstant ? (default: "true") = print: appParameter: "debug-value".
+$debugConstant ? (default: "true") = appParameter: "debug-value".
 
 print: "Trying to build Kalzit app " + app.
 
@@ -12,7 +12,6 @@ $configObject = parseJson: !if (fileIsFile: configPath) { fileContent: configPat
 
 `define options and default values for them`
 $excludedLibraries = $excludedLibraries `TODO: Make other valid name forms work` objFirstProperty configObject.
-$appcacheManifest = void. `$appcacheManifest propOf configObject`.
 $appleTouchIcon = $appleTouchIcon propOf configObject.
 
 $hasCustomLibrary = fileIsFile: (fileParent: app) + "/doNotTouch/_min.js".

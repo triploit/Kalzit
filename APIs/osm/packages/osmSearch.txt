@@ -8,28 +8,24 @@
 $osmSearchUrl = "https://nominatim.openstreetmap.org/search?format=json&q=".
 
 #{
-	Returns the JSON string returned by the OpenStreetMap search API.
+	Produces the JSON string returned by the OpenStreetMap search API.
 	
 	Usage example:
-		$jsonText = osmSearchJson: "search term".
+		!osmSearchJsonAsync "searchTerm" -> {$jsonText = x}.
 	
 	If you just want to access the search data, consider using "osmSearchPlaces" instead.
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$osmSearchJson = ($term ? String) fun {loadGlobal: osmSearchUrl + urlEncodeParameter: term}.
 $osmSearchJsonAsync = ($callback ; $term ? String) fun {callback loadGlobalAsync osmSearchUrl + urlEncodeParameter: term}.
 
 #{
-	Returns a list of places found by the OpenStreetMap search API.
+	Produces a list of places found by the OpenStreetMap search API and passes it to a callback.
 	The returned object is the parsed version of the queried JSON data.
 	
 	Usage example:
-		$places = osmSearchPlaces: "search term".
+		!osmSearchPlacesAsync "search term" -> {$places = x}.
 	
 	To easily access information about the found places, consider using "osmPlaceCoordinates" or "osmPlaceName".
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$osmSearchPlaces = ($term ? String) fun {parseJson: osmSearchJson: term}.
 $osmSearchPlacesAsync = ($callback ; $term ? String) fun {{callback: parseJson: x} osmSearchJsonAsync term}.
 
 #{
@@ -51,25 +47,21 @@ $osmPlaceCoordinates = ($_place) fun { ["lat" objFirstProperty _place];["lon" ob
 $osmPlaceName = ($_place) fun {"display_name" objFirstProperty _place}.
 
 #{
-	Returns a list of place coordinates that describe places matching a search term.
+	Produces a list of place coordinates that describe places matching a search term and passes it to a callback.
 	
 	Usage example:
-		$coordinates = osmSearchPlaceCoordinates: "search term".
+		!osmSearchPlaceCoordinatesAsync "search term" {$coordinates = x}.
 	
 	If you need to get coordinates from a place object, consider using "osmPlaceCoordinates".
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$osmSearchPlaceCoordinates = ($term ? String) fun {osmPlaceCoordinates each osmSearchPlaces: term}.
 $osmSearchPlaceCoordinatesAsync = ($callback ; $term ? String) fun {{callback: osmPlaceCoordinates each x} osmSearchPlacesAsync term}.
 
 #{
-	Returns a list of place names that describe places matching a search term.
+	Produces a list of place names that describe places matching a search term and passes it to a callback.
 	
 	Usage example:
-		$names = osmSearchPlaceNames: "search term".
+		!osmSearchPlaceNamesAsync "search term" -> {$names = x}.
 	
 	If you need to get a name from a place object, consider using "osmPlaceName".
 }
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$osmSearchPlaceNames = ($term ? String) fun {;/ osmPlaceName each osmSearchPlaces: term}.
 $osmSearchPlaceNamesAsync = ($callback ; $term ? String) fun {{callback: ;/ osmPlaceName each x} osmSearchPlacesAsync term}.

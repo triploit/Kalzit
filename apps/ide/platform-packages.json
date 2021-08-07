@@ -1,0 +1,12 @@
+{
+	"info":{
+		"description":"Libraries specifically for this application"
+	},
+	"libraries":[
+		{"provides": ["eval_globally"], "scriptUrl":"evalGlobally.js"},
+		{"provides": ["is_iframe"], "scriptUrl":"isIframe.js"},
+        {"provides": ["_ui_playground"], "scriptUrl":"mainViews/_uiPlayground.txt"},
+        {"provides": ["_ui_docs"], "scriptUrl":"mainViews/_uiDocs.txt"},
+        {"provides": ["_ui_full_text_editor"], "scriptUrl":"mainViews/_uiFullTextEditor.txt"}
+	]
+}

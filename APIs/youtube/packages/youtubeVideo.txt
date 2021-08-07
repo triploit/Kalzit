@@ -1,4 +1,4 @@
-$youtubeVideoThumbnail = ($video ? YoutubeVideoId) fun {"https://img.youtube.com/vi/" + video + "/maxresdefault.jpg"} ? Image.
+$youtubeVideoThumbnail = ($video ? YoutubeVideoId) fun {"https://img.youtube.com/vi/" + video + "/maxresdefault.jpg"}.
 $youtubeVideoAuthor = ($video ? YoutubeVideoId) fun {domInnerText: "author_url" domTags youtubeVideoDom: video}.
 $youtubeVideoAuthorName= ($video ? YoutubeVideoId) fun {domInnerText: "author_name" domTags youtubeVideoDom: video}.
 $youtubeVideoIdFromWatchUrl = YoutubeVideoId.

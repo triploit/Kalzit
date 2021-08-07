@@ -1,18 +1,5 @@
 <div id="playground" style="width: 100%; height: 100%;;" class="calcitExtremeBackground"></div>
 <script>
-	//Service worker registration
-	//Idea from https://developers.google.com/web/fundamentals/primers/service-workers/
-	window.addEventListener('load', function() {
-		if(!("serviceWorker" in navigator)) return;
-		
-		navigator.serviceWorker.register('/serviceWorker.js').then(function(registration) {
-			//No need to do anything - we just need a service worker
-		}, function(err) {
-			// registration failed :(
-			console.log('ServiceWorker registration failed: ', err);
-		});
-	})
-	
 	//Timeout
 	var timeoutSince = parseInt(GLang.eval("storageLoadString: 'kalzit.timeoutSince'").value);
 	var timeoutActive = false;
@@ -34,8 +21,17 @@
 	}
 	
 	if (!timeoutActive){
-		console.warn("Your app code should run now!");
-		console.log("---");
-		$app$
+		try {
+			$app$
+		} catch (error) {
+			console.warn("Your app code crashed: ");
+			console.log(error);
+			console.log("---")
+		}
+		if(GLANG_DEBUG) {
+			console.warn("Your app code should be running now!");
+			//Start auto-refresh
+			GLang.eval("!debugAutoRefresh");
+		}
 	} else alert("Your app timeout is currently active - you can use the Kalzit apps again in 20 minutes (or less)")
 </script>

@@ -26,6 +26,11 @@ After the installation is complete, you should se a few more things in your fold
 
 Kalzit should be running now! Just [access your Kalzit server through the browser](http://localhost:5000/).
 
+# Project scope and use cases
+* The Kalzit server is intended to be used on home-servers, which are used by only a few people. It is not intended or suitable as a "public" web server with potentially billions of users.
+* The Kalzit programming language is optimized for speed of development first, speed of execution second. It is not intended for applications where speed is critical (like games), but rather for "normal" apps or prototyping.
+* Kalzit is intended as a combination of server and applications, so the applications will sometimes rely on the server. It is not intended for the creation of stand-alone apps.
+
 # For developers
 
 To get to the built-in language playground, open this URL in your browser: [http://localhost:5000/app/ide](http://localhost:5000/app/ide)

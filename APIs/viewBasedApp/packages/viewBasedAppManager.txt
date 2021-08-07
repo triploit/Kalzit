@@ -80,7 +80,6 @@ $viewBasedAppManager = !fun ($config) {
 	
 	
 	`Return value`
-	@($uiGenerator; viewBasedAppManagerVisualizer)
 	[$getTool; () fun {
 		(changeViewTitle;currentViewIndexRef) indexPickerTool
     		viewTitles.

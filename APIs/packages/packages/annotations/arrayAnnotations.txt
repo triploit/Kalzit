@@ -1,6 +1,0 @@
-#{Produces an annotation with the key "length" and a given value.}
-@(deprecated: "Everything that has todo with pseudo-arrays will be removed, because they never worked properly")
-$setLength = {"length";x} ? Annotation.
-#{An annotation that is intended for marking a function (or generally anything) as an array. Both key and value are "array".}
-@(deprecated: "Everything that has todo with pseudo-arrays will be removed, because they never worked properly")
-$isArray ? Annotation = "array".

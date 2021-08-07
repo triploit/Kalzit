@@ -4,6 +4,6 @@
 		"platforms":["nodejs"]
 	},
 	"libraries":[
-			{"provides":["kmp_from_subreddit"], "scriptUrl":"kmpFromSubreddit.txt"}
+			{"provides":["kmp_from_subreddit_async"], "scriptUrl":"kmpFromSubreddit.txt"}
 	]
 }

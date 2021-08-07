@@ -10,6 +10,7 @@
 		]}
 	}
 	
+	//TODO: Rewrite with fetch API; document
 	function httpGetLocalAsync(env, args) {
 		var config = GLang.wrapValueToJsObject(args[1]);
 		var headers = config.headers || {};
@@ -37,6 +38,7 @@
 		return GLang.voidValue;
 	}
 	
+	//TODO: Rewrite with fetch API; document
 	function httpPostLocalAsync(env, args) {
 		var config = GLang.wrapValueToJsObject(args[1]);
 		var headers = config.headers || {};

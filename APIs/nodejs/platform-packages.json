@@ -1,7 +1,4 @@
 {
-	"requirements": [
-		"APIs/htmlgen/platform-packages.json"
-	],
 	"info":{
 		"description":"Libraries that work in the NodeJS environment",
 		"platforms":["nodejs"]
@@ -24,6 +21,8 @@
 		{"provides":["app_parameter"],  "scriptUrl":"appParameter.js"},
 		{"provides":["get_first_url_appearance"],  "scriptUrl":"getFirstUrlAppearance.txt"},
 		{"provides":["instagram_user_rss_content_string", "youtube_url_rss_content_string", "youtube_rss_feed_cache", "youtube_url_rss_content_string_async"],  "scriptUrl":"rssFeedGeneration.txt"},
-		{"provides":["md_five_hash", "sha_five_twelve_hash_with_salt", "generate_salt", "file_md_five_hash", "file_md_five_hash_async"],  "scriptUrl":"hashing.js"}
+		{"provides":["md_five_hash", "sha_five_twelve_hash_with_salt", "generate_salt", "file_md_five_hash", "file_md_five_hash_async"],  "scriptUrl":"hashing.js"},
+		{"provides":["native_file_listen_file_async", "native_file_listen_folder_async"],  "scriptUrl":"fileListen.js"},
+		{"provides":["file_listen_file"],  "scriptUrl":"fileListen.txt"}
 	]
 }

@@ -1,23 +1,11 @@
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$redditSubData = $subreddit fun {parseJson: loadGlobal: "https://reddit.com/r/" + subreddit + ".json"}.
 $redditSubDataAsync = ($callback ; $subreddit) fun {{callback: parseJson: x} loadGlobalAsync "https://reddit.com/r/" + subreddit + ".json"}.
 
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$redditSubEntries = $subreddit fun {
-	{$data of x} each $children propOf $data propOf redditSubData: subreddit
-}.
 $redditSubEntriesAsync = ($callback ; $subreddit) fun {
 	{callback: {$data of x} each $children propOf $data propOf x} redditSubDataAsync subreddit
 }.
 
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$redditSubEntryUrls = $subreddit fun {{$url of x} each redditSubEntries: subreddit}.
-$redditSubEntryUrlsAsync = ($callback ; $subreddit) fun {{callback: {$url of x} each x} redditSubEntriesAsync subreddit}.
+$redditSubEntryUrlsAsync = ($callback ; $subreddit) fun {{callback: {$url propOf x} each x} redditSubEntriesAsync subreddit}.
 
-@(deprecated: "This relies on synchronous loading, which is discouraged")
-$redditSubImages = $subreddit fun {
-	$pics = {"image" eq $post_hint propOf x} filter redditSubEntries: subreddit.
-}.
 $redditSubImagesAsync = ($callback ; $subreddit) fun {
 	{callback: {"image" eq $post_hint propOf x} filter x} redditSubEntriesAsync subreddit.
 }.

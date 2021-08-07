@@ -1,3 +1,0 @@
-$uiContainer = $_children fun {
-	"div" uiTag _children
-}.

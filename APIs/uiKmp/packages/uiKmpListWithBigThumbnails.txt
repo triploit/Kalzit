@@ -10,17 +10,19 @@
 	* `additionalActions` is a list of pairs, where each pair contains a string (first item) and a function (second item). These pairs are used to construct an action picker ("three dot button"), where the string specifies the title of each action and the function specifies the action itself. When an action is selected by the user, the appropriate function is called with the KMP object of the medium the action is applied to (what "onTap" would get when the medium is selected)
 	* `allowTitleOverflow` is a boolean value which specifies if the title can take up more than one line. The default value is true. If this is false, titles can be cut off.
 	* `centerTitle` is a boolean value which specifies if the title is centered. Default value is true - if false, the title is aligned to the left.
+	* `defaultThumbnail` (optional): defines a default icon which will be used if no fixed icon is specified by the KMP list item,
 }
 $uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
 	$tapAction = $onTap propOf interactionConfig.
 	$additionalActions = $additionalActions propOf interactionConfig.
 	$allowTitleOverflow ? (default: true) = $allowTitleOverflow propOf interactionConfig.
 	$centerTitle ? (default: true) = $centerTitle propOf interactionConfig.
+	$defaultThumbnail = $defaultThumbnail propOf interactionConfig.
 	
 	($_media fun {
 		$titleView = uiContainer:
-			[@(percentWidth 30) uiShowImageUrl: kmpGetDefaultThumbnail: _media];
-			[@(percentWidth 70) uiContainer: kmpGetTitle: _media].
+			[@(percentWidth 30) uiShowImageUrl: (default: defaultThumbnail): kmpGetDefaultThumbnail: _media;[$keptArguments; [$keptArguments propOf videoList]];[$source; $source propOf videoList]];
+			[@(percentWidth 70) uiContainer: (default: "Untitled"): kmpGetTitle: _media].
 			
 		!ifNot (allowTitleOverflow) {
 			@ellipsis titleView.

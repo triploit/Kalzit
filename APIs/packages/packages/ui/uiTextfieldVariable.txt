@@ -1,2 +1,0 @@
-$uiTextfieldVariableOnaction = ($varRef ? Reference ; $initialValue ? String) fun {varRef = initialValue. {varRef = x} uiTextfieldOnaction initialValue}.
-$uiTextfieldVariableOnchange = ($varRef ? Reference ; $initialValue ? String) fun {varRef = initialValue. {varRef = x} uiTextfieldOnchange initialValue}.

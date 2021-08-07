@@ -5,6 +5,6 @@
 	"libraries":[
 		{"provides":["kmp_from_url_without_kind", "kmp_from_video_file_url", "kmp_from_image_file_url", "kmp_from_audio_file_url"],  "scriptUrl":"fromUrl.txt"},
 		{"provides":["kmp_from_object_collection"],  "scriptUrl":"collection.txt"},
-		{"provides":["kmp_get_object_from_url", "kmp_load_object_async", "kmp_get_kept_arguments_extension", "kmp_get_file_object", "kmp_get_thumbnail_object"],  "scriptUrl":"get.txt"}
+		{"provides":["kmp_load_object_async", "kmp_get_kept_arguments_extension", "kmp_get_file_object", "kmp_get_thumbnail_object"],  "scriptUrl":"get.txt"}
 	]
 }

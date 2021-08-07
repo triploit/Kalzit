@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"APIs to create apps with a share sheet",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		{"provides":["share_supported", "share_text", "share_url"],  "scriptUrl":"share.js"}
+	]
+}

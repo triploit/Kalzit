@@ -6,6 +6,7 @@ $deleteOldVersions = !fun ($folder) {
 			$versionFolder = x.
 			!if (fileIsFolder: versionFolder) {
 				!ifNot ((fileName: versionFolder) eq currentVersion) {
+					`We are not dealing with the current version, so "versionFolder" is allowed to be deleted`
 					!if (fileIsFile: versionFolder + "/.deleted.txt") {
 						`We have a version folder to delete! Yay!`
 						print: "Removing version " + versionFolder.
@@ -24,8 +25,6 @@ $deleteOldVersions = !fun ($folder) {
 	`Check if we have a deletion marker`
 	!if (".deleted.txt" eq fileName: file) {
 		`Remove the folder containing that deletion marker`
-		`TODO: make sure that the most recent version is never deleted until that is really necessary (higher cleaning level).`
-		`Would be helpful for restoring later`
 		$parentFolder = fileParent: file.
 		!if (fileIsFile: parentFolder + "/currentVersion.txt") {
 			`This is a file representation! Loop through all the versions`

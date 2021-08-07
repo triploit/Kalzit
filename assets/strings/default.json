@@ -23,5 +23,6 @@
 	"go":"Go!",
 	"pressGoHint":"Press 'Go!' to see search results",
 	"loginHint":"You need to log in in order to use this app",
-	"openLogin":"Open login window"
+	"openLogin":"Open login window",
+	"needBreak":"I need a break right now"
 }

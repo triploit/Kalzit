@@ -1,0 +1,111 @@
+$appBuildListener = !fun ($appId) {
+	[$onContentChange; {
+		print: "File " + x + " changed - start to build app " + appId.
+		runCommandFromArray: "kalzit"; "build"; "app"; appId
+	}].
+}.
+
+`Start listeners for all main app files`
+`TODO: Build any currently running app first (gives illusion of faster build speed)`
+!folderContentAsync "./apps" -> {
+	!loopEach x -> {
+		$appId = fileName: $appFolder = x.
+		$mainSource = x + "/" + appId + ".k".
+		
+		`If the file exists, start listening and build the app when changes occur`
+		!if (fileIsFile: mainSource) {
+			!fileListenFile (mainSource) appBuildListener: appId
+		}.
+		
+		`Also build the app on every library change`
+		!if (fileIsFile: appFolder + "/platform-packages.json") {
+			!fileListenFile (appFolder + "/platform-packages.json") appBuildListener: appId.
+			
+			!nativeFileListenFolderAsync (appFolder + "/packages") -> {
+				print: "File " + x + " changed - start to build app " + appId.
+				runCommandFromArray: "kalzit"; "build"; "app"; appId
+			}
+		}.
+	}
+}.
+
+$watchLibraryFolder = !fun ($mainLibraryFolder ; $watchedFolder) {
+	print: "Watching library folder " + watchedFolder.
+
+	!nativeFileListenFolderAsync watchedFolder -> {
+		print: $changedFile = y.
+		
+		!ifNot ("_min.js" eq changedFile) {
+			print: "Building minified libraries (folder changed: " + watchedFolder + ")".
+			runCommandFromArray: "kalzit"; "build"; "minifiedLibrary"; fileRealpath: mainLibraryFolder.
+			print: "Building all apps".
+			runCommandFromArray: "kalzit"; "build"; "apps".
+		}
+	}.
+	
+	!folderContentAsync watchedFolder -> {
+		!loopEach x -> {
+			$subFolder = x.
+			!if (fileIsFolder: x) { mainLibraryFolder watchLibraryFolder subFolder }
+		}
+	}
+}.
+
+`Listen to any API change`
+!folderContentAsync "./APIs" -> {
+	!loopEach x -> {
+		$libraryFolder = x.
+		
+		!if (fileIsFolder: libraryFolder) {
+			libraryFolder watchLibraryFolder libraryFolder
+		}
+	}
+}.
+
+$watchStylesheetFolder = !fun ($watchedFolder) {
+	print: "Watching stylesheet folder " + watchedFolder.
+
+	!nativeFileListenFolderAsync watchedFolder -> {
+		print: $changedFile = y.
+		
+		!ifNot ("_" strStartsWith changedFile) {
+			print: "Building stylesheets (folder changed: " + watchedFolder + ")".
+			runCommandFromArray: "kalzit"; "build"; "core".
+			print: "Building all apps".
+			runCommandFromArray: "kalzit"; "build"; "apps".
+		}
+	}.
+	
+	!folderContentAsync watchedFolder -> {
+		!loopEach x -> {
+			$subFolder = x.
+			!if (fileIsFolder: x) { watchStylesheetFolder: subFolder }
+		}
+	}
+}.
+
+watchStylesheetFolder: "assets/stylesheets/html5".
+
+$watchStringAssetFolder = !fun ($watchedFolder) {
+	print: "Watching global string asset folder " + watchedFolder.
+
+	!nativeFileListenFolderAsync watchedFolder -> {
+		print: $changedFile = y.
+		
+		!ifNot ("_" strStartsWith changedFile) {
+			print: "Building string assets (folder changed: " + watchedFolder + ")".
+			runCommandFromArray: "kalzit"; "build"; "globalTranslationMap".
+			print: "Building all apps".
+			runCommandFromArray: "kalzit"; "build"; "apps".
+		}
+	}.
+	
+	!folderContentAsync watchedFolder -> {
+		!loopEach x -> {
+			$subFolder = x.
+			!if (fileIsFolder: x) { watchStringAssetFolder: subFolder }
+		}
+	}
+}.
+
+watchStringAssetFolder: "./assets/strings".

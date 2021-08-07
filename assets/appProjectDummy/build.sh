@@ -4,10 +4,7 @@ appId=$(cat ./doNotTouch/appId.txt)
 
 mkdir ./static
 
-#Make the home widget work
-echo CACHE MANIFEST > ./doNotTouch/manifest.appcache
-
-#Generate static string assets and translationMap.json for quick access, as well as manifest.appcache
+#Generate static string assets and translationMap.json for quick access
 hasPrevious=0
 for jsonFile in $(find -L "$appFolder" -name default.json)
 do
@@ -27,6 +24,8 @@ then
 	echo "}" >> ./doNotTouch/translationMap.json
 else
 	rm ./doNotTouch/translationMap.json
+	
+	# This is here to remove files that older build scripts might have created
 	rm ./doNotTouch/manifest.appcache
 	rm ./doNotTouch/appcache-manifest.txt
 fi
@@ -61,29 +60,6 @@ then
 	
 	#Add the icon to the app config file <appId>.json
 	echo "\"appleTouchIcon\":\"/apps/$appId/static/$sum.png\"" >> ./$appId.json
-	echo "../static/$sum.png" >> ./doNotTouch/manifest.appcache
-fi
-#Make all standard string files available for offline access
-for stringFile in $(find "$rootFolder/assets/strings" -name default.json)
-do
-	echo "${stringFile#"$rootFolder"}" >> ./doNotTouch/manifest.appcache
-done
-#Application Cache (should be the last item)
-echo NETWORK: >> ./doNotTouch/manifest.appcache
-echo "*" >> ./doNotTouch/manifest.appcache
-
-##Build static version of manifest.appcache
-sum=($(shasum "./doNotTouch/manifest.appcache"))
-appBaseSum=($(shasum "$rootFolder/generated/_browser_app_singlefile.html"))
-appCodeSum=($(shasum "$appFolder/$appId.k"))
-##Actually include it in app .json
-if [ -f "./doNotTouch/appcache-manifest.txt" ]
-then
-	if [ $hasPrevious == 1 ]
-	then
-		echo "," >> ./$appId.json
-	fi
-	echo "\"appcacheManifest\":\"$(cat ./doNotTouch/appcache-manifest.txt)\"" >> ./$appId.json
 fi
 
 #End of app .json file generation
@@ -102,6 +78,9 @@ if [ -f "$appFolder/platform-packages.json" ]
 
 ./cli build kalzitFile "$appFolder/$appId.k" "$rootFolder" $@
 
-#Create a listing of all project files which are not hidden (useful for downloading from the internet)
+#Create a checksum (for automatic refreshes)
 cd "$appFolder"
+shasum ./index.html.gz > gz-checksum.shasum
+
+#Create a listing of all project files which are not hidden (useful for downloading from the internet)
 find . -not -path "*/.*" -not -path "./doNotTouch/*" -not -path "./*.app/*" -type f > ./doNotTouch/fileListing.txt

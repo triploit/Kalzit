@@ -1,20 +1,11 @@
-$visualize = $_anything fun {
-	$uiGenerator = $uiGenerator of calcitAnnotations: _anything.
-	!ifElse (uiGenerator eq void) {
+$uiElement = $_anything fun {
+	!ifElse ("dom" eq displayType: _anything) {
+		_anything
+	};{
 		!ifElse ("string" eq displayType: _anything) {
 			uiText: _anything
 		};{
 			uiContainer: [_anything]
 		}
-	};{
-		uiContainer: [uiGenerator: _anything]
-	}
-}.
-$show = $_anything fun {print visualize: _anything}.
-$uiElement = $_anything fun {
-	!ifElse ("dom" eq displayType: _anything) {
-		_anything
-	};{
-		visualize: _anything
 	}
 }

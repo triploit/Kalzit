@@ -1,0 +1,10 @@
+{
+	"info":{
+		"description":"Libraries that allow you to find out things about unix users",
+		"platforms":["nodejs"]
+	},
+	"libraries":[
+		{"provides":["get_unix_user_name", "get_unix_user_folder"],  "scriptUrl":"getUnixUser.js"},
+		{"provides":["unix_user_is_root"],  "scriptUrl":"unixUserIsRoot.txt"}
+	]
+}

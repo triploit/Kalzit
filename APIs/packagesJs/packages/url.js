@@ -34,3 +34,8 @@ this.urlDecodeParameter = function(urlParameter){
 		return decodeURIComponent(urlParameter);
 	}catch(e){return null;}
 }
+this.urlGetHostName = function(url) {
+	try {
+		return new URL(url).hostname;
+	}catch(e){return null;}
+}

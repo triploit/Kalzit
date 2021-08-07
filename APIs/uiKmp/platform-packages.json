@@ -1,6 +1,7 @@
 {
 	"info":{
-		"description":"Libraries for displaying KMP (Kalzit media protocol) data"
+		"description":"Libraries for displaying KMP (Kalzit media protocol) data",
+		"platforms":["html5"]
 	},
 	"libraries":[
 		{"provides":["ui_kmp_list_item"],  "scriptUrl":"uiKmpListItem.txt"},

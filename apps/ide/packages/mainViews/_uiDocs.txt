@@ -1,0 +1,41 @@
+$_docsSelectedFunction = void.
+$_docsSelectedFunctionRef = reference: $_docsSelectedFunction.
+
+$_ui_docs = !fun () {
+	$view = uiContainer: void.
+	$printToView = uiPrint: view.
+	
+	$varListView = uiContainer: void.
+	$varListViewRef = reference: $varListView.
+    $searchResults = void.
+	$searchResultsRef = reference: $searchResults.
+	
+	`Update the varListView if the search results change`
+	searchResultsRef listenVariable {
+		varListViewRef = uiContainer: (($variableName) fun {
+			@(onTap: () fun {
+				_docsSelectedFunctionRef = variableName.
+				openSubApp: $viewDoc.
+			})
+			@(cssClass: "k-single_view_picker")
+			uiContainer: variableName
+		}) each searchResults
+	}.
+	
+	`Initiate the search results`
+	searchResultsRef = $originalList = {not: "_" strStartsWith x} filter !pmListNames.
+	
+	printToView: @(percentWidth 100) ($search fun {
+		searchResultsRef = {(calcitUnifyName: search) strContains x} filter originalList
+	}) uiTextfieldOnchange "".
+	
+	printToView: uiShowVariable: varListViewRef.
+	
+	`Return the actual view`
+	view
+}.
+
+$viewDoc registerSubApp popupSubApp: {
+	@(percentWidth 100) @(percentHeight 100)
+	uiShowWebpageUrl: "/api/documentation?name=" + _docsSelectedFunction
+}.

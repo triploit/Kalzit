@@ -5,7 +5,7 @@
 	"libraries":[
 		{"provides":["instagram_user_images", "instagram_user_post_urls_with_images"],  "scriptUrl":"instagramUser.txt"},
 		{"provides":["instagram_user_url", "instagram_tag_url"],  "scriptUrl":"instagramUrls.txt"},
-		{"provides":["ig_user_parse_user_complete", "ig_user_parse_user_complete_async", "ig_user_parse_base", "ig_user_parse_user_base", "ig_user_parse_user_base_async", "ig_user_parse_images", "ig_user_parse_user_images", "ig_user_parse_user_images_async", "ig_user_parse_image_url", "ig_user_parse_image_urls", "ig_user_parse_user_image_urls", "ig_user_parse_user_image_urls_async", "ig_user_parse_image_thumbnail", "ig_user_parse_image_thumbnails", "ig_user_parse_user_image_thumbnails", "ig_user_parse_user_image_thumbnails_async", "ig_user_parse_image_shortcode", "ig_user_parse_image_shortcodes", "ig_user_parse_user_image_shortcodes", "ig_user_parse_user_image_shortcodes_async"], "scriptUrl":"igUserParser.txt"},
-		{"provides":["kmp_from_instagram_user"],  "scriptUrl":"instagramKmp.txt"}
+		{"provides":["ig_user_parse_user_complete_async", "ig_user_parse_base", "ig_user_parse_user_base_async", "ig_user_parse_images", "ig_user_parse_user_images_async", "ig_user_parse_image_url", "ig_user_parse_user_image_urls_async", "ig_user_parse_image_thumbnail", "ig_user_parse_image_thumbnails", "ig_user_parse_user_image_thumbnails_async", "ig_user_parse_image_shortcode", "ig_user_parse_image_shortcodes", "ig_user_parse_user_image_shortcodes_async"], "scriptUrl":"igUserParser.txt"},
+		{"provides":["kmp_from_instagram_user_async"],  "scriptUrl":"instagramKmp.txt"}
 	]
 }

@@ -1,6 +1,0 @@
-$uiTextfieldOnaction = ($callback ? RepeatedFunction ; $text) fun {
-	uiText: "Dummy for uiTextfieldOnaction"
-}.
-$uiTextfieldOnchange = ($callback ? RepeatedFunction ; $text) fun {
-	uiText: "Dummy for uiTextfieldOnchange"
-}.

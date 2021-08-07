@@ -3,3 +3,5 @@
 * Usage: redirect: anyUrl.
 */
 this.redirect = function(url){window.location = url};
+
+this.reload = function(){location.reload()};

@@ -1,14 +1,5 @@
-$kmpFromSubreddit = ($feed ? String) fun {
-	["title";"Reddit: r/" + feed];
-	["protocolVersion";"2.0.0"];
-	["kind";"collection"];
-	["collection";[{
-		["title";redditEntryTitle: x];
-		["kind";"image"];
-		["link";first: redditEntryUrls: x];
-		["file";[
-			["default";first: redditEntryImageUrls: x]
-		]];
-		["protocolVersion";"2.0.0"]
-	} each {not: void eq redditEntryImageUrls: x} filter redditFeedEntryDoms: feed]]
+$kmpFromSubredditAsync = ($callback ; $feed ? String) fun {
+	!loadLocalAsync ("/api/s/subredditkmp?name=" + urlEncodeParameter: feed) -> {
+		callback: parseJson: x	
+	}
 }.

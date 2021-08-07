@@ -23,5 +23,6 @@
 	"go":"Los!",
 	"pressGoHint":"Auf 'Los!' drücken, um aktuelle Suchergebnisse anzuzeigen",
 	"loginHint":"Du musst dich anmelden, um diese App zu nutzen",
-	"openLogin":"Anmelde-Fenster öffnen"
+	"openLogin":"Anmelde-Fenster öffnen",
+	"needBreak":"Ich brauche jetzt eine Auszeit"
 }

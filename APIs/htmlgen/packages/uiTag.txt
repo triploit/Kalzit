@@ -1,5 +1,0 @@
-$uiTag = ($name ? String ; $_inner) fun {
-	[["name"];[name]];
-	[["inner"];[_inner]];
-	[["attributes"];[modifiableList: ()]]
-}.

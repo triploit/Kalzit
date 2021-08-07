@@ -6,8 +6,5 @@ cat ./dark/*.css >> ./_darklight.css
 echo "}" >> ./_darklight.css
 
 uglifycss ./_darklight.css ./default/*.css ./klasses/*.css --output _min.css
-sum=($(shasum "./_min.css"))
-cat ./_min.css > "./static/$sum.css"
-echo $sum > "_min.css.shasum"
 
 rm ./_darklight.css
