@@ -23,6 +23,7 @@
 		{"provides":["instagram_user_rss_content_string", "youtube_url_rss_content_string", "youtube_rss_feed_cache", "youtube_url_rss_content_string_async"],  "scriptUrl":"rssFeedGeneration.txt"},
 		{"provides":["md_five_hash", "sha_five_twelve_hash_with_salt", "generate_salt", "file_md_five_hash", "file_md_five_hash_async"],  "scriptUrl":"hashing.js"},
 		{"provides":["native_file_listen_file_async", "native_file_listen_folder_async"],  "scriptUrl":"fileListen.js"},
-		{"provides":["file_listen_file"],  "scriptUrl":"fileListen.txt"}
+		{"provides":["file_listen_file"],  "scriptUrl":"fileListen.txt"},
+		{"provides":["encrypt_file_get_init_vector"],  "scriptUrl":"encrypt.js"}
 	]
 }

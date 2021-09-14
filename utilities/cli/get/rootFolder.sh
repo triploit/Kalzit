@@ -1,1 +1,1 @@
-pwd
+./cli get userRootFolder

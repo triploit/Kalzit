@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#Go to the user-specific installation
+cd ~/.kalzit/testRoot
+if [ ! "$(pwd)" == "$(echo ~)/.kalzit/testRoot" ]; then
+	# That we are here means that there is no user-specific installation
+	# Create that now (transparently)
+	
+	#Go to the system installation level
+	cd /usr/local/lib/kalzit/systemRoot
+	#Run the "publish test" command to get a user installation
+	./cli publish test > /dev/null 2> /dev/null
+	
+	#Go to the user folder again - should work now
+	cd ~/.kalzit/testRoot
+fi
+
+./cli $@

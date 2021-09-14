@@ -1,12 +1,12 @@
 #{
 	This will cause the page to reload whenever "./cli build app <id>" produces a new result.
 }
-$debugAutoRefresh = !fun ($pauseMillis ? (default: 500)) {
+$debugAutoRefresh = !fun ($pauseMillis ? (default: 2000)) {
 	!if (("localhost" eq urlGetHostName: appUrl) | not: void eq appParameter: "kalzit.refresh") {
 		$checksum = loadLocal: $checksumHandle = "/app/" + appId + "/gz-checksum.shasum".
 		pauseMillis repeatAsync {
 			$newChecksum = loadLocal: checksumHandle.
-			!ifNot (checksum eq newChecksum) reload.
+			!ifNot ((checksum eq newChecksum) | newChecksum eq void) reload.
 		}
 	}
 }.

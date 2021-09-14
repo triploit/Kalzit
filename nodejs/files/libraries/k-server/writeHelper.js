@@ -5,6 +5,10 @@ var headWritten = false;
 var mimeType = "*";
 var wantsRange = false;
 
+var streamTransform = require("../StreamSectionTransform");
+var aesSeek = require("../AesSeek");
+var crypto = require('crypto');
+
 function getEncoding(encoding){
 	return encoding ? (lastUsedEncoding = encoding) : lastUsedEncoding
 }
@@ -55,7 +59,7 @@ function write(buffer, encoding, res, req){
 	
 }
 
-function writeFileChunk(filePath, stats, res, req){
+function writeFileChunk(filePath, stats, res, req, decryptConfig){
     //Write head and chunk data - base code from https://stackoverflow.com/questions/37866895/using-nodejs-to-serve-an-mp4-video-file#37867816
     var range = req.headers.range;
     console.log("Requested range is " + range);
@@ -67,33 +71,51 @@ function writeFileChunk(filePath, stats, res, req){
     var end = partialend ? parseInt(partialend, 10) : total - 1;
     var chunksize = (end - start) + 1;
 
-	res.writeHead(206, {
+	var headers = {
 		'Content-Range': 'bytes ' + start + '-' + end + '/' + total,
 		'Accept-Ranges': 'bytes',
 		'Content-Length': chunksize,
 		'Content-Type': mimeType
-	});
+	};
+	
+	res.writeHead(206, headers);
     headWritten = true;
 
 	res.willEnd = true;
-    var fileStream = fs.createReadStream(filePath, {
-        start: start,
-        end: end
-    });
-    fileStream.pipe(res);
+	
+	//Generate the stream to serve
+    var fileSystemAccess = decryptConfig ? aesSeek : fs;
+    var readOptions = {
+    	start: start,
+		end: end
+    };
+    if (decryptConfig) {
+        readOptions.initVector = decryptConfig.initVector,
+        readOptions.key = decryptConfig.key
+    }
+    var servedStream = fileSystemAccess.createReadStream(filePath, readOptions);
+    
+    servedStream.pipe(res);
     res.on('close', function() {
-        if (res.fileStream) {
-            res.fileStream.unpipe(this);
-            if (this.fileStream.fd) {
-                fs.close(this.fileStream.fd);
-            }
-        }
-        res.end()
+        servedStream.unpipe(this);
+        console.log("Ending chunked response for " + filePath);
+        res.end();
     });
+    
+    res.on("error", function(error) {
+    	console.log(error);
+    })
 }
 
-function writeFileSaveRam(filePath, res) {
-    fs.createReadStream(filePath).pipe(res);
+function writeFileSaveRam(filePath, res, decryptConfig) {
+	var readStream = fs.createReadStream(filePath);
+    if (decryptConfig) {
+        readStream = readStream.pipe(
+            crypto.createDecipheriv('aes-256-ctr', decryptConfig.key, decryptConfig.initVector)
+        );
+    }
+    readStream.pipe(res);
+
     res.willEnd = true;
     res.on('close', function() {
         if (res.fileStream) {
@@ -102,17 +124,19 @@ function writeFileSaveRam(filePath, res) {
                 fs.close(this.fileStream.fd);
             }
         }
+        console.log("Ending full response for " + filePath);
         res.end();
     });
 }
 
-function writeFile(filePath, res, req){
-    if(fs.existsSync(filePath)){
+
+function writeFile(filePath, res, req, decryptConfig){
+	if(fs.existsSync(filePath)){
         var stats = fs.statSync(filePath);
         if(!headWritten){
             if(wantsRange){
             	console.log(filePath + ": Head not written - serving requested file chunk. File size is " + stats.size + " bytes");
-                writeFileChunk(filePath, stats, res, req);
+                writeFileChunk(filePath, stats, res, req, decryptConfig);
             }else{
                 console.log("This should be quick");
                 console.log(filePath + ": Head not written - using fs.createReadStream and pipe(res) to serve file content. File size is " + stats.size + " bytes");
@@ -123,11 +147,11 @@ function writeFile(filePath, res, req){
                 });
                 headWritten = true;
                 
-                writeFileSaveRam(filePath, res);
+                writeFileSaveRam(filePath, res, decryptConfig);
             }
         }else{
 			console.log(filePath + ": Head already written - using writeFileSaveRam (fs.createReadStream). File size is " + stats.size + " bytes");
-			writeFileSaveRam(filePath, res);
+			writeFileSaveRam(filePath, res, decryptConfig);
         }
     }else{
         res.writeHead(404, {});

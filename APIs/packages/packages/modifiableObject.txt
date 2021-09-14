@@ -1,16 +1,39 @@
+#{
+	Produces a utility to create objects by adding properties. The benefit here is that you do not need to add all properties at once. This is very similar to a standard "map" object.
+	
+	The function parameter for creating this is a normal object - or just void. All properties of that object will be added to the modifiable one.
+	
+	The return value is an object with the following properties:
+	* `push` - function that takes a key and a value and adds it to the object
+	* `removeProperty` - function that takes a key and removes it from the object
+    * `remove` - function that takes a key and a value and removes all exact matches from the object
+	* `getObject` - returns a "normal" objects with all the added fields
+	* `clear` - removes all fields from the modifiable object
+	* `isProperty` - takes a key value and returns if that is an existant property
+	* `getProperty` - takes a key and returns the value of it
+}
 $modifiableObject = ($_originalObject) fun {
-	$baseList = modifiableList: _originalObject.
+	$baseList ? ModifiableList = _originalObject.
+	$baseListRef = reference: $baseList.
 	
 	$currentObject = _originalObject.
 	$currentObjectRef = reference: $currentObject.
 	
 	$needsRefresh = false. $needsRefreshRef = reference: $needsRefresh.
 	
-	$refreshObject = () fun {!if needsRefresh {currentObjectRef = do: $getArray of baseList. needsRefreshRef = false}. void}.
+	$refreshObject = () fun {!if needsRefresh {currentObjectRef = do: $getArray propOf baseList. needsRefreshRef = false}. void}.
 	
 	["push" ; ($_key ; $_value) fun {
 		($push of baseList): [[_key];[_value]].
 		needsRefreshRef = true. void
+	}];
+	["removeProperty"; $_key fun {
+		currentObjectRef = {not: (first: x) eq _key} filter do: $getArray propOf baseList.
+		baseListRef = currentObject.
+	}];
+    ["remove"; ($_key ; $_value) fun {
+		currentObjectRef = {not: x eq [_key];[_value]} filter do: $getArray propOf baseList.
+		baseListRef = currentObject.
 	}];
 	["getObject" ; () fun {do refreshObject. currentObject}];
 	["clear" ; () fun {do: $clear of baseList. needsRefreshRef = true. void}];

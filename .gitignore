@@ -9,7 +9,6 @@ nogit
 generated
 **/_min.js
 apps/**/*.shasum
-kalzit
 utilities/ffmpeg
 utilities/ffplay
 utilities/ffprobe

@@ -1,8 +1,6 @@
-./playground.json
 ./_min.js
 ./strings/default.json
 ./index.html
-./playground.k
 ./platform-packages.json
 ./config/excluded-libraries.json
 ./config/home.json
@@ -14,4 +12,5 @@
 ./packages/mainViews/_uiFullTextEditor.txt
 ./packages/isIframe.js
 ./index.html.gz
-./playground.shasum
+./ide.k
+./ide.json

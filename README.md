@@ -11,7 +11,7 @@ It is a programming language, complete with a standard library that makes tasks 
 This language is focused on being easy to learn, creating graphical user interfaces and working with media. And it avoids some annoyances of other languages. In other words, it is made to be really good for creating rich web applications, which can then run on your home server!
 If one of these things sounds interesting to you, Kalzit is probably right for you.
 
-(The current version of this project is `0.12.0`. If you are interested in the latest changes to it, [take a look at the changelog](/docs/changelog/0.12.0.md))
+(The current version of this project is `0.14.0`. If you are interested in the latest changes to it, [take a look at the changelog](/docs/changelog/0.14.0.md))
 
 # Setup
 
@@ -29,7 +29,12 @@ Kalzit should be running now! Just [access your Kalzit server through the browse
 # Project scope and use cases
 * The Kalzit server is intended to be used on home-servers, which are used by only a few people. It is not intended or suitable as a "public" web server with potentially billions of users.
 * The Kalzit programming language is optimized for speed of development first, speed of execution second. It is not intended for applications where speed is critical (like games), but rather for "normal" apps or prototyping.
-* Kalzit is intended as a combination of server and applications, so the applications will sometimes rely on the server. It is not intended for the creation of stand-alone apps.
+* Kalzit is intended as a combination of server and web applications, so the applications will sometimes rely on the server. It is not intended for the creation of stand-alone apps.
+* The client targets are recent web browsers, especially Firefox, Safari and Chrome / Chromium (importance descending). The main criteria for browser importance, in this case, are claimed and executed care for privacy (otherwise, people would not use Kalzit anyway), popularity, and low cost.
+* The server / development environment targets are recent versions of Linux and macOS. The server is supposed to be able to run on these in general, and on the Raspberry PI specifically (a rather common and low-cost device running Linux, so people are likely to put Kalzit on that - if they put it on anything).
+* Kalzit targets rather cheap, low-end servers (the user is not expected to pay a lot of money for an extra device) and mid-range clients (devices people own already: Smartphones, Tablets, Laptops, Desktops - all are equally important). TVs and watches are not targeted. These targets mean that the client device probably has more computing power than the server.
+* The target audience are users who are at least a little bit privacy conscious but not necessarily technically savy. The amount of technical knowledge *required* to get started with Kalzit is intended to decrease rather than increase, while not ever limiting the tinkering abilities of those interested in that.
+* Both security and convenience are valued, and ideally they should be both implemented. The only exception is if some feature becomes practically unusable because of privacy measures (like having to wait a long time while something is being decrypted, having to enter a password very often, ...). In these cases, convenience is more important - nobody cares if something is private when they can not use it.
 
 # For developers
 

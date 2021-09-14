@@ -14,8 +14,21 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 		!ifElse (etag eq ($getHeader propOf _request): "if-none-match") {
 			($respondCode propOf _request): 304.
 		};{
-			($startServing propOf _request): (default: "*"): strFirstLine: fileContent: uploadName + "/" + requestedVersion + "/mime.txt".
-			($writeFile propOf _request): print: uploadName + "/" + requestedVersion + "/raw".
+			
+			$unencryptedPath = uploadName + "/" + requestedVersion + "/raw".
+			!ifElse (fileIsFile: unencryptedPath) {
+				`Serve the unencrypted data`
+				($startServing propOf _request): (default: "*"): strFirstLine: fileContent: uploadName + "/" + requestedVersion + "/mime.txt".
+				($writeFile propOf _request): print: unencryptedPath.
+			};{
+				`Decrypt the data first, then serve them`
+				($startServing propOf _request): (default: "*"): strFirstLine: fileContent: uploadName + "/" + requestedVersion + "/mime.txt".
+				($writeEncryptedFile propOf _request):
+					["input"; print: uploadName + "/" + requestedVersion + "/encrypted"];
+					["initVector"; fileContentRaw: uploadName + "/" + requestedVersion + "/iv"];
+					["key"; ($getProperty propOf mdFivePasswordHashes): userToken].
+			}
+			
 		}.
 		
 		do:($endServing propOf _request).

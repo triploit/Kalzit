@@ -74,8 +74,18 @@ $getUserSession = ($userToken ? String) fun {
 			$passwordSalt = fileContent: passwordFolder + "/salt.txt".
 			$hashFromInput = userPassword shaFiveTwelveHashWithSalt passwordSalt.
 			
+			`Validate the password`
 			(storedHash eq hashFromInput) ifElse {
-				resultRef = "0" + strNewline + getUserSession: userToken
+				`Öassword is correct - open a session`
+				resultRef = "0" + strNewline + getUserSession: userToken.
+				
+				`Also store an md5 hash (should be different from the sha512 one) in the key map (for encryption)`
+				!ifNot (($isProperty propOf mdFivePasswordHashes): userToken) {
+					`We have not stored a password hash for this user yet`
+					$passwordMdFiveHash = mdFiveHash: userPassword + passwordSalt.
+					userToken ($push propOf mdFivePasswordHashes) passwordMdFiveHash.
+					print: "Added password hash for user " + userToken + " to the encryption map".
+				}
 			};{
 				resultRef = "3" + strNewline + "Passwords do not match"
 			}

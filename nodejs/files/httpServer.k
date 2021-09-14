@@ -6,6 +6,9 @@ print "Reading blacklist ...".
 $blacklist = strNewline strSplit fileContent: "./nodejs/files/server/blacklist.txt".
 print "Parsing internal library ...".
 
+`Store md5 password + salt hashes in memory - used for encryption.`
+$mdFivePasswordHashes = ModifiableObject: ().
+
 `TODO: Test if the variant with "firstConditionMatch" works`
 $blacklistAllows = $fname fun {void eq {x isMatch fname} firstConditionMatch blacklist}.
 

@@ -79,19 +79,33 @@
 				
 				_request httpEndServingRaw strRaw: '{"success": 1, "endpoint": ' + (objToJson: "/api/uploaded?id=" + urlEncodeParameter: accessName) + '}'.
 				
+				`Here we start the first asynchronous thing - everything above was synchronous`
 				!fileMdFiveHashAsync (filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw") -> {
 					$checksum = x.
 					
 					`Link the thing to the category folder (category determined above)`
 					runCommand: print: "ln -s '" + (fileRealpath: filesFolder + "/main/" + accessName + "/" + currentVersion) +  "' '" + categoryFolder + "/" + checksum + "'".
-				}.
 					
+					`Once the hash work is done, start encrypting`
+					`TODO: Encrypt the /raw file and delete it`
+					`TODO: Check if the user token is actually in the key map - should be, but it is better to make sure`
+					$initVector = encryptFileGetInitVector:
+						["key"; ($getProperty propOf mdFivePasswordHashes): userToken];
+						["input"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw")];
+						["output"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/encrypted")];
+						["deleteInput"; true].
+					
+					`Save the init vector so we can find it later`
+					!fileWrite initVector -> (filesFolder + "/main/" + accessName + "/" + currentVersion + "/iv").
+				}.
+				
 			}.
 		}.
 		
 		print: "We have a data upload request".
 		`Check if there is enough space - we need to convert the post size estimate to megabytes, hence the division`
-		!diskSpaceClean ((do: $getPostDataByteSizeEstimate propOf _request) % 1000000) {
+		`We also need roughly two times that space, because the file will be encrypted later`
+		!diskSpaceClean (2 * (do: $getPostDataByteSizeEstimate propOf _request) % 1000000) {
 			$successful = x.
 			!ifElse (successful) {
 				`Actually accept the upload`

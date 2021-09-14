@@ -22,6 +22,9 @@ function getRequestValue(req, res) {
 		writeFile(filePath){
 			writeHelper.writeFile(filePath, res, req);
 		},
+		writeEncryptedFile(config){
+			writeHelper.writeFile(config.input, res, req, config /*for decryption*/);
+		},
 		writeBytes(numberArray, encoding){
 			writeHelper.write(Buffer.from(numberArray), encoding, res, req);
 		},
@@ -123,7 +126,7 @@ function getRequestValue(req, res) {
 };
 
 exports.httpServer = function httpServer(callback, port){
-	http.createServer(function (req, res) {
+	var server = http.createServer(function (req, res) {
 		callback( getRequestValue(req, res) );
 	}).listen(port);
 };

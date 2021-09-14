@@ -1,10 +1,10 @@
-# Creates the command-line interface ("./cli" from the root folder, "kalzit" from everywhere)
+# Makes the CLI programs (./cli, ./kalzit) executable
 
 chmod +x ./cli
-
-echo \#!/bin/bash > ./kalzit
-echo cd \"$(pwd)\" >> ./kalzit
-echo "./cli \$@" >> ./kalzit
-
 chmod +x ./kalzit
-chmod +x ./nodejs/files/httpServer
+
+# Make a system- and user-level installation
+./cli publish test
+
+echo We are trying to set up a system-wide Kalzit project folder. Please authenticate:
+sudo ./cli publish system

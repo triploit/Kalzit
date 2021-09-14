@@ -1,0 +1,24 @@
+$realKey = appParameter: "real-key".
+
+$encryptFolder = !fun ($folder) {
+	!folderContentDeepAsync folder -> {
+		$file = x.
+		!ifElse (fileIsFile: file) {
+			!if ("raw" eq fileName: file) {
+				print: "Beginning encryption of " + file.
+				$initVector = encryptFileGetInitVector:
+					["key"; realKey];
+					["input"; file];
+					["output"; (fileParent: file) + "/encrypted"];
+					["deleteInput"; true].
+				!fileWrite initVector -> ((fileParent: file) + "/iv").
+				print: "Encryption of file done: " + file.
+			}
+		};{
+			`Apparently it is a folder`
+			encryptFolder: x
+		}
+	}
+}.
+
+encryptFolder: appParameter: $folder.

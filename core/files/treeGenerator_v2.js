@@ -304,37 +304,34 @@
 					//We need at least three values to the right of ! - this requirement is not met
 					throw new Error("The character ! is not allowed here. It can be used as follows: !operator firstOperand secondOperand.");
 				}
-				//Form: !op a b
+				//When we are here, we have two possible forms:
+				//Form 1: !op a b c (becomes "a op b c" without syntactig sugar).
+				//Form 2: !op a b -> c d (becomes "!op (c d) a b"; arrow switches the arguments)
+				
+				//Figure out which function we need to call
 				var op = loopState(state.splice(i + 1, 1));
-				var a = loopState(state.splice(i + 1, 1));
-				var b = null;
-				if(state[i + 1].kind === "arrow") {
-					//If there is an arrow between a and b, skip it ...
-					state.splice(i + 1, 1);
-					//... and switch a and b
-					b = a;
-					a = loopState(state.splice(i + 1, (state.length - i) - 1));
+				
+				//Figure out if there is an arrow after the exclamation mark
+				var slicedStateAfterOperator = state.slice(i + 1);
+				var relativeArrowIndex = slicedStateAfterOperator.indexOf(ARROW);
+				if (relativeArrowIndex !== -1) {
+					//throw new Error("WE HAVE AN ARROW!");
+					//We have an arrow somewhere
+					if (relativeArrowIndex == 0 || relativeArrowIndex == slicedStateAfterOperator.length - 1) {
+						throw new Error("You almost got the arrow syntax right! Just put something before and after the arrow.");	
+					}
+					var b = loopState({kind:"parentheses", parentheses:slicedStateAfterOperator.splice(0, relativeArrowIndex)});
+					var a = loopState({kind:"parentheses", parentheses:slicedStateAfterOperator.slice(1)});
+					state = state.slice(0, i).concat(a, op, b);
 				} else {
-					b = loopState(state.splice(i + 1, (state.length - i) - 1));
+					//We have no arrow; this is form 1 from above
+					var a = loopState(state.splice(i + 1, 1));
+					var b = loopState(state.splice(i + 1, (state.length - i) - 1));
+					state = state.slice(0, i).concat(a, op, b);
 				}
-				state = state.slice(0, i).concat(a, op, b);
 				
 				//The loop will end after this
 				break;
-			}
-			//Check for arrows
-			else if (state[i].kind === "arrow") {
-				if(i <= 0) {
-					throw new Error("For the arrow syntax, you need this format : a => b. That switches a and b, so it becomes b a");
-				}
-				//Form: a -> b (becomes b a; items switch)
-				var a = loopState(state.splice(i - 1, 1));
-				var arrow = state.splice(i - 1, 1); //Ignored
-				var b = loopState(state.splice(i - 1, 1));
-				var rest = state.splice(i - 1, (state.length - i) + 1);
-				state = state.slice(0, i - 1).concat(b, a, rest);
-				
-				continue;
 			}
 		}
 		return state;
