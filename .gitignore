@@ -3,7 +3,6 @@ src/js/.DS_Store
 src/.DS_Store
 .DS_Store
 node_modules
-package-lock.json
 nogit
 *.redirect
 generated
