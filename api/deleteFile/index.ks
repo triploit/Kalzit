@@ -1,10 +1,10 @@
 $id = SafeFilePath: "id" urlGetParameter $url propOf _request.
+
 $session ? Float = "session" urlGetParameter $url propOf _request.
+$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
-$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
-
-!if userTokenExists {
-	$accessFolder = "./nogit/users/data/v3/" + userToken + "/files/v2/main".
+!if sessionExists {
+	$accessFolder = userFolder + "/files/v2/main".
 	
 	`Starting at the specified folder, mark all version directories with a deleted.txt file`
 	$markFolderAsDeleted = !fun ($folder) {

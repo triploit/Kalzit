@@ -62,6 +62,18 @@ $login registerSubApp popupSubApp:
 			!relaunchApp
 		}
 	}).
+	
+`#manageDomains sub app`
+$manageDomains registerSubApp popupSubApp:
+	(uiTitleToolbar: "Manage internet access");
+	@(height "100% - " + toolbarCmHeight + "cm") @verticalScroller uiContainer: @(width: "100% - 14px") @center !uiListView allowedDomains -> {
+		uiListItem:
+			["mainView"; uiContainer: x];
+			["value"; x];
+			["additionalActions"; [
+				["Don't allow anymore"; {($removeEquals propOf allowedDomains): x}]
+			]]
+	}.
 
 $register registerSubApp popupSubApp:
 	(uiTitleToolbar: strings: $registrationDialogTitle);
@@ -83,6 +95,10 @@ $account registerSubApp popupSubApp: do:{
 			} uiCheckbox strings: $automaticTimeoutCheckbox);
 			(uiVerticalPxSpace: 14);
 			(@center timeoutNow uiButton strings: "needBreak");
+			(uiVerticalPxSpace: 14);
+			(!uiVerticalSeparator);
+			(uiVerticalPxSpace: 14);
+			(@center {openSubApp: "manageDomains"} uiButton "Manage internet access");
 			(uiVerticalPxSpace: 14);
 			(!uiVerticalSeparator);
 			(uiVerticalPxSpace: 14);

@@ -1,0 +1,44 @@
+$allowedDomains = storedModifiableStringList: "kalzit.allowedDomains".
+
+#{
+	Displays a webpage after asking the user to allow the targeted domain (once, not every time)
+}
+$uiWebpage = $uiWeb = $uiShowWebpageUrl = !fun ($pageUrl) {
+	$domain = urlGetHostName: pageUrl.
+	!ifElse (domain listContains getArray: allowedDomains) {
+		`The domain is allowed!`
+		uiShowWebpageUrlNative: pageUrl
+	};{
+		`The domain is not allowed yet`
+		uiRestrictedWebpage: pageUrl.
+	}
+}.
+
+#{
+	Displays a webpage after asking the user to allow the targeted domain (always, regardless of prior confirmations)
+}
+$uiRestrictedWebpage = !fun ($pageUrl) {
+	$domain ? (default: "") = urlGetHostName: pageUrl.
+	!ifElse ("" eq strTrim: domain) {
+		`Domain is empty - we can allow that`
+		uiShowWebpageUrlNative: pageUrl.
+	};{
+		`We have to ask for permission`
+		$confirmView = @centerText uiContainer:
+			["Please confirm that you want to display contents from this webpage:"];
+			[urlGetHostName: pageUrl];
+			[!uiButton "Show me that page!" -> {
+				uiHide: confirmView.
+				(uiPrint: view): @(percentHeight 100) @(percentWidth 100)
+					uiShowWebpageUrlNative: pageUrl.
+				
+				!ifNot (domain listContains getArray: allowedDomains) {
+					($push propOf allowedDomains): domain	
+				}
+			}].
+			
+		$view = uiContainer: confirmView.
+		
+		`Return` view.
+	}
+}

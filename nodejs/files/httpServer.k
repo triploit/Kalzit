@@ -2,15 +2,10 @@
 `A http server that is specialized for the Kalzit web applications`
 
 print "Starting the server ...".
-print "Reading blacklist ...".
-$blacklist = strNewline strSplit fileContent: "./nodejs/files/server/blacklist.txt".
 print "Parsing internal library ...".
 
 `Store md5 password + salt hashes in memory - used for encryption.`
 $mdFivePasswordHashes = ModifiableObject: ().
-
-`TODO: Test if the variant with "firstConditionMatch" works`
-$blacklistAllows = $fname fun {void eq {x isMatch fname} firstConditionMatch blacklist}.
 
 $ifFolderThenMaybeIndexFile = !fun ($path) {
 	`Check for a folder, and if the requested file is a folder, search an index file`
@@ -32,7 +27,7 @@ $sessionRemove = !fun ($sessionFolder) {
 	$sessionId = fileName: sessionFolder.
 	!if (fileIsFile: sessionFolder + "/expiration.txt") {
 		runCommandFromArray: "rm";"-rf";sessionFolder.
-		fileDelete: "./nogit/users/sessions/" + sessionId + ".txt".
+		fileDelete: "./nogit/users/sessions/" + sessionId.
 	}
 }.
 $sessionValidate = !fun ($sessionFolder ; $_request) {
@@ -61,8 +56,8 @@ $sessionUpgrade = !fun ($sessionFolder ; $_request) {
 }.
 
 $sessionValidateAndUpgrade = !fun ($userSession ; $_request) {
-	$userId = strFirstLine: fileContent: "./nogit/users/sessions/" + userSession + ".txt".
-	$sessionFolder = "./nogit/users/data/v3/" + userId + "/sessions/" + userSession.
+	$userFolder = "./nogit/users/sessions/" + userSession.
+	$sessionFolder = userFolder + "/sessions/" + userSession.
 	
 	!if (fileIsFile: print: sessionFolder + "/expiration.txt") {
 		!ifElse (fileIsFile: sessionFolder + "/securityLevel.txt") {
@@ -73,6 +68,32 @@ $sessionValidateAndUpgrade = !fun ($userSession ; $_request) {
 	}
 }.
 
+$serveNotFound = !fun ($_request ; $fname) {
+	`File not found`
+	print: "Serving empty page for: " + fname.
+    ($startServing propOf _request): "text/html".
+	($respondCode propOf _request): 404.
+	($writeFile propOf _request): "./nodejs/files/server/404.html"
+}.
+
+`Really fast way to figure out if a file needs to be treated as static or not`
+`Can be used instead of httpWriteGlobalFile or httpWriteStaticFile; if a file path contains /static/, the file is assumed to be static`
+$serveExistingFile = !fun ($_request ; $fname) {
+	print: "Serving file " + fname.
+	
+	`This is implemented in a really unusual way to be as speedy as possible, but it is essentially the same as an ifElse condition`
+	_request (("/static/" strContains fname) at httpWriteGlobalFile ; httpWriteStaticFile) fname.
+	
+	do: ($endServing propOf _request).
+}.
+$serveFile = !fun ($_request ; $fname) {
+	`Figure out what to do with the file - if it does not exist, serve a "not found" message. If it does, call serveExistingFile`
+	
+	`This is implemented in a really unusual way to be as speedy as possible, but it is essentially the same as an ifElse condition`
+	_request ((fileIsFile: fname) at serveNotFound ; serveExistingFile) fname
+}.
+
+$serverRootPath = "./serverRoot".
 $onClientConnect = ($_request fun {
 	`First thing we do is a quick session validation, as that is very important for security`
 	`After that comes the normal server stuff`
@@ -81,59 +102,30 @@ $onClientConnect = ($_request fun {
 		!sessionValidateAndUpgrade userSession _request.
 	}.
 
-	$fname = ifFolderThenMaybeIndexFile: "." + first: "?" strSplit $url propOf _request.
+	$fname = ifFolderThenMaybeIndexFile: serverRootPath + first: "?" strSplit $url propOf _request.
 	
 	$result = void.
 	$resultRef = reference: $result.
 	$async = false.
 	$asyncRef = reference: $async.
+
+	`Figure out what to do with the requested file`
 	
-	`Check blacklist`
-	!ifElse (not: void eq {x isMatch fname} firstConditionMatch blacklist){
-		print: "The following file is on the blacklist and will produce a 404 error page: " + fname.
-       	($startServing propOf _request): fileMime: "html".
-		($respondCode propOf _request): 404.
-		_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
-	};{
-		`Hey, the requested file is not on the blacklist!`
-		
-		$languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
-		!if (fileIsFile: languageRunnerFile) {
-			!if (fileIsFile: fname) {
-				print: "Trying to run a custom language with " + languageRunnerFile.
-				resultRef = "Custom language has not returned a result".
-				do:() fun fileContent: languageRunnerFile
-			}
-		}.
-		
-		$serveFile = $fname fun {
-			`Find a file by name`
-			!ifElse (fileIsFile: fname) {
-				print: "Serving file " + fname.
-				!ifElse ("/static/" strContains fname) {
-					_request httpWriteStaticFile fname
-                };{
-                	_request httpWriteGlobalFile fname
-                }.
-                do:($endServing propOf _request).
-			};{
-				`File not found`
-				print: "Serving empty page for " + fname.
-                ($startServing propOf _request): fileMime: "html".
-				($respondCode propOf _request): 404.
-				_request httpEndServingRaw fileContentRaw: "./nodejs/files/server/404.html"
-			}
-		}.
-		
-		!if (not async) {
-			!if (result eq void) {
-				serveFile: fname
-			}.
-		    else {
-		    	_request httpEndServingRaw strRaw: result
-		    }
+	$languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
+	!if (fileIsFile: languageRunnerFile) {
+		!if (fileIsFile: fname) {
+			print: "Trying to run a custom language with " + languageRunnerFile.
+			resultRef = "Custom language has not returned a result".
+			do:() fun fileContent: languageRunnerFile
+		}
+	}.
+	
+	!if (not async) {
+		!ifElse (result eq void) {
+			_request serveFile fname
+		};{
+	    	($endServing propOf _request): result
 	    }
-	    
     }
 	
 }).

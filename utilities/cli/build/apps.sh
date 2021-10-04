@@ -2,17 +2,13 @@
 ./cli build homescreenData
 
 rootFolder="$(pwd)"
-appSkeleton="$(pwd)/_browser_app_singlefile.html"
-cd ./apps
-appFolder="$(pwd)"
-arguments=$@
+appSkeleton="$rootFolder/_browser_app_singlefile.html"
+appFolder="$rootFolder/apps"
+arguments="$@"
 
 #Look for build.sh files in /apps/*
-for buildFile in $(find -L "$appFolder" -type f -name "build.sh")
+for idFile in $(find -L "$appFolder" -type f -name "appId.txt")
 do
-	cd "$rootFolder"
-	echo "Running app build script '$buildFile'"
-	./cli run upgradeBuildFile "$buildFile"
-	cd "$(dirname "$buildFile")"
-	bash ./build.sh $arguments
+	id="$(cat $idFile)"
+	./cli build app "$id"
 done

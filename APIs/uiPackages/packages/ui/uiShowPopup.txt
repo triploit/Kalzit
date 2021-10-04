@@ -31,6 +31,22 @@ $showNotificationPrompt = !fun ($message ? String) {
 	}
 }.
 
+$showConfirmMessageAsync = !fun ($onConfirm ; $message ? String) {
+	$action = {uiHide: popup}.
+	
+	$popupContent = @(cssClass: "k-vertical_scroller") @(percentHeight 100) uiContainer:
+		[@centerText uiText: message];
+		[@center uiContainer:
+			[{
+				uiHide: popup.
+				do: onConfirm
+			} uiButton "Allow"];
+			[{uiHide: popup} uiButton "Don't allow"]
+		].
+	
+	print: $popup = popupContent uiSmallPopup action.
+}.
+
 $showMessageAsync = !fun ($callback ; $message ? String) {
 	$action = {uiHide: popup. do:callback}.
 

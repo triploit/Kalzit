@@ -12,14 +12,7 @@ echo ./apps > ./app.redirect
 ./cli build everything
 
 #Attempt do link the cli file to "kalzit"
-#If the --no-link option is the first parameter, skip this step
-if  [ "$1" != "--no-link" ]
+if ! command -v kalzit &> /dev/null
 then
-	if ! command -v kalzit &> /dev/null
-	then
-		echo
-		echo We will now attempt to make the "kalzit" command accessible anywhere.
-		echo This requires root privileges - please authenticate.
-		sudo ln -sf "$(pwd)/kalzit" /usr/local/bin/kalzit
-	fi
+	bash ./utilities/installer/parts/globalCli.sh
 fi

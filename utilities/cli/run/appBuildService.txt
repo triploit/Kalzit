@@ -1,7 +1,7 @@
 $appBuildListener = !fun ($appId) {
 	[$onContentChange; {
 		print: "File " + x + " changed - start to build app " + appId.
-		runCommandFromArray: "kalzit"; "build"; "app"; appId
+		runCommandFromArray: "./cli"; "build"; "app"; appId
 	}].
 }.
 
@@ -23,7 +23,7 @@ $appBuildListener = !fun ($appId) {
 			
 			!nativeFileListenFolderAsync (appFolder + "/packages") -> {
 				print: "File " + x + " changed - start to build app " + appId.
-				runCommandFromArray: "kalzit"; "build"; "app"; appId
+				runCommandFromArray: "./cli"; "build"; "app"; appId
 			}
 		}.
 	}
@@ -37,9 +37,9 @@ $watchLibraryFolder = !fun ($mainLibraryFolder ; $watchedFolder) {
 		
 		!ifNot ("_min.js" eq changedFile) {
 			print: "Building minified libraries (folder changed: " + watchedFolder + ")".
-			runCommandFromArray: "kalzit"; "build"; "minifiedLibrary"; fileRealpath: mainLibraryFolder.
+			runCommandFromArray: "./cli"; "build"; "minifiedLibrary"; fileRealpath: mainLibraryFolder.
 			print: "Building all apps".
-			runCommandFromArray: "kalzit"; "build"; "apps".
+			runCommandFromArray: "./cli"; "build"; "apps".
 		}
 	}.
 	
@@ -70,9 +70,9 @@ $watchStylesheetFolder = !fun ($watchedFolder) {
 		
 		!ifNot ("_" strStartsWith changedFile) {
 			print: "Building stylesheets (folder changed: " + watchedFolder + ")".
-			runCommandFromArray: "kalzit"; "build"; "core".
+			runCommandFromArray: "./cli"; "build"; "core".
 			print: "Building all apps".
-			runCommandFromArray: "kalzit"; "build"; "apps".
+			runCommandFromArray: "./cli"; "build"; "apps".
 		}
 	}.
 	
@@ -94,9 +94,9 @@ $watchStringAssetFolder = !fun ($watchedFolder) {
 		
 		!ifNot ("_" strStartsWith changedFile) {
 			print: "Building string assets (folder changed: " + watchedFolder + ")".
-			runCommandFromArray: "kalzit"; "build"; "globalTranslationMap".
+			runCommandFromArray: "./cli"; "build"; "globalTranslationMap".
 			print: "Building all apps".
-			runCommandFromArray: "kalzit"; "build"; "apps".
+			runCommandFromArray: "./cli"; "build"; "apps".
 		}
 	}.
 	

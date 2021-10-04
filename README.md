@@ -11,7 +11,7 @@ It is a programming language, complete with a standard library that makes tasks 
 This language is focused on being easy to learn, creating graphical user interfaces and working with media. And it avoids some annoyances of other languages. In other words, it is made to be really good for creating rich web applications, which can then run on your home server!
 If one of these things sounds interesting to you, Kalzit is probably right for you.
 
-(The current version of this project is `0.14.0`. If you are interested in the latest changes to it, [take a look at the changelog](/docs/changelog/0.14.0.md))
+The current version of this project is `0.15.0`. If you are interested in the latest changes to it, [take a look at the changelog](/docs/changelog/0.15.0.md)
 
 # Setup
 

@@ -4,13 +4,10 @@
 
 	`Get the documentation from a "normal" Kalzit value`
 	$value = resolveName: givenName.
-	$annotations = {
-		`Do not show the UI generator function in the documentation`
-		not: "uiGenerator" eq first: x
-	} filter calcitAnnotations: value.
+	$annotations = calcitAnnotations: value.
 	
 	!ifNot (void eq annotations) {
-		("./docs/library/" + givenName + ".md") fileWrite print: strNewline strJoin ("# " + givenName);
+		("./docs/library/" + givenName + ".md") fileWrite strNewline strJoin ("# " + givenName);
 		{
 			"## " + (strTrim: first: x) + strNewline + (strNewline strJoin strTrim each strLines: second: x)
 		} each annotations.

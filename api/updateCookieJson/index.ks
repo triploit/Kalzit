@@ -1,6 +1,7 @@
 $session = ($getHeader objFirstProperty _request): "kalzit-session".
 $undelete = "true" eq ($getHeader objFirstProperty _request): "kalzit-undelete".
-$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
+
+$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
 `Update a single cookie`
 $pushCookie = ($cookieName ; $cookieValue) fun {
@@ -10,11 +11,11 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 		`Return name` "failed";cookieName
 	};{
 		(($calcitSession eq cookieName) | $calcitUserPassword eq cookieName) ifElse {
-			print: "WARNING: The user " + userToken + " tried to push a password or session to the server.".
+			print: "WARNING: The session " + session + " tried to push a password or session to the server.".
 			`Return name anyway` "failed";cookieName
 		};{
-			$deletionMarker = "./nogit/users/data/v3/" + userToken + "/deletedkeys/" + urlEncodeParameter: cookieName.
-			fileDelete: "./nogit/users/data/v3/" + userToken + "/keys.json".
+			$deletionMarker = userFolder + "/deletedkeys/" + urlEncodeParameter: cookieName.
+			fileDelete: userFolder + "/keys.json".
 			
 			!if undelete {
 				`Remove a potential deletion marker`
@@ -23,7 +24,7 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 			
 			!ifElse (not: fileIsFile: deletionMarker) {
 				`Save the cookie (it is not marked as deleted)`
-				("./nogit/users/data/v3/" + userToken + "/keys/" + urlEncodeParameter: cookieName) fileWrite cookieValue.
+				(userFolder + "/keys/" + urlEncodeParameter: cookieName) fileWrite cookieValue.
 				`Return a value that indicates a deleted key`
 				"succeeded";cookieName
 			};{
@@ -36,7 +37,7 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 }.
 
 ($startServing of _request): fileMime: "txt".
-userTokenExists ifElse {
+sessionExists ifElse {
 	$cookieJson = parseJson: ("getHeader" objFirstProperty _request): "kalzit-cookie-json".
 	!if (void eq cookieJson) {
 		`Failed - no data present (code 2)`

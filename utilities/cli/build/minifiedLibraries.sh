@@ -1,4 +1,4 @@
-for packageIndex in $(find -L "$(pwd)" -name "platform-packages.json" -not -path */nogit/* -not -path */assets/*)
+for packageIndex in $(find -L "$(pwd)" -name "platform-packages.json" -not -path "*/nogit/*" -not -path "*/assets/*")
 do
 	folder="$(dirname $packageIndex)"
 	echo "Minifying API $folder"

@@ -3,9 +3,12 @@
 
 	print: "Got a data upload request".
 	$session = ($getHeader objFirstProperty _request): "kalzit-session".
-	$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
+	$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 	
-	!if userTokenExists {
+	!if sessionExists {
+		`TODO: this relies on a specific file name format, which could change in the future`
+		$userToken = last: "/" strSplit fileRealpath: userFolder.
+		
 		$onPreparation = () fun {
 			`Does nothing at the moment`
 		}.
@@ -13,7 +16,7 @@
 			_request httpEndServingRaw strRaw: '{"success": 2}'
 		}.
 		$onSuccess = ($_postedFileName) fun {
-			$filesFolder = "./nogit/users/data/v3/" + userToken + "/files/v2".
+			$filesFolder = userFolder + "/files/v2".
 			fileCreateFolder: filesFolder.
 			
 			`Figure out where to store the file (which category)`

@@ -1,9 +1,9 @@
 $session = ($getHeader objFirstProperty _request): "kalzit-session".
-$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
+$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
-$jsonPath = "./nogit/users/data/v3/" + userToken + "/keys.json".
-$gzipPath = "./nogit/users/data/v3/" + userToken + "/keys.json.gz".
-$hashPath = "./nogit/users/data/v3/" + userToken + "/keys-hash.txt".
+$jsonPath = userFolder + "/keys.json".
+$gzipPath = userFolder + "/keys.json.gz".
+$hashPath = userFolder + "/keys-hash.txt".
 
 !ifElse (fileIsFile: jsonPath) {
 	asyncRef = true.
@@ -22,12 +22,12 @@ $hashPath = "./nogit/users/data/v3/" + userToken + "/keys-hash.txt".
 	}.
 	do:($endServing propOf _request).
 };{
-	!if (userTokenExists & fileIsFolder: "./nogit/users/data/v3/" + userToken + "/keys") {
-		print: "Pulling data for user " + userToken + " from the server".
+	!if (sessionExists & fileIsFolder: userFolder + "/keys") {
+		print: "Pulling data for session " + session + " from the server".
 	
 		$jsonBody = "," strJoin ($cookieFile fun {
 			(objToJson: urlDecodeParameter: fileName: cookieFile) + ":" + objToJson: fileContent: cookieFile.
-		}) each folderContent: "./nogit/users/data/v3/" + userToken + "/keys".
+		}) each folderContent: userFolder + "/keys".
 		
 		$hash = String: !getCurrentDate.
 		

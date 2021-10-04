@@ -35,11 +35,23 @@ Now that we know what installation levels are for, we can attempt to modify them
 
 As you can see, there are two transitions here: patch to user level, and user level to system level.
 
-## kalzit publish test
-The `kalzit publish test` command is used test out a patch, which means adding a patched version of Kalzit to your user folder.
-By running `kalzit publish test <folderName>`, you can merge a patch folder (`<folderName>`) with your system level folder, and the result will be put into your user level folder. Notice that you can not override system-level files this way - a system level file will always trump your patch file with the same name.
+## kalzit publish addition
+The `kalzit publish addition` command is used test out an addition to the project, which means adding a patched version of Kalzit to your user folder.
+By running `kalzit publish addition <folderName>`, you can merge a patch folder (`<folderName>`) with your system level folder, and the result will be put into your user level folder. Notice that you can not override system-level files this way - a system level file will always trump your patch file with the same name.
+The note above means that you can not "replace" your Kalzit installation with this command - you can only add files, but you can not delete or even change them with the `kalzit publish addition` command
 
-As an example for patching: If you have created an app, you could have a patch folder with the file `app/myApp/index.html` or something inside it. By publishing this to your user level folder (`kalzit publish test <parentFolderOfThat>`), you can make sure that the server finds that app at the mentioned path. You can also add libraries or any sort of file in a similar way.
+As an example for an addition: If you have created an app, you could have a patch folder with the file `app/myApp/index.html` or something inside it. By publishing this to your user level folder (`kalzit publish patch <parentFolderOfThat>`), you can make sure that the server finds that app at the mentioned path. You can also add libraries or any sort of file in a similar way.
+
+## kalzit publish patch
+This is basically the same as an addition, but you can also modify existing files by publishing a `patch`. You can not delete files with this.
+
+## ./cli publish test
+This is very similar to `kalzit publish patch`, because it also affects the user-level installation. However, the `./cli publish test` command is for replacing the *entire* user-level installation with something new.
+Publishing a test essentially means that you copy an entire Kalzit project folder to your user installation folder. The main difference to `kalzit publish patch` is that the `test` command also removes files that were not in the Kalzit project folder you published - the `patch` command will not delete files that are not included in the patch.
+Essentially, if you publish a `test`, the folder you publish has to be a complete Kalzit installation (with the `cli` command and all the others). A `patch` only contains the *changes* you made.
+
+## ./cli publish allButNogit
+This is basically the same as `./cli publish test`, but it ignores the "nogit" folder. So all user data stay where they were.
 
 ## Modifying the user level
 If you want to tinker without the patch thing, feel free to do that! It is by no means required to use the patching, you can do whatever you want with your user level installation.

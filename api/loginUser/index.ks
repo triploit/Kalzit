@@ -19,47 +19,21 @@ $generateUnusedSessionId = () fun {
 
 $createUserSession = ($userToken ? String) fun {
 	print: $sessionId ? String = !generateUnusedSessionId.
-	
-	`Store user id in session file`
-	(sessionsFolder + "/" + sessionId + ".txt") fileWrite userToken.
-	
-	`Store session id in user folder`
 	$userDataFolder = "./nogit/users/data/"  + structureVersion + "/" + userToken.
+	
+	`In the "global" sessions folder, create a symlink to the user home (name is the session id)`
+	runCommandFromArray:
+		"ln"; "-s"; (fileRealpath: userDataFolder); (sessionsFolder + "/" + sessionId).
+	
+	`Create a session folder in the user folder`
 	fileCreateFolder: userDataFolder + "/sessions".
 	fileCreateFolder: userDataFolder + "/sessions/" + sessionId.
 	
-	`Store expiration date (session is valid for three days)`
+	`Store expiration date (marks session as valid for 30 days)`
 	(userDataFolder + "/sessions/" + sessionId + "/expiration.txt") fileWrite String: (daysToMillis: 30) + !getCurrentDate.
 	
 	`Return session id`
 	sessionId
-}.
-
-$getUserSession = ($userToken ? String) fun {
-	$idFile = "./nogit/users/data/" + structureVersion + "/" + userToken + "/session/id.txt".
-	!ifElse (fileIsFile: idFile) {
-		`Check if session is expired`
-		$expirationFile = "./nogit/users/data/" + structureVersion + "/" + userToken + "/session/expiration.txt".
-		!ifElse (fileIsFile: expirationFile) {
-			`Compare dates`
-			!ifElse ((Int: fileContent: expirationFile) < !getCurrentDate) {
-				`Session expired - remove and create a new one`
-				fileDelete: idFile.
-				fileDelete: expirationFile.
-				createUserSession: userToken
-			};{
-				`Session valid - return`
-				fileContent: idFile
-			}
-		};{
-			`Invalid session - remove and create a new one`
-			fileDelete: idFile.
-			createUserSession: userToken
-		}
-	};{
-		`No active session - create a new one`
-		createUserSession: userToken
-	}
 }.
 
 !if ((void eq userName) | (void eq userPassword)) {
@@ -76,8 +50,8 @@ $getUserSession = ($userToken ? String) fun {
 			
 			`Validate the password`
 			(storedHash eq hashFromInput) ifElse {
-				`Öassword is correct - open a session`
-				resultRef = "0" + strNewline + getUserSession: userToken.
+				`Password is correct - open a session`
+				resultRef = "0" + strNewline + createUserSession: userToken.
 				
 				`Also store an md5 hash (should be different from the sha512 one) in the key map (for encryption)`
 				!ifNot (($isProperty propOf mdFivePasswordHashes): userToken) {

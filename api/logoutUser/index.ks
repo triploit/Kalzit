@@ -1,18 +1,19 @@
 print: "Performing a user logout".
+
 $session = $session urlGetParameter $url propOf _request.
 print: session.
+$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
-$sessionFile = "./nogit/users/sessions/" + session + ".txt".
-!if (fileIsFile: sessionFile) {
-	$userToken = fileContent: sessionFile.
-	$userDataFolder =  "./nogit/users/data/v3/" + userToken.
-	$userSessionFolder = userDataFolder + "/sessions".
+!if sessionExists {
+	$userSessionFolder = userFolder + "/sessions".
 	
-	fileDelete: userDataFolder + "/keys.json".
-	fileDelete: userDataFolder + "/files/audio-kmp.json".
+	fileDelete: userSessionFolder + "/keys.json".
+	fileDelete: userSessionFolder + "/files/audio-kmp.json".
 	
 	!if (fileIsFile: userSessionFolder + "/" + session + "/expiration.txt") {
 		runCommandFromArray: "rm";"-rf";(userSessionFolder + "/" + session).
 	}.
-	fileDelete: sessionFile.
+	
+	`TODO: We only delete the symbolic link to the user folder, not the actual user folder itself. Make that clear in the code`
+	fileDelete: userFolder.
 }

@@ -15,4 +15,4 @@ if [ ! "$(pwd)" == "$(echo ~)/.kalzit/testRoot" ]; then
 	cd ~/.kalzit/testRoot
 fi
 
-./cli $@
+./cli "$@"

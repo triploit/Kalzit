@@ -1,10 +1,9 @@
 $session ? Float = "session" urlGetParameter $url propOf _request.
+$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
-$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
-
-!if userTokenExists {
+!if sessionExists {
 	asyncRef = true.
-	$file = "./nogit/users/data/v3/" + userToken + "/files/v2/categories/images/kmp.json".
+	$file = userFolder + "/files/v2/categories/images/kmp.json".
 	fileCreateFolder: fileParent: file.
 
 	!ifNot (fileIsFile: file) {
@@ -21,7 +20,7 @@ $userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/ses
 						]]
 					}
 				}
-			}) each folderContent: "./nogit/users/data/v3/" + userToken + "/files/v2/categories/images");
+			}) each folderContent: userFolder + "/files/v2/categories/images");
 			["title"; "My images"];
 			["keptArguments";[["session"]]].
 	}.

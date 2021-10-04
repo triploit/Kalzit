@@ -1,6 +1,6 @@
 code {
 	font-family: Courier;
-	display: inline-block;
+	display: inline-flex;
   
   	/*Mostly the same as .k-horizontal_scroller*/
 	overflow-x: scroll;

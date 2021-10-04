@@ -1,10 +1,10 @@
 $id = SafeFilePath: "id" urlGetParameter $url propOf _request.
 $session ? Float = "session" urlGetParameter $url propOf _request.
 
-$userTokenExists = false eq void eq $userToken = fileContent: "./nogit/users/sessions/" + session + ".txt".
+$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
-!if userTokenExists {
-	$filesFolder = "./nogit/users/data/v3/" + userToken + "/files/v2/main".
+!if sessionExists {
+	$filesFolder = userFolder + "/files/v2/main".
 	
 	!if (fileIsFile: print: ($uploadName = filesFolder + "/" + id) + "/currentVersion.txt") {
 		asyncRef = true.

@@ -8,7 +8,7 @@ print: uiShowWebpageUrl: "/README.md".
 
 Please note that some websites might prevent you from embedding them.
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowWebpageUrl", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowWebpageUrlNative", {value:GLang.arrayFun(function(env, args){
 	var iframe = document.createElement("iframe");
 	iframe.src=args[0].value;
 	iframe.setAttribute("allowfullscreen", "true");

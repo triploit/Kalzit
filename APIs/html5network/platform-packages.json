@@ -1,0 +1,10 @@
+{
+	"info":{
+		"description":"Libraries for network access",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		{"provides":["http_get_local_async", "http_post_local_async"],  "scriptUrl":"local.js"},
+		{"provides":["load_global_async"],  "scriptUrl":"loadGlobalAsync.txt"}
+	]
+}

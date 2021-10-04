@@ -251,7 +251,8 @@
         , "show_popup"
         , "show_message_async"
         , "show_message"
-        , "showNotificationPrompt"
+        , "show_notification_prompt"
+        , "show_confirm_message_async"
       ]
       , "scriptUrl": "ui/uiShowPopup.txt"
     }
@@ -316,6 +317,7 @@
           "ui_text_container"
       ]
       , "scriptUrl": "ui/uiTextContainer.txt"
-    }
+    },
+    {"provides": ["ui_webpage", "ui_web", "ui_show_webpage_url", "ui_restricted_webpage", "allowed_domains"], "scriptUrl": "ui/uiWebpage.txt"}
   ]
 }

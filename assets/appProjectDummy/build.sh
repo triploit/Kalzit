@@ -1,5 +1,8 @@
-rootFolder="$(kalzit get rootFolder)"
 appFolder="$(pwd)"
+cd ../..
+rootFolder="$(pwd)"
+cd "$appFolder"
+
 appId=$(cat ./doNotTouch/appId.txt)
 
 mkdir ./static
@@ -70,11 +73,11 @@ echo "}" >> ./$appId.json
 cd "$rootFolder"
 
 if [ -f "$appFolder/platform-packages.json" ]
-	then
-		./cli run nodeApp "$rootFolder/nodejs/files/minifyKalzitPackage.txt" --input-file "$appFolder/platform-packages.json" --output-file "$appFolder/doNotTouch/_min.js"
-	else
-		rm "$appFolder/doNotTouch/_min.js"
-	fi
+then
+	./cli run nodeApp "$rootFolder/nodejs/files/minifyKalzitPackage.txt" --input-file "$appFolder/platform-packages.json" --output-file "$appFolder/doNotTouch/_min.js"
+else
+	rm "$appFolder/doNotTouch/_min.js"
+fi
 
 ./cli build kalzitFile "$appFolder/$appId.k" "$rootFolder" $@
 

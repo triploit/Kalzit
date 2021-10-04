@@ -104,7 +104,7 @@ In its current form, the server handles these load requests in a synchronous way
 
 If you want to use absolute URLs, consider using "loadLocalAsync".
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_async", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_async_native", {value:GLang.arrayFun(function(env, args){
 	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env);
 	return GLang.voidValue;
 })});

@@ -1,0 +1,16 @@
+$loadGlobalAsync = !fun ($callback ; $wantedUrl) {
+	$domain ? (default: "") = urlGetHostName: wantedUrl.
+	!ifElse (domain listContains getArray: allowedDomains) {
+		`Domain is allowed`
+		callback loadGlobalAsyncNative wantedUrl
+	};{
+		`We have to allow the domain first`
+		!showConfirmMessageAsync "Please confirm that you want to access this domain: " + domain -> {
+			`Unlock the domain`
+			!ifNot (domain listContains getArray: allowedDomains) {
+				($push propOf allowedDomains): domain
+			}.
+			callback loadGlobalAsyncNative wantedUrl
+		}
+	}
+}

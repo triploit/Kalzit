@@ -1,1 +1,0 @@
-resultRef = fileContent: "./apps/home/index.html".
