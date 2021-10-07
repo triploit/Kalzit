@@ -9,6 +9,3 @@ this.flagFontFamily = function(familyName, object){
 this.flagEmFontSize = function(size, object){
 	object.style.fontSize = size + "em";
 }
-this.flagPxFontSize = function(size, object){
-	object.style.fontSize = size + "px";
-}

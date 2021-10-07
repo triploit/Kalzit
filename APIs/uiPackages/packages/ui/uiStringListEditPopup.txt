@@ -7,8 +7,8 @@
 		- $onRemoval (triggered when an item is removed)
 }
 $uiCustomModifiableStringListEditor = ($list ? ModifiableList ; $configuration) fun {
-	($setOnAddition of list): first: $onAddition propOf configuration.
-	($setOnRemoval of list): $onRemoval propOf configuration.
+	($setOnAddition propOf list): first: $onAddition propOf configuration.
+	($setOnRemoval propOf list): $onRemoval propOf configuration.
 	
 	$stringFactory ? (default: {String: x}) = $toStringConverter propOf configuration.
 	$itemFactory ? (default: {x}) = $fromStringConverter propOf configuration.
@@ -24,17 +24,17 @@ $uiCustomModifiableStringListEditor = ($list ? ModifiableList ; $configuration) 
 				[@(cssClass: "width-tet-textfield") @(onTap: () fun {tapAction: index}) uiContainer: strFirstLine: stringFactory: _item];
 				[uiHorizontalPxSpace: 7];
 				[@(cssClass: "width-tet-button") $button = (() fun {
-					($removeEquals of list): _item.
+					($removeEquals propOf list): _item.
 				}) uiButton strings: $removeButton];
 				(uiHorizontalPxSpace: 7)
 		}) each arrayIndexes: $rawList = getArray: list.
 	}.
 	do:updateNameViews.
-	($setOnChange of list): updateNameViews.
+	($setOnChange propOf list): updateNameViews.
 	
 	uiContainer: [
 		($newAddition fun {
-			($push of list): itemFactory: newAddition. do:updateNameViews
+			($push propOf list): itemFactory: newAddition. do:updateNameViews
 		}) uiTextActionToolbar strings: $addButton
 	];[
 		@verticalScroller @center @(height "100% - " + toolbarCmHeight + "cm") @(percentWidth 100) uiContainer: uiShowVariableAsList: nameViewsRef

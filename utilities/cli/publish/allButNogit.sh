@@ -4,4 +4,4 @@
 testSource="${1-$(./cli get localRootFolder)}"
 
 #-raz parameter from https://electrictoolbox.com/rsync-ignore-existing-update-newer/
-rsync -raz -v --exclude "nogit/users" "$testSource/" "$(./cli get userRootFolder)/" --delete
+rsync -raz -v --exclude "nogit" "$testSource/" "$(./cli get userRootFolder)/" --delete

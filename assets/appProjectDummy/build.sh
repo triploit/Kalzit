@@ -83,7 +83,7 @@ fi
 
 #Create a checksum (for automatic refreshes)
 cd "$appFolder"
-shasum ./index.html.gz > gz-checksum.shasum
+shasum ./index.html > checksum.shasum
 
 #Create a listing of all project files which are not hidden (useful for downloading from the internet)
 find . -not -path "*/.*" -not -path "./doNotTouch/*" -not -path "./*.app/*" -type f > ./doNotTouch/fileListing.txt

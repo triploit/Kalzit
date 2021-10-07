@@ -10,6 +10,6 @@ $sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session
 	fileCreateFolder: accessFolder + "/" + folder.
 	fileDelete: accessFolder + "/" + folder + "/.deleted.txt".
 	
-	`Delete the appropriate listing file - assuming that only one layer is new, so we can remove the listing.json.gz file of the parent folder`
-	fileDelete: (fileParent: accessFolder + "/" + folder) + "/listing.json.gz".
+	`Delete the appropriate listing file - assuming that only one layer is new, so we can remove the listing.json file of the parent folder`
+	fileDelete: (fileParent: accessFolder + "/" + folder) + "/listing.json".
 }

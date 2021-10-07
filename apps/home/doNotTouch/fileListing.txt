@@ -1,0 +1,7 @@
+./home.k
+./checksum.shasum
+./index.html
+./config/excluded-libraries.json
+./config/standardApps.json
+./home.json
+./home.shasum

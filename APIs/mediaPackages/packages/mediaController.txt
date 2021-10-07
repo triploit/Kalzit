@@ -35,7 +35,7 @@ $volume = ($_volumeController) fun {do $getVolume propOf _volumeController}.
 	How much the volume should be increased is defined by "volumeStepSize".
 	If the resulting new volume is larger than one (1), which would be to loud, it is set to 1.
 }
-$increaseVolume = ($_volumeController) fun {($setVolume of _volumeController): min of 1;(volume of _volumeController) + volumeStepSize}.
+$increaseVolume = ($_volumeController) fun {($setVolume propOf _volumeController): min: 1;(volume: _volumeController) + volumeStepSize}.
 
 #{
 	Decreases the current volume of an audio controller (any medium with sound). This is done by calling its $getVolume and $setVolume properties.
@@ -44,11 +44,11 @@ $increaseVolume = ($_volumeController) fun {($setVolume of _volumeController): m
 	How much the volume should be decreased is defined by "volumeStepSize".
 	If the resulting new volume is lower than one (0), which would be to quiet, it is set to 1.
 }
-$decreaseVolume = ($_volumeController) fun {($setVolume of _volumeController): max of 0;(volume of _volumeController) - volumeStepSize}.
+$decreaseVolume = ($_volumeController) fun {($setVolume propOf _volumeController): max: 0;(volume: _volumeController) - volumeStepSize}.
 
 #{
 	Mutes the volume of an audio controller (any medium with sound) by setting it to zero (0).
 	This is done by calling the $setVolume property of the medium.
 	The medium needs to be specified as the first parameter.
 }
-$mute = ($_volumeController) fun {($setVolume of _volumeController): 0}.
+$mute = ($_volumeController) fun {($setVolume propOf _volumeController): 0}.

@@ -8,18 +8,16 @@ $sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session
 	$filesFolder = userFolder + "/files/v2/main".
 	!if (fileIsFolder: filesFolder + "/" + id) {
 		$listingFile = filesFolder + "/" + id + "/listing.json".
-		$gzipFile = filesFolder + "/" + id + "/listing.json.gz".
 		asyncRef = true.
 		
 		$serveListingFile = !fun () {
-			"Content-Encoding" ($setHeader propOf _request) "gzip".
 			($startServing propOf _request): nativeFileMime: "json".
-			($writeFile propOf _request): gzipFile.
+			($writeFile propOf _request): listingFile.
 			do:($endServing propOf _request).
 		}.
 	
 		`Check if a file listing has already been created - if yes, use that`
-		!ifElse (fileIsFile: gzipFile) {
+		!ifElse (fileIsFile: listingFile) {
 			`File listing exists - serve it to the user`
 			!serveListingFile
 		};{
@@ -50,7 +48,6 @@ $sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session
 				
 				fileCreateFolder: fileParent: listingFile.
 				!fileWrite kmp -> listingFile.
-				runCommandFromArray: "gzip"; listingFile.
 				
 				`Serve the file`
 				!serveListingFile

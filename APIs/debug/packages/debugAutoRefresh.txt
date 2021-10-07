@@ -3,7 +3,7 @@
 }
 $debugAutoRefresh = !fun ($pauseMillis ? (default: 2000)) {
 	!if (("localhost" eq urlGetHostName: appUrl) | not: void eq appParameter: "kalzit.refresh") {
-		$checksum = loadLocal: $checksumHandle = "/app/" + appId + "/gz-checksum.shasum".
+		$checksum = loadLocal: $checksumHandle = "/app/" + appId + "/checksum.shasum".
 		pauseMillis repeatAsync {
 			$newChecksum = loadLocal: checksumHandle.
 			!ifNot ((checksum eq newChecksum) | newChecksum eq void) reload.

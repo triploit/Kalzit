@@ -1,0 +1,3 @@
+{
+"excludedLibraries":["APIs/html5media", "APIs/mediaPackages", "APIs/html5ui/advancedImageStuff", "APIs/html5ui/plots", "APIs/twitch/packages", "APIs/twitch/html5", "APIs/instagram", "APIs/youtube", "APIs/youtube/html5", "APIs/reddit/packages", "APIs/reddit/html5", "APIs/wikipedia", "APIs/pinterest", "APIs/osm", "APIs/websearch", "APIs/kmp", "APIs/sort", "APIs/fileHelpers"]
+}

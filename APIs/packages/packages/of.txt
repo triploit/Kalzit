@@ -1,3 +1,4 @@
+@(useInstead: "propOf for properties, : (standard call function) for function calls")
 $of = !fun ($_properties ? (List:Any) ; $_object ? Any) {
     $result = ($property fun {
         !ifElse ("string" eq displayType: property) {

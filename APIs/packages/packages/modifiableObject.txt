@@ -24,7 +24,7 @@ $modifiableObject = ($_originalObject) fun {
 	$refreshObject = () fun {!if needsRefresh {currentObjectRef = do: $getArray propOf baseList. needsRefreshRef = false}. void}.
 	
 	["push" ; ($_key ; $_value) fun {
-		($push of baseList): [[_key];[_value]].
+		($push propOf baseList): [[_key];[_value]].
 		needsRefreshRef = true. void
 	}];
 	["removeProperty"; $_key fun {
@@ -36,7 +36,7 @@ $modifiableObject = ($_originalObject) fun {
 		baseListRef = currentObject.
 	}];
 	["getObject" ; () fun {do refreshObject. currentObject}];
-	["clear" ; () fun {do: $clear of baseList. needsRefreshRef = true. void}];
+	["clear" ; () fun {do: $clear propOf baseList. needsRefreshRef = true. void}];
 	["isProperty" ; $_possibleProperty fun {do refreshObject. _possibleProperty objHasProperty currentObject}];
 	["getProperty" ; $_property fun {do refreshObject. _property objFirstProperty currentObject}]
 }.

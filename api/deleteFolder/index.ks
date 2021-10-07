@@ -9,8 +9,8 @@ $sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session
 	`Starting at the specified folder, mark all directories with a deleted.txt file`
 	$markFolderAsDeleted = !fun ($folder) {
 		!fileWrite (String: !getCurrentDate) -> (folder + "/.deleted.txt").
-		fileDelete: folder + "/listing.json.gz".
-		fileDelete: (fileParent: folder) + "/listing.json.gz".
+		fileDelete: folder + "/listing.json".
+		fileDelete: (fileParent: folder) + "/listing.json".
 	}.
 	
 	markFolderAsDeleted: accessFolder + "/" + folder.

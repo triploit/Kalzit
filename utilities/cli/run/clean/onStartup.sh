@@ -11,8 +11,5 @@ rm ./generated/*.dlmarker.txt
 rm ./generated/*.part
 rm ./generated/*.ytdl
 
-echo Compressing old log files...
-gzip ./generated/logs/managed/old/*.txt
-
 echo Removing broken symbolic links...
 find . -type l -exec sh -c 'for x; do [ -e "$x" ] || rm "$x"; done' _ {} +

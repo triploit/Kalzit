@@ -48,7 +48,7 @@ $skeletonCode = do:{
 	}.
 	
 
-`This is JavaScript code responsible for setting the "appId" variable (makes !getAppId work offline)`
+`This is JavaScript code responsible for setting the "appId" variable (makes appId variable work)`
 $appIdCode = "GLang.packageManager.installJs(function(){this.appId='" + ((".k";"") strReplace fileName: app) + "'});".
 
 $translationMapFile = appFolder + "/doNotTouch/translationMap.json".
@@ -79,7 +79,3 @@ $generatedHtmlPath = appFolder + "/index.html".
 generatedHtmlPath fileWrite
 	`We replace $app$ from the app skeleton with a minified version of the app code (available in /generated/appBuildingTempFile.js)`
 	("$app$";(runCommand: 'terser "' + (rootFolder + "/generated/appBuildingTempFile.js") + '" --keep-fnames')) strReplace skeletonCode.
-
-`In an attempt to save space, compress the file with gzip`
-fileDelete: generatedHtmlPath + ".gz".
-runCommandFromArray: "gzip"; "-k"; generatedHtmlPath.

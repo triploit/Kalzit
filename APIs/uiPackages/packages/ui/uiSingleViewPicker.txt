@@ -1,7 +1,7 @@
 $uiLiveSingleViewPicker = ($onSelect ; $_modifiableViewsList ? ModifiableList) fun {
 	$currentView = onSelect uiSingleViewPicker getArray: _modifiableViewsList.
 	$currentViewRef = reference: $currentView.
-	($setOnAddition of _modifiableViewsList): {
+	($setOnAddition propOf _modifiableViewsList): {
 		currentViewRef = onSelect uiSingleViewPicker getArray: _modifiableViewsList.
 	}.
 	uiShowVariable: currentViewRef.

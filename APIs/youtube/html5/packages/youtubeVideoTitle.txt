@@ -1,1 +1,1 @@
-$youtubeVideoTitle = ($video ? YoutubeVideoId) fun {$title of kalzitMediaProtocolFromYoutubeVideo: video}.
+$youtubeVideoTitle = ($video ? YoutubeVideoId) fun {$title propOf kalzitMediaProtocolFromYoutubeVideo: video}.

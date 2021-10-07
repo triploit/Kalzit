@@ -18,6 +18,8 @@
 				case "'":
 				case '"': return quoteBlock(token.textValue);
 				case "$": return DOLLAR_STRING;
+				case "@": return annotationStart("calcitSetAnnotation");
+				case "#": return annotationStart("calcitAddComment");
 				case "\\": return NEGATIVE_SIGN;
 				case '`':
 				case '´': return COMMENT_BLOCK;
@@ -60,6 +62,43 @@
 		kind: "arrow"
 	};
 	
+	function isFinishedTree(tree){
+		if(tree.finished === undefined) return true;
+		else return tree.finished
+	}
+	
+	function annotationStart(annotationApplyName) {
+		return {
+			kind: "annotationStart",
+			annotationTree: WAITING,
+			next:function(token){
+				//We will just ignore spaces at the start, which allows something like "@ <space> annotation value"
+				if (this.annotationTree === WAITING && token.category === "Space") return this;
+				
+				this.annotationTree = this.annotationTree.next(token);
+				
+				//To go on, the annotation content has to be finished
+				if(isFinishedTree(this.annotationTree)) {
+					//Annotation finished! Produce a "calcitSetAnnotation" call
+					//Figure out if we have a group
+					if(this.annotationTree.group) {
+						this.annotationTree.group.pop();
+						return group(this.annotationTree.group.concat([
+							{"name":annotationApplyName, "kind": "name"}, WAITING
+						]))
+					} else {
+						return group([
+							this.annotationTree, {"name":"calcitSetAnnotation", "kind": "name"}, WAITING
+						])
+					}
+					return this.annotationTree.next(name({"textValue": "calcitSetAnnotation"}))
+				} else {
+					return this;
+				}
+			}
+		}
+	}
+	
 	function special(specialToken){
 		return {
 			special:specialToken.textValue,
@@ -85,6 +124,7 @@
 					return this;
 				},
 				text: "",
+				finished: false,
 				kind:"depthBlock"
 			}
 		}
@@ -114,6 +154,7 @@
 				return this;
 			},
 			text:"",
+			finished: false,
 			kind:"quoteBlock"
 		}
 	}
@@ -123,6 +164,7 @@
 			if(token.textValue === "´" || token.textValue === "`") return WAITING;
 			return this;
 		},
+		finished: false,
 		kind:"commentBlock"
 	}
 	
@@ -141,6 +183,7 @@
 			if(token.category === "Word") return group([string(token.textValue), WAITING])
 			throw new Error("The dollar sign ($) has to be followed by a 'Word' token - but is followed by: " + token.textValue);
 		},
+		finished: false,
 		kind:"dollarString"
 	};
 	
@@ -250,31 +293,31 @@
 				i = i - 2;
 				continue;
 			}
-			//Check for annotations
-			else if(state[i].special === "@"){
-				var op = [{kind:"name", name:"calcitSetAnnotation"}];
-				var a = state.splice(i + 1, 1);
-				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
-				state = state.slice(0, i).concat(a, op, b);
-				
-				//The loop will end after this
-				break;
-			}
-			//Check for comments
-			else if(state[i].special === "#"){
-				var op = [{kind:"name", name:"calcitAddComment"}];
-				var a = state.splice(i + 1, 1);
-				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
-				
-				if(optimized) {
-					state = state.slice(0, i).concat(b);
-				}else{
-					state = state.slice(0, i).concat(a, op, b);
-				}
-				
-				//The loop will end after this
-				break;
-			}
+// 			//Check for annotations
+// 			else if(state[i].special === "@"){
+// 				var op = [{kind:"name", name:"calcitSetAnnotation"}];
+// 				var a = state.splice(i + 1, 1);
+// 				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
+// 				state = state.slice(0, i).concat(a, op, b);
+// 				
+// 				//The loop will end after this
+// 				break;
+// 			}
+// 			//Check for comments
+// 			else if(state[i].special === "#"){
+// 				var op = [{kind:"name", name:"calcitAddComment"}];
+// 				var a = state.splice(i + 1, 1);
+// 				var b = loopState(state.splice(i + 1, (state.length - i) - 1));
+// 				
+// 				if(optimized) {
+// 					state = state.slice(0, i).concat(b);
+// 				}else{
+// 					state = state.slice(0, i).concat(a, op, b);
+// 				}
+// 				
+// 				//The loop will end after this
+// 				break;
+// 			}
 			//Check for exclamation marks
 			else if(state[i].special === "!"){
 				var done = false;

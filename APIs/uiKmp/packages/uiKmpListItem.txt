@@ -12,12 +12,7 @@
 $uiKmpListItem = !fun ($file ; $config) {
 	$thumbnail = !ifElse (void eq $forcedThumbnail propOf config) {
 		`Figure out the thumbnail URL to use`
-		$potentialIcon = ($kind propOf file) switchFirst
-			[{x eq "audio"}; "/apps/music/icons/iOS.png"];
-			[{x eq "image"}; "/apps/images/icons/iOS.png"];
-			[{x eq "video"}; "/apps/videos/icons/iOS.png"];
-			[true; "/apps/files/unknown.png"].
-		$defaultIcon = (default: potentialIcon): $defaultThumbnail propOf config.
+		$defaultIcon = (default: "/apps/files/unknown.png"): $defaultThumbnail propOf config.
 		
 		`Return`
 		(default: defaultIcon): ($default propOf $thumbnail propOf file) + "&session=" + (storageLoadString: "calcitSession").

@@ -31,7 +31,7 @@ $mediaControllerProperties = (
 	These properties are:
 	
 	
-} + strNewline strJoin {x + ": " + $comment of calcitAnnotations: x} each mediaControllerProperties)
+} + strNewline strJoin {x + ": " + $comment propOf calcitAnnotations: x} each mediaControllerProperties)
 
 $MediaController = !fun ($_mediaController) {
 	_mediaController.

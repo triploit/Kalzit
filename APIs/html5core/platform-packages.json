@@ -4,13 +4,11 @@
 		"platforms":["html5"]
 	},
 	"libraries":[
-		{"provides":["default_cookie_banner"], "scriptType":"z", "scriptUrl":"defaultCookieBanner.txt"},
 		{"provides":["app_parameter"], "scriptUrl":"appParameter.txt"},
 		{"provides":["service_login_user_async", "service_register_user_async"], "scriptUrl":"services.txt"},
 		{"provides":["ui_login_form", "ui_register_form"], "scriptUrl":"uiLoginForm.txt"},
 		{"provides":["ui_toolbar", "ui_toolbar_reserved_space", "ui_toolbar_overlay", "toolbar_cm_height"], "scriptUrl":"uiToolbar.txt"},
 		{"provides":["window_center", "window_top", "window_bottom", "window_left", "window_right", "center", "top", "bottom", "left", "right", "horizontal_center", "vertical_center", "front", "dynamic_size", "dynamic_width", "dynamic_height", "fit", "center_text", "italic", "ellipsis", "vertical_scroller", "relative"], "scriptUrl":"cssFlags.txt"},
-		{"provides":["run_command"],  "scriptUrl":"runCommand.txt"},
 		{"provides":["get_app_id"],  "scriptUrl":"getAppId.txt"}
 	]
 }

@@ -19,17 +19,10 @@ add_to_homescreen () {
 mkdir "$rootFolder/apps/home/config"
 echo "[" > "$rootFolder/apps/home/config/standardApps.json"
 
-#Look for .redirect files in /apps
-for redirect in $(find -L "$appFolder" -type f -name "*.redirect" -or -type d)
+#Look for folders in /apps
+for folder in $(find -L "$appFolder" -type d)
 do
-	if [ -f "$redirect" ]; then
-		redirectedFile=$(cat "$redirect")
-	else
-		redirectedFile="$redirect"
-	fi
-	if [ -e "$redirectedFile" ]; then
-		add_to_homescreen "$redirectedFile"
-	fi
+	add_to_homescreen "$folder"
 done
 
 echo "]" >> "$rootFolder/apps/home/config/standardApps.json"

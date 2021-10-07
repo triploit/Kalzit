@@ -175,8 +175,6 @@
         , "ui_mobile_toolbar_overlay"
         , "generate_mobile_toolbar_overlay"
         , "apply_mobile_tools"
-        , "global_mobile_tools"
-        , "global_mobile_tools_ref"
       ]
       , "scriptUrl": "ui/mobileToolbar.txt"
     }

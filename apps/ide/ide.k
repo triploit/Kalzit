@@ -20,7 +20,7 @@ $playgroundToolbarLayoutManager = !toolLayoutManager.
 	[do: $getTool propOf viewManager];
 	[!separatorTool];
 	[[$title; @italic uiContainer: "Playground / REPL tools:"];[$desktop; @(pxWidth 0) uiContainer: void]];
-	["Clear" buttonTool {
+	[!buttonTool "Clear" -> {
 		playgroundViewRef = !_ui_playground
 	}].
 
@@ -32,7 +32,7 @@ $fullTextEditorToolbarLayoutManager = !toolLayoutManager.
 	["Preview as expression" popupTool {
 		eval: uiGetText: fullTextEditorView
 	}];
-	["Save" buttonTool {
+	[!buttonTool "Save" -> {
 		!downloadText (uiGetText: fullTextEditorView) "playground.txt"
 	}].
 
@@ -45,7 +45,7 @@ toolAtLeft: do: $getTool propOf viewManager.
 	
 	$standardDesktopToolbar = globalDesktopToolbar.
 	$standardMobileToolbar = globalMobileToolbar.
-	$standardMobileTools = globalMobileTools.
+	$standardMobileTools = getArray: registeredMobileTools.
 	$setCorrectToolbar = !fun ($viewIndex) {
 		globalDesktopToolbarRef = do: first: viewIndex switchEq
 			[0; $getDesktopToolbarOverlay propOf playgroundToolbarLayoutManager];

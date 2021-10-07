@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Libraries specifically for this application"
+	},
+	"libraries":[
+		{"provides":["upload_multiple_files", "upload_single_file"], "scriptUrl":"uploadHelpers.txt"}
+	]
+}

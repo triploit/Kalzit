@@ -40,7 +40,7 @@
 				(accessFile + "/../currentVersion.txt") fileWrite currentVersion.
 				
 				`Remove a potential generated file-listing of the parent folder, so it is updated on access`
-				fileDelete: filesFolder + "/main/" + (fileParent: accessName) + "/listing.json.gz".
+				fileDelete: filesFolder + "/main/" + (fileParent: accessName) + "/listing.json".
 				
 				_postedFileName fileRenameFile print: filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw".
 				

@@ -1,6 +1,5 @@
 #TODO: Check for unzip (and zip) commands first.
 #If they do not exist, try to use Git for downloading or install the commands
-#Maybe even change the used download format from "zip" to "tar.gz" (also offered by GitHub)
 
 #Download the release from GitHub
 TAG=$(curl -s https://api.github.com/repos/triploit/Kalzit/releases/latest \

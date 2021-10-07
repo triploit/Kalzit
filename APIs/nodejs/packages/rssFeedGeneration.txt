@@ -1,18 +1,31 @@
+@(useInstead: "instagramUserRssContentStringAsync")
 $instagramUserRssContentString = ($user ? {".rss" strRemove x} fun {
 	('<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>@' + user + "</title><description>" + user + " on instagram</description><link>https://instagram.com/" + user + "</link>" +
-	+/ {$link = ("&";"&amp;") strReplace igUserParseImageUrl: x. $post = "https://www.instagram.com/p/" + igUserParseImageShortcode: x. '<item><description><![CDATA[<img src="' + link + '">]]></description><source>' + (("&";"&amp;") strReplace $src of third: igUserParseImageThumbnail: x) + '</source><title>Image by ' + user + "</title><guid>" + post + "</guid><link>" + post + "</link><pubDate>" + (getFirstUrlAppearance: post) + "</pubDate></item>"} each igUserParseUserImages: user) + 
+	+/ {$link = ("&";"&amp;") strReplace igUserParseImageUrl: x. $post = "https://www.instagram.com/p/" + igUserParseImageShortcode: x. '<item><description><![CDATA[<img src="' + link + '">]]></description><source>' + (("&";"&amp;") strReplace $src propOf third: igUserParseImageThumbnail: x) + '</source><title>Image by ' + user + "</title><guid>" + post + "</guid><link>" + post + "</link><pubDate>" + (getFirstUrlAppearance: post) + "</pubDate></item>"} each igUserParseUserImages: user) + 
 	"</channel></rss>"
 }) cachedFun autoClearedCache: hoursToMillis: 2.
 
+$instagramUserRssContentStringAsync = !fun ($then ; $user ? {".rss" strRemove x}) {
+	!igUserParseUserImagesAsync user -> $images fun {
+		then:
+			'<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>@' + user + "</title><description>" + user + " on instagram</description><link>https://instagram.com/" + user + "</link>" +
+			(+/ {
+				$link = ("&";"&amp;") strReplace igUserParseImageUrl: x. $post = "https://www.instagram.com/p/" + igUserParseImageShortcode: x. '<item><description><![CDATA[<img src="' + link + '">]]></description><source>' + (("&";"&amp;") strReplace $src propOf third: igUserParseImageThumbnail: x) + '</source><title>Image by ' + user + "</title><guid>" + post + "</guid><link>" + post + "</link><pubDate>" + (getFirstUrlAppearance: post) + "</pubDate></item>"
+			} each images) + "</channel></rss>"
+	}
+}.
+
+@(useInstead: "youtubeUrlRssContentStringAsync")
 $youtubeUrlRssContentString = ($url fun {
 	('<?xml version="1.0" ?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>' + ((default: "YouTube: " + ("&";"&amp;") strReplace url): urlTitle: url) + "</title><description>" + (("&";"&amp;") strReplace url) + " on YouTube</description><link>" + url + "</link>" +
 	+/ {$link = "https://www.youtube.com/watch?v=" + x. '<item><description><![CDATA[<img src="' + (youtubeVideoThumbnail: x) + '">]]></description><title>' + ((default: "Unknown Title (" + x + ")"): youtubeVideoTitle: x) + "</title><guid>" + link + "</guid><link>" + link + "</link><pubDate>" + (getFirstUrlAppearance: link) + "</pubDate></item>"} each {not: "undefined" eq x} filter removeDuplicates: (youtubeVideoIds: url);youtubeVideoIdsByUrl: url) + 
 	"</channel></rss>"
 }) cachedFun autoClearedCache: hoursToMillis: 2.
 
+
 $youtubeRssFeedCache = autoClearedCache: hoursToMillis: 2.
 $youtubeUrlRssContentStringAsync = ($then;$url) fun {
-	$cached = url objFirstProperty do: $getObject of youtubeRssFeedCache.
+	$cached = url objFirstProperty do: $getObject propOf youtubeRssFeedCache.
 	!if (not: cached eq void) {
 		then: cached.
 	}.
@@ -35,12 +48,12 @@ $youtubeUrlRssContentStringAsync = ($then;$url) fun {
 				$thumbnail = youtubeVideoThumbnail: videoId.
 				$link = "https://www.youtube.com/watch?v=" + videoId.
 				($title fun {
-					($push of feedBuilder): '<item><description><![CDATA[<img src="' + thumbnail + '">]]></description><title>' + title + "</title><guid>" + link + "</guid><link>" + link + "</link><pubDate>" + (getFirstUrlAppearance: link) + "</pubDate></item>".
+					($push propOf feedBuilder): '<item><description><![CDATA[<img src="' + thumbnail + '">]]></description><title>' + title + "</title><guid>" + link + "</guid><link>" + link + "</link><pubDate>" + (getFirstUrlAppearance: link) + "</pubDate></item>".
 					
 					currentLengthRef = currentLength + 1.
 					!if (currentLength eq neededLength) {
 						$result = feedStart + ((default: ""): +/ getArray: feedBuilder) + feedEnd.
-						url ($push of youtubeRssFeedCache) result.
+						url ($push propOf youtubeRssFeedCache) result.
 						then: result.
 					}
 				}) youtubeVideoTitleAsync videoId

@@ -1,6 +1,0 @@
-[
-{"id":"ide", "title":"Development Tools", "dev":true},
-{"id":"music", "title":"Music", "color":"cyan", "icon":"static/d169a58213f3271df20a65271ac3f09a5f7aa605.png", "dev":false},
-{"id":"videos", "title":"Videos", "color":"128;0", "icon":"static/c0b6382ae8edd103eac100b7e1c434b321c182e2.png", "dev":false},
-{"id":"notes", "title":"Notes", "color":"blue", "icon":"static/7f952eb1fd23566c1519debbe15cdf634099b5ca.png", "dev":false},
-{"id":"files", "title":"Files", "icon":"static/e1e549d3b0fd8fb56bd303768bd4ad6bf34d74a4.png", "dev":false}]

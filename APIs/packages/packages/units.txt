@@ -69,7 +69,7 @@ $unitMass ? ModifiableObject =
 $allUnits ? ModifiableList = [unitDistance];[unitArea];[unitVolume];[unitMass].
 
 $findBaseUnit = ($name ; $_unit_groups ? (allUnits default ModifiableList)) fun {
-	do $getObject of first: {name objHasProperty do: $getObject of x} filter do: $getArray of _unit_groups
+	do $getObject propOf first: {name objHasProperty do: $getObject propOf x} filter do: $getArray propOf _unit_groups
 }.
 $findUnitConverter = ($_from_to ; $_unit_groups ? (allUnits default ModifiableList)) fun {
 	$base = (first: _from_to) findBaseUnit _unit_groups.

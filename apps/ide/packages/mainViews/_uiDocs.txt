@@ -13,12 +13,8 @@ $_ui_docs = !fun () {
 	`Update the varListView if the search results change`
 	searchResultsRef listenVariable {
 		varListViewRef = uiContainer: (($variableName) fun {
-			@(onTap: () fun {
-				_docsSelectedFunctionRef = variableName.
-				openSubApp: $viewDoc.
-			})
 			@(cssClass: "k-single_view_picker")
-			uiContainer: variableName
+			("https://www.github.com/triploit/Kalzit/blob/master/docs/library/" + variableName + ".md") uiLink variableName
 		}) each searchResults
 	}.
 	
@@ -33,9 +29,4 @@ $_ui_docs = !fun () {
 	
 	`Return the actual view`
 	view
-}.
-
-$viewDoc registerSubApp popupSubApp: {
-	@(percentWidth 100) @(percentHeight 100)
-	uiShowWebpageUrl: "/api/documentation?name=" + _docsSelectedFunction
 }.

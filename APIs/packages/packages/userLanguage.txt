@@ -7,4 +7,4 @@
 	Usage example:
 		$lang = !getSimpleUserLanguage.
 }
-$getSimpleUserLanguage = () fun {second of "([a-zA-Z0-9]+)" match do:getUserLanguage}.
+$getSimpleUserLanguage = () fun {second: "([a-zA-Z0-9]+)" match do:getUserLanguage}.

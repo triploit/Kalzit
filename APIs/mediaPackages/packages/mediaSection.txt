@@ -2,10 +2,10 @@
 	Causes a media controller to start playing from a specified timestamp.
 	
 	Usage example:
-		myMedium replayFrom (0,5 * do: $getDuration of myMedium). `Starts playing from the middle`
+		myMedium replayFrom (0,5 * do: $getDuration propOf myMedium). `Starts playing from the middle`
 }
 $replayFrom = ($_mediaController;$timestamp) fun {
-	($setTime of _mediaController): timestamp. play _mediaController
+	($setTime propOf _mediaController): timestamp. play _mediaController
 }.
 
 #{
@@ -22,7 +22,7 @@ $replay = $_mediaController fun {_mediaController replayFrom 0}.
 	
 	For example, if the media controller "originalController" exists, and you want to cut of two seconds at the start and ten at the end, you could do this:
 		$startTime = 2.
-		$endTime = (do: $getDuration of originalController) - 10.
+		$endTime = (do: $getDuration propOf originalController) - 10.
 		$newController = originalController mediaSection startTime;endTime.
 	
 	Now, if you would use "newController" with the "replay" function, the original medium would start playing, but at 2 seconds in.
@@ -32,23 +32,23 @@ $mediaSection = ($_mediaController ; $_startAndEnd) fun {
 	$onProgress = $onEnd = void.
 	$onProgressRef = reference: $onProgress.
 	$onEndRef = reference: $onEnd.
-	$start = first of _startAndEnd.
-	$end = second of _startAndEnd.
+	$start = first: _startAndEnd.
+	$end = second: _startAndEnd.
 	
 	$controller =
 		[[$play];[{
-			!if(start > do: $getProgress of _mediaController) {
-				($setTime of _mediaController): start
+			!if(start > do: $getProgress propOf _mediaController) {
+				($setTime propOf _mediaController): start
 			}.
 			play _mediaController.
 		}]];
-		[[$pause];[$pause of _mediaController]];
+		[[$pause];[$pause propOf _mediaController]];
 		[[$getDuration];[end - start]];
 		[[$setTime];[{
-			($setTime of _mediaController): x + start.
+			($setTime propOf _mediaController): x + start.
 		}]];
-		[[$setVolume];[$setVolume of _mediaController]];
-		[[$getVolume];[$getVolume of _mediaController]];
+		[[$setVolume];[$setVolume propOf _mediaController]];
+		[[$getVolume];[$getVolume propOf _mediaController]];
 		[[$setOnEnd];[$callback fun {
 			onEndRef = callback
 		}]];
@@ -56,10 +56,10 @@ $mediaSection = ($_mediaController ; $_startAndEnd) fun {
 			onProgressRef = callback
 		}]];
 		[[$getProgress];[() fun {
-			(do: $getProgress of _mediaController) - start
+			(do: $getProgress propOf _mediaController) - start
 		}]].
 		
-	($setOnProgress of _mediaController): ($timestamp ; $_controller) fun {
+	($setOnProgress propOf _mediaController): ($timestamp ; $_controller) fun {
 		!if (end < timestamp) {
 			pause _mediaController.
 			onEnd: controller

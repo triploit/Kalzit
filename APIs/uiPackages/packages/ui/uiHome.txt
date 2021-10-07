@@ -12,7 +12,7 @@ $uiHomeScreenAppButton = ($action ; $appInfo) fun {
 	$graphic = !ifElse (not: void eq iconPath) {
 		uiShowImageUrl: "/apps/" + ($id propOf appInfo) + "/" + iconPath.
 	};{
-		uiContainer: @(emFontSize 1,5) uiText: first of "" strSplit description.
+		uiContainer: @(emFontSize 1,5) uiText: first: "" strSplit description.
 	}.
 	
 	@(onTap action) @centerText uiContainer: (graphic uiHomeScreenIcon {@(foregroundColor white) @border @gradient x});uiText: description
@@ -38,14 +38,8 @@ $uiHomeScreen = ($_action ? (default: launchAppName)) fun {
 		}
 	}.
 	
-	`Check where to get the app data from`
-	!if (void eq standardApps) {
-		`Load the app data from JSON`
-		($appsJson fun { appView each parseJson: appsJson }) loadLocalAsync "/apps/home/config/standardApps.json".
-	}. !else {
-		`Load the app data from memory - no server requests required (same structure as above)`
-		appView each standardApps.
-	}.
+	`Load the app data from memory - no server requests required`
+	appView each standardApps.
 	
 	view.
 }.

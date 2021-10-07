@@ -20,10 +20,10 @@ $uiCustomListView = !fun ($_options ? ModifiableList ; $config) {
 		$listItems = @(percentWidth 100) {(x at rawValues) itemViewFactory x} each arrayIndexes: rawValues.
 		$result = !ifElse itemSpacing {
 			`Add annotations for dealing with item spacing`
-			@verticalScroller @(width "100% - " + (sidePadding * 2) + "px") @center uiContainer: itemSpacing uiAddVerticalPxSpaces listItems
+			@(width "100% - " + (sidePadding * 2) + "px") @center uiContainer: itemSpacing uiAddVerticalPxSpaces listItems
 		};{
 			`No need to deal with item spacing`
-			@verticalScroller @(width "100% - " + (sidePadding * 2) + "px") @center uiContainer: listItems
+			@(width "100% - " + (sidePadding * 2) + "px") @center uiContainer: listItems
 		}.
 		
 		!if (fullHeight) {

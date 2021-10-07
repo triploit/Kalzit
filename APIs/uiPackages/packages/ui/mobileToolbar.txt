@@ -1,9 +1,7 @@
 $registeredMobileTools ? ModifiableList = ().
 $registerMobileTool = ($toolFactory ; $_label) fun {
-	($push of registeredMobileTools): [toolFactory;_label].
+	($push propOf registeredMobileTools): [toolFactory;_label].
 }.
-
-$globalMobileTools = void. $globalMobileToolsRef = reference: $globalMobileTools.
 
 $applyMobileTools = !fun ($mobileTools) {
 	`This view will contain all the tool shortcuts`
@@ -43,10 +41,8 @@ $applyMobileTools = !fun ($mobileTools) {
 		toolListView.
 }.
 
-globalMobileToolsRef listenVariable applyMobileTools.
-
 $uiMobileToolbarOverlay = ($toolList ? ModifiableList) fun {
-	globalMobileToolsRef = getArray: toolList.
+	applyMobileTools: getArray: toolList.
 
 	@(cssClass: "k-mobile_only") uiToolbarOverlay:
 		[

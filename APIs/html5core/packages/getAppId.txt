@@ -1,16 +1,11 @@
 #{
 	Returns the ID of the current app.
-	If the variable "appId" is set, that is returned.
-	Otherwise, the current URL is parsed (expected format is ".../app/appId") and the ID is generated based on that.
-	In case none of these methods work, void (empty list) is returned.
+	It essentially just returns the variable `appId`
 	
 	Usage example:
 		print: !getAppId.
 }
+@(useInstead: "appId")
 $getAppId = () fun {
-	!ifElse (appId eq void) {
-		second: "/app/([a-zA-Z]+)" match do:dynamicAppUrl
-	};{
-		appId
-	}
+	appId
 }.

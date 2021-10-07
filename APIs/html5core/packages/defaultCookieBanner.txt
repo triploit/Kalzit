@@ -1,7 +1,0 @@
-#{The default cookie notification. The default texts are written in english. }
-@front @(percentWidth: 100) @windowBottom @windowLeft
-@((default backgroundColor: red): cookieBannerBackground) @((default foregroundColor: white): cookieBannerForeground)
-$defaultCookieBanner = uiContainer:
-	((default: strings: "cookieInfoText"): cookieInfoText);
-	({do:acceptCookies. uiHide: defaultCookieBanner} uiButton (default: strings: "cookieAcceptText"): cookieAcceptText);
-	{do:rejectCookies. uiHide: defaultCookieBanner} uiButton (default: strings: "cookieRejectText"): cookieRejectText.

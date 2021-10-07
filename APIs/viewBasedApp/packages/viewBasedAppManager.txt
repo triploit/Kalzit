@@ -22,7 +22,7 @@
 	* `$mainView` - this is what you put in your UI to make the currently active view visible to the user. Updates automatically when the selection changes.
 }
 $viewBasedAppManager = !fun ($config) {
-	$storageName ? (default: "kalzit." + (!getAppId) + ".selectedView") = $storageName propOf config.
+	$storageName ? (default: "kalzit." + appId + ".selectedView") = $storageName propOf config.
 	$viewTitles ? ModifiableList = $viewTitles propOf config.
 	$viewGenerators ? ModifiableList = $viewGenerators propOf config.
 	

@@ -20,8 +20,11 @@ else
 	then
 		touch $appId.k
 	fi
-	bash ./build.sh
 	
 	#Make project available under URL /app/id
-	echo $projectFolder > "$kalzitRootFolder/apps/$appId.redirect"
+	ln -s "$projectFolder" "$kalzitRootFolder/apps/$appId"
+	
+	# Build the app
+	cd "$kalzitRootFolder"
+	./cli build app "$appId"
 fi

@@ -3,6 +3,8 @@ $timeoutNow = !fun () {
 	"kalzit.timeoutMinutes" storageSaveString "0".
 	
 	showMessage: "Your timeout will start soon - you can use this app for 30 more seconds.".
+	`Make sure that no other timeout routine interferes`
+	!timeoutPause.
 	
 	`Activate after 30 seconds`
 	$reallyRelaunch = false. $reallyRelaunchRef = reference: $reallyRelaunch.

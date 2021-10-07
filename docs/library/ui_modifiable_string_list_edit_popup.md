@@ -1,4 +1,0 @@
-# ui_modifiable_string_list_edit_popup
-## argumentList
-list
-_onAdditionAndOnRemoval

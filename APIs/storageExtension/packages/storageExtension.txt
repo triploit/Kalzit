@@ -1,15 +1,15 @@
 $storageSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
-	$values = (List:String): getArray of _list.
+	$values = (List:String): getArray: _list.
 	{
 		("listItem_" + x + "_of_" + key) storageSaveString x at values
-	} each ($listLength = length of values) rangeDown 0.
+	} each ($listLength = length: values) rangeDown 0.
 	("listLength_of_" + key) storageSaveString String:listLength.
 	
 	_list
 }.
 $storageAutoSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
 	key storageSaveStringList _list.
-	($setOnChange of _list): {key storageSaveStringList _list}.
+	($setOnChange: _list): {key storageSaveStringList _list}.
 	_list
 }.
 
@@ -25,10 +25,10 @@ $storageLoadListLength = ($key ? String) fun {
 } ? (0 default Int).
 $storageExtendStringList = ($key ? String ; $_list ? ModifiableList) fun {
 	$startLength = storageLoadListLength: key.
-	$values = (List:String): getArray of _list.
+	$values = (List:String): getArray: _list.
 	{
 		("listItem_" + x + "_of_" + key) storageSaveString x at values
-	} each startLength + ($listLength = length of values) rangeDown 0.
+	} each startLength + ($listLength = length: values) rangeDown 0.
 	("listLength_of_" + key) storageSaveString String:startLength + listLength.
 	
 	_list

@@ -109,7 +109,7 @@ const KStorage = {};
     var toPush = [];
     
     //Lists names that must never be pushed by "pushCookies", even if they are in the name list.
-    var deleted = [];
+    var deletedKeys = [];
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
     /*
@@ -132,17 +132,18 @@ const KStorage = {};
         
         for(var i = 0; i < nameList.length; i++){
             var name = nameList[i];
-            if(deleted.includes(name)) continue;
+            if(deletedKeys.includes(name)) continue;
             pushedObject[name] = native_loadString(name);
             pushCount++;
         }
         if(pushCount === 0) return;
+        console.log("Trying to push this (as JSON):");
+        console.log(pushedObject);
         
         try{
             //Send JSON to special API
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/api/updateCookieJson");
-            xhr.setRequestHeader("kalzit-cookie-json", JSON.stringify(pushedObject));
+            xhr.open("GET", "/api/updateCookieJson/v2?push=" + encodeURIComponent(JSON.stringify(pushedObject)));
             xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
             if (undelete) {
                 //Mark the cookie as "new / purposefully created"
@@ -152,6 +153,8 @@ const KStorage = {};
                 if (this.status >= 200 && this.status < 300) {
                     var jsonResponse = JSON.parse(this.responseText);
                     console.log(jsonResponse);
+                    console.log("(Deleted values are):");
+                    console.log(deletedKeys);
                     
                     //Check if an automatic logout should happen
                     if(jsonResponse.logout) {
@@ -179,11 +182,12 @@ const KStorage = {};
             };
             xhr.send();   
         }catch(error){
+            console.log(error);
             //If anything goes wrong, attempt to push the cookies one by one
             if (pushCount > 1){
                 for(var i = 0; i < nameList.length; i++){
                     var name = nameList[i];
-                    if(deleted.includes(name)) continue;
+                    if(deletedKeys.includes(name)) continue;
                     pushCookie(name, undelete);
                 }
             }
@@ -196,7 +200,7 @@ const KStorage = {};
     This causes the "toPush" variable to become an empty array - however, if the pushing of some keys fails, that might change quickly again.
     */
     function pushNewCookies(){
-        var toPushCopy = toPush;
+        var toPushCopy = [...toPush];
         toPush = [];
         pushCookies(toPushCopy, true);
     }
@@ -231,7 +235,7 @@ const KStorage = {};
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
     function deleteCookie(name) {
         console.log("Trying to delete cookie " + name);
-        deleted.push(name);
+        deletedKeys.push(name);
         
         //Delete from server (asynchronously)
         KFetch.important("/api/deleteCookie", {
@@ -250,9 +254,9 @@ const KStorage = {};
     //TODO: Add the ability to use arrow functions ( arg => stuff() ) without breaking everything.
     thiz.storageSaveString = function(name, value) {
         native_saveString(name, value);
-        if (deleted.includes(name)) {
+        if (deletedKeys.includes(name)) {
             //Un-delete the value, so it gets pushed
-            deleted.splice(deleted.indexOf(name), 1);
+            deletedKeys.splice(deletedKeys.indexOf(name), 1);
         }
         toPush.push(name);
     };

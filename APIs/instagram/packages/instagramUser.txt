@@ -6,8 +6,8 @@ $instagramUserImages=igUserParseUserImageUrls.
 	
 	Example usage:
 		$pair = first: instagramUserPostUrlsWithImages: "anyUserName".
-		$normalLink = first of pair.
-		$rawImageUrl = second of pair.
+		$normalLink = first: pair.
+		$rawImageUrl = second: pair.
 }
 $instagramUserPostUrlsWithImages = ($userName ? String) fun {
 	{("https://www.instagram.com/p/" + $shortcode propOf x);$display_url propOf x} each igUserParseUserImages: userName

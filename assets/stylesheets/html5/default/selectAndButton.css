@@ -1,5 +1,5 @@
 /* These settings apply to both buttons and .calcitPicker boxes ("uiPicker"). So the specific elements can focus on their own settings */
-input[type=button], .calcitPicker, .k-checkbox_mark, .calcitPickerIcon {
+input[type=button], .calcitButton, .calcitPicker, .k-checkbox_mark, .calcitPickerIcon {
 	background-color: transparent;
 	color: rgba(var(--kv-text_color_rgb),var(--kv-text_color_alpha));
 
@@ -11,12 +11,12 @@ input[type=button], .calcitPicker, .k-checkbox_mark, .calcitPickerIcon {
 	
 	box-shadow: 1px 1px 1px var(--button-shadow-color);
 }
-input[type=button]:hover, .calcitPicker:hover, .calcitPickerIcon:hover, .k-checkbox_container:hover, input[type=button]:focus, .calcitPicker:focus, .calcitPickerIcon:focus, .k-checkbox_container:focus {
+input[type=button]:hover, .calcitButton:hover, .calcitPicker:hover, .calcitPickerIcon:hover, .k-checkbox_container:hover, input[type=button]:focus, .calcitButton:focus, .calcitPicker:focus, .calcitPickerIcon:focus, .k-checkbox_container:focus {
 	--button-gradient: var(--button-hover-gradient);
 	cursor: pointer;
 }
 
-input[type=button]:active, .calcitPicker:active, .k-checkbox_container:active {
+input[type=button]:active, .calcitButton:active, .calcitPicker:active, .k-checkbox_container:active {
 	--button-gradient: linear-gradient(
         rgba(255,255,255,0.1),
 		rgba(255,255,255,0.2)
@@ -24,7 +24,7 @@ input[type=button]:active, .calcitPicker:active, .k-checkbox_container:active {
 }
 
 /*Custom button styling for a uniform look on all platforms*/
-input[type=button] {
+input[type=button], .calcitButton {
 	padding: 0.1cm;
 	padding-top: 0;
 	padding-bottom: 0;

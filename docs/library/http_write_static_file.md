@@ -4,7 +4,7 @@ _request
 file
 ## comment
 
-Serves a file (like $writeFile of _request), but with additional support for the "ETag" header and HTTP 304 (not modified) responses.
+Serves a file (like $writeFile propOf _request), but with additional support for the "ETag" header and HTTP 304 (not modified) responses.
 The function can automatically write the file type to the request, which prevents other headers from being accepted later. So all headers should be set before calling this function.
 
 Usage example:

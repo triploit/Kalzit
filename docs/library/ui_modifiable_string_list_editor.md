@@ -1,4 +1,0 @@
-# ui_modifiable_string_list_editor
-## argumentList
-list
-_onAdditionAndOnRemoval

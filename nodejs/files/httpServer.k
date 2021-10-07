@@ -130,15 +130,8 @@ $onClientConnect = ($_request fun {
 	
 }).
 
-print "Checking HTTPS configuration ...".
-!ifNot (fileExists: "./nogit/https/key.pem") {
-	runCommand: "./cli https certificate " + strFirstLine: runCommand: "hostname".
-}.
-
-print "Start port listening ...".
-!if (fileExists "./nogit/https/key.pem") {
-    !httpsServer onClientConnect 5001.
-}.
+print "Start port listening (assumes that ./nogit/https/key.pem exists) ...".
+!httpsServer onClientConnect 5001.
 
 !httpServer onClientConnect 5000.
 print "Server is running now!".

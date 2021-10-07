@@ -1,7 +1,7 @@
 $redditSubDataAsync = ($callback ; $subreddit) fun {{callback: parseJson: x} loadGlobalAsync "https://reddit.com/r/" + subreddit + ".json"}.
 
 $redditSubEntriesAsync = ($callback ; $subreddit) fun {
-	{callback: {$data of x} each $children propOf $data propOf x} redditSubDataAsync subreddit
+	{callback: {$data propOf x} each $children propOf $data propOf x} redditSubDataAsync subreddit
 }.
 
 $redditSubEntryUrlsAsync = ($callback ; $subreddit) fun {{callback: {$url propOf x} each x} redditSubEntriesAsync subreddit}.
@@ -20,7 +20,7 @@ $kmpFromRedditSubImage = $_subImage fun {
 	]];
 	["protocolVersion";"2.0.0"];
 	["thumbnail";[
-		["default";$thumbnail of _subImage]
+		["default";$thumbnail propOf _subImage]
 	]]
 }.
 $kmpFromRedditSubImages = $_subImages fun {

@@ -2,7 +2,6 @@ $session = ($getHeader objFirstProperty _request): "kalzit-session".
 $sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
 $jsonPath = userFolder + "/keys.json".
-$gzipPath = userFolder + "/keys.json.gz".
 $hashPath = userFolder + "/keys-hash.txt".
 
 !ifElse (fileIsFile: jsonPath) {
