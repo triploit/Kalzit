@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "diskspace": "^2.0.0",
-    "follow-redirects": "^1.14.4",
+    "follow-redirects": "^1.14.7",
     "markdown": "^0.5.0",
     "xmldom": "^0.6.0"
   }
