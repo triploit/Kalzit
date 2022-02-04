@@ -7,7 +7,7 @@ $debugConstant ? (default: "true") = appParameter: "debug-value".
 print: "Trying to build Kalzit app " + app.
 
 `parse JSON configuration`
-$configPath = (".k";".json") strReplace app.
+$configPath = ("\.k$";".json") strReplaceRegex app.
 $configObject = parseJson: !if (fileIsFile: configPath) { fileContent: configPath }.
 
 `define options and default values for them`

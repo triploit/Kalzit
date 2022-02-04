@@ -30,6 +30,8 @@
 		{"provides":["on_select", "on_deselect"], "scriptUrl":"selection.txt"},
 		{"provides":["on_collapse", "on_expand"], "scriptUrl":"collapse.txt"},
 		{"provides":["flag_rotation"], "scriptUrl":"rotation.js"},
-		{"provides":["rotation"], "scriptUrl":"rotation.txt"}
+		{"provides":["rotation"], "scriptUrl":"rotation.txt"},
+		{"provides":["flag_autocorrect"], "scriptUrl":"autocorrect.js"},
+		{"provides":["autocorrect"], "scriptUrl":"autocorrect.txt"}
 	]
 }

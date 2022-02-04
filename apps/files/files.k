@@ -14,12 +14,16 @@ $fileActions =
 		(($default propOf $file propOf file) + "&session=" + session) downloadUrl $title propOf file
 	}];
 	["Delete"; ($file) fun {
-		{} loadLocalAsync "/api/deleteFile?session=" + session + "&id=" + urlEncodeParameter: $id urlGetParameter ($default propOf $file propOf file)
+		!loadLocalAsync "/api/deleteFile?session=" + session + "&id=" + urlEncodeParameter: $id urlGetParameter ($default propOf $file propOf file) -> {
+			uiHide: $view propOf file
+		}
 	}].
 	
 $folderActions =
 	["Delete"; ($folder) fun {
-		{} loadLocalAsync "/api/deleteFolder?session=" + session + "&folder=" + urlEncodeParameter: $title propOf folder
+		!loadLocalAsync "/api/deleteFolder?session=" + session + "&folder=" + urlEncodeParameter: $title propOf folder -> {
+			uiHide: $view propOf folder
+		}
 	}].
 	
 $fileActionButton = $file fun {
@@ -47,21 +51,30 @@ $fileActionButton = $file fun {
 }.
 
 $fileView = !fun ($file) {
-	file uiKmpListItem
+	$view = uiContainer: void.
+
+	(uiPrint: view): (file;["view";view]) uiKmpListItem
 		[$onTap; () fun {
 			openFileRef = file.
 			openSubApp: "preview".
 		}];
 		[$additionalActions; [fileActions]].
+	
+	`Return` view
 }.
 $folderView = !fun ($folder) {
-	folder uiKmpListItem
+	$view = uiContainer: void.
+
+	`We need to have the complicated first line in order to enable view removals (to reflect deletions)`
+	(uiPrint: view): (folder;["view";view]) uiKmpListItem
 		[$onTap; () fun {
 			redirect: "/app/files?folder=" + urlEncodeParameter: $title propOf folder
 		}];
 		[$forcedThumbnail; "/apps/files/icons/iOS.png"];
 		[$titleGenerator; {fileName: $title propOf folder}];
 		[$additionalActions; [folderActions]].
+	
+	`Return` view
 }.
 $makeUploadView = !fun ($_files) {
 	$result = uiContainer: void.

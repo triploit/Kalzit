@@ -11,7 +11,7 @@ It is a programming language, complete with a standard library that makes tasks 
 This language is focused on being easy to learn, creating graphical user interfaces and working with media. And it avoids some annoyances of other languages. In other words, it is made to be really good for creating rich web applications, which can then run on your home server!
 If one of these things sounds interesting to you, Kalzit is probably right for you.
 
-The current version of this project is `0.16.0`. If you are interested in the latest changes to it, [take a look at the changelog](/docs/changelog/0.16.0.md)
+The current version of this project is `0.17.0`. If you are interested in the latest changes to it, [take a look at the changelog](/docs/changelog/0.17.0.md)
 
 # Setup
 
@@ -40,8 +40,8 @@ Kalzit should be running now! Just [access your Kalzit server through the browse
 
 To get to the built-in language playground, open this URL in your browser: [http://localhost:5000/app/ide](http://localhost:5000/app/ide)
 
-You should now see a text input field with an orange button beside it, and a bunch of other buttons below.
-If you do, the setup worked and you can [write your first few lines of code in Kalzit](http://localhost:5000/docs/tutorial/babysteps.md).
+You should now see a web app where you can input Kalzit code and press enter to run it.
+If you do, the setup worked and you can [write your first few lines of code in Kalzit](https://github.com/triploit/Kalzit/blob/master/docs/tutorial/babysteps.md).
 Otherwise, please open an issue to let me know.
 
 Have fun!

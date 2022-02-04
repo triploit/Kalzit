@@ -1,7 +1,8 @@
-./home.k
-./checksum.shasum
 ./index.html
-./config/excluded-libraries.json
 ./config/standardApps.json
+./config/excluded-libraries.json
+./_min.js
+./checksum.shasum
 ./home.json
-./home.shasum
+./home.k
+./platform-packages.json

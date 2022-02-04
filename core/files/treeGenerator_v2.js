@@ -19,7 +19,7 @@
 				case '"': return quoteBlock(token.textValue);
 				case "$": return DOLLAR_STRING;
 				case "@": return annotationStart("calcitSetAnnotation");
-				case "#": return annotationStart("calcitAddComment");
+				case "#": return annotationStart("calcitAddComment", true /*optimise away*/);
 				case "\\": return NEGATIVE_SIGN;
 				case '`':
 				case '´': return COMMENT_BLOCK;
@@ -67,7 +67,7 @@
 		else return tree.finished
 	}
 	
-	function annotationStart(annotationApplyName) {
+	function annotationStart(annotationApplyName, optimiseAway) {
 		return {
 			kind: "annotationStart",
 			annotationTree: WAITING,
@@ -79,7 +79,10 @@
 				
 				//To go on, the annotation content has to be finished
 				if(isFinishedTree(this.annotationTree)) {
-					//Annotation finished! Produce a "calcitSetAnnotation" call
+					//Annotation finished! Produce a "calcitSetAnnotation" call, or just skip that whole thing
+                    if (optimized && optimiseAway) return WAITING;
+
+                    //We are here, so that means we have to actually build instructions to apply the annotation
 					//Figure out if we have a group
 					if(this.annotationTree.group) {
 						this.annotationTree.group.pop();
@@ -88,10 +91,9 @@
 						]))
 					} else {
 						return group([
-							this.annotationTree, {"name":"calcitSetAnnotation", "kind": "name"}, WAITING
+							this.annotationTree, {"name":annotationApplyName, "kind": "name"}, WAITING
 						])
 					}
-					return this.annotationTree.next(name({"textValue": "calcitSetAnnotation"}))
 				} else {
 					return this;
 				}

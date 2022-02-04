@@ -10,7 +10,7 @@ $_ui_playground = !fun ($initialCode) {
         $result = void. $resultRef = reference: $result.
         $producesNewView = true. $producesNewViewRef = reference: $producesNewView.
         
-        @(percentWidth 100)
+        @(percentWidth 100) @(autocorrect false)
         $inputField = {
             $realPrint = print.
             printRef = outputToEvalView.
