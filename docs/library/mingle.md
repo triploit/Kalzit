@@ -1,7 +1,4 @@
 # mingle
-## argumentList
-_a
-_b
 ## comment
 
 Creates one list out of two (a and b).

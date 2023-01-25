@@ -12,11 +12,78 @@ $uiTitleToolbar = ($title ? String ; $additionalViews) fun {
 	$appropriateWidth = !ifElse isIosApp {
 		"100% - " + (toolbarCmHeight % 2) + "cm - 7px"
 	};{
-		"100% - 7px"
+		`Okay, if we are not an iOS app, we need to check if there are additional views`
+		!ifElse (void eq additionalViews) {
+			`There are no additional actions - just add very little space`
+			"100% - 7px"
+		};{
+			`If there are additional views, we have to tolerate the width of a three-dot button`
+			"100% - 30px"
+		}
+	}.
+
+	`Two cases - we either have additional views, or we do not have them. If we have them, wrap them into a three-dot button so the toolbar is never too full`
+	!ifElse (void eq additionalViews) {
+		`No extra views - this is easy`
+		uiToolbarWithCloseButton:
+			[@right @(percentHeight 100) @(width appropriateWidth) uiContainer: (@left @verticalCenter @(width appropriateWidth) @centerText uiContainer:
+				(@(foregroundColor white) @(emFontSize: 1,5) uiText: title)
+			)]
+	};{
+		$actionsButton = @(onTap !fun () {
+			`In here, we have to show the actual actions - replace the toolbar contents with them`
+			`Trigger a transition to make this look nice`
+			applyTransition: (fadeTransition: ["duration"; 1000];["element"; actualView]);["onSwitch"; () fun {
+				actualToolbarContentRef = additionalToolbarContent.
+			}]
+		}) @right @verticalCenter @dynamicWidth uiContainer:
+			[!uiButtonWithThreeDotIcon {}];
+			[uiHorizontalPxSpace 7].
+			
+		`This is shown by default - the title and an actions button`
+		$defaultToolbarContent = uiContainer:
+			[@right @(percentHeight 100) @(width appropriateWidth) uiContainer: (@left @verticalCenter @(width appropriateWidth) @centerText uiContainer:
+				(@(foregroundColor white) @(emFontSize: 1,5) uiText: title)
+			)];
+			actionsButton.
+		
+		`This is a view that contains the additional views, as well as a "back" button to get back to the title view. The user can go back and forth`
+		$additionalToolbarContent = uiContainer:
+			[uiHorizontalPxSpace 7];
+			[@fit @(cmWidth 0,35) @verticalCenter !uiImageButton leftArrowImageUrl -> () fun {
+				`In here, we have to show the title view again - replace the toolbar contents with it`
+				`Trigger a transition to make this look nice`
+				applyTransition: (fadeTransition: ["duration"; 1000];["element"; actualView]);["onSwitch"; () fun {
+					actualToolbarContentRef = defaultToolbarContent.
+				}]
+			}];
+			(additionalViews).
+		
+		`This variable contains the currently shown view - update it to switch between views`
+		$actualToolbarContent = defaultToolbarContent. $actualToolbarContentRef = reference: $actualToolbarContent.
+		
+		uiToolbarWithCloseButton: $actualView = uiShowVariable: actualToolbarContentRef.
+	}
+}.
+
+# {
+	This is a special version of uiTitleToolbar which has space for exactly one three-dot button.
+	You can specify the button you want to show there. It will automatically be positioned correctly
+}
+$uiTitleToolbarWithAdditionalActionsButton = !fun ($title ? String ; $additionalActionsButton) {
+	$appropriateWidth = !ifElse isIosApp {
+		"100% - " + (toolbarCmHeight % 2) + "cm - 7px"
+	};{
+		`Even if there is no big "x" in the toolbar, we have to tolerate the width of a three-dot button`
+		"100% - 30px"
 	}.
 
 	uiToolbarWithCloseButton:
 		[@right @(percentHeight 100) @(width appropriateWidth) uiContainer: (@left @verticalCenter @(width appropriateWidth) @centerText uiContainer:
 			(@(foregroundColor white) @(emFontSize: 1,5) uiText: title)
-		)];additionalViews
+		)];
+		[@right @verticalCenter @dynamicWidth uiContainer:
+			additionalActionsButton;
+			[uiHorizontalPxSpace 7]
+		]
 }.

@@ -1,9 +1,11 @@
 $YoutubeVideoId = !fun ($idOrUrl ? String) {
 	$vidRegex = "http(s)?://(www\.)?youtube.com/watch\?(.+&)?v=([a-zA-Z0-9_\-]+)". $vidMatchRef = reference: $vidMatch.
 	$embedRegex = "http(s)?://(www\.)?youtube.com/embed/([a-zA-Z0-9_\-]+)". $embedMatchRef = reference: $embedMatch.
+	$embedNocookieRegex = "http(s)?://(www\.)?youtube-nocookie.com/embed/([a-zA-Z0-9_\-]+)". $embedNocookieMatchRef = reference: $embedNocookieMatch.
 	
 	do: first: (idOrUrl switch
 		[{length: vidMatchRef = vidRegex match idOrUrl};{4 at vidMatch}];
-		[{length: embedMatchRef = embedRegex match idOrUrl};{3 at embedMatch}]
+		[{length: embedMatchRef = embedRegex match idOrUrl};{3 at embedMatch}];
+		[{length: embedNocookieMatchRef = embedNocookieRegex match idOrUrl};{3 at embedNocookieMatch}]
 	);{idOrUrl}
 }.

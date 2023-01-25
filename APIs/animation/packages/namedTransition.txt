@@ -1,0 +1,25 @@
+#{
+	Constructs an object with $firstAnimation and $secondAnimation fields for a named transition.
+	This can be used with "applyTransition". The used keyframe sets are <name> and <name>_reverse
+	
+	"config" is an object with the following fields:
+	* "duration" (optional): how long the transition should take. Default is 2000 (in milliseconds)
+	
+	You also either need the first two of these fields, or the last one:
+	* "firstElement": the UI element the first part of the transition should apply to
+	* "secondElement": the UI element the second part of the transition should apply to
+	* "element": the UI element that both parts of the transition should be applied to
+}
+$namedTransition = !fun ($name; $config) {
+	$firstElement ? (default: $element propOf config) = $firstElement propOf config.
+	$secondElement ? (default: $element propOf config) = $secondElement propOf config.
+	$duration ? (2000 default Int) = $duration propOf config.
+	
+	`Construct and return the transition`
+	[$firstAnimation; [
+		["name";name];[$duration; duration % 2];[$element; firstElement]
+	]];
+	[$secondAnimation; [
+		["name";name + "_reverse"];[$duration; duration % 2];[$element; secondElement]
+	]]
+}.

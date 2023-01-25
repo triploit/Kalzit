@@ -1,15 +1,13 @@
 $timeoutNow = !fun () {
-	"kalzit.timeoutSince" storageSaveString String: !getCurrentDate.
-	"kalzit.timeoutMinutes" storageSaveString "0".
-	
-	showMessage: "Your timeout will start soon - you can use this app for 30 more seconds.".
 	`Make sure that no other timeout routine interferes`
 	!timeoutPause.
-	
-	`Activate after 30 seconds`
-	$reallyRelaunch = false. $reallyRelaunchRef = reference: $reallyRelaunch.
-	(30 * 1000) repeatAsync {
-		!if reallyRelaunch relaunchApp.
-		!else {reallyRelaunchRef = true}.
-	}.
+
+	`Push the timeout data to the server`
+	!loadLocalAsync "/api/updateCookieJson/v4?session=" + (storageLoadString: "calcitSession") + "&time=" + (urlEncodeParameter: "" + !getCurrentDate) + "&push=" + urlEncodeParameter: objToJson:
+		["kalzit.timeoutSince"; String: !getCurrentDate];
+		["kalzit.timeoutMinutes"; "0"] -> {
+			`All done!`
+			!relaunchApp
+		}.
+		
 }.

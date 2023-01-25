@@ -4,6 +4,7 @@
 	},
 	"libraries":[
 		{"provides":["list_sort"],  "scriptUrl":"listSort.js"},
-		{"provides":["sorting_rule_numbers_ascending", "sorting_rule_numbers_descending"],  "scriptUrl":"sortingRules.txt"}
+		{"provides":["sorting_rule_numbers_ascending", "sorting_rule_numbers_descending"],  "scriptUrl":"sortingRules.txt"},
+		{"provides":["sorting_rule_strings_ascending", "sorting_rule_strings_descending"],  "scriptUrl":"stringSort.js"}
 	]
 }

@@ -1,5 +1,7 @@
 #Before doing anything else, build the home screen data
 #./cli build homescreenData
+mkdir ~/.kalzit
+mkdir ~/.kalzit/generated
 
 #Get the app ID
 appId=$1
@@ -12,4 +14,4 @@ shift 1
 
 #Start building
 cd ./apps/$appId
-bash "$appBuildScript"
+bash "$appBuildScript" "$@"

@@ -1,0 +1,26 @@
+{
+	"info":{
+		"description":"Libraries containing some default buttons which are basically only used in the global toolbar",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		{
+	        "provides": [
+	          "ui_account_button"
+	        , "ui_apps_button"
+	        , "ui_user_button"
+	        , "ui_user_config_button"
+	        , "ui_hamburger_button"
+	        , "ui_cross_button"
+	        , "user_outline_image_url"
+	        , "user_image_url"
+	        , "menu_image_url"
+	        , "apps_image_url"
+	        , "cross_image_url"
+	        , "left_arrow_image_url"
+	        , "ui_sidebar_toggle_button"
+	      ]
+	      , "scriptUrl": "globalButtons.txt"
+	    }
+	]
+}

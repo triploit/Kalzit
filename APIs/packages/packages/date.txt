@@ -1,23 +1,33 @@
-#{
+/* @kalzit.for seconds_to_millis
 	Converts seconds to milliseconds.
 	
 	Example:
 	secondsToMillis: 5.
 	`Result: 5000`
-}
+*/
 $secondsToMillis = * bind 1000.
 
-#{Converts minutes to milliseconds.}
+/* @kalzit.for minutes_to_millis
+Converts minutes to milliseconds.
+*/
 $minutesToMillis = $minutes fun {secondsToMillis: minutes * 60}.
 
-#{Converts hours to milliseconds.}
+/* @kalzit.for hours_to_millis
+Converts hours to milliseconds.
+*/
 $hoursToMillis = $hours fun {minutesToMillis: hours * 60}.
 
-#{Converts days to milliseconds.}
+/* @kalzit.for days_to_millis
+Converts days to milliseconds.
+*/
 $daysToMillis = $days fun {hoursToMillis: days * 24}.
 
-#{Converts years (365 days) to milliseconds.}
+/* @kalzit.for years_to_millis
+Converts years (365 days) to milliseconds.
+*/
 $yearsToMillis = $years fun {daysToMillis: years * 365}.
 
-#{Returns the current date as a string in the UTC format.}
+/* @kalzit.for get_current_date_utc
+Returns the current date as a string in the UTC format.
+*/
 $getCurrentDateUtc = () fun {dateToUtc: do: getCurrentDate}.

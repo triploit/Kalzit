@@ -5,6 +5,6 @@
 	},
 	"libraries":[
 		{"provides":["ui_kmp_list_item"],  "scriptUrl":"uiKmpListItem.txt"},
-		{"provides":["ui_kmp_list_with_big_thumbnails"],  "scriptUrl":"uiKmpListWithBigThumbnails.txt"}
+		{"provides":["ui_kmp_list_with_big_thumbnails", "ui_kmp_list"],  "scriptUrl":"uiKmpListWithBigThumbnails.txt"}
 	]
 }

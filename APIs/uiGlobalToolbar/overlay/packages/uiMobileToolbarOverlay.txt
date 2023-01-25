@@ -1,0 +1,27 @@
+$uiMobileToolbarOverlay = ($toolList ? ModifiableList) fun {
+	$tools = getArray: toolList.
+	$uiOnLeft = !ifElse ((1 eq length: tools) & "string" eq displayType: second: first: tools) {
+		`We have exactly one tool, and it has a string representation - just show it as a button`
+		$tool = first: tools.
+		@verticalCenter (first: tool) uiButton second: tool.
+	};{
+		`Show the standard hamburger menu for multiple tools`
+		applyMobileTools: tools.
+		@(cmWidth toolbarCmHeight * 0,75) !uiHamburgerButton
+	}.
+
+	@(cssClass: "k-mobile_only") uiToolbarOverlay:
+		[
+			@dynamicSize @(percentHeight 75) @(width: (toolbarCmHeight * 0,75) + "cm + 7px") @verticalCenter @left uiContainer:
+				[uiHorizontalPxSpace: 7];
+				[uiOnLeft]
+		];
+		[
+			`Add the default navigation buttons (uiUserButton and uiAppsButton) at the right`
+			@verticalCenter @right @(percentHeight 75) @(cmWidth: (toolbarCmHeight * 1,5) + 0,7) uiContainer:
+				[@(cmWidth toolbarCmHeight * 0,75) !uiAppsButton];
+				[@(cmWidth 0,4) uiContainer:void];
+				[@(cmWidth toolbarCmHeight * 0,75) !uiUserButton];
+				[uiHorizontalPxSpace: 7]
+		]
+}.

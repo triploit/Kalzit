@@ -1,0 +1,61 @@
+<div id="count">No shakes detected</div>
+<script>
+	function setOnMotion(then) {
+		var threshold = 10;
+		var direction = 1;
+		var directionChanged = false;
+		var count = 0;
+	
+		function onMotion(event) {
+			var x = event.acceleration.x;
+			if (x > 1 && direction < 1) {
+				direction = -1;
+				directionChanged = true;
+			}
+			if (x < 1 && direction > -1) {
+				direction = 1;
+				directionChanged = true;
+			}
+			
+			//Count the number of shakes
+			if (Math.abs(x) > threshold) {
+				directionChanged = false;
+				count++;
+				if(count == 3) {
+					//A shake happened !
+					then();
+				}
+			}
+			
+		}
+		
+		//Reset the counter every second
+		setInterval(function() {
+			count = 0;
+		}, 1000);
+		
+		window.addEventListener('devicemotion', onMotion);
+	}
+
+	function onClick() {
+	    // feature detect
+	    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+	      DeviceMotionEvent.requestPermission()
+	        .then(permissionState => {
+	        	alert(permissionState);
+	          if (permissionState === 'granted') {
+	            setOnMotion(() => {document.getElementById("count").innerText = new Date() + ""})
+	          }
+	        })
+	        .catch(() => {
+	        	alert("I guess permission is not granted");	
+	        });
+	    } else {
+	      // handle regular non iOS 13+ devices
+	      setOnMotion(() => {document.getElementById("count").innerText = new Date() + ""})
+	    }
+  }
+  
+  onClick();
+</script>
+<input type="button" onclick="onClick()" value="Start motion detection"/>

@@ -1,6 +1,4 @@
 # auto_cleared_cache
-## argumentList
-fullTimeMillis
 ## comment
 
 Creates a modifiable object (See documentation of ModifiableObject for more detail) whose values are automatically removed after a set amount of time.

@@ -1,6 +1,4 @@
 # min
-## argumentList
-_numbers
 ## comment
 
 Finds the smallest value from a list of numbers.

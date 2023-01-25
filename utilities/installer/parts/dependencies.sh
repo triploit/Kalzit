@@ -1,11 +1,7 @@
 #Figure out what kind of Unix we are running on - important for choosing the right installer file
-#Idea for system check from https://stackoverflow.com/questions/3466166/how-to-check-if-running-in-cygwin-mac-or-linux
 unameOut="$(uname -s)"
-case "${unameOut}" in
-    Linux*)     osName=Linux;;
-    Darwin*)    osName=Mac;;
-    *)          osName="UnknownUnix"
-esac
+#Replace "Darwin" with "Mac"
+osName="${unameOut/Darwin/Mac}"
 
 #This is a function for showing file content and prompting user action
 manualActionNeeded=0

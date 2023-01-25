@@ -16,6 +16,13 @@ $generateDesktopToolAtLeft = !fun ($_tool) {
 			do:$desktop propOf _tool
 	}
 }.
+$generateDesktopToolsAtRight = !fun ($_subTools) {
+	{
+		@dynamicWidth @right uiContainer: 
+			`Add the tools registered by the app`
+			5 uiAddHorizontalPxSpaces {do:$desktop propOf x} each _subTools
+	}
+}.
 $generateDesktopToolAtRight = !fun ($_tool) {
 	{
 		@right do:$desktop propOf _tool
@@ -51,6 +58,12 @@ $toolLayoutManager = !fun () {
 	}]
 }.
 
+#{
+	Puts a list of tools at the left side of the global toolbar.
+	This function must be called before the global toolbar is created (using uiGlobalToolbar).
+	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
+	Otherwise, it might make the tools on the right not clickable.
+}
 $toolsAtLeft = !fun ($_subTools) {
 	`Desktop`
 	registerDesktopTool: generateDesktopToolsAtLeft: _subTools.
@@ -60,6 +73,13 @@ $toolsAtLeft = !fun ($_subTools) {
 		($mobile propOf _subTool) registerMobileTool ($title propOf _subTool)
 	}) each _subTools.
 }.
+
+#{
+	Puts a single tool at the left side of the global toolbar.
+	This function must be called before the global toolbar is created (using uiGlobalToolbar).
+	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
+	Otherwise, it might make the tools on the right not clickable.
+}
 $toolAtLeft = !fun ($_tool) {
 	`Desktop`
 	registerDesktopTool: generateDesktopToolAtLeft: _tool.
@@ -67,6 +87,29 @@ $toolAtLeft = !fun ($_tool) {
 	`Mobile`
 	($mobile propOf _tool) registerMobileTool ($title propOf _tool).
 }.
+
+#{
+	Puts a list of tools at the right side of the global toolbar.
+	This function must be called before the global toolbar is created (using uiGlobalToolbar).
+	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
+	Otherwise, it might make the tools on the right not clickable.
+}
+$toolsAtRight = !fun ($_subTools) {
+	`Desktop`
+	registerDesktopTool: generateDesktopToolsAtRight: _subTools.
+	
+	`Mobile`
+	($_subTool fun {
+		($mobile propOf _subTool) registerMobileTool ($title propOf _subTool)
+	}) each _subTools.
+}.
+
+#{
+	Puts a single tool at the right side of the global toolbar.
+	This function must be called before the global toolbar is created (using uiGlobalToolbar).
+	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
+	Otherwise, it might make the tools on the right not clickable.
+}
 $toolAtRight = !fun ($_tool) {
 	`Desktop`
 	registerDesktopTool: generateDesktopToolAtRight: _tool..

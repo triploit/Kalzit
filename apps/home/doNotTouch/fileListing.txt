@@ -1,8 +1,0 @@
-./index.html
-./config/standardApps.json
-./config/excluded-libraries.json
-./_min.js
-./checksum.shasum
-./home.json
-./home.k
-./platform-packages.json

@@ -1,6 +1,4 @@
 # file_extension
-## argumentList
-path
 ## comment
 
 Returns the file extension from a given file path.

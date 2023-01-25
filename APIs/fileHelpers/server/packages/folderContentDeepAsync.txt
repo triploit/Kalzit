@@ -13,7 +13,7 @@ $folderContentDeepAsyncNotHidden = ($callback ; $path ? String) fun {
 		!loopEach content -> callback.
 		
 		`Go through the sub-folders as well`
-		!loopEach ({not: "/." strContains x} filter fileIsFolder filter content) -> {callback folderContentDeepAsync x}
+		!loopEach ({not: "/." strContains x} filter fileIsFolder filter content) -> {callback folderContentDeepAsyncNotHidden x}
 	}) folderContentAsync path.
 } ? void.
 $folderContentDeepAsyncNotLink = ($callback ; $path ? String) fun {

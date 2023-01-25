@@ -8,6 +8,8 @@
 	*/
 	function makePlayerInterface(mediaElement){
 		var onEnd = function(){};
+		var onPlay = function(){};
+		var onPause = function(){};
 		var onProgress = function(time){};
 		mediaElement.addEventListener('ended',function myHandler(e) {
 			onEnd();
@@ -15,8 +17,19 @@
 	    mediaElement.addEventListener('timeupdate',function myHandler(e) {
 			onProgress(mediaElement.currentTime);
 	    } ,false);
+	   	mediaElement.addEventListener('playing',function myHandler(e) {
+			onPlay();
+	    } ,false);
+	    mediaElement.addEventListener('pause',function myHandler(e) {
+			onPause();
+	    } ,false);
 	
 		var controller = {value:[
+			{value:[{value:"isPaused"}, {
+				value: function(env, args){
+					return {value: mediaElement.paused ? 1 : 0};
+				}, display: "function"
+			}]},
 			{value:[{value:"play"}, {
 				value: function(env, args){
 					mediaElement.play();
@@ -54,6 +67,42 @@
 			{value:[{value:"setOnEnd"}, {
 				value: function(env, args){
 					onEnd = function(){
+						GLang.callObject(args[0], env, [controller]);
+					}
+					return GLang.voidValue;
+				}, display: "function"
+			}]},
+			{value:[{value:"setOnPlay"}, {
+				value: function(env, args){
+					onPlay = function(){
+						GLang.callObject(args[0], env, [controller]);
+					}
+					return GLang.voidValue;
+				}, display: "function"
+			}]},
+			{value:[{value:"addOnPlay"}, {
+				value: function(env, args){
+					var oldOnPlay = onPlay;
+					onPlay = function(){
+						oldOnPlay();
+						GLang.callObject(args[0], env, [controller]);
+					}
+					return GLang.voidValue;
+				}, display: "function"
+			}]},
+			{value:[{value:"setOnPause"}, {
+				value: function(env, args){
+					onPause = function(){
+						GLang.callObject(args[0], env, [controller]);
+					}
+					return GLang.voidValue;
+				}, display: "function"
+			}]},
+			{value:[{value:"addOnPause"}, {
+				value: function(env, args){
+					var oldOnPause = onPause;
+					onPause = function(){
+						oldOnPause();
 						GLang.callObject(args[0], env, [controller]);
 					}
 					return GLang.voidValue;

@@ -1,6 +1,6 @@
-#{
+/* @kalzit.for debug_auto_refresh
 	This will cause the page to reload whenever "./cli build app <id>" produces a new result.
-}
+*/
 $debugAutoRefresh = !fun ($pauseMillis ? (default: 2000)) {
 	!if (("localhost" eq urlGetHostName: appUrl) | not: void eq appParameter: "kalzit.refresh") {
 		$checksum = loadLocal: $checksumHandle = "/app/" + appId + "/checksum.shasum".

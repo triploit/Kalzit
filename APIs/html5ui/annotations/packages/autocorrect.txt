@@ -1,5 +1,5 @@
-#{
+/* @kalzit.for autocorrect
 	This annotation enables or disables autocorrect for a text input element.
 	`@(autocorrect false) view` to disable autocorrect.
-}
+*/
 $autocorrect = ($autocorrect ? Boolean) fun {flagAutocorrect bind autocorrect}

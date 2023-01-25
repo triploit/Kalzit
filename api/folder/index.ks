@@ -1,7 +1,7 @@
 $id ? SafeFilePath = "id" urlGetParameter $url propOf _request.
 
 $session ? Float = "session" urlGetParameter $url propOf _request.
-$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
+$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
 
 !if sessionExists {
 	
@@ -29,7 +29,7 @@ $sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session
 			$kmp = objToJson: 
 			
 				kmpFromObjectCollection: ($fn fun {
-					print: $fileName = "./" + fn.
+					print: $fileName = !ifElse (fileIsFolder: fn) {fn};{"./" + fn}.
 					
 					`Figure out if an access file represents a folder - if true, the currentVersion.txt file is not there`
 					!ifElse (not: fileIsFile: fileName + "/currentVersion.txt") {

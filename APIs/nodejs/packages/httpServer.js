@@ -155,3 +155,15 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("httpsServer", {value:function(
 	
 	return GLang.voidValue;
 }, display:"function"})
+
+GLang.defaultRuntimeEnvironment.setInnerVariable("customHttpsServer", {value:function(env, args){
+	var callback = args[0];
+	var config = GLang.wrapValueToJsObject(args[1]);
+	config.callback = function (request) {
+		GLang.callObject(callback, env, [wrapRequestValue(request)]);
+	}
+	
+	kServer.customHttpsServer(config);
+	
+	return GLang.voidValue;
+}, display:"function"})

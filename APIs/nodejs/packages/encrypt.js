@@ -4,26 +4,18 @@ var crypto = require("crypto");
 //The encryption (and deletion of the original, if wanted) happens asynchronously, but the return value is returned without waiting
 //Needed configuration fields: key, inputFile, outputFile. deleteInput (1 or 0) is optional. Default is 0
 function encryptFileGetInitVector(_config) {
-	var key = _config.key;
+	//"_config.key" and "_config.output" are used directly in the main code, because they are only needed once
 	var inputFile = _config.input;
-	var outputFile = _config.output;
 	var deleteInput = _config.deleteInput == 1;
-	
-	//Idea from https://medium.com/@anned20/encrypting-files-with-nodejs-a54a0736a50a
-	const algorithm = "aes-256-ctr";
 	
 	//Do the actual encryption
 	const initVector = crypto.randomBytes(16);
-	const cipher = crypto.createCipheriv(algorithm, key, initVector);
-	
-	//Idea from https://medium.com/@brandonstilson/lets-encrypt-files-with-node-85037bea8c0e
-	const readStream = fs.createReadStream(inputFile);
-	const writeStream = fs.createWriteStream(outputFile);
+	const cipher = crypto.createCipheriv("aes-256-ctr", _config.key, initVector);
 	
 	//Put the readStream through the cipher and then into the writeStream
-	var encryptionStream = readStream
+	var encryptionStream = fs.createReadStream(inputFile)
 		.pipe(cipher)
-		.pipe(writeStream);
+		.pipe(fs.createWriteStream(_config.output));
 		
 	//Get notified when the encryption is finished
 	encryptionStream.on("finish", function(){

@@ -8,7 +8,7 @@ GLang.scopePrototype = {
 				updater.update();
 			}
 		}
-		GLang.notifyGeneralChange();
+		//GLang.notifyGeneralChange();
 	},
 	registerVariableListener: function(n, listener){
 		this.variableUpdateFunctions.push({varName:this.unifyStringName(n), update:listener});
@@ -165,6 +165,9 @@ GLang.scopePrototype = {
 
 //Holds all variables known to the program
 GLang.RuntimeEnvironment = function(outer){
+	//For debugging: test if this is called as a constructor
+	if(!this instanceof GLang.RuntimeEnvironment) throw new Error("GLang.RuntimeEnvironment not called with 'new' keyword");
+
 	var me = Object.create(outer || GLang.scopePrototype);
 	me.variableUpdateFunctions = [];
 	return me;

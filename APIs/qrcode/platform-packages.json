@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries for creating QR codes",
+		"platforms": ["nodejs"]
+	},
+	"libraries":[
+		{"provides":["qr_code_data_url_async", "qr_code_raw_async"], "scriptUrl":"qrCodeDataUrlAsync.js"}
+	]
+}

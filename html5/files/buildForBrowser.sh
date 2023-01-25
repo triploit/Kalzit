@@ -12,9 +12,7 @@ cat "html5/files/head.html" >> "$out"
 bash "html5/files/listHtmlScriptTags.sh" --platform html5 $options >> "$out"
 
 #Styling
-echo "<style>" >> "$out"
-cat "assets/stylesheets/html5/_min.css" >> "$out"
-echo "</style>" >> "$out"
+cat "assets/stylesheets/html5/_min.html" >> "$out"
 
 #Body from first argument
 echo "</head><body>" >> "$out"

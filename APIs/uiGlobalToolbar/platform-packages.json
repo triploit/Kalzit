@@ -1,0 +1,37 @@
+{
+	"info":{
+		"description":"Libraries for displaying the default global toolbar",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		 {
+	        "provides": [
+	          "register_labeled_tool"
+	        , "ui_global_toolbar"
+	        , "global_desktop_toolbar"
+	        , "global_desktop_toolbar_ref"
+	        , "global_mobile_toolbar"
+	        , "global_mobile_toolbar_ref"
+	      ]
+	      , "scriptUrl": "registerLabeledTool.txt"
+	    }
+	    , {
+	        "provides": [
+	          "registered_mobile_tools"
+	        , "register_mobile_tool"
+	        , "generate_mobile_toolbar_overlay"
+	        , "apply_mobile_tools"
+	      ]
+	      , "scriptUrl": "mobileToolbar.txt"
+	    }
+	    , {
+	        "provides": [
+	          "registered_desktop_tools"
+	        , "desktop_tool"
+	        , "register_desktop_tool"
+	        , "generate_desktop_toolbar_overlay"
+	      ]
+	      , "scriptUrl": "desktopToolbar.txt"
+	    }
+	]
+}

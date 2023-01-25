@@ -5,26 +5,45 @@
 	
 	You can configure your list item with the `config` object. It has the following properties:
 	* `mainView` (required) - a UI element that is the main view of your list item. It takes up most of its space, except where the potential action button is.
-	* `additionalActions` (optional) - a set of name-function pairs that define actions for an action button. If this is specified, the list item will automatically get an action button.
 	* `onTap` (optional) - a function that will be triggered when the user clicks or taps the list item. If this is specified, the item will also get a hover effect to indicate it is clickable.
 	* `value` (optional) - this will be the first parameter for the functions specified by `additionalActions` and `onTap`.
-	* `additionalActionsButton` (optional) - you can specify a full action button (with custom styling, for example) instead of `additionalActions`. These two are exclusive.
+	* `index` (optional) - the index of the list item represented by this view. This will be the second parameter for `onTap` and `additionalViewFactory`, but it will NOT be accessible from the actions specified in `additionalActions`.
+	* One of the following, if you want to have a three-dot button. The options are exclusive:
+		* `additionalActions` (optional) - a set of name-function pairs that define actions for an action button. If this is specified, the list item will automatically get an action button.
+		* `additionalActionsButton` (optional) - you can specify a full action button (with custom styling, for example) instead of `additionalActions`. This can also be a function that returns said view - if it is, it gets the `value` property of `config` as its first parameter, and the `index` property as the second
+		* `additionalViewFactory` (optional): a view factory (function which gets the value associated with this list item and returns a view) which can be displayed where the title usually is shown. Can be accessed via a three-dot button.
 }
 $uiListItem = !fun ($config) {
 	$mainView ? UiElement = $mainView propOf config.
+	$currentView = mainView. $currentViewRef = reference: $currentView.
+	
 	$value = $value propOf config.
+	$index = $index propOf config.
 	$tapAction = $onTap propOf config.
 	
 	`Construct the UI element`
-	$actionMenu = !ifElse (void eq $additionalActionsButton propOf config) {
-		value uiAdditionalActionsButton $additionalActions propOf config
-	};{
-		$additionalActionsButton propOf config	
-	}.
+	$actionMenu = do: void switchFirst
+		[{not: void eq $additionalActions propOf config}; {
+			value uiAdditionalActionsButton $additionalActions propOf config
+		}];
+		[{not: void eq $additionalActionsButton propOf config}; {
+			value ($additionalActionsButton propOf config) index
+		}];
+		[{not: void eq $additionalViewFactory propOf config}; {
+			@verticalCenter @relative !uiButtonWithThreeDotIcon {
+				!ifElse (currentView eq mainView) {
+					currentViewRef = uiContainer:
+						[value ($additionalViewFactory propOf config) index].
+				};{
+					currentViewRef = mainView.	
+				}
+			}
+		}].
+		
 	$mainViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 27px"}.
 	
 	$view = uiContainer:
-		(@(width mainViewWidth) mainView);
+		(@(width mainViewWidth) uiShowVariable: currentViewRef);
 		!ifNot (void eq actionMenu) {
 			[uiHorizontalPxSpace 7];
 			[actionMenu] `If it is void, no action menu is shown`
@@ -33,7 +52,7 @@ $uiListItem = !fun ($config) {
 	!ifNot (void eq tapAction) {
 		`Make sure that the user can trigger an action by tapping on this element`
 		@(onTap: () fun {
-			tapAction: value.
+			value tapAction index.
 		})
 		@(cssClass: "k-single_view_picker")
 		mainView

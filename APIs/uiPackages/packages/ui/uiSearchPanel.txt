@@ -1,16 +1,31 @@
-$uiSearchPanel = !fun ($searchResultFactory) {
+#{
+	`searchTermReference` is optional
+}
+$uiSearchPanel = !fun ($searchResultFactory ; $searchTermReference) {
 	$currentSearchResults = @centerText uiContainer: strings: "pressGoHint". $currentSearchResultsRef = reference: $currentSearchResults.
 	@(percentHeight 100) uiContainer: do:{
-		$currentSearchTerm = "". $currentSearchTermRef = reference: $currentSearchTerm.
+		$currentSearchTermRef = !ifElse (void eq searchTermReference) {
+			`Construct a new reference to store the search term`
+			$currentSearchTerm = "".
+			reference: $currentSearchTerm.
+		};{
+			`Use the reference given by the caller of this function`
+			searchTermReference
+		}.
+		
 		$action = !fun ($currentSearchTerm ? strTrim) {
 			!if ("" eq currentSearchTerm) {
-				currentSearchResultsRef = @centerText uiText: "Please enter a search term".
+				currentSearchResultsRef = @centerText uiText: strings: "enterSearchTerm".
 			}. !else {
-				currentSearchResultsRef = @verticalScroller uiContainer: @(width "100% - 14px") @(percentHeight 100) @center uiContainer: searchResultFactory: currentSearchTerm.
+				currentSearchResultsRef = @verticalScroller uiContainer: @(width "100% - 14px") @(percentHeight 100) @center uiContainer: searchResultFactory: resolveReference: currentSearchTermRef.
 			}
 		}.
 		
-		[action uiTextActionToolbar strings: "go"];
-		[@(height: "100% - " + toolbarCmHeight + "cm") uiShowVariable: currentSearchResultsRef]
+		[uiCustomTextActionToolbar:
+			[$buttonText; strings: "go"];
+			[$action; action];
+			[$inputReference; currentSearchTermRef]
+		];
+		[@belowToolbar uiShowVariable: currentSearchResultsRef]
 	}.
 }

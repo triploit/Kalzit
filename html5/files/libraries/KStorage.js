@@ -69,10 +69,26 @@ const KStorage = {};
         if(!token) return;
         
         try{
-            return JSON.parse(GLang.packageManager.loadUrl("/api/cookieJson", [
+            return JSON.parse(GLang.packageManager.loadUrl("/api/cookieJson/v2", [
                  ["kalzit-session", token]
             ]));
         }catch(e){}
+    }
+    
+    /**
+    This function manages automatic logouts, in case a session is invalid. Deletes all local user data
+    */
+    function dealWithInvalidSession() {
+        var session = native_loadString("calcitSession");
+        thiz.storageRemove("calcitSession");
+        
+        thiz.storageClear();
+        
+        //Warn the user, thenn trigger a page reload
+        setTimeout(function(){
+            GLang.eval("!showMessageAsync strings: $loginDetailsInvalid -> reload");
+            //No need to call the server-side logout API, as the current session is invalid anyway; just reload the page
+        }, 0);
     }
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
@@ -95,11 +111,21 @@ const KStorage = {};
     In case of the persistent local storage, everything is kept at first, but any key that was available on the server will be overwritten locally (with the server-side value)
     */
     function pullAllCookies(){
-        var response = serverCookies = getServerCookies();
-        serverCookies = serverCookies || {};
-        if(response){
-            for(var key in response){
-                var value = response[key];
+        var response = getServerCookies();
+        if (response == null) {
+            location.reload();
+        }
+        
+        //Check if we have a valid session (response.sessionValid)
+        if(! response.sessionValid) {
+            dealWithInvalidSession();
+            return;
+        } else {
+            serverCookies = response.keys || {};
+            console.log(serverCookies);
+            //Save all the keys to client-side storage
+            for(var key in serverCookies){
+                var value = serverCookies[key];
                 if("string" === typeof value) native_saveString(key, value);
             }
         }
@@ -120,7 +146,7 @@ const KStorage = {};
        pushCookies([name], undelete);
     }
     
-    var logoutTriggered = false;
+    //var logoutTriggered = false;
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
     /*
     Pushes multiple key-value-pairs (represented by their "key"-parts) to the server.
@@ -143,8 +169,7 @@ const KStorage = {};
         try{
             //Send JSON to special API
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/api/updateCookieJson/v2?push=" + encodeURIComponent(JSON.stringify(pushedObject)));
-            xhr.setRequestHeader("kalzit-session", native_loadString("calcitSession"));
+            xhr.open("GET", "/api/updateCookieJson/v4?session=" +  encodeURIComponent(native_loadString("calcitSession")) + "&time=" + encodeURIComponent(new Date().getTime() + "") + "&push=" + encodeURIComponent(JSON.stringify(pushedObject)));
             if (undelete) {
                 //Mark the cookie as "new / purposefully created"
                 xhr.setRequestHeader("kalzit-undelete", "true");
@@ -158,14 +183,8 @@ const KStorage = {};
                     
                     //Check if an automatic logout should happen
                     if(jsonResponse.logout) {
-                        var session = native_loadString("calcitSession");
-                        thiz.storageRemove("calcitSession");
-                        if(!logoutTriggered) {
-                            logoutTriggered = true;
-                            alert("Your login details appear to be invalid - to protect your account security, you have to log in again");
-                            thiz.storageClear();
-                        }
-                        KFetch.important("/api/logoutUser?session=" + session).then(ok => location.reload()).catch(error => location.reload());
+                        dealWithInvalidSession();
+                        return;
                     }
                     
                     var deleted = jsonResponse.deleted;
@@ -174,23 +193,17 @@ const KStorage = {};
                         thiz.storageRemove(deleted[i]);
                     }
                 } else {
-                    toPush.push(name);
+                    toPush.push(...nameList);
                 }
             };
             xhr.onerror = function () {
-                toPush.push(name);
+                toPush.push(...nameList);
             };
             xhr.send();   
         }catch(error){
             console.log(error);
-            //If anything goes wrong, attempt to push the cookies one by one
-            if (pushCount > 1){
-                for(var i = 0; i < nameList.length; i++){
-                    var name = nameList[i];
-                    if(deletedKeys.includes(name)) continue;
-                    pushCookie(name, undelete);
-                }
-            }
+            //If anything goes wrong, just re-add the name list to the toPush list - so we can try again later
+            toPush.push(...nameList);
         }
     }
     
@@ -212,12 +225,10 @@ const KStorage = {};
     */
     function pushAllCookies(){
         if(!native_loadString("calcitSession")) return;
-        var keyList = thiz.storageListKeys();
-        console.log("Trying to push these keys: " + JSON.stringify(keyList));
-        for(var i = 0; i < keyList.length; i++){
-            var key = keyList[i];
-            if(serverCookies[key] !== native_loadString(key)) pushCookie(key);
-        }
+        var allExistingKeys = thiz.storageListKeys();
+        var allNewKeys = allExistingKeys.filter(key => serverCookies[key] !== native_loadString(key));
+        console.log("Trying to push these keys: " + JSON.stringify(allNewKeys));
+        pushCookies(allNewKeys, true);
     }
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
@@ -228,8 +239,6 @@ const KStorage = {};
     function startCookieRefreshLoop(){
         //Push all new cookies frequently
         setInterval(pushNewCookies, 3 * 1000);
-        //Push all cookies shortly after they are accessed the first time
-        setTimeout(pushAllCookies, 15 * 1000);
     }
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
@@ -253,6 +262,9 @@ const KStorage = {};
     
     //TODO: Add the ability to use arrow functions ( arg => stuff() ) without breaking everything.
     thiz.storageSaveString = function(name, value) {
+        //First thing: check if the currently stored value is the same as the new one. If yes, do nothing.
+        if(native_loadString(name) === value) return;
+        
         native_saveString(name, value);
         if (deletedKeys.includes(name)) {
             //Un-delete the value, so it gets pushed
@@ -289,11 +301,8 @@ const KStorage = {};
         token = "" + token;
         var tokenAsNumber = parseFloat(token);
         if(tokenAsNumber !== tokenAsNumber || tokenAsNumber > 1 || tokenAsNumber < 0) {
-            alert("Your session seems invalid (" + token + "; " + tokenAsNumber + "). You are logged out now and some of your local data are deleted to try to make the app work again. Please try to  login again. If you see an error message which does not go away after reloading or if you see this message again, please ask for help.");
-            
-            //Reset all data
-            thiz.storageClear();
-            location.reload();
+            dealWithInvalidSession();
+            return;
         }else{
             console.log("Session seems valid");
         }
@@ -304,6 +313,7 @@ const KStorage = {};
     if (token){
         //Pulling needs to happen before starting the push services
         pullAllCookies();
+        pushAllCookies();
         startCookieRefreshLoop();
         
         //Attempt push before tab is closed (not certain)

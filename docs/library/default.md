@@ -1,7 +1,4 @@
 # default
-## argumentList
-_value
-_type
 ## comment
 
 A function that helps you define a default value, in case void (the empty list) is given.

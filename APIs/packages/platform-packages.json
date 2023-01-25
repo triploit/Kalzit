@@ -116,14 +116,6 @@
     }
     , {
         "provides": [
-          "simplify_bytes"
-        , "can_simplify_bytes"
-        , "force_simplify_bytes"
-      ]
-      , "scriptUrl": "simplifyBytes.txt"
-    }
-    , {
-        "provides": [
           "resolve_name"
       ]
       , "scriptUrl": "resolveName.txt"
@@ -261,8 +253,7 @@
     }
     , {
         "provides": [
-          "of"
-        , "prop_of"
+            "prop_of"
       ]
       , "scriptUrl": "of.txt"
     }
@@ -276,6 +267,8 @@
         "provides": [
           "curry"
         , "bind"
+        , "bind_first_argument"
+        , "bind_second_argument"
       ]
       , "scriptUrl": "curry.txt"
     }
@@ -295,18 +288,6 @@
           "url_title_async"
       ]
       , "scriptUrl": "urlTitle.txt"
-    }
-    , {
-        "provides": [
-          "unit_distance"
-        , "unit_volume"
-        , "unit_area"
-        , "unit_mass"
-        , "all_units"
-        , "find_base_unit"
-        , "find_unit_converter"
-      ]
-      , "scriptUrl": "units.txt"
     }
     , {
         "provides": [
@@ -342,17 +323,7 @@
     }
     , {
         "provides": [
-          "fade_in_animation"
-        , "fade_out_animation"
-        , "shadow_fade_in_animation"
-        , "shadow_fade_out_animation"
-      ]
-      , "scriptUrl": "fadeAnimation.txt"
-    }
-    , {
-        "provides": [
           "launch_app"
-        , "launch_app_code"
         , "launch_global_app"
         , "launch_app_name"
         , "relaunch_app"
@@ -391,12 +362,6 @@
           "push_if_empty"
       ]
       , "scriptUrl": "pushIfEmpty.txt"
-    }
-    , {
-        "provides": [
-          "prevent_app_use_without_login"
-      ]
-      , "scriptUrl": "preventAppUseWithoutLogin.txt"
     }
     , {
         "provides": [

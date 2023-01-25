@@ -1,1 +1,2 @@
 $youtubeVideoIdsByUrlAsync = ($callback ; $anyUrl ? Url) fun {{callback: removeDuplicates: second each "/watch\?v=([a-zA-Z0-9\-_]+)" allMatches x} loadGlobalAsync anyUrl}.
+$youtubeVideoIdsByUrlInBackgroundAsync = ($callback ; $anyUrl ? Url) fun {{callback: removeDuplicates: second each "/watch\?v=([a-zA-Z0-9\-_]+)" allMatches x} loadGlobalInBackgroundAsync anyUrl}.

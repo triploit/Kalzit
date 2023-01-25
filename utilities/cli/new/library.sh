@@ -15,6 +15,5 @@ else
 	
 	#Make API available globally
 	cd "$kalzitRootFolder"
-	echo $projectFolder > "./APIs/$appId.redirect"
-	./cli getRidOfRedirects
+	ln -s "$projectFolder" "./APIs/$appId"
 fi

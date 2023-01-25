@@ -1,0 +1,34 @@
+#{
+	A method that is similar to "showMessage", but instead of having a default "OK" button it allows you to add multiple buttons for custom actions.
+	The message to be shown is the "message" argument, the buttons are defined by the "additionalActions" parameter.
+	"additionalActions" is an array of pairs, each pair containing a button text (first item) and a button action (second item).
+	
+	If you leave "additionalActions" empty, please consider using "showMessage" instead.
+	
+	You can also specify a default action by annotating one text-action pair with @("defaultAction"; true).
+	That action will then trigger when the popup is dismissed without pressing a button.
+}
+$showMultiButtonMessage = !fun ($message; $additionalActions) {
+		$hide = !fun () {
+			uiHide: popup
+		}.
+
+		$popupContent = @(cssClass: "k-vertical_scroller") @(percentHeight 100) uiContainer:
+			[@centerText uiText: message];
+			[@center uiContainer:
+				!each additionalActions -> {
+					$action = second: x.
+					{
+						!action.
+						!hide.
+					} uiButton first: x
+				}
+			].
+
+		print: $popup = popupContent uiSmallPopup {
+			`If it exists, run a default action`
+			`Check the annotations of each action, and if one called ("defaultAction";true) is present, we have the desired value`
+			$defaultAction = !firstConditionMatch additionalActions -> {("defaultAction";true) listContains calcitAnnotations: x}.
+			do: second: defaultAction.
+		}.
+}

@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for array_joined_chunks
 	Returns all possible chunks of a given length that can be created from an array.
 	The values inside these chunks are in the same order as they are in the original array.
 	For example, the list (1;2;3;4) contains these "joined" chunks of size 2: [1;2];[2;3];[3;4]
@@ -15,7 +15,7 @@
 	Example with two chunks
 	3 arrayJoinedChunks (0;1;2;3).
 	`Result: [[0];[1];[2]]; [[1];[2];[3]]`
-}
+*/
 $arrayJoinedChunks=($size ? Int ; $_list ? (List:Any)) fun {
 	(size > length: _list) ifElse {
 		array: (0 range size - 1) at _list
@@ -24,25 +24,25 @@ $arrayJoinedChunks=($size ? Int ; $_list ? (List:Any)) fun {
 	}
 }.
 
-#{
+/* @kalzit.for mingle
 	Creates one list out of two (a and b).
 	The result is made up of other lists, each of which has two entries.
 	
 	Example:
 	(1;2;3) mingle (4;5;6).
 	`Result: [[1];[4]]; [[2];[5]]; [[3];[6]]`
-}
+*/
 $mingle=( $_a ? (List:Any) ; $_b ? (List:Any) ) fun {
 	{(x at _a);(x at _b)} each 0 range (max: (length: _a);(length: _b)) - 1
 }.
 
-#{
+/* @kalzit.for unmingle
 	The counterpart of the mingle function.
 	
 	Example:
 	unmingle: (1;2) mingle (3;4).
 	`Result: [[1];[2]]; [[3];[4]]`
-}
+*/
 $unmingle=($_mingled ? (List: 2 SizedList Any)) fun {
 	[first each _mingled];[second each _mingled]
 }

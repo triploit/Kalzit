@@ -1,6 +1,4 @@
 # file_name
-## argumentList
-path
 ## comment
 
 Returns the name of a given file, excluding the containing folder path.

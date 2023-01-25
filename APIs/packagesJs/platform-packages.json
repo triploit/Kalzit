@@ -3,7 +3,7 @@
 		"description":"Additional JS libraries that work with all language implementations"
 	},
 	"libraries":[
-		{"provides":["url_encode_parameter", "url_decode_parameter", "url_get_parameter", "url_get_host_name"],  "scriptUrl":"url.js"},
+		{"provides":["url_encode_parameter", "url_decode_parameter", "url_get_parameter", "url_get_host_name", "url_get_origin"],  "scriptUrl":"url.js"},
 		{"provides":["match", "all_matches", "str_replace_regex"],  "scriptUrl":"regex.js"},
 		{"provides":["random"],  "scriptUrl":"random.js"},
 		{"provides":["float", "int"],  "scriptUrl":"numericTypes.js"},

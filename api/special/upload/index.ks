@@ -1,9 +1,8 @@
 !if ("POST" eq $method propOf _request) {
 	asyncRef = true.
-
-	print: "Got a data upload request".
+	
 	$session = ($getHeader objFirstProperty _request): "kalzit-session".
-	$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
+	$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
 	
 	!if sessionExists {
 		`TODO: this relies on a specific file name format, which could change in the future`
@@ -20,22 +19,21 @@
 			fileCreateFolder: filesFolder.
 			
 			`Figure out where to store the file (which category)`
-			$mime =  print: runCommand: "file --mime-type -b " + print: _postedFileName.
-			$categoryFolder = filesFolder + "/categories/" + $category = mime switchFirst
+			$mime =  runCommand: "file --mime-type -b " + _postedFileName.
+			$category = mime switchFirst
 				[{"image/" strStartsWith x}; "images"];
 				[{"video/" strStartsWith x}; "videos"];
 				[{"audio/" strStartsWith x}; "audio"];
 				[true; "default"].
-			fileCreateFolder: categoryFolder.
-			fileDelete: categoryFolder + "/kmp.json".
-			fileDelete: filesFolder + "/" + category + "/kmp.json".
+			fileDelete: filesFolder + "/categories/" + category + "-kmp.json".
 			
 			`Make this file accessible under a specific name if wanted`
-			$accessName ? SafeFilePath = print: $accessName urlGetParameter $url propOf _request.
+			$accessName ? SafeFilePath = $accessName urlGetParameter $url propOf _request.
 			!ifNot (void eq accessName) {
 				`Create the access file`
 				$currentVersion = String: !getCurrentDate.
-				fileCreateFolder: print: $accessFile = filesFolder + "/main/" + accessName + "/" + currentVersion.
+				fileCreateFolder: $accessFile = filesFolder + "/main/" + accessName + "/" + currentVersion.
+				print: (!dateString) + "Upload destination is " + accessFile.
 				
 				(accessFile + "/../currentVersion.txt") fileWrite currentVersion.
 				
@@ -55,7 +53,7 @@
 				}.
 				
 				`Attempt a quick thumbnail creation`
-				runCommand: print: "ffmpeg -i '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw' -vf 'scale=300:-2' '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/thumbnail.png'".
+				runCommand: print: "ffmpeg -i '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw' -vf 'scale=300:-2' '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/thumbnail.jpg'".
 				
 				`Attempt a quick metadata listing`
 				(filesFolder + "/main/" + accessName + "/" + currentVersion + "/metadata.json") fileWrite runCommand: print: "ffprobe  -v quiet -print_format json -show_format '" + filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw'".
@@ -71,7 +69,7 @@
 					["keptArguments";
 						[["session"]]
 					];
-					!if (fileIsFile: filesFolder + "/main/" + accessName + "/" + currentVersion + "/thumbnail.png"){
+					!if (fileIsFile: filesFolder + "/main/" + accessName + "/" + currentVersion + "/thumbnail.jpg"){
 						["thumbnail";
 							[
 								["default";"/api/thumbnail?id=" + urlEncodeParameter: accessName]
@@ -82,30 +80,26 @@
 				
 				_request httpEndServingRaw strRaw: '{"success": 1, "endpoint": ' + (objToJson: "/api/uploaded?id=" + urlEncodeParameter: accessName) + '}'.
 				
+				`Add the correct category`
+				fileCreateFolder: filesFolder + "/main/" + accessName + "/" + currentVersion + "/categories".
+				!fileWrite "" -> filesFolder + "/main/" + accessName + "/" + currentVersion + "/categories/" + category.
+				
 				`Here we start the first asynchronous thing - everything above was synchronous`
-				!fileMdFiveHashAsync (filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw") -> {
-					$checksum = x.
-					
-					`Link the thing to the category folder (category determined above)`
-					runCommand: print: "ln -s '" + (fileRealpath: filesFolder + "/main/" + accessName + "/" + currentVersion) +  "' '" + categoryFolder + "/" + checksum + "'".
-					
-					`Once the hash work is done, start encrypting`
-					`TODO: Encrypt the /raw file and delete it`
-					`TODO: Check if the user token is actually in the key map - should be, but it is better to make sure`
-					$initVector = encryptFileGetInitVector:
-						["key"; ($getProperty propOf mdFivePasswordHashes): userToken];
-						["input"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw")];
-						["output"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/encrypted")];
-						["deleteInput"; true].
-					
-					`Save the init vector so we can find it later`
-					!fileWrite initVector -> (filesFolder + "/main/" + accessName + "/" + currentVersion + "/iv").
-				}.
+				`Encrypt the /raw file and delete it`
+				`TODO: Delete the /raw file safely, so nothing remains on disk`
+				`TODO: Check if the user token is actually in the key map - should be, but it is better to make sure`
+				$initVector = encryptFileGetInitVector:
+					["key"; ($getProperty propOf mdFivePasswordHashes): userToken];
+					["input"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw")];
+					["output"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/encrypted")];
+					["deleteInput"; true].
+				
+				`Save the init vector so we can find it later`
+				!fileWrite initVector -> (filesFolder + "/main/" + accessName + "/" + currentVersion + "/iv").
 				
 			}.
 		}.
 		
-		print: "We have a data upload request".
 		`Check if there is enough space - we need to convert the post size estimate to megabytes, hence the division`
 		`We also need roughly two times that space, because the file will be encrypted later`
 		!diskSpaceClean (2 * (do: $getPostDataByteSizeEstimate propOf _request) % 1000000) {

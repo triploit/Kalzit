@@ -20,17 +20,6 @@ if(require("os").userInfo().username === "root") {
 	console.warn("Stopping: You must not run a 'nodeApp' as root, that is dangerous")
 	return;
 }
-// //Also check if the file is executable
-// //Idea from https://stackoverflow.com/questions/16258578/how-do-i-check-if-a-file-is-executable-in-node-js
-// try{
-// 	fs.accessSync(app, fs.constants.X_OK);
-// 	//If the catch block below does not get activated, the specified app file is executable
-// }catch{
-// 	console.warn("");
-// 	console.warn("Stopping: A 'nodeApp' has to be executable.")
-// 	console.warn("Use 'chmod +x <appFilePath>' if you want to allow running it")
-// 	return;
-// }
 
 
 //With the security stuff done, we can initialize the Kalzit environment

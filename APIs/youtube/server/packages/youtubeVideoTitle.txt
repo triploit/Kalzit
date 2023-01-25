@@ -5,9 +5,9 @@ $youtubeVideoTitleAsync = ($then;$id) fun {
 	!else {
 		$result = $title propOf parseJson: loadGlobal: "https://www.youtube.com/oembed?format=json&url=" + urlEncodeParameter: "https://youtube.com/watch?v=" + id.
 		!if (not result eq "https://youtube.com/watch?v=" + id) {
+			fileCreateFolder: "./nogit/cache/yttitles/".
 			("./nogit/cache/yttitles/" + id + ".txt") fileWrite result.
 			then: result.
-		}.
-		print result.
+		}
 	}
 }.

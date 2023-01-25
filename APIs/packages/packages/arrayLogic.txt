@@ -1,14 +1,14 @@
-#{
+/* @kalzit.for sum
 	Calculates the sum of the values inside an array.
 	This works for arrays with string values as well - these are simply converted to numbers.
 	
 	Example with only numbers:
 	sum: 1,2;3;5,8.
 	`Result: 10`
-}
+*/
 $sum = ($_numbers ? (List:Float)) fun {+/_numbers}.
 
-#{
+/* @kalzit.for product
 	Multiplies the values inside an array.
 	This works for arrays with string values as well - these are simply converted to numbers.
 	
@@ -17,29 +17,29 @@ $sum = ($_numbers ? (List:Float)) fun {+/_numbers}.
 	`Result: 6`
 	
 	Be careful with arrays that contain the number 0 or string "0" - this will make sure that the result is 0 as well.
-}
+*/
 $product = ($_numbers ? (List:Float)) fun {*/_numbers}.
 
-#{
+/* @kalzit.for min
 	Finds the smallest value from a list of numbers.
 	
 	Example:
 	min: 1;2;3.
 	`Result: 1`
-}
+*/
 $min = ($_numbers ? (List:Float)) fun {&/_numbers}.
 
-#{
+/* @kalzit.for max
 	Finds the biggest value from a list of numbers.
 	
 	Example:
 	max: 1;2;3.
 	`Result: 3`
-}
+*/
 $max = ($_numbers ? (List:Float)) fun {|/_numbers}.
 
-#{
-	Basically the same as the "range" function.
+/* @kalzit.for to
+	Basically the same as the "range" function, but it automatically converts its parameters to integers.
 	Creates an array of all integers between one number and another.
 	
 	Example:
@@ -49,17 +49,27 @@ $max = ($_numbers ? (List:Float)) fun {|/_numbers}.
 	Example:
 	7 to 5.
 	`Result: 7;6;5`
-}
+*/
 $to = ($a ? Int ; $b ? Int) fun {a range b}.
+
+/* @kalzit.for all
+A variant of `each` that works with modifiable lists.
+The first parameter is an action that is repeated for each element in the (modifiable or normal) list.
+
+Example:
+```
+print all 0 to 10. `Prints the numbers from 0 to 10`
+```
+*/
 $all = ($action ; $_things ? ModifiableList) fun {action each getArray: _things}.
 
-#{
+/* @kalzit.for random_item
 	Picks a random item from a list that has at least one entry.
 	
 	Example:
 	randomItem: 3;7;"Test".
 	`Result: Could be either 3, 7, or "Test"`
-}
+*/
 $randomItem = ($_list ? (List:Any)) fun {
 	$index = Int: (do:random) * length: _list.
 	index at _list

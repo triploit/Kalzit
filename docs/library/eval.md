@@ -1,6 +1,4 @@
 # eval
-## argumentList
-code
 ## comment
 
 Evaluates a piece of code in an isolated function environment.

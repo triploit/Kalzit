@@ -1,0 +1,9 @@
+!folderContentAsync "./nogit/users/data/v3" -> $user fun {
+	!folderContentDeepAsync user + "/files/v2/main" -> $file fun {
+		print: "Checking file " + file.
+		!if ((fileIsFile: file) & "thumbnail.png" eq fileName: file) {
+			print: "Converting " + file + " to JPG".
+			runCommandFromArray: "ffmpeg";"-i";file;((fileParent: file) + "/thumbnail.jpg").
+		}
+	}
+}

@@ -1,0 +1,1 @@
+./cli https certificate "$(hostname)"

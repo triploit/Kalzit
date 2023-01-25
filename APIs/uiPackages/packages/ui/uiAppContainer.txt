@@ -1,3 +1,0 @@
-$uiAppContainerBackgroundColor = ($_color ? ColorString) fun {
-	uiNativeAppContainerBackgroundColor: _color
-}

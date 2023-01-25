@@ -4,12 +4,12 @@
 		"platforms":["nodejs"]
 	},
 	"libraries":[
-		{"provides":["http_server", "https_server"],  "scriptUrl":"httpServer.js"},
+		{"provides":["http_server", "https_server", "custom_https_server"],  "scriptUrl":"httpServer.js"},
 		{"provides":["http_write_global_file", "http_write_static_file"],  "scriptUrl":"httpServer/httpWriteGlobalFile.txt"},
 		{"provides":["http_end_serving_bytes"],  "scriptUrl":"httpServer/httpEndServingBytes.txt"},
 		{"provides":["http_end_serving_raw"],  "scriptUrl":"httpServer/httpEndServingRaw.txt"},
 		{"provides":["load_global_async", "load_global", "load_global_with_status", "load_global_raw"],  "scriptUrl":"load.js"},
-		{"provides":["file_content", "file_content_bytes", "file_content_raw", "file_content_async", "folder_content", "folder_content_async", "file_exists", "file_is_folder", "file_is_file", "file_write", "file_create_folder", "file_delete", "file_delete_folder", "file_rename_file", "file_realpath", "file_is_file_not_link", "file_is_folder_not_link"],  "scriptUrl":"filesystem.js"},
+		{"provides":["file_content", "file_content_bytes", "file_content_raw", "file_content_async", "folder_content", "folder_content_async", "file_exists", "file_is_folder", "file_is_file", "file_write", "file_create_folder", "file_delete", "file_delete_folder", "file_rename_file", "file_realpath", "file_is_file_not_link", "file_is_folder_not_link", "file_is_link"],  "scriptUrl":"filesystem.js"},
 		{"provides":["str_raw"],  "scriptUrl":"strRaw.js"},
 		{"provides":["repeat_async", "repeat"],  "scriptUrl":"repeat.js"},
 		{"provides":["run_command", "run_command_from_array", "run_command_async", "run_command_raw", "run_command_async_raw"],  "scriptUrl":"runCommand.js"},

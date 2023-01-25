@@ -58,6 +58,21 @@ this.onGlobalPointerUp = function(listener, object){
 			]);
 		}
 	});
+	
+	//To make really sure, check that the button is still down any time the mouse re-enters the window
+	document.body.addEventListener("mouseenter", function(e){
+		//Check if e.buttons exists - if not, use e.which
+		var pressedButtons = e.buttons !== undefined ? e.buttons : e.which;
+		
+		//We care if the last bit of "pressedButtons" is one - means that the main button is down
+		//If it is NOT one - the button is not pressed anymore - register the "pointer up" event
+		if((pressedButtons & 1) !== 1) {
+			GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [
+				{value:e.pageX}, {value:e.pageY}
+			]);
+		}
+	});
+	
 }
 
 this.flagOnPointerMove = function(listener, object){

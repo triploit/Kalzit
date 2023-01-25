@@ -1,12 +1,3 @@
-$cssColorCombo =
-	[[$lightAccentColor] ; ["var(--kv-light_accent_color)"]];
-	[[$twilightAccentColor] ; ["var(--kv-twilight_accent_color)"]];
-	[[$darkerTwilightAccentColor] ; ["var(--kv-darker_twilight_accent_color)"]];
-	[[$lighterTwilightAccentColor] ; ["var(--kv-lighter_twilight_accent_color)"]];
-	[[$whiteAccentColor] ; ["var(--kv-white_accent_color)"]];
-	[[$darkAccentColor] ; ["var(--kv-dark_accent_color)"]];
-	[[$blackAccentColor] ; ["var(--kv-black_accent_color)"]].
-	
 $colorCombinationTheme = {
 	setCssColorCombination: x.
 }..

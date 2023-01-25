@@ -1,0 +1,8 @@
+./platform-packages.json
+./index.html
+./home.k
+./home.json
+./checksum.shasum
+./config/standardApps.json
+./config/excluded-libraries.json
+./_min.js

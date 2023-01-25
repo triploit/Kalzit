@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries to copy things"
+	},
+	"libraries":[
+		{"provides":["show_copy_message"],  "scriptUrl":"showCopyMessage.txt"},
+		{"provides":["copy_text"],  "scriptUrl":"copyText.js"}
+	]
+}

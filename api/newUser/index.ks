@@ -1,5 +1,5 @@
 $structureVersion = "v3".
-$dataFolder = "./nogit/users/data/" + structureVersion + "/".
+$dataFolder = serverUsersFolder + "/data/" + structureVersion + "/".
 
 $ensureUniqueGuid = !fun () {
 	$try = do:generateGuid.
@@ -15,11 +15,11 @@ $userPassword = ($getHeader objFirstProperty _request): "kalzit-user-password".
 ((void eq userName) | (void eq userPassword)) ifElse {
 	resultRef = "1" + strNewline + "The headers 'kalzit-user-name' and 'kalzit-user-password' need to be set.".
 };{
-	(fileExists: "./nogit/users/plain/" + structureVersion + "/" + urlEncodeParameter: userName) ifElse {
+	(fileExists: serverUsersFolder + "/plain/" + structureVersion + "/" + urlEncodeParameter: userName) ifElse {
 		resultRef = "2" + strNewline + "A user with the given name exists already."
 	};{
-		fileCreateFolder: "./nogit/users/plain/" + structureVersion.
-		("./nogit/users/plain/" + structureVersion + "/" + urlEncodeParameter: userName) fileWrite ($guid = (do:ensureUniqueGuid)).
+		fileCreateFolder: serverUsersFolder + "/plain/" + structureVersion.
+		(serverUsersFolder + "/plain/" + structureVersion + "/" + urlEncodeParameter: userName) fileWrite ($guid = (do:ensureUniqueGuid)).
 		fileCreateFolder: dataFolder.
 		fileCreateFolder: dataFolder + guid.
 		fileCreateFolder: dataFolder + guid + "/keys".

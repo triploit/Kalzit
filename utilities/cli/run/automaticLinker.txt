@@ -42,4 +42,10 @@ $linkLibrary = !fun ($libraryFolder ; $libraryId) {
 				}
 			}
 		}.
+		!else {
+			`This exists to support the new project structure with a hidden .doNotTouch folder`
+			!if (fileIsFile: file + "/.doNotTouch/appId.txt") {
+				!linkApp file strFirstLine: fileContent: file + "/.doNotTouch/appId.txt"
+			}	
+		}.
 }) folderContentDeepAsyncNotLinkOrHidden appParameter: "folder".

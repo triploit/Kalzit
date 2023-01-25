@@ -13,9 +13,9 @@ $FilePath = String.
 	Rather, it just detects cases that might be unsafe.
 }
 $SafeFilePath = !fun ($path ? FilePath) {
-	`Check if the path contains a double dot (../) - if yes, it is considered unsafe`
-	!ifElse ("../" strContains path) {
-		void `Considered unsafe`	
+	`Check if the path contains a double dot (../ or ends with ..) - if yes, it is considered unsafe`
+	!ifElse (("../" strContains path) | ("/.." strEndsWith path) | (".." eq path)) {
+		void `Considered unsafe`
 	};{
 		path `Considered safe`	
 	}

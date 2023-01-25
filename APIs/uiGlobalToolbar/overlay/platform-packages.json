@@ -1,0 +1,10 @@
+{
+	"info":{
+		"description":"Libraries containing the actual global toolbar UI elements (overlays; this is what is in front of the content)",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		{"provides": ["ui_desktop_toolbar_overlay"], "scriptUrl": "uiDesktopToolbarOverlay.txt"},
+		{"provides": ["ui_mobile_toolbar_overlay"], "scriptUrl": "uiMobileToolbarOverlay.txt"}
+	]
+}

@@ -5,6 +5,7 @@
 	* `$storageName` (optional) - contains a storage handle (string) where the currently active view should be stored, so it can be restored when relaunching the app.
 	* `$viewDefinitions` - an array (or modifiable list) of name-function-pairs. The name is what will be displayed in the view picker, the function is what will produce the view once it is picked. The return value of these functions will be shown on the screen.
 	* `$changeViewTitle` (optional) - a title (string) which shows up when the user is on mobile, in the main menu. When clicked on, the view options are shown.
+	* `$transition` (optional) - a function that gets the main view (first parameter) and a callback (second parameter). When called, the function animates the view content. The callback has to be used for "onSwitch".
 	
 	You need to provide either the `viewDefinitions` field or these other two; that is exclusive:
 	* `$viewTitles` - an array (or modifiable list) of only the view titles.
@@ -25,6 +26,7 @@ $viewBasedAppManager = !fun ($config) {
 	$storageName ? (default: "kalzit." + appId + ".selectedView") = $storageName propOf config.
 	$viewTitles ? ModifiableList = $viewTitles propOf config.
 	$viewGenerators ? ModifiableList = $viewGenerators propOf config.
+	$transition ? (default: !fun ($mainView; $onSwitch) {do: onSwitch}) = $transition propOf config.
 	
 	$viewDefinitions = $viewDefinitions propOf config.
 	$fillOthersBasedOnViewDefinitions = !fun () {
@@ -70,12 +72,21 @@ $viewBasedAppManager = !fun ($config) {
 	`The selected view will be put in here`
 	$currentView = getViewFromIndex: currentViewIndex.
 	$currentViewRef = reference: $currentView.
+	$mainView = uiShowVariable: currentViewRef.
 	
 	`If the selected view index changes, update the current view`
 	!listenVariable currentViewIndexRef {
-		currentViewRef = getViewFromIndex: x.
-		!scrollToTop.
-		storageName storageSaveString String: x.
+		$index = x.
+		
+		`Prepare the new view as soon as we know we need it - makes the load time seem shorter`
+		$newView = getViewFromIndex: index.
+		
+		`Begin the animated transition`
+		mainView transition {
+			currentViewRef = newView.
+			!scrollToTop.
+			storageName storageSaveString String: index.
+		}
 	}.
 	
 	
@@ -89,5 +100,5 @@ $viewBasedAppManager = !fun ($config) {
 	[$updateViewManually; () fun {currentViewRef = getViewFromIndex: currentViewIndex}];
 	[$currentViewIndexRef; currentViewIndexRef];
 	[$getCurrentView; () fun {currentView}];
-	[$mainView; uiShowVariable: currentViewRef]
+	[$mainView; mainView]
 }.

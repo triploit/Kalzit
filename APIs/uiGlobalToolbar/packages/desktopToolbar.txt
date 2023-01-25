@@ -1,0 +1,49 @@
+/* @kalzit.for registered_desktop_tools
+	A modifiable list that contains all the tools that are supposed to be added to a desktop toolbar.
+	Such a bar can be generated using "uiGlobalToolbar", or "generateDesktopToolbar" if you want to be more specific.
+	
+	A tool should not (!) be added by directly modifying this list. Instead, please use "registerDesktopTool" for that.
+	In the documentation for that function, you can also see how a desktop tool is built.
+*/
+$registeredDesktopTools ? ModifiableList = ().
+
+/* @kalzit.for register_desktop_tool
+	This function is used to register a tool that will later be added to a desktop toolbar.
+	A tool is basically just a function that returns a UI element. This element is added to the toolbar.
+	
+	It is not guaranteed when exactly the toolFactory function is called.
+	It might be before the toolbar is set up, during the setup process, or even after it is already visible.
+	
+	A tool implementation might look like this:
+		registerDesktopTool: {@left {} uiButton "Button"}.
+	
+	To get all registered desktop tools, use "registeredDesktopTools".
+	To get a toolbar overlay only for the desktop, use "generateDesktopOverlay".
+	To get a toolbar for both mobile and desktop, where the desktop one uses the registered tools, use "uiGlobalToolbar".
+*/
+$registerDesktopTool = ($toolFactory) fun {
+	($push propOf registeredDesktopTools): toolFactory.
+}.
+
+/* @kalzit.for desktop_tool
+	Type function for desktop tools - can convert a function or a "desktop + mobile" tool (like a `buttonTool`) to something appropriate for desktop toolbars.
+*/
+$DesktopTool = !fun ($objectOrFunction) {
+	`We could have an object with a $desktop property here, or we could have a function / UI element`
+	(default: objectOrFunction): $desktop propOf objectOrFunction
+}.
+
+/* @kalzit.for generate_desktop_toolbar_overlay
+	Generates a toolbar overlay with a standardized layout for the desktop.
+	This bar is only visible when the app window is wide enough for desktop controls, otherwise it is hidden.
+	
+	This toolbar is empty by default, except for two buttons on the right ("user" and "apps").
+	To add custom tools for an app, use "registerDesktopTool".
+	For more information about adding desktop tools, see the documentation of "registerDesktopTool".
+	
+	Please note that if you are making an app for mobile and desktop, you sould use "uiGlobalToolbar" instead of this function.
+	It takes care of adding all necessary UI elements to make the toolbar look nice.
+*/
+$generateDesktopToolbarOverlay = () fun {
+	uiDesktopToolbarOverlay: registeredDesktopTools
+}.

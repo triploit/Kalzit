@@ -9,15 +9,16 @@ $relativeScriptPaths = coreLanguageFile ; `joined list` ;/
 	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/platformScripts.txt").
 
 $generateScript = $path fun {
-	runCommand "terser " + rootFolder + path
+	runCommand "./cli command terser " + path
 }.
 
 $topScript = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
 !if (forSkeleton) {
-	(rootFolder + "/generated/scriptTagListingTempFile.js") fileWrite topScript.
-	print: "<script>" + (generateScript: "/generated/scriptTagListingTempFile.js") + "</script>$scriptTags$"
+	fileCreateFolder: (!getUnixUserFolder) + "/.kalzit/generated".
+	((!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") fileWrite topScript.
+	print: "<script>" + (generateScript: (!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") + "</script>$scriptTags$"
 }. !else {
 	$bottomScript = ';GLang.packageManager.installJs(function(){' + (fileContent: rootFolder + "/" + libraryFile) + '});'.
-	(rootFolder + "/generated/scriptTagListingTempFile.js") fileWrite topScript + bottomScript.
-	print: "<script>" + (generateScript: "/generated/scriptTagListingTempFile.js") + "</script>"
+	((!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") fileWrite topScript + bottomScript.
+	print: "<script>" + (generateScript: (!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") + "</script>"
 }

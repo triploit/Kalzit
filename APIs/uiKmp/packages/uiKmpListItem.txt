@@ -1,39 +1,133 @@
-#{
+/* @kalzit.for ui_kmp_list_item
+	Produces a uiListItem that displays a KMP object (that is a single item, not a collection) with an icon and a title text.
+
 	* `file` is a KMP object (already parsed, not in JSON format)
 	* `config` is a configuration object
 	
 	Fields of `config`:
-	* `forcedThumbnail` (optional): defines a fixed thumbnail displayed by this list entry
-	* `defaultThumbnail` (optional): defines a default icon which will be used if no fixed icon is specified by the configuration or the KMP object,
+	* `forcedThumbnail` (optional): defines a fixed thumbnail displayed by this list entry (given it is not overridden by "thumbnailGenerator")
+	* `defaultThumbnail` (optional): defines a default icon which will be used if no fixed icon is specified by the configuration or the KMP object (given it is not overridden by "thumbnailGenerator")
+	* `index` (optional): the index of this list item. Can be passed as a parameter to certain callbacks.
+	* `thumbnailGenerator` (optional): returns a thumbnail for a given KMP object. This is called at least once when the initial thumbnail is created, and then every time "onTap" is triggered. The thumbnail generator overrides `forcedThumbnail` and `defaultThumbnail` when it returns a non-void result.
+	* `thumbnailRef` (optional): a reference value where the current thumbnail URL is stored. The reference can then be modified to change the thumbnail.
+	* `thumbnailStyle` (optional): a function which gets the thumbnail view and applies a custom style to it. This can be used to add rounded corners, a background, etc.
+	* `titleStyle` (optional): a function which gets the title view and applies a custom style to it.
 	* `onTap` (optional): defines an action which will be triggered if the user taps on this list item. Gets the KMP object (`file`) as its parameter.
 	* `titleGenerator` (optional): defines how to get a title from a KMP object. Function which gets the KMP object as its parameter. Default returns the standard KMP title.
-	* `additionalActions` (optional): a list of pairs, where each pair contains a string (first item) and a function (second item). These pairs are used to construct an action picker ("three dot button"), where the string specifies the title of each action and the function specifies the action itself. When an action is selected by the user, the appropriate function is called with the KMP object of the medium the action is applied to (what "onTap" would get when the medium is selected)
-}
+	* `previewGenerator` (optional): function that returns a view which shows a preview of a given KMP object (first parameter) - usually that view displays a title text (second parameter is an appropriate title, as a string). The title should be the same thing that is returned by `titleGenerator`, if that is specified.
+	* `includeSession` (optional): specifies if the current session should be passed to the URL as a parameter when loading a custom thumbnail. Default is true.
+	* `iconHeight` (optional): specifies the height of the displayed icon in pixels. Default is 60. This also influences the height of the entire list item.
+	* `iconWidth` (optional): specifies the width of the displayed icon in pixels. Default is 60.
+	* One of the following options in case you want additional actions. The options are exclusive:
+		* `additionalActions` (optional): a list of pairs, or a function returning that list, where each pair contains a string (first item) and a function (second item). These pairs are used to construct an action picker ("three dot button"), where the string specifies the title of each action and the function specifies the action itself. When an action is selected by the user, the appropriate function is called with the KMP object of the medium the action is applied to (what "onTap" would get when the medium is selected). If `additionalActions` itself is a function, it will get the same parameters specified by the `uiAdditionalActionsButton` API for its `actions` parameter (first parameter is the same as `file`, second parameter is a function used to refresh the menu).
+		* `additionalViewFactory` (optional): a view which can be displayed where the title usually is shown. Can be accessed via a three-dot button.
+		* `additionalActionsButton` (optional): a view, or a function returning that view, which is displayed in the same spot where the additional actions button (three-dot button) usually is. This can be used for a fully custom implementation of the control to the right of a list item. If `additionalActionsButton` is a function, it is called with `file` as its first parameter, and the index of the list item as the second.
+*/
 $uiKmpListItem = !fun ($file ; $config) {
-	$thumbnail = !ifElse (void eq $forcedThumbnail propOf config) {
-		`Figure out the thumbnail URL to use`
-		$defaultIcon = (default: "/apps/files/unknown.png"): $defaultThumbnail propOf config.
-		
-		`Return`
-		(default: defaultIcon): ($default propOf $thumbnail propOf file) + "&session=" + (storageLoadString: "calcitSession").
-	};{
-		`We have a fixed thumbnail URL`
-		$forcedThumbnail propOf config
+	$includeSessionInThumbnailUrl ? (default: true) = $includeSession propOf config.
+	$thumbnailStyle ? (default: () fun {}) = $thumbnailStyle propOf config.
+	$titleStyle ? (default: () fun {}) = $titleStyle propOf config.
+	
+	$defaultThumbnailGenerator = !fun () {
+		!ifElse (void eq $forcedThumbnail propOf config) {
+			`Figure out the thumbnail URL to use`
+			$defaultIcon = (default: "/apps/files/unknown.png"): $defaultThumbnail propOf config.
+			
+			`Return`
+			(default: defaultIcon): ($default propOf $thumbnail propOf file) + !ifElse (includeSessionInThumbnailUrl) {"&session=" + (storageLoadString: "calcitSession")};{""}.
+		};{
+			`We have a fixed thumbnail URL`
+			$forcedThumbnail propOf config
+		}
 	}.
+	$actualThumbnailGenerator = !fun ($medium) {
+		$result = ($thumbnailGenerator propOf config): medium.
+		!ifElse (void eq result) {
+			`If the result is empty, fall back to the default thumbnail generator`
+			defaultThumbnailGenerator: result
+		};{
+			result
+		}
+	}.
+	
+	$lastNonVoidThumbnailUrl = void. $lastNonVoidThumbnailUrlRef = reference: $lastNonVoidThumbnailUrl.
+	$thumbnailUrlRef = !ifElse (not: void eq $thumbnailRef propOf config) {
+		`We have an external reference for the thumbnail URL`
+		$thumbnailRef propOf config
+	};{
+		`Make an internal reference`
+		$thumbnailUrl = void.
+		reference: $thumbnailUrl.
+	}.
+	
+	`Listen to reference changes - when a change happens, update the thumbnail`
+	!listenVariable thumbnailUrlRef $thumbnailUrl fun {
+		!ifElse (thumbnailUrl eq void) {
+			`Empty URL - apply the usual thumbnail generator`
+			updateThumbnail: file.
+		};{
+			`Change the thumbnail to match the new URL`
+			!ifNot (lastNonVoidThumbnailUrl eq thumbnailUrl) {
+				lastNonVoidThumbnailUrlRef = thumbnailUrl.
+				thumbnailRef = @thumbnailStyle @(percentHeight 100) @(percentWidth 100) @fit uiShowImageUrl: thumbnailUrl.
+			}
+		}
+	}.
+	
+	$thumbnail = void. $thumbnailRef = reference: $thumbnail.
+	
+	$updateThumbnail = !fun ($medium) {
+		$newThumbnailUrl = actualThumbnailGenerator: medium.
+		!ifNot (lastNonVoidThumbnailUrl eq newThumbnailUrl) {
+			thumbnailUrlRef = newThumbnailUrl.
+		}
+	}.
+	!updateThumbnail file.
 	
 	$titleGenerator ? (default: {$title propOf x}) = $titleGenerator propOf config.
 	
-	@(pxHeight 60)
+	$iconHeight ? (default: 60) = $iconHeight propOf config.
+	$iconWidth ? (default: 60) = $iconWidth propOf config.
+	
+	$previewGenerator = !ifElse (not: void eq $previewGenerator propOf config) {
+		`We have a preview generator function, so we can use that`
+		$previewGenerator propOf config
+	};{
+		`We have no custom preview generator - this here is the default implementation`
+		!fun ($kmpObject ; $title) {
+			`Return` @ellipsis @verticalCenter uiText: title
+		}
+	}.
+	
+	@(pxHeight iconHeight)
 	@relative
 	$preview = uiContainer:
-			(@fit (60;60) uiShowScaledImageUrl thumbnail);
+			(@(pxWidth iconWidth) @(pxHeight iconHeight) uiShowVariable: thumbnailRef);
 			(uiHorizontalPxSpace: 20);
-			@(width: "100% - 100px") @(pxHeight 50) @ellipsis @verticalCenter uiText: titleGenerator: file.
+			@titleStyle @(width: "100% - " + (iconWidth + 40) + "px") @(pxHeight 50) file previewGenerator titleGenerator: file.
 		
 	`Return`
 	uiListItem:
 		["mainView"; preview];
-		["onTap"; $onTap propOf config];
-		["additionalActionsButton"; [@relative @verticalCenter file uiAdditionalActionsButton $additionalActions propOf config]];
+		["index"; [$index propOf config]];
+		["onTap"; $medium fun {
+			`We have to do the tap action, and then we have to update the thumbnail`
+			($onTap propOf config): medium.
+			updateThumbnail: medium
+		}];
+		["additionalActionsButton"; [
+			!ifElse (not: void eq $additionalActionsButton propOf config) {
+				($value ; $index) fun {
+					@relative @verticalCenter value ($additionalActionsButton propOf config) index
+				}
+			};{
+				@relative @verticalCenter file uiAdditionalActionsButton ($additionalActions propOf config)
+			}
+		]];
+		(!ifNot (void eq $additionalViewFactory propOf config) {
+			["additionalViewFactory"; [{
+				@(pxHeight iconHeight) do: $additionalViewFactory propOf config
+			}]]
+		});
 		["value"; [file]]
 }.

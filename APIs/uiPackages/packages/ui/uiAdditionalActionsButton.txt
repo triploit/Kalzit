@@ -1,14 +1,27 @@
-#{
+/* @kalzit.for ui_additional_actions_button
 	An easier to use version of `uiActionPickerWithIcon` that deals with a specific value.
 	* `object` is the value which every action gets as its parameter.
-	* `additionalActions` is a list of pairs, where each pair contains a string (first item) and a function (second item). These pairs are used to construct an action picker ("three dot button"), where the string specifies the title of each action and the function specifies the action itself. When an action is selected by the user, the appropriate function is called with the `object`
-}
-$uiAdditionalActionsButton = !fun ($object ; $additionalActions) {
-	$actionMenu = !ifNot (void eq additionalActions) {
-		`Additional actions are specified - make an action menu`
-		{
-			$action = second: (Int: x) at additionalActions.
-			action: object.
-		} uiActionPickerWithIcon first each additionalActions
+	* `actions` is a list of pairs, or a function generating these pairs, where each pair contains a string (first item) and a function (second item). These pairs are used to construct an action picker ("three dot button"), where the string specifies the title of each action and the function specifies the action itself. When an action is selected by the user, the appropriate function is called with the `object`. If `actions` itself is a function, it will be called with the value of `object` as its first parameter, and a function that refreshes the menu as its second parameter. Whenever that update function is called, `actions` is called again.
+*/
+$uiAdditionalActionsButton = !fun ($object ; $actions) {
+	`This returns a three-dot button with a fixed set of items`
+	$generateMenu = !fun ($additionalActions) {
+		 !ifNot (void eq additionalActions) {
+			`Additional actions are specified - make an action menu`
+			{
+				$action = second: (Int: x) at additionalActions.
+				action: object.
+			} uiActionPickerWithIcon first each additionalActions
+		}.	
 	}.
+	
+	$result = void.
+	$resultRef = reference: $result.
+	
+	$update = !fun () {
+		resultRef = generateMenu: !actions object update
+	}.
+	
+	!update.
+	@dynamicWidth uiShowVariable: resultRef.
 }

@@ -1,0 +1,11 @@
+* {
+	--kv-background_color: black;
+}
+
+body {
+	background-color: black;
+}
+
+.k-popup_background {
+	background-color: black;
+}

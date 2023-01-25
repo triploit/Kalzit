@@ -1,8 +1,6 @@
-print: "Performing a user logout".
-
 $session = $session urlGetParameter $url propOf _request.
-print: session.
-$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
+print: (!dateString) + "Loggint out " + session.
+$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
 
 !if sessionExists {
 	$userSessionFolder = userFolder + "/sessions".

@@ -1,5 +1,16 @@
-$uiTextActionToolbar = !fun ($action ; $buttonText ? String) {
-	$newAdditionRef = reference: $newAddition.
+# {
+	A toolbar with a text input field in it, as well as a button to do something with the text.
+	This is used with search popus, for example.
+	
+	`config` is an object with the following fields:
+	* `inputReference` (optional) - a reference that specifies what to put in the text field. Changes every time the user types something.
+	* `buttonText` - this will be shown on the button.
+	* `action` (optional but typically required) - this function will be called when the user initiates a search. Its first parameter is the search term.
+}
+$uiCustomTextActionToolbar = !fun ($config) {
+	$inputReference = (default: reference: $newAddition): $inputReference propOf config.
+	$buttonText = $buttonText propOf config.
+	$action = $action propOf config.
 
 	uiToolbarWithCloseButton: @($toolbarContent fun {
 			!ifElse isIosApp {
@@ -11,8 +22,18 @@ $uiTextActionToolbar = !fun ($action ; $buttonText ? String) {
 			}
 		}) @verticalCenter uiContainer:
 			(uiHorizontalPxSpace: 7);
-			(@(cssClass: "width-tet-textfield") @(onEnter: () fun {action: newAddition}) newAdditionRef uiTextfieldVariableOnchange "");
+			(@(cssClass: "width-tet-textfield") @(onEnter: () fun {action: resolveReference: inputReference}) inputReference uiTextfieldVariableOnchange "");
 			(uiHorizontalPxSpace: 7);
-			(@(cssClass: "width-tet-button") {action: newAddition} uiButton buttonText);
+			(@(cssClass: "width-tet-button") {action: resolveReference: inputReference} uiButton buttonText);
 			(uiHorizontalPxSpace: 7)
+}.
+
+#{
+	A toolbar with a text input field in it, as well as a button to do something with the text.
+	This is used with search popus, for example.
+}
+$uiTextActionToolbar = !fun ($action ; $buttonText ? String) {
+	uiCustomTextActionToolbar:
+		[$buttonText; buttonText];
+		[$action; [action]].
 }.

@@ -1,0 +1,21 @@
+$multipleAsync = !fun ($withAllResults ; $thingsToDoAsynchronously) {
+	$resultList ? ModifiableList = ().
+	
+	$withSingleResult = ($result) fun {
+		($push propOf resultList): [result].
+		!if ((length: thingsToDoAsynchronously) eq length: getArray: resultList) {
+			`We have results for everything!`
+			withAllResults: getArray: resultList
+		}
+	}.
+	
+	!loopEach thingsToDoAsynchronously -> {
+		x: withSingleResult
+	}
+}.
+
+$bindAsyncFunctionToEach = !fun ($functionToBeBound ; $valuesToBindTo) {
+	!each valuesToBindTo -> {
+		functionToBeBound bindSecondArgument x
+	}
+}.

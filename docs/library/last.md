@@ -1,5 +1,4 @@
 # last
-## argumentList
-_x
 ## comment
-Gives the last element of an array
+
+Gives the last element of an array.

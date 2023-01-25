@@ -1,7 +1,4 @@
 # duck_search_urls_async
-## argumentList
-callback
-term
 ## comment
 
 Performs an asynchronous DuckDuckGo search and returns the first few URL results.

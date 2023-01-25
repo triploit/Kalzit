@@ -1,6 +1,4 @@
 # color_string
-## argumentList
-_color
 ## comment
 
 Type function for string representations of colors.

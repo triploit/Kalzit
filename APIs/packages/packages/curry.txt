@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for curry
 	Turns a two-argument function into a one-argument one.
 	No argument is specified to do this.
 	
@@ -8,10 +8,10 @@
 		$greeterFunction = curry: ($greeting ; $name) fun {greeting + " " + name}.
 		$sayHello = greeterFunction: "Hello".
 		sayHello: "everyone". `Result: "Hello everyone"`
-}
+*/
 $curry = ($f) fun {($_a) fun { ($_b) fun {_a f _b} }}.
 
-#{
+/* @kalzit.for bind_first_argument
 	Turns a two-argument function into a one-argument one.
 	This is done by specifying the first argument.
 	
@@ -21,5 +21,13 @@ $curry = ($f) fun {($_a) fun { ($_b) fun {_a f _b} }}.
 		
 		`Code which produces the same result:`
 		2 * 5.
+*/
+$bindFirstArgument = $bind = ($f ; $_arg) fun {(curry: f): _arg}.
+
+/* @kalzit.for bind_second_argument
+	Turns a two-argument function into a one-argument one.
+	This is done by specifying the second argument (_arg).
+*/
+$bindSecondArgument = ($f ; $_arg) fun {
+	($a) fun {a f _arg}
 }
-$bind = ($f ; $_arg) fun {(curry: f): _arg}.

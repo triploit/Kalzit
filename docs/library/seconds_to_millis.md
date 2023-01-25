@@ -1,6 +1,4 @@
 # seconds_to_millis
-## argumentList
-_b
 ## comment
 
 Converts seconds to milliseconds.

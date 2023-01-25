@@ -22,6 +22,7 @@ $uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
 	($_media fun {
 		$titleView = uiContainer:
 			[@(percentWidth 30) uiShowImageUrl: (default: defaultThumbnail): kmpGetDefaultThumbnail: _media;[$keptArguments; [$keptArguments propOf videoList]];[$source; $source propOf videoList]];
+			`This text can not be vertically centered because if we do that, it sometimes goes beyond the container and looks weird`
 			[@(percentWidth 70) uiContainer: (default: "Untitled"): kmpGetTitle: _media].
 			
 		!ifNot (allowTitleOverflow) {
@@ -38,4 +39,17 @@ $uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
 			["value"; [_media]]
 		
 	}) uiListView kmpCollectionToList: videoList.
+}.
+
+#{
+	A convenience function for producing a uiList of uiKmpListItem(s).
+	The "config" object is used to configure each list item; it can be used exactly as documented for uiKmpListItem.
+	The "listConfig" property of "config" can include all the configurations for "uiCustomListView", but you do not need to specify "itemViewFactory".
+}
+$uiKmpList = !fun ($config ; $videoList) {
+	(kmpCollectionToList: videoList) uiCustomListView
+		[$itemViewFactory; (($_media ; $index) fun {
+			_media uiKmpListItem config;[$index; [index]]
+		})];
+		($listConfig propOf config).
 }.

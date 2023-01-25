@@ -4,38 +4,38 @@ var https = require('https');
 var fs = require('fs');
 var path = require('path');
 
-var writeHelper = require("./k-server/writeHelper");
+var WriteHelper = require("./k-server/writeHelper").WriteHelper;
 
 function getRequestValue(req, res) {
-	writeHelper.setHeadWritten(false);
-	writeHelper.setWantsRange(req.headers.range ? true : false);
+	var writeHelper = new WriteHelper(res, req);
+	//writeHelper.setWantsRange(req.headers.range ? true : false);
 
 	return {
 		method: req.method,
 		endServing(responseText, encoding){
-			writeHelper.end(responseText, encoding, res);
+			writeHelper.end(responseText, encoding);
 		},
 		write(text, encoding){
 			var encoding = writeHelper.getEncoding(encoding);
-			writeHelper.write(Buffer.from(text, encoding), encoding, res, req);
+			writeHelper.write(Buffer.from(text, encoding), encoding);
 		},
 		writeFile(filePath){
-			writeHelper.writeFile(filePath, res, req);
+			writeHelper.writeFile(filePath);
 		},
 		writeEncryptedFile(config){
-			writeHelper.writeFile(config.input, res, req, config /*for decryption*/);
+			writeHelper.writeFile(config.input, config /*for decryption*/);
 		},
 		writeBytes(numberArray, encoding){
-			writeHelper.write(Buffer.from(numberArray), encoding, res, req);
+			writeHelper.write(Buffer.from(numberArray), encoding);
 		},
 		writeRaw(buffer, encoding){
-			writeHelper.write(buffer, encoding, res, req);
+			writeHelper.write(buffer, encoding);
 		},
 		startServing(mime){
-			writeHelper.start(mime, res, req);
+			writeHelper.start(mime);
 		},
 		respondCode(responseCode){
-			res.writeHead(responseCode, {});
+			writeHelper.writeHead(responseCode, {});
 		},
 		setEncoding(encoding){
 			writeHelper.getEncoding(encoding);
@@ -54,7 +54,6 @@ function getRequestValue(req, res) {
 			var sizeLimit = sizeLimit ? parseInt(sizeLimit) : 1e9; 
 			
 			//Data handling
-			//Idea from https://stackoverflow.com/questions/15427220/how-to-handle-post-request-in-node-js
 			var requestBody = '';
 			var errorHappened = false;
 			
@@ -91,24 +90,24 @@ function getRequestValue(req, res) {
 			onPreparation(contentLength);
 			
 			//File is in the accepted size range - store it somewhere
-			//Idea from https://nodejs.org/en/knowledge/advanced/streams/how-to-use-fs-create-write-stream/
 			
 			//This is the temporary file where we store the download - will be passed to the callback later
-			var tempFileName = "./generated/ul_" + Date.now();
+			var tempFileName = require("os").homedir + "/.kalzit/generated/ul_" + Date.now();
 			//We need to ensure that the file does not exist yet - otherwise, another upload might break
 			try{
 				while(fs.lstatSync(fs.realpathSync(tempFileName)).isFile()) {
-					tempFileName = "./generated/ul_" + Date.now();
+					tempFileName = require("os").homedir + "/.kalzit/generated/ul_" + Date.now();
 				}
 			}catch(e){}
-			console.log(tempFileName);
 			
+			//Write the POST data to a temporary file
+			//We need access to the file stream later to handle any kind of error, so we have to store it as a variable
 			var fileStream = fs.createWriteStream(tempFileName);
 			
-			// This pipes the POST data to the file
+			//Since fileStream is a stream, we can pipe it
 			req.pipe(fileStream);
 			
-			// This is here in case any errors occur - not really handled well yet
+			//If anything goes wrong
 			fileStream.on('error', function (err) {
 				console.log(err.stack);
 				//Error happened - callback gets "void" as the parameter
@@ -117,7 +116,6 @@ function getRequestValue(req, res) {
 			
 			//Use "finish" event (not "end" of request) because that ensures that all data has been written to the file
 			//Prevents strange behavior were the file is incomplete
-			//Idea from https://stackoverflow.com/questions/11447872/callback-to-handle-completion-of-pipe
 			fileStream.on('finish', function() {
 				onSuccess(tempFileName)
 			});
@@ -141,3 +139,14 @@ exports.httpsServer = function httpsServer(callback, port){
 		callback( getRequestValue(req, res) );
 	}).listen(port);
 };
+
+exports.customHttpsServer = function customHttpsServer(config) {
+	var options = {
+		key: fs.readFileSync(config.keyFile),
+		cert: fs.readFileSync(config.certificateFile)
+	};
+	
+	https.createServer(options, function (req, res) {
+		config.callback( getRequestValue(req, res) );
+	}).listen(config.port);
+}

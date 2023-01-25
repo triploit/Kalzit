@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries to work with device motion events",
+		"platforms": ["html5"]
+	},
+	"libraries":[
+		{"provides":["on_global_shake", "motion_request_permission_async", "motion_allowed_async", "motion_can_be_requested_async", "motion_supported"],  "scriptUrl":"shake.js"}
+	]
+}

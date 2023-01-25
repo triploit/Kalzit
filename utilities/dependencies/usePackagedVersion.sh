@@ -1,0 +1,1 @@
+bash $(dirname $0)/useVersion.sh packaged_version

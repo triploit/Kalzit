@@ -14,18 +14,14 @@ function makeCheckbox(text, withCheckbox) {
 	container.appendChild(checkmark);
 	checkmark.setAttribute("tabindex", 0);
 	
-	//Idea from https://www.w3schools.com/howto/howto_js_trigger_button_enter.asp
-	checkmark.addEventListener("keyup", function(event) {
-		// Number 13 is the "Enter" key on the keyboard
-		if (event.keyCode === 13) {
-			// Cancel the default action, if needed
-			event.preventDefault();
-			// Trigger the main action
-			setTimeout(function(){
-				container.click();
-			}, 100);
+	//Call the same function that is triggered when the user clicks when "enter" is pressed
+	checkmark.addEventListener("keypress", function(event) {
+		//13 is the ASCII code for "carriage return" - the enter key
+		if(event.keyCode === 13) {
+			//Do the same thing that happens when the user clicks the checkbox
+			container.click()
 		}
-	});
+	})
 	
 	withCheckbox(checkbox);
 	return container;

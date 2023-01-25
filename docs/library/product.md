@@ -1,6 +1,4 @@
 # product
-## argumentList
-_numbers
 ## comment
 
 Multiplies the values inside an array.

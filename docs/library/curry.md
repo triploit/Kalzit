@@ -1,6 +1,4 @@
 # curry
-## argumentList
-f
 ## comment
 
 Turns a two-argument function into a one-argument one.

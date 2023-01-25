@@ -42,7 +42,6 @@ this.fileWrite = function(filePath, data){
 	}
 }
 this.fileCreateFolder = function(folderPath){
-	console.log("File system: creating folder " + folderPath);
 	!fs.existsSync(folderPath) && fs.mkdirSync(folderPath, {recursive: true});
 }
 this.fileDelete = function(filePath){
@@ -91,6 +90,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("folderContentAsync", {value:GL
 			});
 		}
 	}, args[1].value);
+	//fs.realpathSync(args[1].value)
 	
 	return {value:0, display:"none"}
 }), display:"function"});
@@ -132,6 +132,14 @@ this.fileIsFile = function(filePath){
 this.fileIsFileNotLink = function(filePath){
 	try{
 		return fs.lstatSync(filePath).isFile();
+	}catch(e){
+		return false;
+	}
+}
+/* Returns if a file is a symbolic link */
+this.fileIsLink = function(filePath){
+	try{
+		return fs.lstatSync(filePath).isSymbolicLink();
 	}catch(e){
 		return false;
 	}

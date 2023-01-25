@@ -1,5 +1,0 @@
-$uiSplitView = ($_leftView ? UiElement ; $_rightView ? UiElement) fun {
-	@left @(percentHeight: 100) @(percentWidth: 50) _leftView.
-	@right @(percentHeight: 100) @(percentWidth: 50) _rightView.
-	uiContainer: [_leftView] ; [_rightView]
-}

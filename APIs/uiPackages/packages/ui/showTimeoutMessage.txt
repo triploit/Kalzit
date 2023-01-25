@@ -1,0 +1,12 @@
+$showTimeoutMessage = !fun ($minutesLeft ? (5 default String)) {
+	!timeoutPause.
+	
+	!showMultiButtonMessage (("$x$";minutesLeft) strReplace strings: $timeoutInXMinutes)
+		[
+			@("defaultAction"; true)
+			"OK"; timeoutContinue
+		];[
+			(strings: $needBreak); timeoutNow
+		]
+		
+}

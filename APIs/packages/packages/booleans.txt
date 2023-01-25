@@ -1,21 +1,32 @@
-#{The default variable to indicate that something is true (same as the number 1)}
+/* @kalzit.for true
+The default variable to indicate that something is true (same as the number 1)
+*/
 $true = 1.
-#{The default variable to indicate that something is false (same as the number 0)}
+
+/* @kalzit.for false
+The default variable to indicate that something is false (same as the number 0)
+*/
 $false = 0.
 
-#{
+/* @kalzit.for not
 	Turns a boolean into its opposite.
 	This is done by comparing a value to zero (meaning "false").
 	Everything expect zero will produce false (0), only zero produces true (1) as its opposite.
 	
 	Examples:
+	```
 	not: true.
 	`Result: 0`
+	```
 	
+	```
 	not: false
 	`Result: 1`
+	```
 	
+	```
 	not: "Test".
 	`Result: 0`
-}
+	```
+*/
 $not = {x eq 0}.

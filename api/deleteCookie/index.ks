@@ -1,5 +1,5 @@
 $session = ($getHeader objFirstProperty _request): "kalzit-session".
-$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
+$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
 
 $cookieName = ($getHeader objFirstProperty _request): "kalzit-cookie-name".
 $rawCookieString = ($cookie objFirstProperty _request).

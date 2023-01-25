@@ -1,4 +1,4 @@
-<div id="playground" style="width: 100%; height: 100%;;" class="calcitExtremeBackground"></div>
+<div id="playground" style="width: 100%; height: 100%;;" class="calcitExtremeBackground">$html$</div>
 <script>
 	//Timeout
 	var timeoutSince = parseInt(GLang.eval("storageLoadString: 'kalzit.timeoutSince'").value);
@@ -17,7 +17,7 @@
 			Timeout.startTimer(timeoutMinutes);
 		}
 	} else {
-		Timeout.startTimer(timeoutMinutes);	
+		Timeout.startTimer(timeoutMinutes);
 	}
 	
 	if (!timeoutActive){
@@ -33,5 +33,12 @@
 			//Start auto-refresh
 			GLang.eval("!debugAutoRefresh");
 		}
-	} else alert("Your app timeout is currently active - you can use the Kalzit apps again in 20 minutes (or less)")
+	} else GLang.eval("{} showMessageAsync 'Your app timeout is currently active - you can use the Kalzit apps again in 20 minutes (or less)'")
 </script>
+<noscript>
+	<!-- show a little message to tell the user that JavaScript has to be enabled -->
+	<div class="k-popup_background k-window_top k-window_left" style="width: 100%; height: 100%;"></div>
+	<div class="k-popup k-small_popup k-window_center">
+		Please enable JavaScript to use this app. Thanks :)
+	</div>
+</noscript>

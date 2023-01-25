@@ -1,25 +1,29 @@
-#{
+/* @kalzit.for deprecated
 	Declares a value as something that should not be used anymore.
 	It also marks it for a possible removal in the future.
 	The annotation data does also include a text about why the value was deprecated.
 	
 	Usage example:
-		@(deprecated: "This is the reason why") $myVar = "Something old".
+	```
+	@(deprecated: "This is the reason why") $myVar = "Something old".
+	```
 	
 	If you want to replace one value with another one, consider using "useInstead".
-}
+*/
 $deprecated = ($info ? String) fun {["deprecated"];[info]}.
 
-#{
+/* @kalzit.for use_instead
 	Declares a value as something that should not be used anymore.
 	It also marks it for a possible removal in the future.
 	The annotation data does also include standard values that you should use instead.
 	
 	Usage example:
-		@(useInstead: "mySecondVar") $myVar = "Something old".
+	```
+	@(useInstead: "mySecondVar") $myVar = "Something old".
+	```
 	
-	If you want to replace one value with another one, consider using "useInstead".
-}
+	If you want to simply mark a value as deprecated, consider using "deprecated".
+*/
 $useInstead = ($_instead ? (List:String)) fun {
 	["deprecated"];
 	["Consider using one of these instead:" + strNewline + strNewline strJoin _instead]

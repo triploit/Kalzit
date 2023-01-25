@@ -52,10 +52,11 @@ $watchLibraryFolder = !fun ($mainLibraryFolder ; $watchedFolder) {
 }.
 
 `Listen to any API change`
-!folderContentAsync "./APIs" -> {
-	!loopEach x -> {
-		$libraryFolder = x.
-		
+!folderContentDeepAsyncNotHidden "./APIs" -> $file fun {
+	!if (("platform-packages.json" eq fileName: file)) {
+		`We know that this is a library file`
+		$libraryFolder = fileParent: file.
+	
 		!if (fileIsFolder: libraryFolder) {
 			libraryFolder watchLibraryFolder libraryFolder
 		}

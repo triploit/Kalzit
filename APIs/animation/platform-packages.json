@@ -1,0 +1,12 @@
+{
+	"info":{
+		"description":"Libraries to produce simple animations",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		{"provides":["apply_animation"], "scriptUrl":"applyAnimation.js"},
+		{"provides":["apply_transition"], "scriptUrl":"applyTransition.txt"},
+		{"provides":["named_transition"], "scriptUrl":"namedTransition.txt"},
+		{"provides":["fade_transition", "scale_transition"], "scriptUrl":"cssAnimations.txt"}
+	]
+}

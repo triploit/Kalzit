@@ -1,6 +1,4 @@
 # file_mime
-## argumentList
-extension
 ## comment
 
 Returns the default mime type of a given file, based on its extension.

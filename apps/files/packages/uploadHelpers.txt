@@ -47,5 +47,5 @@ $uploadSingleFile = $attemptSingleFileUpload = !fun ($config) {
 				0 callback _file	
 			}
 		}
-	}) ($uploadAsync of _file) folderName + $name propOf _file
+	}) ($uploadAsync propOf _file) folderName + $name propOf _file
 }.

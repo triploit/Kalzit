@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Libraries to do multiple things asynchronously, without producing very ugly code"
+	},
+	"libraries":[
+		{"provides":["multiple_async", "bind_async_function_to_each"],  "scriptUrl":"multipleAsync.txt"}
+	]
+}

@@ -1,7 +1,4 @@
 # sized_list
-## argumentList
-size
-_itemType
 ## comment
 
 Converts a value to a list of the given size. When converting to a list, a type function is applied to every item.

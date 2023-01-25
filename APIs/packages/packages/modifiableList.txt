@@ -19,6 +19,7 @@ $modifiableList = ($_normalList ? (List:Any)) fun {
 			$oldListVar = listVar.
 			listVarRef = ().
 			onRemoval each oldListVar.
+			!onChange.
 			listVar
 		}];
 		["setOnAddition";($function) fun {onAdditionListRef = onAdditionList;function}];

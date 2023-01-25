@@ -1,0 +1,15 @@
+$showCopyMessage = !ifElse (("https://" strStartsWith appUrl) | "http://localhost:" strStartsWith appUrl) {
+		`We can show the message with a copy button!`
+		!fun $message {
+				!showMultiButtonMessage message
+					[(strings: "ok"); [void]];
+					[(strings: "copy"); {
+						copyText: message.
+					}].
+		}.
+};{
+		`Copying is not supported without HTTPS - we have to show the normal dialog box`
+		!fun $message {
+			{} showMessageAsync message
+		}
+}

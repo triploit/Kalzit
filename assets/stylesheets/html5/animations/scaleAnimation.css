@@ -1,0 +1,17 @@
+@keyframes k-animation_scale {
+	from {
+		scale: 1;	
+	}
+	to {
+		scale: 0;	
+	}
+}
+
+@keyframes k-animation_scale_reverse {
+	from {
+		scale: 0;	
+	}
+	to {
+		scale: 1;	
+	}
+}

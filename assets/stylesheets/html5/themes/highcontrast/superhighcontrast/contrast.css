@@ -1,0 +1,47 @@
+* {
+	--button-gradient: linear-gradient(transparent, transparent) !important;
+	box-shadow: none !important;
+	border-width: 2px !important;
+}
+
+.k-toolbar {
+	background-color: #0f0f0f;
+	border-bottom: solid rgb(var(--kv-text_color_rgb));	
+}
+
+input[type=text], input[type=password], textarea, .k-popup {
+	border: solid rgb(var(--kv-text_color_rgb));	
+}
+
+textarea {
+	background-color: var(--kv-background_color);
+}
+
+.k-popup_background {
+	background-color: white;
+}
+
+.k-single_view_picker:hover {
+	-webkit-filter: invert(100%);
+	filter: invert(100%);
+	background-color: var(--kv-background_color) !important;
+	background-image: var(--kv-background_color) !important;
+	color: inherit !important;
+}
+
+.k-single_view_picker:hover img {
+	filter: invert(100%);
+}
+
+.k-checkbox_container input:checked ~ .k-checkbox_mark {
+	background-color: black;
+}
+
+.k-bold {
+	font-weight: bolder !important;
+	text-decoration: underline;
+}
+
+.k-loading_indicator {
+	background-image: linear-gradient(white, white) !important;	
+}

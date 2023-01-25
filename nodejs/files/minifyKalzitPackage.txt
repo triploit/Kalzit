@@ -5,10 +5,11 @@ $jsonFile = appParameter: "input-file".
 
 	$packageObject = parseJson: fileContent: jsonFile.
 	$libraries = $libraries propOf packageObject.
+	print: "Library count in " + jsonFile + ": " + length: libraries.
 	(appParameter: "output-file") fileWrite ";" strJoin {
 		$jsonEntry = x.
 		$scriptPath = jsonParent + "/packages/" + $scriptUrl propOf jsonEntry.
-		do: !switchFirst (scriptPath)
+		$result = do: !switchFirst (scriptPath)
 			[{(".k" strEndsWith x) | ".txt" strEndsWith x};{
 				"GLang.packageManager.registerPrecompiledPackage([" + ("," strJoin {"} + ($provides propOf jsonEntry) + {"}) + "]," +
 					((fileContent: scriptPath) calcitCompile true `optimized`) +
@@ -17,9 +18,20 @@ $jsonFile = appParameter: "input-file".
 			[{".js" strEndsWith x};{
 				"GLang.packageManager.installJs(function(){" + (fileContent: scriptPath) + "})"
 			}].
+		
+		!ifElse ("" eq strTrim: (default: ""): result) {
+			print: "Hey, we have an empty result in " + scriptPath.
+			";console.warn('Source file " + ((default: "at an unknown location"): scriptPath) + " produced an empty result');"
+		};{
+			result
+		}
 	} each libraries.
 	
-	(appParameter: "output-file") fileWrite (runCommand: 'terser "' + (appParameter: "output-file") + '"')
+	!if ("" eq strTrim: fileContent: appParameter: "output-file") {
+		print: "Output file " + (appParameter: "output-file") + " ended up empty.".
+	}.
+	
+	(appParameter: "output-file") fileWrite (runCommand: './cli command terser "' + (appParameter: "output-file") + '"')
 }. !else {
 	print: "The json file you specified is not a file! (--input-file):".
 	print: jsonFile.

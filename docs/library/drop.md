@@ -1,0 +1,10 @@
+# drop
+## comment
+
+An annotation that adds a function to a UI element which is triggered when something is dropped on it.
+This also enables user feedback when the pointer is dragging over the element.
+
+Example:
+```
+@(onDrop {popupMessage: "Dropped"}) uiText: "Stuff".
+```

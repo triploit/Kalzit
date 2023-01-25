@@ -1,6 +1,4 @@
 # divisors
-## argumentList
-_numbers
 ## comment
 
 Takes a list of positive integers and returns all numbers these are divisible by.

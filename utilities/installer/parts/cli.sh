@@ -7,4 +7,4 @@ chmod +x ./kalzit
 ./cli publish test
 
 echo We are trying to set up a system-wide Kalzit project folder. Please authenticate:
-sudo ./cli publish system
+./cli publish system

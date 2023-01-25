@@ -1,0 +1,19 @@
+$uiDesktopToolbarOverlay = !fun ($toolList ? ModifiableList) {
+	$properToolsAreaWidth = "100% - " + (toolbarCmHeight +  0,9) + "cm".
+
+	`Generate the toolbar overlay and make it only visible on the desktop`
+	@(cssClass: "k-desktop_only") uiToolbarOverlay: 
+	
+		`Add the app-specific tools (added using registerDesktopTool)`
+		[@verticalCenter @dynamicSize @left @(width: properToolsAreaWidth) uiContainer:
+			{@verticalCenter @dynamicSize do:x} each DesktopTool each getArray: toolList
+		];
+		[
+			`Add the default navigation buttons (uiUserButton and uiAppsButton, at the right`
+			@verticalCenter @right @(percentHeight 50) @(cmWidth toolbarCmHeight +  0,6) uiContainer:
+				[@(cmWidth toolbarCmHeight % 2) !uiAppsButton];
+				[@(cmWidth 0,3) uiContainer:void];
+				[@(cmWidth toolbarCmHeight % 2) !uiUserButton];
+				[@(cmWidth 0,3) uiContainer:void]
+		]
+}.

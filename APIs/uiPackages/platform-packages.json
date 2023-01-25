@@ -12,13 +12,6 @@
     }
     , {
         "provides": [
-          "ui_tabs"
-        , "ui_tab_buttons"
-      ]
-      , "scriptUrl": "ui/uiTabs.txt"
-    }
-    , {
-        "provides": [
           "ui_textfield_variable_onaction"
         , "ui_textfield_variable_onchange"
       ]
@@ -89,12 +82,6 @@
     }
     , {
         "provides": [
-          "ui_split_view"
-      ]
-      , "scriptUrl": "ui/uiSplitView.txt"
-    }
-    , {
-        "provides": [
           "ui_grid"
         , "ui_columns"
       ]
@@ -114,8 +101,7 @@
     }
     , {
         "provides": [
-          "css_color_combo"
-        , "color_combination_theme"
+        "color_combination_theme"
       ]
       , "scriptUrl": "ui/themes/applyColorCombinationTheme.txt"
     }
@@ -135,61 +121,6 @@
     }
     , {
         "provides": [
-          "ui_account_button"
-        , "ui_apps_button"
-        , "ui_user_button"
-        , "ui_user_config_button"
-        , "ui_hamburger_button"
-        , "ui_cross_button"
-        , "user_outline_image_url"
-        , "user_image_url"
-        , "menu_image_url"
-        , "apps_image_url"
-        , "cross_image_url"
-        , "left_arrow_image_url"
-        , "ui_sidebar_toggle_button"
-      ]
-      , "scriptUrl": "ui/globalButtons.txt"
-    }
-    , {
-        "provides": [
-          "ui_app_container_background_color"
-      ]
-      , "scriptUrl": "ui/uiAppContainer.txt"
-    }
-    , {
-        "provides": [
-          "register_labeled_tool"
-        , "ui_global_toolbar"
-        , "global_desktop_toolbar"
-        , "global_desktop_toolbar_ref"
-        , "global_mobile_toolbar"
-        , "global_mobile_toolbar_ref"
-      ]
-      , "scriptUrl": "ui/registerLabeledTool.txt"
-    }
-    , {
-        "provides": [
-          "registered_mobile_tools"
-        , "register_mobile_tool"
-        , "ui_mobile_toolbar_overlay"
-        , "generate_mobile_toolbar_overlay"
-        , "apply_mobile_tools"
-      ]
-      , "scriptUrl": "ui/mobileToolbar.txt"
-    }
-    , {
-        "provides": [
-          "registered_desktop_tools"
-        , "desktop_tool"
-        , "register_desktop_tool"
-        , "ui_desktop_toolbar_overlay"
-        , "generate_desktop_toolbar_overlay"
-      ]
-      , "scriptUrl": "ui/desktopToolbar.txt"
-    }
-    , {
-        "provides": [
           "ui_string_list_edit_popup"
         , "ui_string_list_editor"
         , "ui_modifiable_string_list_editor"
@@ -202,6 +133,7 @@
         "provides": [
           "ui_toolbar_with_close_button"
         , "ui_title_toolbar"
+        , "ui_title_toolbar_with_additional_actions_button"
       ]
       , "scriptUrl": "ui/uiToolbarWithCloseButton.txt"
     }
@@ -218,8 +150,10 @@
           "generate_desktop_tool_at_left"
         , "generate_desktop_tool_at_right"
         , "generate_desktop_tools_at_left"
+        , "generate_desktop_tools_at_right"
         , "tool_at_left"
         , "tools_at_left"
+        , "tools_at_right"
         , "tool_at_right"
         , "tool_layout_manager"
       ]
@@ -234,6 +168,7 @@
         , "list_edit_tool"
         , "popup_tool"
         , "separator_tool"
+        , "additional_actions_tool"
       ]
       , "scriptUrl": "ui/tools/defaultTools.txt"
     }
@@ -275,6 +210,7 @@
     , {
         "provides": [
           "ui_text_action_toolbar"
+          , "ui_custom_text_action_toolbar"
       ]
       , "scriptUrl": "ui/uiTextActionToolbar.txt"
     }
@@ -316,6 +252,9 @@
       ]
       , "scriptUrl": "ui/uiTextContainer.txt"
     },
-    {"provides": ["ui_webpage", "ui_web", "ui_show_webpage_url", "ui_restricted_webpage", "allowed_domains"], "scriptUrl": "ui/uiWebpage.txt"}
+    {"provides": ["ui_webpage", "ui_web", "ui_show_webpage_url", "ui_restricted_webpage", "allowed_domains"], "scriptUrl": "ui/uiWebpage.txt"},
+    {"provides": ["show_multi_button_message"], "scriptUrl": "ui/showMultiButtonMessage.txt"},
+    {"provides": ["show_timeout_message"], "scriptUrl": "ui/showTimeoutMessage.txt"}, {"provides": ["below_toolbar"], "scriptUrl": "ui/belowToolbar.txt"},
+    {"provides": ["ui_titled_popup_view_as_list", "ui_titled_popup_view", "ui_titled_popup"], "scriptUrl": "ui/uiTitledPopup.txt"}
   ]
 }

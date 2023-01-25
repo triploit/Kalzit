@@ -1,6 +1,4 @@
 # bing_image_search_urls
-## argumentList
-query
 ## comment
 
 Searches for images using the Bing search engine.

@@ -25,9 +25,9 @@ $uiRestrictedWebpage = !fun ($pageUrl) {
 	};{
 		`We have to ask for permission`
 		$confirmView = @centerText uiContainer:
-			["Please confirm that you want to display contents from this webpage:"];
+			[ strings: $confirmDomainAccess ];
 			[urlGetHostName: pageUrl];
-			[!uiButton "Show me that page!" -> {
+			[!uiButton (strings: $showPage) -> {
 				uiHide: confirmView.
 				(uiPrint: view): @(percentHeight 100) @(percentWidth 100)
 					uiShowWebpageUrlNative: pageUrl.

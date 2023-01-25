@@ -29,7 +29,7 @@ $uiLoginForm = ($onLoginAttempt) fun {
 	uiContainer: views
 }.
 
-$uiRegisterForm = () fun {
+$uiRegisterForm = ($onLoginAttempt) fun {
 	$nameField = $nameInput uiTextfieldVariableOnchange {}.
 	$passwordInput = "". $passwordInputRef = reference: $passwordInput.
 	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
@@ -44,6 +44,17 @@ $uiRegisterForm = () fun {
 			($response fun {
 				!if ("0" eq first: response) {
 					popupMessage: strings: $registrationSuccess.
+					`The user most likely intends to be logged in, so we do that automatically`
+					`TODO: this is duplicated code from "uiLoginForm" - unify that`
+					!serviceLoginUserAsync (nameInput;passwordInput) -> ($response fun {
+						!if ("0" eq first: response) {
+							$calcitSession storageSaveString second: response.
+							$calcitUserName storageSaveString nameInput.
+							{onLoginAttempt: true} showMessageAsync strings: $loginSuccess.
+						}. else {
+							{onLoginAttempt: false} showMessageAsync second: response.
+						}.
+					}).
 	        	}. else {
 	        		popupMessage: second: response
 	        	}.

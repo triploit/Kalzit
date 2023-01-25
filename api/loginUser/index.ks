@@ -1,9 +1,8 @@
 $structureVersion = "v3".
-print: "Performing a user login".
 $userName = ($getHeader objFirstProperty _request): "kalzit-user-name".
 $userPassword = ($getHeader objFirstProperty _request): "kalzit-user-password".
 
-$sessionsFolder = "./nogit/users/sessions".
+$sessionsFolder = serverUsersFolder + "/sessions".
 fileCreateFolder: sessionsFolder.
 
 $generateUnusedSessionId = () fun {
@@ -18,8 +17,8 @@ $generateUnusedSessionId = () fun {
 }.
 
 $createUserSession = ($userToken ? String) fun {
-	print: $sessionId ? String = !generateUnusedSessionId.
-	$userDataFolder = "./nogit/users/data/"  + structureVersion + "/" + userToken.
+	$sessionId ? String = !generateUnusedSessionId.
+	$userDataFolder =serverUsersFolder + "/data/"  + structureVersion + "/" + userToken.
 	
 	`In the "global" sessions folder, create a symlink to the user home (name is the session id)`
 	runCommandFromArray:
@@ -39,10 +38,10 @@ $createUserSession = ($userToken ? String) fun {
 !if ((void eq userName) | (void eq userPassword)) {
 	resultRef = "1" + strNewline + "The headers 'kalzit-user-name' and 'kalzit-user-password' need to be set. (Most likely an error with your native app)".
 }. else {
-	$fname = "./nogit/users/plain/" + structureVersion + "/" + urlEncodeParameter: userName.
+	$fname = serverUsersFolder + "/plain/" + structureVersion + "/" + urlEncodeParameter: userName.
 	!if ((fileIsFile: fname) & fileExists: fname) {
 		$userToken = fileContent: fname.
-		$passwordFolder = "./nogit/users/data/"  + structureVersion + "/" + userToken + "/password".
+		$passwordFolder = serverUsersFolder + "/data/"  + structureVersion + "/" + userToken + "/password".
 		!if (fileIsFolder: passwordFolder) {
 			$storedHash = fileContent: passwordFolder + "/hash.txt".
 			$passwordSalt = fileContent: passwordFolder + "/salt.txt".
@@ -58,7 +57,7 @@ $createUserSession = ($userToken ? String) fun {
 					`We have not stored a password hash for this user yet`
 					$passwordMdFiveHash = mdFiveHash: userPassword + passwordSalt.
 					userToken ($push propOf mdFivePasswordHashes) passwordMdFiveHash.
-					print: "Added password hash for user " + userToken + " to the encryption map".
+					print: (!dateString) +  "Added password hash for user " + userToken + " to the encryption map".
 				}
 			};{
 				resultRef = "3" + strNewline + "Passwords do not match"

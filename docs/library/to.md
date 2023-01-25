@@ -1,10 +1,7 @@
 # to
-## argumentList
-a
-b
 ## comment
 
-Basically the same as the "range" function.
+Basically the same as the "range" function, but it automatically converts its parameters to integers.
 Creates an array of all integers between one number and another.
 
 Example:

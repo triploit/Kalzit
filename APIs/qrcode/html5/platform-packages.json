@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries for creating QR codes",
+		"platforms": ["html5"]
+	},
+	"libraries":[
+		{"provides":["qr_code_url", "sensitive_qr_code_url", "ui_qr_code", "ui_sensitive_qr_code", "show_qr_code"], "scriptUrl":"uiQrCode.txt"}
+	]
+}

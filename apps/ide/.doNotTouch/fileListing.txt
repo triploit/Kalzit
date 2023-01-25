@@ -1,0 +1,15 @@
+./ide.k
+./packages/isIframe.js
+./packages/evalGlobally.js
+./packages/mainViews/_uiDocs.txt
+./packages/mainViews/_uiPlayground.txt
+./packages/mainViews/_uiFullTextEditor.txt
+./build.sh
+./platform-packages.json
+./index.html
+./checksum.shasum
+./strings/default.json
+./ide.json
+./config/home.json
+./config/excluded-libraries.json
+./_min.js

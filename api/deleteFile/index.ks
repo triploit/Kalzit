@@ -1,7 +1,7 @@
 $id = SafeFilePath: "id" urlGetParameter $url propOf _request.
 
 $session ? Float = "session" urlGetParameter $url propOf _request.
-$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
+$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
 
 !if sessionExists {
 	$accessFolder = userFolder + "/files/v2/main".

@@ -1,3 +1,6 @@
+# {
+	A view that presents the user with a very simple way to log in.
+}
 $uiLoginHint = () fun {
 	@center uiContainer:
 		[@centerText uiText: strings: $loginHint];

@@ -1,6 +1,4 @@
 # color
-## argumentList
-_color
 ## comment
 
 Type function for colors with red-, green- and blue-, and alpha-values.

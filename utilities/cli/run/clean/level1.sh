@@ -13,9 +13,9 @@ rm -f ./generated/ffprobe.zip
 echo Removing minified library files ...
 find ./APIs -name '_min.js' -exec rm {} \;
 
-echo Removing ./generated/translationMap.json, appBuildingTempFile.js and scriptTagListingTempFile.js ...
-rm -f ./generated/translationMap.json
-rm -f ./generated/appBuildingTempFile.js
+echo 'Removing appBuildingTempFile(s).js and scriptTagListingTempFile.js ...'
+# rm -f ./generated/translationMap.json
+rm -f ./generated/appBuildingTempFile-*.js
 rm -f ./generated/scriptTagListingTempFile.js
 
 echo clean/level 1 is done!

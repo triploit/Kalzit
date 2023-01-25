@@ -4,7 +4,6 @@
 		"platforms":["nodejs"]
 	},
 	"libraries":[
-		{"provides":["youtube_video_title_async"],  "scriptUrl":"youtubeVideoTitle.txt"},
-		{"provides":["kalzit_media_protocol_from_youtube_video_async", "kalzit_media_protocol_from_youtube_url_async", "kmp_from_youtube_url_no_titles", "kmp_from_youtube_video_no_titles", "kmp_from_youtube_video_async", "kmp_from_youtube_url_async"],  "scriptUrl":"kalzitMediaProtocolFromYoutubeVideo.txt"}
+		{"provides":["youtube_video_title_async"],  "scriptUrl":"youtubeVideoTitle.txt"}
 	]
 }

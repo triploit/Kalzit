@@ -17,6 +17,10 @@ $fileActions =
 		!loadLocalAsync "/api/deleteFile?session=" + session + "&id=" + urlEncodeParameter: $id urlGetParameter ($default propOf $file propOf file) -> {
 			uiHide: $view propOf file
 		}
+	}];
+	["Show as QR code"; ($file) fun {
+		`Create a QR code for this file and show it in a popup`
+		showQrCode: (urlGetOrigin: appUrl) + "/app/fv?f=" + (urlEncodeParameter: $id urlGetParameter $default propOf $file propOf file).
 	}].
 	
 $folderActions =
@@ -24,25 +28,27 @@ $folderActions =
 		!loadLocalAsync "/api/deleteFolder?session=" + session + "&folder=" + urlEncodeParameter: $title propOf folder -> {
 			uiHide: $view propOf folder
 		}
-	}].
+	}];
+	["Show as QR code"; ($file) fun {
+		`Create a QR code for this file and show it in a popup`
+		$qrCodeContent = (urlGetOrigin: appUrl) + "/app/files?folder=" + urlEncodeParameter: $title propOf file.
+		print: (uiShowImageUrl: "/api/qrcode/?text=" + urlEncodeParameter: qrCodeContent) uiSmallPopup {}
+	}]..
 	
 $fileActionButton = $file fun {
 	file uiAdditionalActionsButton fileActions.
 }.
 
 !registerSubApp $preview popupSubApp: {
-	$toolbar = ($title propOf openFile) uiTitleToolbar
-		[@right @verticalCenter @dynamicWidth uiContainer:
-			[fileActionButton: openFile];
-			[uiHorizontalPxSpace: 7]
-		].
+	$toolbar = ($title propOf openFile) uiTitleToolbarWithAdditionalActionsButton fileActionButton: openFile.
+	
 
 	$url = ($default propOf $file propOf openFile) + "&session=" + session.
 
 
 	toolbar;
 	`The main file content view`
-	@(percentWidth 100) @(height "100% - " + toolbarCmHeight + "cm")
+	@(percentWidth 100) @belowToolbar
 		do: first: ($kind propOf openFile) switch
 			[{"audio" eq x};{@(backgroundImageUrl: ($default propOf $thumbnail propOf openFile) + "&session=" + session) uiAudioPlayer: url}];
 			[{"video" eq x};{uiVideoPlayer: url}];
@@ -70,7 +76,7 @@ $folderView = !fun ($folder) {
 		[$onTap; () fun {
 			redirect: "/app/files?folder=" + urlEncodeParameter: $title propOf folder
 		}];
-		[$forcedThumbnail; "/apps/files/icons/iOS.png"];
+		[$forcedThumbnail; "/apps/files/files.png"];
 		[$titleGenerator; {fileName: $title propOf folder}];
 		[$additionalActions; [folderActions]].
 	
@@ -79,38 +85,42 @@ $folderView = !fun ($folder) {
 $makeUploadView = !fun ($_files) {
 	$result = uiContainer: void.
 	$print = uiPrint: result.
-
-	$progress = 0. $progressRef = reference: $progress.
-	$total = length: _files.
-	$failures ? ModifiableList = ().
-	$failCount = 0. $failCountRef = reference: $failCount.
 	
-	uploadMultipleFiles:
-		[$files; [_files]];
-		[$folderName; folderName];
-		[$callback; ($status ; $_file) fun {
-			progressRef = progress + 1.
-			!if (status eq 2) {
-				print: "Upload of " + ($name propOf _file) + " failed for unknown reasons".
-				($push propOf failures): [_file].
-				failCountRef = failCount + 1.
-			}.
-			!if (progress eq total) {
-				print: "Upload is done (" + failCount + " failed)".
-				!if (failCount > 0) {
-					$button = {
-						print: makeUploadView: getArray: failures.
-						uiHide: button.
-						do: ($clear propOf failures).
-					} uiButton "Retry failed attempts".
-					print button.
+	!loopEach _files -> {
+		$file = x.
+		
+		$status = uiContainer: "Uploading...".
+		$statusRef = reference: $status.
+		
+		$triggerUpload = !fun () {
+			statusRef = uiContainer: "Uploading...".
+			uploadSingleFile:
+				[$file; [file]];
+				[$folderName; folderName];
+				[$callback; ($status ; $_file) fun {
+					!if (status eq 2) {
+						statusRef = !uiButton "Retry" -> triggerUpload
+					}. !else {
+						statusRef = uiContainer: "Done!".
+					}
 				}
-			}
-		}
-	].
+			].
+		}.
+		
+		!ifElse (($name propOf file) listContains {$title propOf x} each $collection propOf folderContent) {
+			`The file exists already`
+			statusRef = !uiButton "Replace existing" -> triggerUpload
+		};{
+			`This is a new file`
+			!triggerUpload.
+		}.
+		
+		print: uiContainer:
+			[@(percentWidth 70) uiContainer: $name propOf file];
+			[@(percentWidth 30) uiShowVariable: statusRef].
+	}.
 	
-	print: uiShowFunction: {"Progress: " + progress + " of " + total + " files uploaded (" + failCount + " failed)"}.
-	result.
+	result
 }.
 
 $foldersPresent = false. $foldersPresentRef = reference: $foldersPresent.
@@ -118,7 +128,8 @@ $filesPresent = false. $filesPresentRef = reference: $filesPresent.
 
 $folderContent = void. $folderContentRef = reference: $folderContent.
 
-($json fun {
+`Load the user file infos from the server`
+!loadLocalAsync ("/api/folder?id=" + folderName + "&session=" + session) -> ($json fun {
 	folderContentRef = parseJson: json.
 	
 	($file fun {
@@ -157,7 +168,7 @@ $folderContent = void. $folderContentRef = reference: $folderContent.
 		@(onExpand () fun {@(rotation 0) filesArrow})
 		filesView.
 		
-}) loadLocalAsync "/api/folder?id=" + folderName + "&session=" + session.
+}).
 
 `Prepare the search functionality`
 $searchWindowContent = uiSearchPanel: $currentSearchTerm fun {
@@ -214,7 +225,12 @@ toolsAtLeft:
 		}
 	}].
 
-toolAtRight: "Search..." popupTool searchWindowContent.
+toolsAtRight:
+	[!popupTool "Search..." searchWindowContent];
+	[void additionalActionsTool
+		feedbackActions: "oplpublishergerman@gmail.com"
+	].
+
 
 `Show the UI`
 print: !uiGlobalToolbar.

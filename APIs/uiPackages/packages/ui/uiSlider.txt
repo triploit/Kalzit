@@ -1,4 +1,5 @@
+/*
 $uiSlider = ($var ? Reference ; $_fromTo ? ((0;100) default 2 SizedList Int)) fun {
-	uiSkinSlider: $slider = var uiNativeSlider _fromTo.
-	slider
+	var uiNativeSlider _fromTo.
 }.
+*/

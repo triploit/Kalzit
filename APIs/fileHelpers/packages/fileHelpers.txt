@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for file_extension
 	Returns the file extension from a given file path.
 	That is done by simply returning whatever is behind the last dot.
 	
@@ -10,19 +10,19 @@
 	
 	In case there is no dot, the entire string is returned:
 	fileExtension: "jpg". `Still jpg`
-}
+*/
 $fileExtension = ($path ? String) fun {last: "." strSplit path}.
 
-#{
+/* @kalzit.for file_name
 	Returns the name of a given file, excluding the containing folder path.
 	For example, fileName: "test.txt" is just "test.txt".
 	If you pass "a/b/c.txt", the result is "c.txt".
 	
 	Basically, the string is searched for slashes ("/"), and the text after the last slash is returned.
-}
+*/
 $fileName = ($path ? String) fun {last: "/" strSplit path}.
 
-#{
+/* @kalzit.for file_list_types
 	Returns a list of all file mime types the runtime knows about.
 	The result is a list of string pairs, where the first item of each is the file extension, and the second is the mime type.
 	
@@ -30,15 +30,15 @@ $fileName = ($path ? String) fun {last: "/" strSplit path}.
 		$jsonMimeTypeText = $json propOf !fileListTypes.
 	
 	However, if you want to just get the file mime by file extension, "fileMime" is preferred.
-}
+*/
 $fileListTypes = () fun {{do: x} each pmSearchNames: "fileType"}.
 
-#{
+/* @kalzit.for file_mime
 	Returns the default mime type of a given file, based on its extension.
 	
 	Usage example:
 		fileMime: "a/b/c.txt". `Result is "text/plain"`
-}
+*/
 $fileMime = ($extension ? FileExtension) fun {
 	nativeFileMime: extension
 }.

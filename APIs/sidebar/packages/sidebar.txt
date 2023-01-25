@@ -35,12 +35,12 @@ $leftSidebarResizeTool = !fun ($callback ; $views) {
 	@(onDrag: leftSidebarDragHandler: callback)
 	@(cmHeight toolbarCmHeight)
 	@verticalCenter
-	$separator = @dynamicWidth uiContainer:
+	$separator = @dynamicWidth @horizontalResizeCursor uiContainer:
 		(uiHorizontalPxSpace 7);
 		(@(pxWidth 1) !uiHorizontalSeparator);
 		(uiHorizontalPxSpace 7).
 	
-	["desktop"; @dynamicWidth @horizontalResizeCursor @(cssClass: "k-sidebar_part") uiContainer:
+	["desktop"; @dynamicWidth @(cssClass: "k-sidebar_part") uiContainer:
 		viewInFront;
 		separator;
 		(uiHorizontalPxSpace 10)
@@ -85,7 +85,7 @@ $leftSidebarManager = !fun ($config) {
 	
 	$sidebar = @(cssClass: "k-sidebar_part") @left @bottom @dynamicWidth @(height: "100% - " + toolbarCmHeight + "cm") uiContainer:
 		[@left sidebarContent];
-		[@(width: "var(--kv-sidebar_content_width) - 5px") uiContainer: void];
+		[@(cssClass: "k-sidebar_invisible_part") uiContainer: void];
 		[@dynamicWidth @windowTop @(percentHeight 100) @(onDrag: leftSidebarDragHandler: void) @horizontalResizeCursor uiContainer:
 			[uiHorizontalPxSpace 12];
 			[@windowTop !uiHorizontalSeparator];
@@ -99,9 +99,8 @@ $leftSidebarManager = !fun ($config) {
 		(!ifNot (void eq $mobileToolTitle propOf config) {
 			`We have a mobile tool title, meaning we want a mobile tool (overrides the default)`
 			["title"; $mobileToolTitle propOf config];
-			["mobile"; uiContainer:
-				(uiTitleToolbar: $mobileToolTitle propOf config);
-				@(height "100% - " + toolbarCmHeight + "cm") @(width: "100% - 14px") @center uiContainer: do: $sidebarViews propOf config
+			["mobile"; !uiTitledPopupView ($mobileToolTitle propOf config) ->
+				@(width: "100% - 14px") @center uiContainer: do: $sidebarViews propOf config
 			]
 		});
 		{

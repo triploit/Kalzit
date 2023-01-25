@@ -1,6 +1,4 @@
 # file_list_types
-## argumentList
-
 ## comment
 
 Returns a list of all file mime types the runtime knows about.

@@ -18,7 +18,7 @@ const Timeout = {
     },
     onBeforeTimeout(minutes){
         //Should show in any case, and the timer should not continue until after (!) the popup is closed
-        GLang.eval("!timeoutPause. {!timeoutContinue} showMessageAsync '" + "You have used the Kalzit apps for about " + minutes + " minutes now. You will automatically get a 20 minute timeout in about 5 minutes" + "'")
+        GLang.eval('!showTimeoutMessage')
     },
     onTick(minutes){
     	GLang.eval("'kalzit.timeoutMinutes' storageSaveString String: " + minutes);
@@ -43,6 +43,16 @@ const Timeout = {
     },
     startTimer(goneMinutes){
         goneMinutes = goneMinutes || 0;
+        
+        //First thing: if there are five or less minutes left, warn the user
+        var minutesLeft = this.timeoutAfter - goneMinutes;
+        if(minutesLeft <= 5) {
+            setTimeout(() => {
+                GLang.eval("!showTimeoutMessage " + minutesLeft)
+            }, 0);
+        }
+        
+        //Start the timer
         this.activeTimer = this.runEveryMinute(() => {
             if(this.paused) return;
             

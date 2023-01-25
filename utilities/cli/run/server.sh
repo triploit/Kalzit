@@ -1,4 +1,6 @@
-mkdir ./generated/logs &> /dev/null
+mkdir ~/.kalzit &> /dev/null
+mkdir ~/.kalzit/generated &> /dev/null
+mkdir ~/.kalzit/generated/logs &> /dev/null
 
 if ! command -v node &> /dev/null
 then
@@ -9,8 +11,8 @@ then
 fi
 
 #Before starting the server, save a potential recent log file (and remove older ones)
-mkdir ./generated/logs/managed &> /dev/null
-mkdir ./generated/logs/managed/old &> /dev/null
+mkdir ~/.kalzit/generated/logs/managed &> /dev/null
+mkdir ~/.kalzit/generated/logs/managed/old &> /dev/null
 mv ./generated/logs/managed/current-server-log.txt "./generated/logs/managed/old/server-log-prior-$(date +'%Y-%m-%d_%H.%M.%S').txt" &> /dev/null
 
-bash utilities/cli/run/blockingServer.sh &> ./generated/logs/managed/current-server-log.txt &
+bash utilities/cli/run/blockingServer.sh "$@" &> ./generated/logs/managed/current-server-log.txt &

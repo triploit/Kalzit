@@ -1,16 +1,105 @@
-$loadGlobalAsync = !fun ($callback ; $wantedUrl) {
-	$domain ? (default: "") = urlGetHostName: wantedUrl.
+`Stores requests that need to be run. Each request is a pair: (domain; functionThatRunsTheRequest)`
+`TODO: This list should not be editable from any other function, except those in this file`
+$_loadGlobalQueue ? ModifiableList = ().
+`Stores domains which have already had a permission popup.`
+
+`Each domain can only have one permission popup per browser session (if the browser restarts, this should be reset; do not store this!)`
+$_loadGlobalAskedDomains ? ModifiableList = ().
+
+# {
+	This is a function for internal use - do not use this yourself.
+	
+	Checks the domain permission list for a given domain.
+	* If the domain has load permissions, a callback ("then") is run.
+	* If the domain does not have load permissions, and if the user has not been asked already, the user is asked to give permission
+		* If the user grants load permissions, this is stored and the callback ("then") is run
+		* Otherwise, nothing happens; "then" will not run
+}
+$askDomainPermissionIfNeededAndLoad = !fun ($then ; $domain ? String) {
+	`If the domain is in the list of allowed domains, we are fine anyway`
 	!ifElse (domain listContains getArray: allowedDomains) {
-		`Domain is allowed`
-		callback loadGlobalAsyncNative wantedUrl
+		`Yess!! Just load the domain; permission granted`
+		do: then
 	};{
-		`We have to allow the domain first`
-		!showConfirmMessageAsync "Please confirm that you want to access this domain: " + domain -> {
-			`Unlock the domain`
-			!ifNot (domain listContains getArray: allowedDomains) {
-				($push propOf allowedDomains): domain
-			}.
-			callback loadGlobalAsyncNative wantedUrl
+		`Add this request to the list of pending requests`
+		($push propOf _loadGlobalQueue): [domain; [then]].
+		
+		`... Okay, we need another check to see if the domain has already asked for permission`
+		!ifElse (domain listContains getArray: _loadGlobalAskedDomains) {
+			`We have already asked for load permissions; do nothing here`
+		};{
+			`We have not asked for load permissions yet - do that`
+			uiShowDomainPermissionPopup: domain.
 		}
 	}
+}.
+
+#{
+	Shows a domain permission popup (always, even if the user has already seen one), stores that the user saw the popup and, if the user accepts, stores the accepted domain.
+	In case the user accepts, all pending requests associated with the now permitted domain will be run and removed from the queue.
+	
+	You should probably not use this function manually, since it is automatically done if needed; just use "loadGlobalAsync" or "loadGlobalDirectlyAsync" and you will be fine.
 }
+$uiShowDomainPermissionPopup = !fun ($domain ? String) {
+	`Show a popup which asks for domain access permission`
+	!showConfirmMessageAsync (strings: $confirmDomainAccess) + domain -> {
+		
+		`Domain permission given - unlock the domain if needed ...`
+		!ifNot (domain listContains getArray: allowedDomains) {
+			($push propOf allowedDomains): domain
+		}.
+		`... and run all pending requests associated with it`
+		!loopEach (getArray: _loadGlobalQueue) -> {
+			$pendingRequest = x.
+			!if (domain eq first: pendingRequest) {
+				`Run the request and remove it from the list of pending requests`
+				do: (second: pendingRequest).
+				($removeEquals propOf _loadGlobalQueue): pendingRequest.
+			}
+		}.
+		
+	}.
+	
+	`This domain has now asked for load permissions; remember that`
+	!ifNot (domain listContains getArray: _loadGlobalAskedDomains) {
+		($push propOf _loadGlobalAskedDomains): domain
+	}.
+}.
+
+
+`The following functions are the ones that should actually be used for loading data from the internet`
+#{
+	Loads data from a given URL and passes the result (a string, or void in case of an error) to a callback.
+	The data loading is done through the Kalzit server, so you do not have to worry about CORS requests; you can load pretty much any URL, except those that need authentication.
+}
+$loadGlobalAsync = !fun ($callback ; $wantedUrl) {
+	`We have to allow the domain first`
+	$domain ? (default: "") = urlGetHostName: wantedUrl.
+	!askDomainPermissionIfNeededAndLoad domain -> {
+		callback loadGlobalAsyncNative wantedUrl
+	}
+}.
+
+#{
+	Loads data from a given URL and passes the result (a string, or void in case of an error) to a callback.
+	The data loading is done through the Kalzit server, so you do not have to worry about CORS requests; you can load pretty much any URL, except those that need authentication.
+}
+$loadGlobalInBackgroundAsync = !fun ($callback ; $wantedUrl) {
+	`We have to allow the domain first`
+	$domain ? (default: "") = urlGetHostName: wantedUrl.
+	!askDomainPermissionIfNeededAndLoad domain -> {
+		callback loadGlobalInBackgroundAsyncNative wantedUrl
+	}
+}.
+
+#{
+	Loads data from a given URL and passes the result (a string, or void in case of an error) to a callback.
+	The data loading is done directly by the client, so you DO have to worry about CORS requests; you can only load data from servers which allow it.
+}
+$loadGlobalDirectlyAsync = !fun ($callback ; $wantedUrl) {
+	`We have to allow the domain first`
+	$domain ? (default: "") = urlGetHostName: wantedUrl.
+	!askDomainPermissionIfNeededAndLoad domain -> {
+		callback loadGlobalDirectlyAsyncNative wantedUrl
+	}
+}.

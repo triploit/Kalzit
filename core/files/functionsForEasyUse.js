@@ -1,9 +1,4 @@
 GLang.eval = function (text, disableRuntimeUpdates){
-	//Remove shebang
-	if(text.startsWith("#!")){
-		text = text.split("\n").slice(1).join("\n");
-	}
-	
 	var allowRuntimeUpdates = disableRuntimeUpdates ? 1 : 0;
 	GLang.disableRuntimeUpdates+=allowRuntimeUpdates;
 	try{
@@ -41,20 +36,21 @@ GLang.stringify = function(anything){
 };
 
 (function(){
-	var generalUpdateFunctions = [];
+//	var generalUpdateFunctions = [];
 	
-	GLang.notifyGeneralChange = function (){
-		if(GLang.disableRuntimeUpdates) return;
-		for(var i = 0; i < generalUpdateFunctions.length; i++){
-			generalUpdateFunctions[i]();
-		}
-	};
+// 	GLang.notifyGeneralChange = function (){
+// 		console.log("GLang.notifyGeneralChange");
+// 		if(GLang.disableRuntimeUpdates) return;
+// 		for(var i = 0; i < generalUpdateFunctions.length; i++){
+// 			generalUpdateFunctions[i]();
+// 		}
+// 	};
 	GLang.notifyVariableChange = GLang.defaultRuntimeEnvironment.notifyVariableChange;
 	GLang.registerVariableListener = function(varName, fun){
 		console.warn("GLang.registerVariableListener should not be used anymore - use GLang.defaultRuntimeEnvironment.registerVariableListener instead");
 		GLang.defaultRuntimeEnvironment.registerVariableListener(varName, fun);
 	};
-	GLang.registerGeneralListener = function (listener){generalUpdateFunctions.push(listener)};
+	//GLang.registerGeneralListener = function (listener){generalUpdateFunctions.push(listener)};
 	
 	GLang.disableRuntimeUpdates = 0;
 })();

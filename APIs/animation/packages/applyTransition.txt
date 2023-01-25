@@ -1,0 +1,22 @@
+$applyTransition = !fun ($config) {
+	$firstAnimationBase = $firstAnimation propOf config.
+	$secondAnimationBase = $secondAnimation propOf config.
+	`This is called between the animations`
+	$onSwitch = $onSwitch propOf config.
+	$onEnd ? (default: () fun {}) = $onEnd propOf config.
+	
+	`Construct the animations`
+	$secondAnimation =
+		secondAnimationBase;
+		[$onEnd; onEnd].
+		
+	$firstAnimation =
+		firstAnimationBase;
+		[$onEnd; () fun {
+			do: onSwitch.
+			applyAnimation: secondAnimation
+		}].
+		
+	`Start the transition`
+	applyAnimation: firstAnimation
+}

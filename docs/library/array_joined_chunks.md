@@ -1,7 +1,4 @@
 # array_joined_chunks
-## argumentList
-size
-_list
 ## comment
 
 Returns all possible chunks of a given length that can be created from an array.

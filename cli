@@ -1,4 +1,6 @@
 #! /bin/bash
+# Go to the Kalzit folder
+cd "$(dirname $0)"
 
 if [ "$#" -lt 1 ]; then
 	#Start the server

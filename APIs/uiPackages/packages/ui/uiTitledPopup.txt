@@ -1,0 +1,12 @@
+$uiTitledPopupViewAsList = !fun ($view ; $title) {
+	(uiTitleToolbar: title);
+	(@belowToolbar view)
+}.
+
+$uiTitledPopupView = !fun ($view ; $title) {
+	uiContainer: !uiTitledPopupViewAsList view title
+}.
+
+$uiTitledPopup = !fun ($view ; $title) {
+	uiPopup: !uiTitledPopupView view title
+}.

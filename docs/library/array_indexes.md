@@ -1,6 +1,4 @@
 # array_indexes
-## argumentList
-_array
 ## comment
 
 Gives the list of indexes an array has.

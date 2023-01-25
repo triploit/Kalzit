@@ -1,6 +1,4 @@
 # list
-## argumentList
-_itemType
 ## comment
 
 Converts a value to a list, where every item itself gets a specified type.

@@ -1,0 +1,11 @@
+$qrCodeUrl = $sensitiveQrCodeUrl = !fun ($content) {
+	"/api/qrcode/?text=" + urlEncodeParameter: content
+}.
+
+$uiQrCode = $uiSensitiveQrCode = !fun ($content) {
+	!uiShowImageUrl (qrCodeUrl: content) {}.
+}.
+
+$showQrCode = !fun ($content) {
+	print: $popup = (uiQrCode: content) uiSmallPopup {uiHide: popup}
+}.

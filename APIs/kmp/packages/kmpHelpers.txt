@@ -1,0 +1,37 @@
+`Kalzit Media Protocol handling`
+$kmpCollectionToList = !fun ($_kmpObject) {
+	$kind = $kind propOf _kmpObject.
+	!ifElse (kind eq "collection") {
+		`Reduce each item`
+		;/ {
+			kmpCollectionToList: x
+		} each $collection propOf _kmpObject
+	};{
+		`Simply return the original` [_kmpObject]
+	}
+}.
+
+$kmpGetDefaultThumbnail = !fun ($_kmpObject) {
+	$default propOf kmpGetThumbnailObject: _kmpObject
+}.
+$kmpGetTitle = !fun ($_kmpObject) {
+	(default: fileName: $id urlGetParameter $default propOf $file propOf _kmpObject):
+	(default: $title propOf $tags propOf $format propOf "k-metadata" propOf _kmpObject):
+	$title propOf _kmpObject.
+}.
+
+`TODO: Maybe this should not be accessible from anywhere (is only used by kmpFromUrlAsync)`
+$completeKmpCache ? ModifiableObject = void.
+
+$kmpFromUrlAsync = ($callback ; $url) fun {
+	$cached = ($getProperty propOf completeKmpCache): [url].
+	
+	!ifElse (cached eq void) {
+		{
+			[url] ($push propOf completeKmpCache) $result = parseJson: x.
+			callback: result
+		} loadGlobalAsync url
+	};{
+		callback: cached
+	}
+}.

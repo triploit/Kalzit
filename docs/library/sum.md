@@ -1,6 +1,4 @@
 # sum
-## argumentList
-_numbers
 ## comment
 
 Calculates the sum of the values inside an array.

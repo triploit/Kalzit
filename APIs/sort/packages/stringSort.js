@@ -1,0 +1,2 @@
+this.sortingRuleStringsAscending = function(stringA, stringB) { return stringA.localeCompare(stringB) }
+this.sortingRuleStringsDescending = function(stringA, stringB) { return stringA.localeCompare(stringB) }

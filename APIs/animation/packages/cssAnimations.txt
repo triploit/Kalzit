@@ -1,0 +1,2 @@
+$fadeTransition = namedTransition bind "k-animation_fade".
+$scaleTransition = namedTransition bind "k-animation_scale".

@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for button_tool
 	Produces a button-like tool to add to the mobile or desktop tool set.
 	This tool was meant to use with something like "toolsAtLeft" or "toolAtRight".
 	
@@ -6,7 +6,7 @@
 	```
 	toolsAtLeft: [otherTools];[ !buttonTool "Title" -> {popupMessage: "Button action"} ].
 	```
-}
+*/
 $buttonTool = !fun ($action ; $title) {
 	["mobile";{!action. void}];
 	["desktop";{action uiButton title}];
@@ -19,18 +19,17 @@ $indexPickerTool = !fun ($titleAndRef ? (Tuple: String;Reference) ; $_values ? M
 	
 	["desktop";{@dynamicWidth ref uiLiveReferenceIndexPicker _values}];
 	["mobile";{
-		(uiTitleToolbar: title);
-		(@(height: "100% - " + toolbarCmHeight + "cm")
+		!uiTitledPopupViewAsList title ->
 			{ref = x. !closeSubApp} uiIndexPickerForMobile strFirstLine each getArray: _values)
 	}];
 	["title";title]
 }.
 
-#{
+/* @kalzit.for custom_modifiable_list_edit_tool
 	The "configuration" parameter is an object that can contain the following fields:
 		- Every field available for "uiCustomModifiableStringListEditor"
 		- $title (Defines the title of this tool, shown on narrow screens / windows)
-}
+*/
 $customModifiableListEditTool = !fun ($configuration ; $_values ? ModifiableList) {
 	$title = (default: "Custom list editor (needs a $title)"): $title propOf configuration.
 	
@@ -98,4 +97,14 @@ $popupTool = !fun ($title ; $popupContentGenerator) {
 $separatorTool = !fun () {
 	["desktop"; @(cmHeight toolbarCmHeight) @verticalCenter !uiHorizontalSeparator];
 	["mobile"; !uiVerticalSeparator]
+}.
+
+$additionalActionsTool = !fun ($object ; $additionalActions) {
+	["desktop"; object uiAdditionalActionsButton additionalActions];
+	["mobile"; uiContainer: !each additionalActions -> $action fun {
+		uiListItem:
+			[$mainView; uiContainer: 0 at action];
+			[$onTap; 1 at action];
+			[$value; object]
+	}]
 }.

@@ -11,6 +11,20 @@ $pause = ($_mediaController) fun {do $pause propOf _mediaController}.
 $play = ($_mediaController) fun {do $play propOf _mediaController}.
 
 #{
+	Returns if a media controller is paused, using its $isPaused property
+}
+$isPaused = ($_mediaController) fun {
+	do: $isPaused propOf _mediaController
+}.
+
+#{
+	Toggles a media controller between playing and pausing. If it is playing now, it will pause after this, and the other way around.
+}
+$togglePlay = ($_mediaController) fun {
+	!ifElse (isPaused: _mediaController) {play:_mediaController};{pause:_mediaController}.
+}.
+
+#{
 	Defines a value by which to increse or decrease volume when the user requests to make it louder or quieter.
 	This value is used when calling "increaseVolume" or "decreaseVolume" on a medium.
 	To change the default value for this (0.1), use "volumeStepSizeRef"

@@ -1,9 +1,18 @@
-#{Produces an annotation that sets the background color of an element, using the "flagBackgroundColor" function}
+/* @kalzit.for background_color
+Produces an annotation that sets the background color of an element, using the "flagBackgroundColor" function.
+The color can be an array of numbers (rgba) or a string that is a valid CSS color value (like "red").
+*/
 $backgroundColor = ($_color ? ColorString) fun {flagBackgroundColor bind _color}.
 
+/* @kalzit.for background_image_url
+Produces an annotation that sets the background image of an element, using the "flagBackgroundImageUrl" function
+*/
 $backgroundImageUrl = ($url) fun {flagBackgroundImageUrl bind url}.
 
-#{Produces an annotation that sets the foreground color of an element, using the "flagForegroundColor" function}
+/* @kalzit.for foreground_color
+Produces an annotation that sets the foreground color of an element, using the "flagForegroundColor" function.
+The color can be an array of numbers (rgba) or a string that is a valid CSS color value (like "red").
+*/
 $foregroundColor = ($_color ? ColorString) fun {flagForegroundColor bind _color}.
 
 $backgroundGradientTopToBottom = ($_colors ? (2 SizedList ColorString)) fun {flagBackgroundGradientTopToBottom bind _colors}.

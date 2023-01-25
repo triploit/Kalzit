@@ -1,1 +1,33 @@
-$youtubeVideoTitle = ($video ? YoutubeVideoId) fun {$title propOf kalzitMediaProtocolFromYoutubeVideo: video}.
+@(useInstead: "youtubeVideoTitleAsync")
+$youtubeVideoTitle = ($video ? YoutubeVideoId) fun {
+	$title propOf parseJson: loadLocal: "https://noembed.com/embed?url=" + urlEncodeParameter: "https://www.youtube.com/watch?v=" + video
+}.
+
+/* @kalzit.for youtube_video_oembed_async_fast
+	A way to get infos about a YouTube video, in a format not controlled by the API. With this implementation, the client goes directly to a third-party web service.
+*/
+$youtubeVideoOembedAsyncFast = !fun ($then ; $video ? YoutubeVideoId) {
+	!loadGlobalDirectlyAsync "https://noembed.com/embed?url=" + urlEncodeParameter: "https://www.youtube.com/watch?v=" + video -> {
+		then: parseJson: x	
+	}
+}.
+
+/* @kalzit.for youtube_video_title_async_fast
+	A way to get YouTube video titles. With this implementation, the client goes directly to a third-party web service.
+*/
+$youtubeVideoTitleAsyncFast = !fun ($then ; $video ? YoutubeVideoId) {
+	!youtubeVideoOembedAsyncFast video -> {
+		then: $title propOf x	
+	}
+}.
+
+/* @kalzit.for youtube_video_title_async_slow
+	A way to get YouTube video titles. With this implementation, the client goes to the Kalzit server, which then talks to YouTube.
+	Makes it a tiny bit harder to figure out which devide requested which video titles.
+*/
+$youtubeVideoTitleAsyncSlow = ($then ; $id ? YoutubeVideoId) fun {
+	{then: $title propOf parseJson: x} loadGlobalAsync "https://www.youtube.com/oembed?format=json&url=" + urlEncodeParameter: "https://youtube.com/watch?v=" + id.
+}.
+
+$youtubeVideoTitleAsync = youtubeVideoTitleAsyncFast.
+$youtubeVideoOembedAsync = youtubeVideoOembedAsyncFast.

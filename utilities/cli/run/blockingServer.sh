@@ -1,2 +1,2 @@
 bash ./nodejs/files/server/beforeStarting.sh
-./cli run nodeApp
+./cli run nodeApp nodejs/files/httpServer.k "$@"

@@ -16,7 +16,7 @@ $storageAutoSaveStringList = ($key ? String ; $_list ? ModifiableList) fun {
 $storageLoadStringList = ($key ? String) fun {
 	$len ? Int = storageLoadString: ("listLength_of_" + key).
 	
-	;/ {
+	() ; ;/ {
 		storageLoadString: "listItem_" + x + "_of_" + key
 	} each (0 rangeUp len) - 1
 }.

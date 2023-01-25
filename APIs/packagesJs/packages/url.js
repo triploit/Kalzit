@@ -39,3 +39,8 @@ this.urlGetHostName = function(url) {
 		return new URL(url).hostname;
 	}catch(e){return null;}
 }
+this.urlGetOrigin = function(url) {
+	try {
+		return new URL(url).origin;
+	}catch(e){return null;}
+}

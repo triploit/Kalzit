@@ -70,6 +70,8 @@ function makeFileAccess(file){
 }
 
 function makeDropEventAccess(event){
+	//console.log(event.dataTransfer.types + "");
+
 	var files = [];
 	for(var i = 0; i < event.dataTransfer.files.length; i++){
 		files.push(makeFileAccess(event.dataTransfer.files[i]));
@@ -79,7 +81,9 @@ function makeDropEventAccess(event){
 		{value:[GLang.stringValue("files"), {
 			value:files
 		}]},
-		{value:[GLang.stringValue("text"), GLang.stringValue(event.dataTransfer.getData("Text"))]}
+		{value:[GLang.stringValue("text"), GLang.stringValue(event.dataTransfer.getData("Text"))]},
+		{value:[GLang.stringValue("url"), GLang.stringValue(event.dataTransfer.getData("Url"))]},
+		{value:[GLang.stringValue("html"), GLang.stringValue(event.dataTransfer.getData("text/html"))]}
 	]};
 }
 

@@ -1,0 +1,58 @@
+$registeredMobileTools ? ModifiableList = ().
+$registerMobileTool = ($toolFactory ; $_label) fun {
+	($push propOf registeredMobileTools): [toolFactory;_label].
+}.
+
+$applyMobileTools = !fun ($mobileTools) {
+	`This view will contain all the tool shortcuts`
+	@verticalScroller @center @(width: "100% - 14px") @(height "95% - " + toolbarCmHeight + "cm")
+		$toolListView = uiContainer: ().
+	$addToListView = uiPrint: toolListView.
+
+	(($_tool) fun {
+		$toolInfo = second: _tool.
+		
+		!if ("string" eq displayType: toolInfo) {
+			
+			`If the tool info is a string, register an appropriate sub app...`
+			$popupRef = reference: $popup.
+			$toolName = "tool_" + urlEncodeParameter: second: _tool.
+			
+			toolName registerSubApp {
+				$view = do: first: _tool.
+				!if (not view eq void) {
+					uiShowPopup: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
+				}. !else closeSubApp
+			};{}.
+			
+			`... and add a view to the list view`
+			addToListView: @(cssClass: "k-single_view_picker") @(onTap: () fun {openSubApp: toolName})
+				uiContainer: toolInfo.
+				
+		}. !else {
+			`If the tool info is not a string, treat it as a UI element, and add it to the list view right away`
+			addToListView: toolInfo
+		}
+	}) each getArray: mobileTools.
+	
+	`Make the tool list available as a sub app`
+	$tools registerSubApp popupSubApp: !uiTitledPopupViewAsList (strings: $menu) ->
+		toolListView.
+}.
+
+#{
+	Generates a toolbar overlay with a standardized layout for mobile devices (usually smartphones).
+	This bar is only visible when the app window is soo small for desktop controls, otherwise it is hidden.
+	
+	This toolbar is empty by default, except for two buttons on the right ("user" and "apps") and one on the left ("menu").
+	
+	To add custom tools for an app, use "registerMobileTool".
+	That will not actually add a tool to the bar itself, but it will add an option that appears when the user taps the menu button.
+	For more information about adding desktop tools, see the documentation of "registerDesktopTool".
+	
+	Please note that if you are making an app for mobile and desktop, you sould use "uiGlobalToolbar" instead of this function.
+	It takes care of adding all necessary UI elements to make the toolbar look nice.
+}
+$generateMobileToolbarOverlay = () fun {
+	uiMobileToolbarOverlay: registeredMobileTools.
+}.

@@ -1,0 +1,24 @@
+.k-dynamic_size {
+	width: initial;
+	height: initial;
+}
+.k-dynamic_width {
+	width: initial;
+}
+.k-dynamic_height {
+	height: initial;
+}
+.k-fit {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+.k-ui_fit_container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.k-ui_fit_child {
+	max-width: 100%;
+	max-height: 100%;
+}

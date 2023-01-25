@@ -53,22 +53,32 @@ Usage example (JS):
 var appId = location.pathname.split("/");
 appId = appId[appId.length - 1];
 
-function loadAsync(callbackValue, path, env, unimportant){
+function loadAsync(callbackValue, path, env, unimportant, fetchOptions){
 	var callback = makeCallback(callbackValue, env);
 
 	//Start an important fetch
 	//If the "unimportant" parameter is set, do an unimportant fetch instead
 	var fetchMethod = unimportant ? KFetch.unimportant : KFetch.important;
 	
-	fetchMethod(path).then(fetchResponse => {
+	fetchMethod(path, fetchOptions || {}).then(fetchResponse => {
 		//Pass the result to the callback...
 		if(fetchResponse.ok) {
 			var clonedResponse = fetchResponse.clone();
-			fetchResponse.text().then(text => callback(GLang.stringValue(text)));
+			fetchResponse.text()
+				.then(text => callback(GLang.stringValue(text)))
+				.catch(error => {
+					//This can (primarily) happen if the fetch was aborted.
+					//We can then try to restart it
+					console.error("There was an error when trying to get the text from a fetchResponse (in load.js). Restarting the fetch.");
+					loadAsync(callbackValue, path, env, unimportant, fetchOptions);
+				});
 		}else{
 			//Not OK, call the callback with "void" as the parameter
 			callback(GLang.voidValue);	
 		}
+	})
+	.catch(error => {
+		console.error("Hi. We have an error in the load.js loadAsync API. This is probably not good." + error);
 	})
 }
 
@@ -83,11 +93,15 @@ Usage example (Kalzit):
 If you want to use absolute URLs, consider using "loadGlobalAsync".
 */
 GLang.defaultRuntimeEnvironment.setInnerVariable("load_local_async", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], args[1].value, env);
+	loadAsync(args[0], args[1].value, env, false, {mode: "same-origin"});
 	return GLang.voidValue;
 })});
 GLang.defaultRuntimeEnvironment.setInnerVariable("load_local_async_without_indicator", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], args[1].value, env, true);
+	loadAsync(args[0], args[1].value, env, true, {mode: "same-origin"});
+	return GLang.voidValue;
+})});
+GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_directly_async_native", {value:GLang.arrayFun(function(env, args){
+	loadAsync(args[0], args[1].value, env, false);
 	return GLang.voidValue;
 })});
 
@@ -105,6 +119,11 @@ In its current form, the server handles these load requests in a synchronous way
 If you want to use absolute URLs, consider using "loadLocalAsync".
 */
 GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_async_native", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env);
+	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env, false);
+	return GLang.voidValue;
+})});
+
+GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_in_background_async_native", {value:GLang.arrayFun(function(env, args){
+	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env, true);
 	return GLang.voidValue;
 })});

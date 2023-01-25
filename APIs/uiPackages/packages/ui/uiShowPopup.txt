@@ -20,11 +20,13 @@ $showNotificationPrompt = !fun ($message ? String) {
 			[@centerText uiText: message];
 			[@center uiContainer:
 				[{
-					notificationPromptShownRef = true.
 					uiHide: popup.
-					!ifNot (!notificationsAllowed) notificationRequestPermission.
-				} uiButton "Allow notifications"];
-				[{notificationPromptShownRef = true. uiHide: popup} uiButton "Don't allow"]
+					!ifNot (notificationPromptShown) {
+						!notificationRequestPermission.
+						notificationPromptShownRef = true.
+					}.
+				} uiButton strings: $allowNotifications];
+				[{notificationPromptShownRef = true. uiHide: popup} uiButton strings: $dontAllow]
 			].
 		
 		print: $popup = popupContent uiSmallPopup action.
@@ -40,8 +42,8 @@ $showConfirmMessageAsync = !fun ($onConfirm ; $message ? String) {
 			[{
 				uiHide: popup.
 				do: onConfirm
-			} uiButton "Allow"];
-			[{uiHide: popup} uiButton "Don't allow"]
+			} uiButton strings: $allow];
+			[{uiHide: popup} uiButton strings: $dontAllow]
 		].
 	
 	print: $popup = popupContent uiSmallPopup action.
@@ -57,7 +59,7 @@ $showMessageAsync = !fun ($callback ; $message ? String) {
 	print: $popup = popupContent uiSmallPopup action.
 }.
 $showMessage = !fun ($message ? String ; $notificationQuestion ? String) {
-	!if (!notificationAllowed) {
+	!if notificationAllowed {
 		notificationShowShortText: message.
 	}. !else {
 		{

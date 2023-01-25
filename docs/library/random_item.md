@@ -1,6 +1,4 @@
 # random_item
-## argumentList
-_list
 ## comment
 
 Picks a random item from a list that has at least one entry.

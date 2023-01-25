@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Libraries to enable or disable standard stylesheets"
+	},
+	"libraries":[
+		{"provides":["style_dark_mode_auto", "style_high_contrast_auto", "style_dark_mode_on", "style_high_contrast_on", "style_dark_mode_off", "style_high_contrast_off"],  "scriptUrl":"styleSettings.js"}
+	]
+}

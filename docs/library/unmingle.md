@@ -1,6 +1,4 @@
 # unmingle
-## argumentList
-_mingled
 ## comment
 
 The counterpart of the mingle function.

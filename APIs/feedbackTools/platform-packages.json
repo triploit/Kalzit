@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries that provide an easy way to include feedback options with your app",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		{"provides":["feedback_actions"], "scriptUrl":"feedbackActions.txt"}
+	]
+}

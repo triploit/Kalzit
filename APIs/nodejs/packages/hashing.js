@@ -18,19 +18,26 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("fileMdFiveHashAsync", {
 		var filePath = args[1].value;
 		var callback = args[0];
 		
-		//Idea from https://stackoverflow.com/questions/18658612/obtaining-the-hash-of-a-file-using-the-stream-capabilities-of-crypto-module-ie
-		// the file you want to get the hash    
-		var fd = require("fs").createReadStream(filePath);
-		var hash = require("crypto").createHash('md5');
-		hash.setEncoding('hex');
+		//We now have to create a checksum
+		var hash = require("crypto").createHash("md5");
 		
-		fd.on('end', function() {
-		    hash.end();
-		 	GLang.callObject(callback, env, [GLang.stringValue(hash.read())]);
+		//To prevent loading the entire file into memory, pipe it into the hash stream
+		//We need the file stream to figure out when it ends, so we have to store it
+		var fileStream = require("fs").createReadStream(filePath);
+		
+		//React as soon as the fileStream ends
+		//It is important that this is in front of the "pipe" call, otherwise it does not always trigger
+		fileStream.on("end", function() {
+			//Generate the hash and call the callback
+			var hashString = hash.digest("hex");
+			GLang.callObject(callback, env, [GLang.stringValue(hashString)]);
 		});
 		
-		// read all file and pipe it (write it) to the hash object
-		fd.pipe(hash);
+		fileStream.on("error", function() {
+			console.log("AAAAAA");
+		});
+		
+		fileStream.pipe(hash);
 		
 		return GLang.voidValue;
 	}
