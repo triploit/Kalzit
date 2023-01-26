@@ -1,0 +1,9 @@
+/* @kalzit.for blur
+	This annotation adds a blur to an UI element.
+	You can specify the amount of blur - a higher value creates more blur, 0 is no blur.
+	
+    ```
+	@(blur 5) myUiElement.
+    ```
+*/
+$blur = ($pixels ? Int) fun {flagBlur bind pixels}

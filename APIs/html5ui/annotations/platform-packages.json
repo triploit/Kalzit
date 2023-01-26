@@ -32,6 +32,8 @@
 		{"provides":["flag_rotation"], "scriptUrl":"rotation.js"},
 		{"provides":["rotation"], "scriptUrl":"rotation.txt"},
 		{"provides":["flag_autocorrect"], "scriptUrl":"autocorrect.js"},
-		{"provides":["autocorrect"], "scriptUrl":"autocorrect.txt"}
+		{"provides":["autocorrect"], "scriptUrl":"autocorrect.txt"},
+        {"provides":["blur"], "scriptUrl":"blur.txt"},
+        {"provides":["flag_blur"], "scriptUrl":"blur.js"}
 	]
 }
