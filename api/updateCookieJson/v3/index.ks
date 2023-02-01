@@ -1,7 +1,4 @@
-$session = ($getHeader objFirstProperty _request): "kalzit-session".
 $undelete = "true" eq ($getHeader objFirstProperty _request): "kalzit-undelete".
-
-$sessionExists = fileIsFolder: $userFolder = "./nogit/users/sessions/" + session.
 
 `Update a single cookie`
 $pushCookie = ($cookieName ; $cookieValue) fun {

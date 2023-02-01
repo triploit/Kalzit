@@ -1,9 +1,6 @@
 !if ("POST" eq $method propOf _request) {
 	asyncRef = true.
 	
-	$session = ($getHeader objFirstProperty _request): "kalzit-session".
-	$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
-	
 	!if sessionExists {
 		`TODO: this relies on a specific file name format, which could change in the future`
 		$userToken = last: "/" strSplit fileRealpath: userFolder.

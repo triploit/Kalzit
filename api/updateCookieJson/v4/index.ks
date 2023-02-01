@@ -1,7 +1,5 @@
-$session = $session urlGetParameter $url propOf _request.
 $undelete = "true" eq ($getHeader objFirstProperty _request): "kalzit-undelete".
 
-$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
 $timestamp ? (0 default Int) = $time urlGetParameter $url propOf _request.
 
 `Update a single cookie`

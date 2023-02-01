@@ -1,6 +1,3 @@
-$session = ($getHeader objFirstProperty _request): "kalzit-session".
-$sessionExists = fileIsFolder: $userFolder = "serverUsersFolder + "/sessions/" + session.
-
 $jsonPath = userFolder + "/keys.json".
 $hashPath = userFolder + "/keys-hash.txt".
 

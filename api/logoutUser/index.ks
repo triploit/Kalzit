@@ -1,6 +1,4 @@
-$session = $session urlGetParameter $url propOf _request.
-print: (!dateString) + "Loggint out " + session.
-$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
+print: (!dateString) + "Logging out " + session.
 
 !if sessionExists {
 	$userSessionFolder = userFolder + "/sessions".

@@ -1,8 +1,5 @@
 `Go through all the files a user has, check if it has the given tag, and if yes, add it to a KMP collection`
 
-$session ? Float = "session" urlGetParameter $url propOf _request.
-$sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + session.
-
 !if sessionExists {
 	asyncRef = true.
 	

@@ -76,9 +76,13 @@ $serverRootPath = (default: "./serverRoot"): appParameter: "server-root".
 $onClientConnect = ($_request fun {
 	`First thing we do is a quick session validation, as that is very important for security`
 	`After that comes the normal server stuff`
-	$userSession ? Float = (default: $session urlGetParameter $url propOf _request): ($getHeader objFirstProperty _request): "kalzit-session".
-	!ifNot (userSession eq void) {
-		!sessionValidate userSession _request.
+	$session ? Float = (default: $session urlGetParameter $url propOf _request): ($getHeader objFirstProperty _request): "kalzit-session".
+
+    $sessionExists = false. $sessionExistsRef = reference: $sessionExists.
+    $userFolder = void. $userFolderRef = reference: $userFolder.
+    !ifNot (session eq void) {
+		!sessionValidate session _request.
+        sessionExistsRef = fileIsFolder: userFolderRef = serverUsersFolder + "/sessions/" + session.
 	}.
 
 	$fname = ifFolderThenMaybeIndexFile: serverRootPath + first: "?" strSplit $url propOf _request.
