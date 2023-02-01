@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for uiCustomListView
+
 	* `_options` is a modifiable list of items to display in the list view
 	* `config` is an object with various possible fields (listed below)
 	
@@ -7,7 +8,7 @@
 	* `itemSpacing` (optional): the distance between two list items in pixels. `0` by default.
 	* `sidePadding` (optional): the size of the empty space to the left and the right of the list view items. If this is 10, there will be 10 empty pixels to the left, then the list content, then 10 empty pixels to the right. Default is 0.
 	* `fullHeight` (optional): if this is set to true, the list view will have a height of 100%. Default is false.
-}
+*/
 $uiCustomListView = !fun ($_options ? ModifiableList ; $config) {
 	$itemViewFactory ? (default: {x}) = $itemViewFactory propOf config.
 	$itemSpacing ? (default: 0) = $itemSpacing propOf config.

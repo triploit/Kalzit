@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for onTextSelect
+
 	An annotation that causes a function to be called whenever a text is selected on a text input control.
 	Working text input controls are text fields and text areas.
 	
@@ -7,5 +8,5 @@
 	Warning: The function is triggered even if the user is not finished with the selection yet.
 	For example, when selecting a longer portion of text, the listener is triggered many times.
 	This means that you should not perform an action with big side effects that can not be undone here.
-}
+*/
 $onTextSelect = curry: flagOnTextSelect.

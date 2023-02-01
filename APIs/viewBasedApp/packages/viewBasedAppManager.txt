@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for view_based_app_manager
 	A helper function for managing view based apps, where the user can switch from one view to another by picking it.
 	
 	The `config` parameter is an object with the following fields:
@@ -21,7 +21,7 @@
 	* `$getCurrentView` - returns the currently shown view; can change later.
 	* `$currentViewIndexRef` - a reference that points to the currently active view index.
 	* `$mainView` - this is what you put in your UI to make the currently active view visible to the user. Updates automatically when the selection changes.
-}
+*/
 $viewBasedAppManager = !fun ($config) {
 	$storageName ? (default: "kalzit." + appId + ".selectedView") = $storageName propOf config.
 	$viewTitles ? ModifiableList = $viewTitles propOf config.

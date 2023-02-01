@@ -1,6 +1,6 @@
 $instagramUserImages=igUserParseUserImageUrls.
 
-#{
+/* @kalzit.for instagram_user_post_urls_with_images
 	Returns pairs of "normal" Instagram links (https://www.instagram.com/p/...) and direct links to the image files.
 	The first parameter needs to be an instagram user name.
 	
@@ -8,7 +8,7 @@ $instagramUserImages=igUserParseUserImageUrls.
 		$pair = first: instagramUserPostUrlsWithImages: "anyUserName".
 		$normalLink = first: pair.
 		$rawImageUrl = second: pair.
-}
+*/
 $instagramUserPostUrlsWithImages = ($userName ? String) fun {
 	{("https://www.instagram.com/p/" + $shortcode propOf x);$display_url propOf x} each igUserParseUserImages: userName
 } ? (List:Tuple:Url;Image).

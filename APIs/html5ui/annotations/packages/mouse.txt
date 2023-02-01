@@ -1,21 +1,24 @@
-#{
+/* @kalzit.for onHover
+
 	An annotation that adds a function to a UI element which is triggered when the mouse hovers it.
 	
 	Example:
 	@(onHover {popupMessage: "Hovered"}) uiText: "Stuff".
-}
+*/
 $onHover = curry: flagOnHover.
 
-#{
+/* @kalzit.for onTap
+
 	An annotation that adds a function to a UI element when the user taps it.
 	That means either the click of a mouse or the tap of a finger on a touch screen.
 	
 	Example:
 	@(onTap {popupMessage: "Tapped"}) uiText: "Stuff".
-}
+*/
 $onTap = curry: flagOnTap.
 
-#{
+/* @kalzit.for onPointerDown
+
 	An annotation that adds a function to a UI element when the user pointer goes down.
 	That means either the press (and hold) of a mouse or of a finger on a touch screen.
 	
@@ -23,10 +26,11 @@ $onTap = curry: flagOnTap.
 	@(onPointerDown {popupMessage: "Pointer down"}) uiText: "Stuff".
 	
 	This is different from @onTap because the function is triggered before the user releases the mouse button, for example.
-}
+*/
 $onPointerDown = curry: flagOnPointerDown.
 
-#{
+/* @kalzit.for onPointerUp
+
 	An annotation that adds a function to a UI element when the user pointer goes up.
 	That means either the release of the main mouse button or of a finger on a touch screen.
 	
@@ -34,10 +38,11 @@ $onPointerDown = curry: flagOnPointerDown.
 	@(onPointerUp {popupMessage: "Pointer up"}) uiText: "Stuff".
 	
 	This is different from @onTap because it also triggers the event when the mouse button was pressed anywhere else, but released over the UI element.
-}
+*/
 $onPointerUp = curry: flagOnPointerUp.
 
-#{
+/* @kalzit.for onPointerMove
+
 	An annotation that adds a function to a UI element when the user pointer moves and ends up over the element.
 	That means either the movement of a mouse cursor or of a finger on a touch screen.
 	
@@ -46,7 +51,7 @@ $onPointerUp = curry: flagOnPointerUp.
 	
 	The event can be triggered very frequently, so the associated function should never take a long time to run.
 	If you want to figure out if the pointer is over an element, use @onHover instead.
-}
+*/
 $onPointerMove = curry: flagOnPointerMove.
 
 $onDrag = curry: !fun ($function ; $object) {

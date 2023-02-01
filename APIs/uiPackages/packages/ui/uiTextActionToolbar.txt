@@ -28,10 +28,11 @@ $uiCustomTextActionToolbar = !fun ($config) {
 			(uiHorizontalPxSpace: 7)
 }.
 
-#{
+/* @kalzit.for uiTextActionToolbar
+
 	A toolbar with a text input field in it, as well as a button to do something with the text.
 	This is used with search popus, for example.
-}
+*/
 $uiTextActionToolbar = !fun ($action ; $buttonText ? String) {
 	uiCustomTextActionToolbar:
 		[$buttonText; buttonText];

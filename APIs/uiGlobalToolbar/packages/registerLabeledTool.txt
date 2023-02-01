@@ -9,11 +9,15 @@ $registerLabeledTool = ($label ? String ; $_platformImplementations) fun {
 
 `These variables will be used by the uiGlobalToolbar function below, and they allow developers to update the toolbar later`
 $globalDesktopToolbar = void. 
-#{Update this if you want to replace the currently active desktop toolbar}
+/* @kalzit.for global_desktop_toolbar_ref
+    Update this if you want to replace the currently active desktop toolbar
+*/
 $globalDesktopToolbarRef = reference: $globalDesktopToolbar.
 
 $globalMobileToolbar = void.
-#{Update this if you want to replace the currently active mobile toolbar}
+/* @kalzit.for global_mobile_toolbar_ref
+    Update this if you want to replace the currently active mobile toolbar
+*/
 $globalMobileToolbarRef = reference: $globalMobileToolbar.
 
 

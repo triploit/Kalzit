@@ -1,23 +1,23 @@
-#{
+/* @kalzit.for osm_search_url
 	An URL which points to the OpenStreetMap search API.
 	To construct a complete search URL, you can do this:
 		osmSearchUrl + urlEncodeParameter: "search term".
 	
 	If you just want to access the search data, consider using "osmSearchPlaces" instead.
-}
+*/
 $osmSearchUrl = "https://nominatim.openstreetmap.org/search?format=json&q=".
 
-#{
+/* @kalzit.for osm_search_json_async
 	Produces the JSON string returned by the OpenStreetMap search API.
 	
 	Usage example:
 		!osmSearchJsonAsync "searchTerm" -> {$jsonText = x}.
 	
 	If you just want to access the search data, consider using "osmSearchPlaces" instead.
-}
+*/
 $osmSearchJsonAsync = ($callback ; $term ? String) fun {callback loadGlobalAsync osmSearchUrl + urlEncodeParameter: term}.
 
-#{
+/* @kalzit.for osm_search_places_async
 	Produces a list of places found by the OpenStreetMap search API and passes it to a callback.
 	The returned object is the parsed version of the queried JSON data.
 	
@@ -25,43 +25,43 @@ $osmSearchJsonAsync = ($callback ; $term ? String) fun {callback loadGlobalAsync
 		!osmSearchPlacesAsync "search term" -> {$places = x}.
 	
 	To easily access information about the found places, consider using "osmPlaceCoordinates" or "osmPlaceName".
-}
+*/
 $osmSearchPlacesAsync = ($callback ; $term ? String) fun {{callback: parseJson: x} osmSearchJsonAsync term}.
 
-#{
+/* @kalzit.for osm_place_coordinates
 	Returns the location (a 2-item list with two numbers, describing the latitude and longitude) of an OpenStreetMap place.
 	A place can be obtained from "osmSearchPlaces".
 	
 	Usage example:
 		$coordinates = osmPlaceCoordinates: first: osmSearchPlaces: "search term"
-}
+*/
 $osmPlaceCoordinates = ($_place) fun { ["lat" objFirstProperty _place];["lon" objFirstProperty _place] }.
 
-#{
+/* @kalzit.for osm_place_name
 	Returns the name (as a string) of an OpenStreetMap place.
 	A place can be obtained from "osmSearchPlaces".
 	
 	Usage example:
 		$name = osmPlaceName: first: osmSearchPlaces: "search term"
-}
+*/
 $osmPlaceName = ($_place) fun {"display_name" objFirstProperty _place}.
 
-#{
+/* @kalzit.for osm_search_place_coordinates_async
 	Produces a list of place coordinates that describe places matching a search term and passes it to a callback.
 	
 	Usage example:
 		!osmSearchPlaceCoordinatesAsync "search term" {$coordinates = x}.
 	
 	If you need to get coordinates from a place object, consider using "osmPlaceCoordinates".
-}
+*/
 $osmSearchPlaceCoordinatesAsync = ($callback ; $term ? String) fun {{callback: osmPlaceCoordinates each x} osmSearchPlacesAsync term}.
 
-#{
+/* @kalzit.for osm_search_place_names_async
 	Produces a list of place names that describe places matching a search term and passes it to a callback.
 	
 	Usage example:
 		!osmSearchPlaceNamesAsync "search term" -> {$names = x}.
 	
 	If you need to get a name from a place object, consider using "osmPlaceName".
-}
+*/
 $osmSearchPlaceNamesAsync = ($callback ; $term ? String) fun {{callback: ;/ osmPlaceName each x} osmSearchPlacesAsync term}.

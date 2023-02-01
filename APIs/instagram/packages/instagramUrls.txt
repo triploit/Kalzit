@@ -1,9 +1,11 @@
-#{URL to the Instagram main page}
+/* @kalzit.for instagram_user_url
+URL to the Instagram main page
+*/
 $instagramUserUrl ? Url = "https://www.instagram.com/".
 
-#{
+/* @kalzit.for instagram_tag_url
 	URL to the Instagram "tags" page.
 	To point to a specific tag, use something like this:
 		instagramTagUrl + "yourTag".
-}
+*/
 $instagramTagUrl ? Url = "https://www.instagram.com/explore/tags/".

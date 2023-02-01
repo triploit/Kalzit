@@ -1,16 +1,18 @@
-#{
+/* @kalzit.for fontFamily
+
 	An annotation that defines the font family used by a UI element.
 	
 	Example:
 	@(fontFamily "Serif") uiText: "My text".
-}
+*/
 $fontFamily = curry: flagFontFamily.
 
-#{
+/* @kalzit.for emFontSize
+
 	An annotation that defines the font size used inside a container in relative font size.
 	
 	Example:
 	@(emFontSize 10) uiText: "My text".
 	This will display "My text" ten times bigger than usual.
-}
+*/
 $emFontSize = curry: flagEmFontSize.

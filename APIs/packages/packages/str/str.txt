@@ -1,4 +1,6 @@
-#{Returns 1 if y contains the substring x}
+/* @kalzit.for strContains
+Returns 1 if y contains the substring x
+*/
 $strContains = ($x;$y) fun {1 < length: x strSplit y}.
 $strJoin=($separator;$_list) fun {
 	(length: _list) ifElse {

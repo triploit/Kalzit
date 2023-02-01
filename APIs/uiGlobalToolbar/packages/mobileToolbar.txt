@@ -40,7 +40,7 @@ $applyMobileTools = !fun ($mobileTools) {
 		toolListView.
 }.
 
-#{
+/* @kalzit.for generate_mobile_toolbar_overlay
 	Generates a toolbar overlay with a standardized layout for mobile devices (usually smartphones).
 	This bar is only visible when the app window is soo small for desktop controls, otherwise it is hidden.
 	
@@ -52,7 +52,7 @@ $applyMobileTools = !fun ($mobileTools) {
 	
 	Please note that if you are making an app for mobile and desktop, you sould use "uiGlobalToolbar" instead of this function.
 	It takes care of adding all necessary UI elements to make the toolbar look nice.
-}
+*/
 $generateMobileToolbarOverlay = () fun {
 	uiMobileToolbarOverlay: registeredMobileTools.
 }.

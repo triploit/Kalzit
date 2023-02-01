@@ -1,11 +1,12 @@
-#{
+/* @kalzit.for uiCustomModifiableStringListEditor
+
 	The "configuration" parameter is an object that can have the following fields:
 		- $toStringConverter (converts each item to a string)
 		- $fromStringConverter (converts a string to a valid list item)
 		- $onTap (when an item is selected - gets the selected index as parameter)
 		- $onAddition (triggered when an item is added)
 		- $onRemoval (triggered when an item is removed)
-}
+*/
 $uiCustomModifiableStringListEditor = ($list ? ModifiableList ; $configuration) fun {
 	($setOnAddition propOf list): first: $onAddition propOf configuration.
 	($setOnRemoval propOf list): $onRemoval propOf configuration.

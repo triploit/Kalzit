@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for boxShadow
+
 	This annotation adds a box shadow to an element.
 	You can specify the color of the shadow - usually you want to use black.
 	
@@ -7,5 +8,5 @@
 	$square = @(pxWidth 100) @(pxHeight 100) @(backgroundColor red) uiContainer: ().
 	
 	@(boxShadow black) square. `Actually add the shadow`
-}
+*/
 $boxShadow = ($_color ? ColorString) fun {flagBoxShadow bind _color}

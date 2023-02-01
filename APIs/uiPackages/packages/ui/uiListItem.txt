@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for uiListItem
+
 	This is a helper function for creating generic list items.
 	List items can have a custom view, an action button and a tap action, as well as a value that is connected to all these actions.
 	Most standard uses for list items are probably covered by this.
@@ -12,7 +13,7 @@
 		* `additionalActions` (optional) - a set of name-function pairs that define actions for an action button. If this is specified, the list item will automatically get an action button.
 		* `additionalActionsButton` (optional) - you can specify a full action button (with custom styling, for example) instead of `additionalActions`. This can also be a function that returns said view - if it is, it gets the `value` property of `config` as its first parameter, and the `index` property as the second
 		* `additionalViewFactory` (optional): a view factory (function which gets the value associated with this list item and returns a view) which can be displayed where the title usually is shown. Can be accessed via a three-dot button.
-}
+*/
 $uiListItem = !fun ($config) {
 	$mainView ? UiElement = $mainView propOf config.
 	$currentView = mainView. $currentViewRef = reference: $currentView.

@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for ui_kmp_list_with_big_thumbnails
 	Creates a list view from a KMP collection, with (relatively large) thumbnails and titles. Additionally, you can specify actions for tapping on a medium and add other interaction options.
 	
 	Parameters:
@@ -11,7 +11,7 @@
 	* `allowTitleOverflow` is a boolean value which specifies if the title can take up more than one line. The default value is true. If this is false, titles can be cut off.
 	* `centerTitle` is a boolean value which specifies if the title is centered. Default value is true - if false, the title is aligned to the left.
 	* `defaultThumbnail` (optional): defines a default icon which will be used if no fixed icon is specified by the KMP list item,
-}
+*/
 $uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
 	$tapAction = $onTap propOf interactionConfig.
 	$additionalActions = $additionalActions propOf interactionConfig.
@@ -41,11 +41,11 @@ $uiKmpListWithBigThumbnails = !fun ($interactionConfig ; $videoList) {
 	}) uiListView kmpCollectionToList: videoList.
 }.
 
-#{
+/* @kalzit.for ui_kmp_list
 	A convenience function for producing a uiList of uiKmpListItem(s).
 	The "config" object is used to configure each list item; it can be used exactly as documented for uiKmpListItem.
 	The "listConfig" property of "config" can include all the configurations for "uiCustomListView", but you do not need to specify "itemViewFactory".
-}
+*/
 $uiKmpList = !fun ($config ; $videoList) {
 	(kmpCollectionToList: videoList) uiCustomListView
 		[$itemViewFactory; (($_media ; $index) fun {

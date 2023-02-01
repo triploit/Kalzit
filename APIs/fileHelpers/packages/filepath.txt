@@ -1,7 +1,8 @@
 `For the moment, a file path is the same as a string - this will probably change later`
 $FilePath = String.
 
-#{
+/* @kalzit.for SafeFilePath
+
 	This function performs a few checks to try to prevent a file path from being misused.
 	Right now, the only thing it does is see if the path contains "../" - this can be used to go up a level in the folder hierarchy, possibly allowing someone to get to a place where they are not supposed to go.
 	Therefore, a path containing "../" is considered unsafe.
@@ -11,7 +12,7 @@ $FilePath = String.
 	
 	Plesae note that this function can never make entierely sure that a path is indeed safe.
 	Rather, it just detects cases that might be unsafe.
-}
+*/
 $SafeFilePath = !fun ($path ? FilePath) {
 	`Check if the path contains a double dot (../ or ends with ..) - if yes, it is considered unsafe`
 	!ifElse (("../" strContains path) | ("/.." strEndsWith path) | (".." eq path)) {

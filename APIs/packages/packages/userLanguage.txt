@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for getSimpleUserLanguage
+
 	Returns a simple (two-letter) code which represents the language of the current user.
 	For example, if the system language is set to English, it will return "en".
 	
@@ -6,5 +7,5 @@
 	
 	Usage example:
 		$lang = !getSimpleUserLanguage.
-}
+*/
 $getSimpleUserLanguage = () fun {second: "([a-zA-Z0-9]+)" match do:getUserLanguage}.

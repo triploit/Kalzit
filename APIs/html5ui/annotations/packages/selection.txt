@@ -1,15 +1,17 @@
-#{
+/* @kalzit.for onSelect
+
 	This annotation causes a listener to be fired whenever an element is focused, or selected by clicking or tapping on it.
 	
 	Usage example:
 		print: @(onSelect: {popupMessage: "The element is selected"}) uiText: "The UI element".
-}
+*/
 $onSelect = curry: flagOnSelect.
 
-#{
+/* @kalzit.for onDeselect
+
 	This annotation causes a listener to be fired whenever an element becomes not focused anymore, or deselected by clicking or tapping somewhere else.
 	
 	Usage example:
 		print: @(onDeselect: {popupMessage: "The element is not selected anymore"}) uiText: "The UI element".
-}
+*/
 $onDeselect = curry: flagOnDeselect.

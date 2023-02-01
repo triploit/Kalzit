@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for popupSubApp
+
 	This function allows you to easily create a popup-based sub app.
 	A sub-app is a part of your app which the user can open - and close after using it.
 	While the sub-app is open, the user can not interact with the rest of the app.
@@ -16,7 +17,7 @@
 	
 	If you want to just show a popup without linking it to a sub-app (which you should not do!), use "uiPopup" and "print".
 	If you want more freedom when defining sub apps, take a look at "registerSubApp".
-}
+*/
 $popupSubApp = ($contentGenerator) fun {
 	$popupRef = reference: $popup.
 	$showPopup = () fun {

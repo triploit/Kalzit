@@ -1,22 +1,25 @@
-#{
+/* @kalzit.for replayFrom
+
 	Causes a media controller to start playing from a specified timestamp.
 	
 	Usage example:
 		myMedium replayFrom (0,5 * do: $getDuration propOf myMedium). `Starts playing from the middle`
-}
+*/
 $replayFrom = ($_mediaController;$timestamp) fun {
 	($setTime propOf _mediaController): timestamp. play _mediaController
 }.
 
-#{
+/* @kalzit.for replay
+
 	Causes a media controller to start playing from the beginning (0 seconds in).
 	
 	Usage example:
 		replay myMedium.
-}
+*/
 $replay = $_mediaController fun {_mediaController replayFrom 0}.
 
-#{
+/* @kalzit.for mediaSection
+
 	Creates a media controller that acts on a section of a different one.
 	Requires the media controller as the first parameter, and the start and end timestamps as the second (as a list with two numbers).
 	
@@ -27,7 +30,7 @@ $replay = $_mediaController fun {_mediaController replayFrom 0}.
 	
 	Now, if you would use "newController" with the "replay" function, the original medium would start playing, but at 2 seconds in.
 	Also, it would then stop playing 10 seconds before its original end.
-}
+*/
 $mediaSection = ($_mediaController ; $_startAndEnd) fun {
 	$onProgress = $onEnd = void.
 	$onProgressRef = reference: $onProgress.

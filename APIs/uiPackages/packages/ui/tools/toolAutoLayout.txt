@@ -58,12 +58,13 @@ $toolLayoutManager = !fun () {
 	}]
 }.
 
-#{
+/* @kalzit.for toolsAtLeft
+
 	Puts a list of tools at the left side of the global toolbar.
 	This function must be called before the global toolbar is created (using uiGlobalToolbar).
 	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
 	Otherwise, it might make the tools on the right not clickable.
-}
+*/
 $toolsAtLeft = !fun ($_subTools) {
 	`Desktop`
 	registerDesktopTool: generateDesktopToolsAtLeft: _subTools.
@@ -74,12 +75,13 @@ $toolsAtLeft = !fun ($_subTools) {
 	}) each _subTools.
 }.
 
-#{
+/* @kalzit.for toolAtLeft
+
 	Puts a single tool at the left side of the global toolbar.
 	This function must be called before the global toolbar is created (using uiGlobalToolbar).
 	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
 	Otherwise, it might make the tools on the right not clickable.
-}
+*/
 $toolAtLeft = !fun ($_tool) {
 	`Desktop`
 	registerDesktopTool: generateDesktopToolAtLeft: _tool.
@@ -88,12 +90,13 @@ $toolAtLeft = !fun ($_tool) {
 	($mobile propOf _tool) registerMobileTool ($title propOf _tool).
 }.
 
-#{
+/* @kalzit.for toolsAtRight
+
 	Puts a list of tools at the right side of the global toolbar.
 	This function must be called before the global toolbar is created (using uiGlobalToolbar).
 	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
 	Otherwise, it might make the tools on the right not clickable.
-}
+*/
 $toolsAtRight = !fun ($_subTools) {
 	`Desktop`
 	registerDesktopTool: generateDesktopToolsAtRight: _subTools.
@@ -104,12 +107,13 @@ $toolsAtRight = !fun ($_subTools) {
 	}) each _subTools.
 }.
 
-#{
+/* @kalzit.for toolAtRight
+
 	Puts a single tool at the right side of the global toolbar.
 	This function must be called before the global toolbar is created (using uiGlobalToolbar).
 	Also, if you want to add tools to the right of the toolbar, you have to add the ones on the left first.
 	Otherwise, it might make the tools on the right not clickable.
-}
+*/
 $toolAtRight = !fun ($_tool) {
 	`Desktop`
 	registerDesktopTool: generateDesktopToolAtRight: _tool..

@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for named_transition
 	Constructs an object with $firstAnimation and $secondAnimation fields for a named transition.
 	This can be used with "applyTransition". The used keyframe sets are <name> and <name>_reverse
 	
@@ -9,7 +9,7 @@
 	* "firstElement": the UI element the first part of the transition should apply to
 	* "secondElement": the UI element the second part of the transition should apply to
 	* "element": the UI element that both parts of the transition should be applied to
-}
+*/
 $namedTransition = !fun ($name; $config) {
 	$firstElement ? (default: $element propOf config) = $firstElement propOf config.
 	$secondElement ? (default: $element propOf config) = $secondElement propOf config.

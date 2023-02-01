@@ -34,12 +34,13 @@ $askDomainPermissionIfNeededAndLoad = !fun ($then ; $domain ? String) {
 	}
 }.
 
-#{
+/* @kalzit.for uiShowDomainPermissionPopup
+
 	Shows a domain permission popup (always, even if the user has already seen one), stores that the user saw the popup and, if the user accepts, stores the accepted domain.
 	In case the user accepts, all pending requests associated with the now permitted domain will be run and removed from the queue.
 	
 	You should probably not use this function manually, since it is automatically done if needed; just use "loadGlobalAsync" or "loadGlobalDirectlyAsync" and you will be fine.
-}
+*/
 $uiShowDomainPermissionPopup = !fun ($domain ? String) {
 	`Show a popup which asks for domain access permission`
 	!showConfirmMessageAsync (strings: $confirmDomainAccess) + domain -> {
@@ -68,10 +69,11 @@ $uiShowDomainPermissionPopup = !fun ($domain ? String) {
 
 
 `The following functions are the ones that should actually be used for loading data from the internet`
-#{
+/* @kalzit.for loadGlobalAsync
+
 	Loads data from a given URL and passes the result (a string, or void in case of an error) to a callback.
 	The data loading is done through the Kalzit server, so you do not have to worry about CORS requests; you can load pretty much any URL, except those that need authentication.
-}
+*/
 $loadGlobalAsync = !fun ($callback ; $wantedUrl) {
 	`We have to allow the domain first`
 	$domain ? (default: "") = urlGetHostName: wantedUrl.
@@ -80,10 +82,11 @@ $loadGlobalAsync = !fun ($callback ; $wantedUrl) {
 	}
 }.
 
-#{
+/* @kalzit.for loadGlobalInBackgroundAsync
+
 	Loads data from a given URL and passes the result (a string, or void in case of an error) to a callback.
 	The data loading is done through the Kalzit server, so you do not have to worry about CORS requests; you can load pretty much any URL, except those that need authentication.
-}
+*/
 $loadGlobalInBackgroundAsync = !fun ($callback ; $wantedUrl) {
 	`We have to allow the domain first`
 	$domain ? (default: "") = urlGetHostName: wantedUrl.
@@ -92,10 +95,11 @@ $loadGlobalInBackgroundAsync = !fun ($callback ; $wantedUrl) {
 	}
 }.
 
-#{
+/* @kalzit.for loadGlobalDirectlyAsync
+
 	Loads data from a given URL and passes the result (a string, or void in case of an error) to a callback.
 	The data loading is done directly by the client, so you DO have to worry about CORS requests; you can only load data from servers which allow it.
-}
+*/
 $loadGlobalDirectlyAsync = !fun ($callback ; $wantedUrl) {
 	`We have to allow the domain first`
 	$domain ? (default: "") = urlGetHostName: wantedUrl.

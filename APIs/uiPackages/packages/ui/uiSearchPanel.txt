@@ -1,6 +1,7 @@
-#{
+/* @kalzit.for uiSearchPanel
+
 	`searchTermReference` is optional
-}
+*/
 $uiSearchPanel = !fun ($searchResultFactory ; $searchTermReference) {
 	$currentSearchResults = @centerText uiContainer: strings: "pressGoHint". $currentSearchResultsRef = reference: $currentSearchResults.
 	@(percentHeight 100) uiContainer: do:{

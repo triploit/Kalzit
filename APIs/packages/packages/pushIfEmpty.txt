@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for pushIfEmpty
+
 	Pushes an item (first parameter) to a modifiable list, but only if that list (second parameter) is empty.
 	
 	Usage example:
@@ -6,7 +7,7 @@
 		ml pushIfEmpty "Default Item".
 		ml pushIfEmpty "Another Item".
 		`The list will only contain "Default Item"`
-}
+*/
 $pushIfEmpty = ($_list ? ModifiableList ; $_item) fun {
 	!ifNot(length: getArray: _list) {
 		($push propOf _list): _item	

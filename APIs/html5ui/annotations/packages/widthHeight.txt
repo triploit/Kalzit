@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for width
+
 	An annotation factory that specifies the width of an element dynamically.
 	This is done using the CSS "calc()" function.
 	
@@ -8,10 +9,11 @@
 	
 	Ideally, this function should never be used, because it is very specific to the web platform.
 	However, you can obviously still use it to achieve effects that are not possible with the other functions.
-}
+*/
 $width = {flagWidth bind "calc(" + x + ")"}.
 
-#{
+/* @kalzit.for height
+
 	An annotation factory that specifies the heigit of an element dynamically.
 	This is done using the CSS "calc()" function.
 	
@@ -21,113 +23,125 @@ $width = {flagWidth bind "calc(" + x + ")"}.
 	
 	Ideally, this function should never be used, because it is very specific to the web platform.
 	However, you can obviously still use it to achieve effects that are not possible with the other functions.
-}
+*/
 $height = {flagHeight bind "calc(" + x + ")"}.
 
-#{
+/* @kalzit.for pxWidth
+
 	An annotation factory that specifies the width of an element in pixels.
 	
 	If you write something like:
 		@(pxWidth: 100) uiElement.
 	Then the element will be displayed 100 pixels wide.
-}
+*/
 $pxWidth = curry: flagPxWidth.
 
-#{
+/* @kalzit.for pxHeight
+
 	An annotation factory that specifies the height of an element in pixels.
 	
 	If you write something like:
 		@(pxHeight: 100) uiElement.
 	Then the element will be displayed 100 pixels high.
-}
+*/
 $pxHeight = curry: flagPxHeight.
 
-#{
+/* @kalzit.for percentWidth
+
 	An annotation factory that specifies the width of an element in percent.
 	
 	If you write something like:
 		@(percentWidth: 100) uiElement.
 	Then the element will be displayed as wide as its container.
-}
+*/
 $percentWidth = curry: flagPercentWidth.
 
-#{
+/* @kalzit.for percentHeight
+
 	An annotation factory that specifies the height of an element in percent.
 	
 	If you write something like:
 		@(percentHeight: 100) uiElement.
 	Then the element will be displayed as tall as its container.
-}
+*/
 $percentHeight = curry: flagPercentHeight.
 
-#{
+/* @kalzit.for emWidth
+
 	An annotation factory that specifies the width of an element in relative font size.
 	
 	If you write something like:
 		@(emWidth: 2) uiElement.
 	Then the element will be displayed as wide as two letters would be.
-}
+*/
 $emWidth = curry: flagEmWidth.
 
-#{
+/* @kalzit.for emHeight
+
 	An annotation factory that specifies the height of an element in relative font size.
 	
 	If you write something like:
 		@(emHeight: 2) uiElement.
 	Then the element will be displayed as tall as two letters would be when put on top of each other.
-}
+*/
 $emHeight = curry: flagEmHeight.
 
-#{
+/* @kalzit.for mmWidth
+
 	An annotation factory that specifies the width of an element in millimeters.
 	
 	If you write something like:
 		@(mmWidth: 20) uiElement.
 	Then the element will be displayed 20 millimeters wide.
-}
+*/
 $mmWidth = curry: flagMmWidth.
 
-#{
+/* @kalzit.for mmHeight
+
 	An annotation factory that specifies the height of an element in millimeters.
 	
 	If you write something like:
 		@(mmHeight: 20) uiElement.
 	Then the element will be displayed 20 millimeters tall.
-}
+*/
 $mmHeight = curry: flagMmHeight.
 
-#{
+/* @kalzit.for cmWidth
+
 	An annotation factory that specifies the width of an element in centimeters.
 	
 	If you write something like:
 		@(mmWidth: 3) uiElement.
 	Then the element will be displayed 3 centimeters wide.
-}
+*/
 $cmWidth = curry: flagCmWidth.
 
-#{
+/* @kalzit.for cmHeight
+
 	An annotation factory that specifies the height of an element in centimeters.
 	
 	If you write something like:
 		@(mmHeight: 3) uiElement.
 	Then the element will be displayed 3 centimeters tall.
-}
+*/
 $cmHeight = curry: flagCmHeight.
 
-#{
+/* @kalzit.for inchWidth
+
 	An annotation factory that specifies the width of an element in inches.
 	
 	If you write something like:
 		@(inchWidth: 3) uiElement.
 	Then the element will be displayed 3 inches wide.
-}
+*/
 $inchWidth = curry: flagInchWidth.
 
-#{
+/* @kalzit.for inchHeight
+
 	An annotation factory that specifies the height of an element in inches.
 	
 	If you write something like:
 		@(inchHeight: 3) uiElement.
 	Then the element will be displayed 3 inches tall.
-}
+*/
 $inchHeight = curry: flagInchHeight.

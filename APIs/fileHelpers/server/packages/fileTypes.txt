@@ -1,37 +1,61 @@
-#{The default mime type for the .html file extension}
+/* @kalzit.for fileMimeHtml
+The default mime type for the .html file extension
+*/
 $fileMimeHtml="text/html".
 
-#{The default mime type for the .js file extension}
+/* @kalzit.for fileMimeJs
+The default mime type for the .js file extension
+*/
 $fileMimeJs="text/javascript".
 
-#{The default mime type for the .txt file extension}
+/* @kalzit.for fileMimeText
+The default mime type for the .txt file extension
+*/
 $fileMimeText="text/plain".
 
-#{The default mime type for the .jpg file extension}
+/* @kalzit.for fileMimeJpg
+The default mime type for the .jpg file extension
+*/
 $fileMimeJpg="image/jpg".
 
-#{The default mime type for the .mp4 file extension}
+/* @kalzit.for fileMimeMpFour
+The default mime type for the .mp4 file extension
+*/
 $fileMimeMpFour="video/mp4".
 
-#{The default mime type for the .json file extension}
+/* @kalzit.for fileMimeJson
+The default mime type for the .json file extension
+*/
 $fileMimeJson="application/json".
 
-#{The extension of HTML files (html)}
+/* @kalzit.for fileExtensionHtml
+The extension of HTML files (html)
+*/
 $fileExtensionHtml="html".
 
-#{The extension of JavaScript files (js)}
+/* @kalzit.for fileExtensionJs
+The extension of JavaScript files (js)
+*/
 $fileExtensionJs="js".
 
-#{The extension of plain text files (txt)}
+/* @kalzit.for fileExtensionText
+The extension of plain text files (txt)
+*/
 $fileExtensionText="txt".
 
-#{The extension of JPG image files (jpg)}
+/* @kalzit.for fileExtensionJpg
+The extension of JPG image files (jpg)
+*/
 $fileExtensionJpg="jpg".
 
-#{The extension of MP4 files (mp4)}
+/* @kalzit.for fileExtensionMpFour
+The extension of MP4 files (mp4)
+*/
 $fileExtensionMpFour="mp4".
 
-#{The extension of JSON files (json)}
+/* @kalzit.for fileExtensionJson
+The extension of JSON files (json)
+*/
 $fileExtensionJson="json".
 
 $fileTypeHtml=fileExtensionHtml;fileMimeHtml.

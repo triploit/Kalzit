@@ -8,10 +8,11 @@ $simpleStringAssetAccess = cachedFun: ($path ; $_loader ? (default: {loadLocal: 
 	}
 }.
 
-#{
+/* @kalzit.for appStrings
+
 	A function for easily accessing app-specific localized strings.
 	The strings are specified in JSON files which are placed in the /strings folder of your app project.
-}
+*/
 $appStrings = !ifElse (void eq stringAssetMap) {
 	localizedStringAssetAccess: "/apps/" + appId + "/strings/"
 };{
@@ -25,12 +26,13 @@ $appStrings = !ifElse (void eq stringAssetMap) {
 	}
 }.
 
-#{
+/* @kalzit.for strings
+
 	A function which gives you easy access to the global string library, which provides a few standard texts (but not many right now).
 	
 	For example, you can get a text saying something meaning "Accept cookies" - if available in the user's language:
 		print: strings: $cookieAcceptText.
-}
+*/
 $strings = do: {
 	$languageKey = (!getUserLanguage) propOf globalStringAssetMap.
 	!ifElse (void eq languageKey) {

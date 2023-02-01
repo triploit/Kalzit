@@ -1,23 +1,28 @@
-#{The URL for the Qwant lite home page}
+/* @kalzit.for qwantSearchUrl
+The URL for the Qwant lite home page
+*/
 $qwantSearchUrl = "https://lite.qwant.com/".
 
-#{
+/* @kalzit.for qwantWebSearchUrl
+
 	URL base for the Qwant lite web search page.
 	To construct the search URL for a query, you can do this:
 		$u = qwantWebSearchUrl + urlEncodeParameter: "Query".
-}
+*/
 $qwantWebSearchUrl = qwantSearchUrl + "?t=web&q=".
 
-#{
+/* @kalzit.for qwantImageSearchUrl
+
 	URL base for the Qwant lite image search page.
 	To construct the search URL for a query, you can do this:
 		$u = qwantImageSearchUrl + urlEncodeParameter: "Query".
-}
+*/
 $qwantImageSearchUrl = qwantSearchUrl + "?t=images&q=".
 
-#{
+/* @kalzit.for qwantVideoSearchUrl
+
 	URL base for the Qwant lite video search page.
 	To construct the search URL for a query, you can do this:
 		$u = qwantVideoSearchUrl + urlEncodeParameter: "Query".
-}
+*/
 $qwantVideoSearchUrl = qwantSearchUrl + "?t=videos&q=".

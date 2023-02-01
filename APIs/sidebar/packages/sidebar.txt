@@ -22,9 +22,9 @@ $leftSidebarDragHandler = !fun ($callback) {
 	}
 }.
 
-#{
+/*
 	The callback will be used when resizing occurs - it gets the number of pixels which the sidebar should use as its width
-}
+*/
 $leftSidebarResizeTool = !fun ($callback ; $views) {
 	$viewInFront = @(cssClass: "k-sidebar_content_wide") !ifElse (void eq views) {
 		@(opacity 0) uiContainer: "0"
@@ -48,7 +48,7 @@ $leftSidebarResizeTool = !fun ($callback ; $views) {
 	["mobile"; uiContainer: void `Mobile version does nothing`]
 }.
 
-#{
+/* @kalzit.for left_sidebar_manager
 	A helper function for generating a left-hand sidebar. The sidebar will be separated from the main content, and it will be resizable by the user.
 	To make everything work properly, the "config" parameter should be an object with the following required fields:
 	
@@ -78,7 +78,7 @@ $leftSidebarResizeTool = !fun ($callback ; $views) {
 	print: $sidebar propOf sidebarManager.
 	print: mainContent.
 	```
-}
+*/
 $leftSidebarManager = !fun ($config) {
 	$sidebarContent = @(cssClass: "k-sidebar_content_wide") @(percentHeight 100) uiContainer: do: $sidebarViews propOf config.
 	$mainContent = @verticalScroller @right @bottom @(cssClass: "k-sidebar_mainview_wide") $mainContent propOf config.

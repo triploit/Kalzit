@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for ig_user_parse_user_complete_async
 	Passes a (most complete) representation of the given Instagram user to the callback.
 	
 	This is done by loading "https://www.instagram.com/userName" and scanning the source code for the "window._sharedData" variable.
@@ -10,7 +10,7 @@
 	
 	If you do not need all available user data, consider using a more specialized function instead of this one.
 	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
-}
+*/
 $igUserParseUserCompleteAsync = ($callback ; $userName ? String) fun {
 	!loadGlobalAsync ("https://www.instagram.com/" + userName + "/") -> {
 		$script = second: ".*<script\s+.*>(.*)<\s*/\s*script\s*>.*" match x.
@@ -19,7 +19,7 @@ $igUserParseUserCompleteAsync = ($callback ; $userName ? String) fun {
 	}
 }.
 
-#{
+/* @kalzit.for ig_user_parse_base
 	Parses out the main part of an Instagram user's publicly available data.
 	The argument of this function needs to be the result of "igUserParseUserComplete".
 	
@@ -28,12 +28,12 @@ $igUserParseUserCompleteAsync = ($callback ; $userName ? String) fun {
 		
 	If you do not need all available user data, consider using a more specialized function instead of this one.
 	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
-}
+*/
 $igUserParseBase = $_igUserComplete fun {
 	$user propOf $graphql propOf first: $ProfilePage propOf $entry_data propOf _igUserComplete
 }.
 
-#{
+/* @kalzit.for ig_user_parse_user_base_async
 	This function is a slightly different version of "igUserParseBase".
 	Instead of needing an object as its parameter, this one requires just a simple user name.
 	
@@ -43,12 +43,12 @@ $igUserParseBase = $_igUserComplete fun {
 	
 	If you do not need all available user data, consider using a more specialized function instead of this one.
 	Possible options would be "instagramUserImages" or "kmpFromInstagramUser".
-}
+*/
 $igUserParseUserBaseAsync = ($callback ; $userName ? String) fun {
 	{callback: igUserParseBase: x} igUserParseUserCompleteAsync userName
 }.
 
-#{
+/* @kalzit.for ig_user_parse_images
 	Parses out the image data from a given instagram user.
 	The parameter of this function needs to be the result of "igUserParseBase" or "igUserParseUserBase".
 	
@@ -59,12 +59,12 @@ $igUserParseUserBaseAsync = ($callback ; $userName ? String) fun {
 	In case you are only interested in the full-resolution version of images, "igUserParseImageUrls" is the way to go.
 	
 	Basically, this function should only be used if you need multiple different pieces of information about the images.
-}
+*/
 $igUserParseImages = $_igUserBase fun {
 	{$node propOf x} each $edges propOf $edge_owner_to_timeline_media propOf _igUserBase
 }.
 
-#{
+/* @kalzit.for ig_user_parse_user_images_async
 	This function is a slightly different version of "igUserParseImages".
 	Instead of needing an object as its parameter, this one requires just a simple user name.
 	
@@ -76,12 +76,12 @@ $igUserParseImages = $_igUserBase fun {
 	In case you are only interested in the full-resolution version of images, "igUserParseUserImageUrls" is the way to go.
 	
 	Basically, this function should only be used if you need multiple different pieces of information about the images.
-}
+*/
 $igUserParseUserImagesAsync = ($callback ; $userName ? String) fun {
 	{callback: igUserParseImages: x} igUserParseUserBaseAsync userName
 }.
 
-#{
+/* @kalzit.for ig_user_parse_image_url
 	Returns the main image URL of an Instagram user image.
 	The parameter of this function needs to be an entry of the result of "igUserParseImages" or "igUserParseUserImages".
 	
@@ -90,12 +90,12 @@ $igUserParseUserImagesAsync = ($callback ; $userName ? String) fun {
 		
 	Since that is rather much code for this task, there is also the function "instagramUserImages" to make it a lot easier.
 	However, if you already have an object containing Instagram image data, this function here might be useful.
-}
+*/
 $igUserParseImageUrl = $_userImage fun {
 	$display_url propOf _userImage
 }.
 
-#{
+/* @kalzit.for ig_user_parse_image_urls
 	Returns all full-resolution URLs from a list of Instagram image objects.
 	The parameter of this function needs to be the result of "igUserParseImages" or "igUserParseUserImages".
 	
@@ -103,12 +103,12 @@ $igUserParseImageUrl = $_userImage fun {
 		$imageUrls = igUserParseImageUrls: igUserParseUserImages: "anyUserName".
 	
 	Since that is rather much code for this task, there is also the function "instagramUserImages" to make it a lot easier.
-}
+*/
 $igUserParseImageUrls = $_userImages fun {
 	igUserParseImageUrl each _userImages
 }.
 
-#{
+/* @kalzit.for ig_user_parse_user_image_urls_async
 	This function is a slightly different version of "igUserParseImageUrls".
 	Instead of needing an object as its parameter, this one requires just a simple user name.
 	
@@ -117,12 +117,12 @@ $igUserParseImageUrls = $_userImages fun {
 		!igUserParseUserImageUrlsAsync "anyUserName" -> {print: x}.
 		
 	A function with the same effect as this one is also available as "instagramUserImages" to make it easier to use.
-}
+*/
 $igUserParseUserImageUrlsAsync = ($callback ; $userName ? String) fun {
 	{callback: Images: igUserParseImageUrls: x} igUserParseUserImagesAsync userName
 }.
 
-#{
+/* @kalzit.for ig_user_parse_image_shortcode
 	Returns the "shortcode" of an instagram user image.
 	The parameter of this function needs to be an entry of the result of "igUserParseImages" or "igUserParseUserImages".
 	
@@ -133,12 +133,12 @@ $igUserParseUserImageUrlsAsync = ($callback ; $userName ? String) fun {
 		$link = "https://instagram.com/p/" + igUserParseImageShortcode: imageData.
 	
 	In case you need to get shortcodes of multiple images, consider using "igUserParseImageShortcodes" (has an "s" at the end).
-}
+*/
 $igUserParseImageShortcode = $_userImage fun {
 	$shortcode propOf _userImage
 }.
 
-#{
+/* @kalzit.for ig_user_parse_image_shortcodes
 	Returns all image "shortcodes" from a list of Instagram image objects.
 	The parameter of this function needs to be the result of "igUserParseImages" or "igUserParseUserImages".
 	
@@ -150,18 +150,18 @@ $igUserParseImageShortcode = $_userImage fun {
 	
 	Of course, you could also get a specific shortcode:
 		$code = first: igUserParseImageShortcodes: imageData.
-}
+*/
 $igUserParseImageShortcodes = $_userImages fun {
 	igUserParseImageShortcode each _userImages
 }.
 
-#{
+/* @kalzit.for ig_user_parse_user_image_shortcodes_async
 	Passes a list of image "shortcodes" by a given instagram user to the callback.
 	Basically, the "shortcode" is what you put after "https://instagram.com/p/" to get to the image page.
 	
 	Here is an example that opens the most recent user image in the browser:
 		!igUserParseUserImageShortcodes "anyUserName" -> {redirect: "https://instagram.com/p/" + first: x}.
-}
+*/
 $igUserParseUserImageShortcodesAsync = ($callback ; $userName ? String) fun {
 	{callback: igUserParseImageShortcodes: x} igUserParseUserImagesAsync userName
 }.

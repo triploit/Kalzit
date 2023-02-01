@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for upload_multiple_files
 	Gets a configuration object with these fields:
 	* `files` - a simple (non-modifiable) array of file objects to upload, as returned by a file picker.
 	* `folderName` - an optional string that contains the user files sub-folder we want to put the new file inside of.
@@ -9,14 +9,14 @@
 		1 if the upload succeeded.
 		2 if the upload failed because of an unknown reason.
 		The second parameter of the callback is the file object
-}
+*/
 $uploadMultipleFiles = !fun ($config) {
 	$files = $files propOf config.
 
 	{uploadSingleFile: config;[$file; [x]]} all files.
 }.
 
-#{
+/* @kalzit.for upload_single_file
 	Gets a configuration object with these fields:
 	* `file` - a file object to upload, as returned by a file picker.
 	* `folderName` - an optional string that contains the user files sub-folder we want to put the new file inside of.
@@ -27,7 +27,7 @@ $uploadMultipleFiles = !fun ($config) {
 		1 if the upload succeeded.
 		2 if the upload failed because of an unknown reason.
 		The second parameter of the callback is the file object
-}
+*/
 $uploadSingleFile = $attemptSingleFileUpload = !fun ($config) {
 	$_file = $file propOf config.
 	$callback = $callback propOf config.

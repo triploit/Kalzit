@@ -1,4 +1,5 @@
-#{
+/* @kalzit.for percentRoundness
+
 	This annotation rounds the corners of a UI element.
 	How much of it gets round is specified by a percentage.
 	
@@ -22,10 +23,11 @@
 	@(percentRoundness 30) @(backgroundColor red) @(pxWidth 200) @(pxHeight 300) uiContainer: ().
 	
 	The absolute size of the corners does scale with the element - use @pxRoundness to prevent that.
-}
+*/
 $percentRoundness = curry: flagPercentRoundness.
 
-#{
+/* @kalzit.for pxRoundness
+
 	This annotation rounds the corners of a UI element.
 	The radius of the rounded corners is defined by a pixel count.
 	
@@ -37,5 +39,5 @@ $percentRoundness = curry: flagPercentRoundness.
 	If it is bigger, only the corners will appear rounded.
 	
 	The absolute size of the corners does not scale with the element - use @percentRoundness for that.
-}
+*/
 $pxRoundness = curry: flagPxRoundness.
