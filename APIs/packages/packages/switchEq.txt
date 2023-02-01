@@ -5,9 +5,9 @@ $switchEq=($_value;$_cases) fun {
 	_value switch conditions mingle results
 }.
 
-#{
-	Same effect as first: value switch cases, but can be much faster
-}
-$switchFirst = ($value ? Any ; $_array ? (List:Any)) fun {
-	{1 at x at _array}: {(0 at x at _array): value} firstConditionMatch arrayIndexes: _array
+/* @kalzit.for switch_first
+Same effect as `first: value switch cases`, but can be much faster
+*/
+$switchFirst = ($value ; $_array) fun {
+	1 at ({(0 at x at _array): value} firstConditionMatch arrayIndexes: _array) at _array
 }.

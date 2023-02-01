@@ -2,21 +2,9 @@ var kServer = require("./libraries/k-server");
 
 function wrapRequestValue(kServerRequest) {
 	return {value:[
-		{value:[{value:"method"}, {value:kServerRequest.method}]},
-		{value:[{value:"endServing"}, {
+        {value:[{value:"writeExistingFile"}, {
 			value: function(env, args){
-				if(args.length){
-					kServerRequest.endServing(args[0].value);
-					return args[0];
-				}else{
-					kServerRequest.endServing();
-					return GLang.voidValue;
-				}
-			}, display: "function"
-		}]},
-		{value:[{value:"write"}, {
-			value: function(env, args){
-				kServerRequest.write(args[0].value, args.length > 1 ? args[1].value : null);
+				kServerRequest.writeExistingFile(args[0].value, args.length > 1 ? args[1].value : null);
 				return args[0];
 			}, display: "function"
 		}]},
@@ -45,6 +33,24 @@ function wrapRequestValue(kServerRequest) {
 				
 				kServerRequest.writeEncryptedFile(jsConfig);
 				return GLang.voidValue;
+			}, display: "function"
+		}]},
+		{value:[{value:"method"}, {value:kServerRequest.method}]},
+		{value:[{value:"endServing"}, {
+			value: function(env, args){
+				if(args.length){
+					kServerRequest.endServing(args[0].value);
+					return args[0];
+				}else{
+					kServerRequest.endServing();
+					return GLang.voidValue;
+				}
+			}, display: "function"
+		}]},
+		{value:[{value:"write"}, {
+			value: function(env, args){
+				kServerRequest.write(args[0].value, args.length > 1 ? args[1].value : null);
+				return args[0];
 			}, display: "function"
 		}]},
 		{value:[{value:"writeBytes"}, {

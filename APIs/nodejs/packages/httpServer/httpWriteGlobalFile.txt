@@ -1,4 +1,4 @@
-#{
+/* @kalzit.for http_write_global_file
 	Serves a file (like $writeFile propOf _request), but with additional support for the "ETag" header and HTTP 304 (not modified) responses.
 	The function can automatically write the file type to the request, which prevents other headers from being accepted later. So all headers should be set before calling this function.
 	
@@ -7,9 +7,11 @@
 	
 	Usage example:
 		_request httpWriteGlobalFile "path/to/a/file".
+    
+    This function EXPECTS THE FILE TO EXIST!
 	
 	If you want to serve files which do not change later, consider using "httpWriteStaticFile".
-}
+*/
 $httpWriteGlobalFile = ($_request ; $file) fun {
 	$mime = fileMime: file.
 	
@@ -18,11 +20,11 @@ $httpWriteGlobalFile = ($_request ; $file) fun {
 		($respondCode propOf _request): 304.
 	};{
 		($startServing propOf _request): mime.
-		($writeFile propOf _request): file.
+		($writeExistingFile propOf _request): file.
 	}.
 }.
 
-#{
+/* @kalzit.for http_write_static_file
 	Serves a file (like $writeFile propOf _request), but with additional support for the "ETag" header and HTTP 304 (not modified) responses.
 	The function can automatically write the file type to the request, which prevents other headers from being accepted later. So all headers should be set before calling this function.
 	
@@ -33,7 +35,9 @@ $httpWriteGlobalFile = ($_request ; $file) fun {
 	The served file is not allowed to change later - because of that, the ETag is not content-specific.
 	
 	If you want to serve files which might change later, consider using "httpWriteGlobalFile".
-}
+    
+    This function EXPECTS THE FILE TO EXIST!
+*/
 $httpWriteStaticFile = ($_request ; $file) fun {
 	"Cache-Control" ($setHeader propOf _request) "public, max-age=31536000, immutable".
 	"ETag" ($setHeader propOf _request) $etag = fileName: file.
@@ -41,6 +45,6 @@ $httpWriteStaticFile = ($_request ; $file) fun {
 		($respondCode propOf _request): 304.
 	};{
 		($startServing propOf _request): fileMime: file.
-		($writeFile propOf _request): file.
+		($writeExistingFile propOf _request): file.
 	}.
 }

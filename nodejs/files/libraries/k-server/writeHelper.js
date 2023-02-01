@@ -184,9 +184,17 @@ function WriteHelper(res, req) {
 	}
 	
 	
+    //Whenever possible, you should use writeExistingFile instead - can be faster if you already know that the file is there
 	function writeFile(filePath, decryptConfig){
 		if(fs.existsSync(filePath)){
-	        var stats = fs.statSync(filePath);
+	        writeExistingFile(filePath, decryptConfig);
+	    }else{
+	        writeHead(404, {});
+	    }
+	}
+
+    function writeExistingFile(filePath, decryptConfig) {
+        var stats = fs.statSync(filePath);
 	        if(!headWritten){
 	            if(wantsRange){
 	            	writeFileChunk(filePath, stats, decryptConfig);
@@ -229,11 +237,8 @@ function WriteHelper(res, req) {
 				//Head already written - using writeFileSaveRam (fs.createReadStream). File size is "stats.size" bytes
 				console.log("Head already written - using writeFileSaveRam (fs.createReadStream)");
 				writeFileSaveRam(filePath, decryptConfig);
-	        }
-	    }else{
-	        writeHead(404, {});
-	    }
-	}
+	        }    
+    }
 	
 	function start(mime){
 		mimeType = mime;
@@ -260,6 +265,7 @@ function WriteHelper(res, req) {
 	this.getEncoding = getEncoding;
 	this.write = write;
 	this.writeFile = writeFile;
+    this.writeExistingFile = writeExistingFile;
 	this.end = end;
 	this.start = start;
 	this.writeHead = writeHead;

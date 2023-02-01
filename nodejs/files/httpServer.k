@@ -35,26 +35,27 @@ $sessionRemove = !fun ($sessionFolder) {
 	}
 }.
 $sessionValidate = !fun ($sessionFolder ; $_request) {
-	$securityLevelMatches = (fileContent: sessionFolder + "/securityLevel.txt") eq "standard".
-	$userAgentMatches = (fileContent: sessionFolder + "/userAgent.txt") eq ($getHeader objFirstProperty _request): "user-agent".
-	$languageMatches = (fileContent: sessionFolder + "/language.txt") eq ($getHeader objFirstProperty _request): "accept-language".
+    $header = ($getHeader objFirstProperty _request).
+    
+    $sessionInvalid = !switchFirst void
+        [{not: (fileContent: sessionFolder + "/securityLevel.txt") eq "standard"}; true];
+        [{not: (fileContent: sessionFolder + "/userAgent.txt") eq header: "user-agent"}; true];
+        [{not: (fileContent: sessionFolder + "/language.txt") eq header: "accept-language"}; true];
+        [true; false].
 	
-	!ifNot (securityLevelMatches & userAgentMatches & languageMatches) {
+	!if sessionInvalid {
 		`We should remove the session`
 		print: (!dateString) + "Session is invalid! Should be deleted: " + sessionFolder.
 		sessionRemove: sessionFolder
 	}
 }.
 $sessionUpgrade = !fun ($sessionFolder ; $_request) {
+    $header = ($getHeader objFirstProperty _request).
 	print: (!dateString) + "We will upgrade session " + sessionFolder.
 	
-	$wantedSecurityLevel = "standard".
-	$wantedUserAgent = ($getHeader objFirstProperty _request): "user-agent".
-	$wantedLanguage = ($getHeader objFirstProperty _request): "accept-language".
-	
-	!fileWrite wantedSecurityLevel -> (sessionFolder + "/securityLevel.txt").
-	!fileWrite wantedUserAgent -> (sessionFolder + "/userAgent.txt").
-	!fileWrite wantedLanguage -> (sessionFolder + "/language.txt").
+	!fileWrite "standard" -> (sessionFolder + "/securityLevel.txt").
+	!fileWrite header: "user-agent" -> (sessionFolder + "/userAgent.txt").
+	!fileWrite header: "accept-language" -> (sessionFolder + "/language.txt").
 }.
 
 $sessionValidateAndUpgrade = !fun ($userSession ; $_request) {
@@ -64,11 +65,7 @@ $sessionValidateAndUpgrade = !fun ($userSession ; $_request) {
 	$sessionFolder = userFolder + "/sessions/" + userSession.
 	
 	!if (fileIsFile: sessionFolder + "/expiration.txt") {
-		!ifElse (fileIsFile: sessionFolder + "/securityLevel.txt") {
-			!sessionValidate sessionFolder _request
-		};{
-			!sessionUpgrade sessionFolder _request
-		}
+        sessionFolder ((fileIsFile: sessionFolder + "/securityLevel.txt") at sessionUpgrade ; sessionValidate) _request
 	}
 }.
 
@@ -77,7 +74,7 @@ $serveNotFound = !fun ($_request ; $fname) {
 	print: (!dateString) + "Serving empty page for: " + fname.
     ($startServing propOf _request): "text/html".
 	($respondCode propOf _request): 404.
-	($writeFile propOf _request): "./nodejs/files/server/404.html"
+	($writeExistingFile propOf _request): "./nodejs/files/server/404.html"
 }.
 
 `Really fast way to figure out if a file needs to be treated as static or not`
@@ -89,12 +86,6 @@ $serveExistingFile = !fun ($_request ; $fname) {
 	_request (("/static/" strContains fname) at httpWriteGlobalFile ; httpWriteStaticFile) fname.
 	
 	do: ($endServing propOf _request).
-}.
-$serveFile = !fun ($_request ; $fname) {
-	`Figure out what to do with the file - if it does not exist, serve a "not found" message. If it does, call serveExistingFile`
-	
-	`This is implemented in a really unusual way to be as speedy as possible, but it is essentially the same as an ifElse condition`
-	_request ((fileIsFile: fname) at serveNotFound ; serveExistingFile) fname
 }.
 
 $serverRootPath = (default: "./serverRoot"): appParameter: "server-root".
@@ -114,22 +105,23 @@ $onClientConnect = ($_request fun {
 	$asyncRef = reference: $async.
 
 	`Figure out what to do with the requested file`
-	
-	$languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
-	!if (fileIsFile: languageRunnerFile) {
-		!if (fileIsFile: fname) {
+	!ifElse (fileIsFile: fname) {
+        $languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
+	    !if (fileIsFile: languageRunnerFile) {
 			print: (!dateString) + "Running '" + fname + "' with '" + languageRunnerFile + "'".
 			resultRef = "Custom language has not returned a result".
 			do:() fun fileContent: languageRunnerFile
-		}
-	}.
-	
-	!if (not async) {
-		!ifElse (result eq void) {
-			_request serveFile fname
-		};{
-	    	($endServing propOf _request): result
-	    }
+	    }.
+	    
+	    !if (not async) {
+		    !ifElse (result eq void) {
+			    _request serveExistingFile fname
+		    };{
+	        	($endServing propOf _request): result
+	        }
+        }
+    };{
+        _request serveNotFound fname
     }
 	
 }).
