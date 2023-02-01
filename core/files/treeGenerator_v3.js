@@ -1,5 +1,4 @@
 ;(function(){
-	var optimized = false;
 
 	const WAITING = {
 		next:function(token){
@@ -23,7 +22,6 @@
 				case '"': return quoteBlock(token.textValue);
 				case "$": return DOLLAR_STRING;
 				case "@": return annotationStart("calcitSetAnnotation");
-				case "#": return annotationStart("calcitAddComment", true /*optimise away*/);
 				case "\\": return NEGATIVE_SIGN;
 				case '`':
 				case '´': return COMMENT_BLOCK;
@@ -128,7 +126,7 @@
 		}
 	}
 	
-	function annotationStart(annotationApplyName, optimiseAway) {
+	function annotationStart(annotationApplyName) {
 		return {
 			kind: "annotationStart",
 			annotationTree: WAITING,
@@ -144,10 +142,7 @@
 				
 				//To go on, the annotation content has to be finished
 				if(isFinishedTree(this.annotationTree)) {
-					//Annotation finished! Produce a "calcitSetAnnotation" call, or just skip that whole thing
-                    if (optimized && optimiseAway) return WAITING;
-
-                    //We are here, so that means we have to actually build instructions to apply the annotation
+					//We are here, so that means we have to actually build instructions to apply the annotation
 					//Figure out if we have a group
 					if(this.annotationTree.group) {
 						this.annotationTree.group.pop();
@@ -204,7 +199,7 @@
 	var codeBlock = depthBlock("{", "}", function(text){return string(text)});
 	var arrayBlock = depthBlock("[", "]", function(text){return group([{kind:"array", array:GLang.generateTree(text)}, WAITING])});
 	var parenthesesBlock = depthBlock("(", ")", function(text){
-		var parenthesesTree = GLang.generateTree(text, optimized);
+		var parenthesesTree = GLang.generateTree(text);
 		if(parenthesesTree.length == 1){
 			return group([parenthesesTree[0], WAITING])
 		}
@@ -459,9 +454,7 @@
 	}
 
 	
-	GLang.generateTree= function(string, optimize){
-		optimized = optimize;
-		
+	GLang.generateTree= function(string){
 		var state = WAITING;
 		var tokens = GLang.tokenize(string);
 		

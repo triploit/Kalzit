@@ -1,5 +1,9 @@
-# {Sorting rule for putting a list of numbers in ascending order (smallest first)}
+/* @kalzit.for sortingRuleNumbersAscending
+Sorting rule for putting a list of numbers in ascending order (smallest first)
+*/
 $sortingRuleNumbersAscending = {x-y}.
 
-# {Sorting rule for putting a list of numbers in descenging order (largest first)}
+/* @kalzit.for sortingRuleNumbersDescending
+Sorting rule for putting a list of numbers in descenging order (largest first)
+*/
 $sortingRuleNumbersDescending = {y-x}.

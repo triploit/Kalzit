@@ -6,7 +6,8 @@ $_loadGlobalQueue ? ModifiableList = ().
 `Each domain can only have one permission popup per browser session (if the browser restarts, this should be reset; do not store this!)`
 $_loadGlobalAskedDomains ? ModifiableList = ().
 
-# {
+/* @kalzit.for askDomainPermissionIfNeededAndLoad
+
 	This is a function for internal use - do not use this yourself.
 	
 	Checks the domain permission list for a given domain.
@@ -14,7 +15,7 @@ $_loadGlobalAskedDomains ? ModifiableList = ().
 	* If the domain does not have load permissions, and if the user has not been asked already, the user is asked to give permission
 		* If the user grants load permissions, this is stored and the callback ("then") is run
 		* Otherwise, nothing happens; "then" will not run
-}
+*/
 $askDomainPermissionIfNeededAndLoad = !fun ($then ; $domain ? String) {
 	`If the domain is in the list of allowed domains, we are fine anyway`
 	!ifElse (domain listContains getArray: allowedDomains) {

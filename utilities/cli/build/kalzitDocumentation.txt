@@ -1,5 +1,7 @@
 `TODO: This function is copied over from "jsDocumentation.txt" for now; the two scripts should be unified later`
-# {Just an internal function to generate these documentation files; not available publicly}
+/* @kalzit.for generateJsDocumentation
+Just an internal function to generate these documentation files; not available publicly
+*/
 $generateJsDocumentation = !fun ($jsScriptPath) {
 	`The regex gives you everything between /* and */ (block comment content)`
 	$comments = second each "/\*\*?\s*([\s\S]*?)\s*\*/" allMatches fileContent: jsScriptPath.

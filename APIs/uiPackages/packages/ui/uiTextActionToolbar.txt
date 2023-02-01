@@ -1,4 +1,5 @@
-# {
+/* @kalzit.for uiCustomTextActionToolbar
+
 	A toolbar with a text input field in it, as well as a button to do something with the text.
 	This is used with search popus, for example.
 	
@@ -6,7 +7,7 @@
 	* `inputReference` (optional) - a reference that specifies what to put in the text field. Changes every time the user types something.
 	* `buttonText` - this will be shown on the button.
 	* `action` (optional but typically required) - this function will be called when the user initiates a search. Its first parameter is the search term.
-}
+*/
 $uiCustomTextActionToolbar = !fun ($config) {
 	$inputReference = (default: reference: $newAddition): $inputReference propOf config.
 	$buttonText = $buttonText propOf config.

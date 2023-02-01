@@ -66,10 +66,11 @@ $uiTitleToolbar = ($title ? String ; $additionalViews) fun {
 	}
 }.
 
-# {
+/* @kalzit.for uiTitleToolbarWithAdditionalActionsButton
+
 	This is a special version of uiTitleToolbar which has space for exactly one three-dot button.
 	You can specify the button you want to show there. It will automatically be positioned correctly
-}
+*/
 $uiTitleToolbarWithAdditionalActionsButton = !fun ($title ? String ; $additionalActionsButton) {
 	$appropriateWidth = !ifElse isIosApp {
 		"100% - " + (toolbarCmHeight % 2) + "cm - 7px"
