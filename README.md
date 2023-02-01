@@ -1,3 +1,5 @@
+Note: If you are reading this, you should probably not use this project in its current state. You can, but a lot of things will change in the future, so it is not a very reliable foundation yet.
+
 # Kalzit - owning your data made easy
 
 This project started with the idea of privacy, which is a thing that many people seem to have given up - or rather payed as a price for online services.
