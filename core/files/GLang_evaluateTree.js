@@ -16,21 +16,29 @@ GLang.evaluateTree = function evaluateTree(tree, env){
 }
 
 GLang.evaluateSentence = function evaluateSentence(sentence, env){
-	var len = sentence.length;
+	const len = sentence.length;
 	if(len === 0) return GLang.voidValue;
+    if(len === 1) return GLang.evaluateSentenceFragment(sentence[0], env);
 	if(0 === len % 2){
-		//Even number of elements - call the first one
+		//Even number of elements - add a colon
 		sentence = sentence.splice(0,1).concat([{kind:"special", special:":"}]).concat(sentence);
-		len++;
 	}
-	if(len === 1) return GLang.evaluateSentenceFragment(sentence[0], env);
-	return GLang.evaluateOperation([sentence[0]], [sentence[1]], sentence.slice(2), env);
+	return GLang.evaluateOperation(sentence[0], sentence[1], sentence.slice(2), env);
+}
+
+//Evaluates sentences with an uneven number of elements; this function does NOT add an extra colon if needed
+function evaluateStandardSentence(sentence, env) {
+    switch(sentence.length) {
+        case 0: return GLang.voidValue;
+        case 1: return GLang.evaluateSentenceFragment(sentence[0], env);
+        default: return GLang.evaluateOperation(sentence[0], sentence[1], sentence.slice(2), env);
+    }
 }
 
 GLang.evaluateOperation = function evaluateOperation(a, operator, b, env){
-	var aValue = GLang.evaluateTree(a, env);
-	var bValue = GLang.evaluateTree(b, env);
-	var operatorValue = GLang.evaluateTree(operator, env);
+	var aValue = GLang.evaluateSentenceFragment(a, env);
+	var bValue = evaluateStandardSentence(b, env);
+	var operatorValue = GLang.evaluateSentenceFragment(operator, env);
 	
 	return GLang.callObject(operatorValue, env, [aValue, bValue]);
 }
