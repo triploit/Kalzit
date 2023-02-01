@@ -22,7 +22,7 @@ $sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + 
 			!ifElse (fileIsFile: unencryptedPath) {
 				`Serve the unencrypted data`
 				($startServing propOf _request): (default: "*"): strFirstLine: fileContent: uploadName + "/" + requestedVersion + "/mime.txt".
-				($writeFile propOf _request): print: unencryptedPath.
+				($writeExistingFile propOf _request): print: unencryptedPath.
 			};{
 				`Decrypt the data first, then serve them`
 				($startServing propOf _request): (default: "*"): strFirstLine: fileContent: uploadName + "/" + requestedVersion + "/mime.txt".

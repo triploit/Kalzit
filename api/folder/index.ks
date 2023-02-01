@@ -12,7 +12,7 @@ $sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + 
 		
 		$serveListingFile = !fun () {
 			($startServing propOf _request): nativeFileMime: "json".
-			($writeFile propOf _request): listingFile.
+			($writeExistingFile propOf _request): listingFile.
 			do:($endServing propOf _request).
 		}.
 	

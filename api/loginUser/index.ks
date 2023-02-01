@@ -26,11 +26,18 @@ $createUserSession = ($userToken ? String) fun {
 	
 	`Create a session folder in the user folder`
 	fileCreateFolder: userDataFolder + "/sessions".
-	fileCreateFolder: userDataFolder + "/sessions/" + sessionId.
+	fileCreateFolder: $sessionFolder = userDataFolder + "/sessions/" + sessionId.
 	
 	`Store expiration date (marks session as valid for 30 days)`
-	(userDataFolder + "/sessions/" + sessionId + "/expiration.txt") fileWrite String: (daysToMillis: 30) + !getCurrentDate.
+	(sessionFolder + "/expiration.txt") fileWrite String: (daysToMillis: 30) + !getCurrentDate.
 	
+    `This was in "httpServer - sessionUpgrade" before`
+    $header = ($getHeader objFirstProperty _request).
+	
+	!fileWrite "standard" -> (sessionFolder + "/securityLevel.txt").
+	!fileWrite header: "user-agent" -> (sessionFolder + "/userAgent.txt").
+	!fileWrite header: "accept-language" -> (sessionFolder + "/language.txt").
+
 	`Return session id`
 	sessionId
 }.

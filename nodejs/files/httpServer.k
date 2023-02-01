@@ -13,18 +13,14 @@ $mdFivePasswordHashes = ModifiableObject: ().
 
 $ifFolderThenMaybeIndexFile = !fun ($path) {
 	`Check for a folder, and if the requested file is a folder, search an index file`
-	$file = path.
-	!ifElse (fileIsFolder: file) {
-		`If the file is a folder`
-		$indexFile = {"index." strStartsWith fileName: x} firstConditionMatch folderContent: file.
-		!ifElse (void eq indexFile){
-			`No index file found`
-			file
-		};{
-			`Return the index file`
-			indexFile
-		}
-	};{file}.
+    $ksFile = path + "/index.ks".
+    $htmlFile = path + "/index.html".
+    
+    !switchFirst void
+        [{fileIsFile: path}; path];
+        [{fileIsFile: ksFile}; ksFile];
+        [{fileIsFile: htmlFile}; htmlFile];
+        [true; path].
 }.
 
 $sessionRemove = !fun ($sessionFolder) {
@@ -34,39 +30,27 @@ $sessionRemove = !fun ($sessionFolder) {
 		fileDelete: serverUsersFolder + "/sessions/" + sessionId.
 	}
 }.
-$sessionValidate = !fun ($sessionFolder ; $_request) {
-    $header = ($getHeader objFirstProperty _request).
+$sessionValidate = !fun ($userSession ; $_request) {
+    print: "Validating session...".
     
-    $sessionInvalid = !switchFirst void
-        [{not: (fileContent: sessionFolder + "/securityLevel.txt") eq "standard"}; true];
-        [{not: (fileContent: sessionFolder + "/userAgent.txt") eq header: "user-agent"}; true];
-        [{not: (fileContent: sessionFolder + "/language.txt") eq header: "accept-language"}; true];
-        [true; false].
-	
-	!if sessionInvalid {
-		`We should remove the session`
-		print: (!dateString) + "Session is invalid! Should be deleted: " + sessionFolder.
-		sessionRemove: sessionFolder
-	}
-}.
-$sessionUpgrade = !fun ($sessionFolder ; $_request) {
-    $header = ($getHeader objFirstProperty _request).
-	print: (!dateString) + "We will upgrade session " + sessionFolder.
-	
-	!fileWrite "standard" -> (sessionFolder + "/securityLevel.txt").
-	!fileWrite header: "user-agent" -> (sessionFolder + "/userAgent.txt").
-	!fileWrite header: "accept-language" -> (sessionFolder + "/language.txt").
-}.
-
-$sessionValidateAndUpgrade = !fun ($userSession ; $_request) {
-	print: "Validating session...".
-
-	$userFolder = serverUsersFolder + "/sessions/" + userSession.
-	$sessionFolder = userFolder + "/sessions/" + userSession.
+	$sessionFolder = serverUsersFolder + "/sessions/" + userSession + "/sessions/" + userSession.
 	
 	!if (fileIsFile: sessionFolder + "/expiration.txt") {
-        sessionFolder ((fileIsFile: sessionFolder + "/securityLevel.txt") at sessionUpgrade ; sessionValidate) _request
+        $header = ($getHeader objFirstProperty _request).
+    
+        $sessionInvalid = !switchFirst void
+            [{not: (fileContent: sessionFolder + "/securityLevel.txt") eq "standard"}; true];
+            [{not: (fileContent: sessionFolder + "/userAgent.txt") eq header: "user-agent"}; true];
+            [{not: (fileContent: sessionFolder + "/language.txt") eq header: "accept-language"}; true];
+            [true; false].
+	    
+	    !if sessionInvalid {
+		    `We should remove the session`
+		    print: (!dateString) + "Session is invalid! Should be deleted: " + sessionFolder.
+		    sessionRemove: sessionFolder
+	    }
 	}
+    
 }.
 
 $serveNotFound = !fun ($_request ; $fname) {
@@ -94,7 +78,7 @@ $onClientConnect = ($_request fun {
 	`After that comes the normal server stuff`
 	$userSession ? Float = (default: $session urlGetParameter $url propOf _request): ($getHeader objFirstProperty _request): "kalzit-session".
 	!ifNot (userSession eq void) {
-		!sessionValidateAndUpgrade userSession _request.
+		!sessionValidate userSession _request.
 	}.
 
 	$fname = ifFolderThenMaybeIndexFile: serverRootPath + first: "?" strSplit $url propOf _request.
@@ -106,12 +90,11 @@ $onClientConnect = ($_request fun {
 
 	`Figure out what to do with the requested file`
 	!ifElse (fileIsFile: fname) {
-        $languageRunnerFile = "./nodejs/files/server/languages/" + (fileExtension: fname) + ".k".
-	    !if (fileIsFile: languageRunnerFile) {
-			print: (!dateString) + "Running '" + fname + "' with '" + languageRunnerFile + "'".
-			resultRef = "Custom language has not returned a result".
-			do:() fun fileContent: languageRunnerFile
-	    }.
+        !if (".ks" strEndsWith fname) {
+            `Run a server-side script`
+            print: (!dateString) + "Running '" + fname + "'".
+            do:() fun fileContent: fname.
+        }.
 	    
 	    !if (not async) {
 		    !ifElse (result eq void) {

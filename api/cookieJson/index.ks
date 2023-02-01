@@ -17,7 +17,7 @@ $hashPath = userFolder + "/keys-hash.txt".
 		($respondCode propOf _request): 304.
 	};{
 		($startServing propOf _request): fileMime: "json".
-		($writeFile propOf _request): jsonPath.
+		($writeExistingFile propOf _request): jsonPath.
 	}.
 	do:($endServing propOf _request).
 };{

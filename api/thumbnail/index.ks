@@ -18,7 +18,7 @@ $sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + 
 				($respondCode propOf _request): 304.
 			};{
 				($startServing propOf _request): nativeFileMime: "jpg".
-				($writeFile propOf _request): print: thumbnailFile.
+				($writeExistingFile propOf _request): print: thumbnailFile.
 			}
 		};{
 			($respondCode propOf _request): 404.

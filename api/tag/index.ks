@@ -42,6 +42,6 @@ $sessionExists = fileIsFolder: $userFolder = serverUsersFolder + "/sessions/" + 
 	
 	`Serve the KMP file`
 	($startServing propOf _request): nativeFileMime: "json".
-	($writeFile propOf _request): file.
+	($writeExistingFile propOf _request): file.
 	do:($endServing propOf _request).
 }.
