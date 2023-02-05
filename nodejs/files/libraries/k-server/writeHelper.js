@@ -1,8 +1,6 @@
 //Library imports
 var fs = require('fs');
 var streamTransform = require("../StreamSectionTransform");
-var aesSeek = require("../AesSeek");
-var crypto = require('crypto');
 
 //The main function; defines a WriteHelper
 function WriteHelper(res, req) {
@@ -87,7 +85,7 @@ function WriteHelper(res, req) {
 	}
 	
 	//Private
-	function writeFileChunk(filePath, stats, decryptConfig){
+	function writeFileChunk(filePath, stats){
 	    //Write head and chunk data - base code from https://github.com/tsukhu/rwd-spa-alljs-app/blob/master/routes/video_streamer.js
 	    //That GitHub link points to code that is licensed under the MIT License, which you can find below.
 	    //Note: the MIT License cited below does NOT mean that it applies to all of the code in this file - just to the parts that the original author has licensed to you (link above).
@@ -137,16 +135,11 @@ function WriteHelper(res, req) {
 		res.willEnd = true;
 		
 		//Generate the stream to serve
-	    var fileSystemAccess = decryptConfig ? aesSeek : fs;
 	    var readOptions = {
 	    	start: start,
 			end: end
 	    };
-	    if (decryptConfig) {
-	        readOptions.initVector = decryptConfig.initVector,
-	        readOptions.key = decryptConfig.key
-	    }
-	    var servedStream = fileSystemAccess.createReadStream(filePath, readOptions);
+	    var servedStream = fs.createReadStream(filePath, readOptions);
 	    
 	    servedStream.pipe(res);
 	    res.on('close', function() {
@@ -161,13 +154,8 @@ function WriteHelper(res, req) {
 	}
 	
 	//Private
-	function writeFileSaveRam(filePath, decryptConfig) {
+	function writeFileSaveRam(filePath) {
 		var readStream = fs.createReadStream(filePath);
-	    if (decryptConfig) {
-	        readStream = readStream.pipe(
-	            crypto.createDecipheriv('aes-256-ctr', decryptConfig.key, decryptConfig.initVector)
-	        );
-	    }
 	    readStream.pipe(res);
 	
 	    res.willEnd = true;
@@ -185,19 +173,19 @@ function WriteHelper(res, req) {
 	
 	
     //Whenever possible, you should use writeExistingFile instead - can be faster if you already know that the file is there
-	function writeFile(filePath, decryptConfig){
+	function writeFile(filePath){
 		if(fs.existsSync(filePath)){
-	        writeExistingFile(filePath, decryptConfig);
+	        writeExistingFile(filePath);
 	    }else{
 	        writeHead(404, {});
 	    }
 	}
 
-    function writeExistingFile(filePath, decryptConfig) {
+    function writeExistingFile(filePath) {
         var stats = fs.statSync(filePath);
 	        if(!headWritten){
 	            if(wantsRange){
-	            	writeFileChunk(filePath, stats, decryptConfig);
+	            	writeFileChunk(filePath, stats);
 	            }else{
 	                //Idea from https://github.com/daspinola/video-stream-sample/blob/master/server.js
 	                //That GitHub link points to code that is licensed under the MIT License, which you can find below.
@@ -231,12 +219,12 @@ function WriteHelper(res, req) {
 	                    'Content-Type': mimeType
 	                });
 	                
-	                writeFileSaveRam(filePath, decryptConfig);
+	                writeFileSaveRam(filePath);
 	            }
 	        }else{
 				//Head already written - using writeFileSaveRam (fs.createReadStream). File size is "stats.size" bytes
 				console.log("Head already written - using writeFileSaveRam (fs.createReadStream)");
-				writeFileSaveRam(filePath, decryptConfig);
+				writeFileSaveRam(filePath);
 	        }    
     }
 	

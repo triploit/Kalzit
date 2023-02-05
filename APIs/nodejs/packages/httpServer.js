@@ -14,27 +14,6 @@ function wrapRequestValue(kServerRequest) {
 				return args[0];
 			}, display: "function"
 		}]},
-		{value:[{value:"writeEncryptedFile"}, {
-			value: function(env, args){
-				//Make a JS config object from the Kalzit one
-				var propOf = GLang.eval("propOf");
-				var configObject = args[0];
-				var jsConfig = {
-					key: GLang.callObject(propOf, env, [
-						GLang.stringValue("key"), configObject
-					]).value,
-					initVector: GLang.callObject(propOf, env, [
-						GLang.stringValue("initVector"), configObject
-					]).value,
-					input: GLang.callObject(propOf, env, [
-						GLang.stringValue("input"), configObject
-					]).value
-				}
-				
-				kServerRequest.writeEncryptedFile(jsConfig);
-				return GLang.voidValue;
-			}, display: "function"
-		}]},
 		{value:[{value:"method"}, {value:kServerRequest.method}]},
 		{value:[{value:"endServing"}, {
 			value: function(env, args){

@@ -15,18 +15,10 @@ $id = SafeFilePath: "id" urlGetParameter $url propOf _request.
 			($respondCode propOf _request): 304.
 		};{
 			
-			$unencryptedPath = uploadName + "/" + requestedVersion + "/raw".
-			!ifElse (fileIsFile: unencryptedPath) {
-				`Serve the unencrypted data`
+			$rawPath = uploadName + "/" + requestedVersion + "/raw".
+			!if (fileIsFile: rawPath) {
 				($startServing propOf _request): (default: "*"): strFirstLine: fileContent: uploadName + "/" + requestedVersion + "/mime.txt".
-				($writeExistingFile propOf _request): print: unencryptedPath.
-			};{
-				`Decrypt the data first, then serve them`
-				($startServing propOf _request): (default: "*"): strFirstLine: fileContent: uploadName + "/" + requestedVersion + "/mime.txt".
-				($writeEncryptedFile propOf _request):
-					["input"; print: uploadName + "/" + requestedVersion + "/encrypted"];
-					["initVector"; fileContentRaw: uploadName + "/" + requestedVersion + "/iv"];
-					["key"; ($getProperty propOf mdFivePasswordHashes): userToken].
+				($writeExistingFile propOf _request): print: rawPath.
 			}
 			
 		}.

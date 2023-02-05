@@ -81,25 +81,11 @@
 				fileCreateFolder: filesFolder + "/main/" + accessName + "/" + currentVersion + "/categories".
 				!fileWrite "" -> filesFolder + "/main/" + accessName + "/" + currentVersion + "/categories/" + category.
 				
-				`Here we start the first asynchronous thing - everything above was synchronous`
-				`Encrypt the /raw file and delete it`
-				`TODO: Delete the /raw file safely, so nothing remains on disk`
-				`TODO: Check if the user token is actually in the key map - should be, but it is better to make sure`
-				$initVector = encryptFileGetInitVector:
-					["key"; ($getProperty propOf mdFivePasswordHashes): userToken];
-					["input"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/raw")];
-					["output"; (filesFolder + "/main/" + accessName + "/" + currentVersion + "/encrypted")];
-					["deleteInput"; true].
-				
-				`Save the init vector so we can find it later`
-				!fileWrite initVector -> (filesFolder + "/main/" + accessName + "/" + currentVersion + "/iv").
-				
 			}.
 		}.
 		
 		`Check if there is enough space - we need to convert the post size estimate to megabytes, hence the division`
-		`We also need roughly two times that space, because the file will be encrypted later`
-		!diskSpaceClean (2 * (do: $getPostDataByteSizeEstimate propOf _request) % 1000000) {
+		!diskSpaceClean ((do: $getPostDataByteSizeEstimate propOf _request) % 1000000) {
 			$successful = x.
 			!ifElse (successful) {
 				`Actually accept the upload`

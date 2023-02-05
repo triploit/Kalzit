@@ -58,14 +58,6 @@ $createUserSession = ($userToken ? String) fun {
 			(storedHash eq hashFromInput) ifElse {
 				`Password is correct - open a session`
 				resultRef = "0" + strNewline + createUserSession: userToken.
-				
-				`Also store an md5 hash (should be different from the sha512 one) in the key map (for encryption)`
-				!ifNot (($isProperty propOf mdFivePasswordHashes): userToken) {
-					`We have not stored a password hash for this user yet`
-					$passwordMdFiveHash = mdFiveHash: userPassword + passwordSalt.
-					userToken ($push propOf mdFivePasswordHashes) passwordMdFiveHash.
-					print: (!dateString) +  "Added password hash for user " + userToken + " to the encryption map".
-				}
 			};{
 				resultRef = "3" + strNewline + "Passwords do not match"
 			}

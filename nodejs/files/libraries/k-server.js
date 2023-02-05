@@ -25,9 +25,6 @@ function getRequestValue(req, res) {
 		writeExistingFile(filePath){
 			writeHelper.writeExistingFile(filePath);
 		},
-		writeEncryptedFile(config){
-			writeHelper.writeFile(config.input, config /*for decryption*/);
-		},
 		writeBytes(numberArray, encoding){
 			writeHelper.write(Buffer.from(numberArray), encoding);
 		},

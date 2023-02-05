@@ -8,9 +8,6 @@ $dateString = !fun () {
 print (!dateString) + "Starting the server ... ".
 print (!dateString) + "Parsing internal library ...".
 
-`Store md5 password + salt hashes in memory - used for encryption.`
-$mdFivePasswordHashes = ModifiableObject: ().
-
 $ifFolderThenMaybeIndexFile = !fun ($path) {
 	`Check for a folder, and if the requested file is a folder, search an index file`
     $ksFile = path + "/index.ks".
