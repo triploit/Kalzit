@@ -5,9 +5,9 @@ try {
     console.log("HI?");
     console.log(process.argv);
 
-    var initVectorFile = process.argv[2];
-    var key = process.argv[3];
-    var kalzitFileFolder = process.argv[4];
+    var kalzitFileFolder = process.argv[2];
+    var initVectorFile = kalzitFileFolder + "/iv";
+    var key = fs.readFileSync(process.argv[3]);
         
     var filePath = kalzitFileFolder + "/encrypted";
 

@@ -2,7 +2,7 @@ $userDataFolder = appParameter: "user-data-folder".
 
 !folderContentAsync userDataFolder + "/data/v3" -> $userFolder fun {
     `TODO: Get decryption key`
-    $key = fileContent: userFolder + "/decryption-key.txt".
+    $keyFile = userFolder + "/decryption-key.txt".
     
     !folderContentDeepAsync userFolder + "/files/v2/main" -> $potentialDecryptableFile fun {
         !if (fileIsFile: potentialDecryptableFile + "/encrypted") {
@@ -13,7 +13,7 @@ $userDataFolder = appParameter: "user-data-folder".
             
             `Decrypt`
             print: "Decrypting started: " + potentialDecryptableFile.
-            print: runCommandFromArray: "./cli";"command";"node";(print: fileRealpath: "./migrate/3-decryptSingleFile.js");ivFile;key;potentialDecryptableFile.
+            print: runCommandFromArray: "./cli";"command";"node";(print: fileRealpath: "./migrate/3-decryptSingleFile.js");(fileRealpath: potentialDecryptableFile);(fileRealpath: keyFile).
             print: "Decrypting done: " + potentialDecryptableFile.
         }
     }
