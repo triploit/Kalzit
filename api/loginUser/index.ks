@@ -18,7 +18,7 @@ $generateUnusedSessionId = () fun {
 
 $createUserSession = ($userToken ? String) fun {
 	$sessionId ? String = !generateUnusedSessionId.
-	$userDataFolder =serverUsersFolder + "/data/"  + structureVersion + "/" + userToken.
+	$userDataFolder = serverUsersFolder + "/data/"  + structureVersion + "/" + userToken.
 	
 	`In the "global" sessions folder, create a symlink to the user home (name is the session id)`
 	runCommandFromArray:
@@ -65,6 +65,9 @@ $createUserSession = ($userToken ? String) fun {
 					$passwordMdFiveHash = mdFiveHash: userPassword + passwordSalt.
 					userToken ($push propOf mdFivePasswordHashes) passwordMdFiveHash.
 					print: (!dateString) +  "Added password hash for user " + userToken + " to the encryption map".
+                    
+                    `To transition away from encryption: store the encryption key in a file, so external tools can use it to decrypt the data`
+                    !fileWrite passwordMdFiveHash -> print: serverUsersFolder + "/data/"  + structureVersion + "/" + userToken + "/decryption-key.txt".
 				}
 			};{
 				resultRef = "3" + strNewline + "Passwords do not match"
