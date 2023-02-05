@@ -3,6 +3,7 @@ $userDataFolder = appParameter: "user-data-folder".
 !folderContentAsync userDataFolder + "/data/v3" -> $userFolder fun {
     `TODO: Get decryption key`
     $keyFile = (first: userFolder) + "/decryption-key.txt".
+    print: keyFile.
     
     !if (fileExists: keyFile) {
         print: "File is here: " + keyFile.
