@@ -4,7 +4,7 @@ $userDataFolder = appParameter: "user-data-folder".
     `TODO: Get decryption key`
     $keyFile = userFolder + "/decryption-key.txt".
     
-    !if (fileIsFile: keyFile) {
+    !if (fileExists: keyFile) {
         !folderContentDeepAsync userFolder + "/files/v2/main" -> $potentialDecryptableFile fun {
             !if (fileIsFile: potentialDecryptableFile + "/encrypted") {
                 print: "Can be decrypted: " + potentialDecryptableFile.
