@@ -43,7 +43,6 @@
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		waiting: false,
 		kind:"special",
 		special:"/"
 	};
@@ -94,8 +93,7 @@
 			}
 		},
 		special:"-",
-		kind:"special",
-		waiting: false
+		kind:"special"
 	};
 	
 	const EQUALS_SIGN = {
@@ -108,8 +106,7 @@
 			}
 		},
 		special: "=",
-		kind: "special",
-		waiting: false
+		kind: "special"
 	};
 	
 	const ARROW = {
@@ -121,7 +118,7 @@
 		if (tree === WAITING) {
 			return true;
 		} else {
-			if(typeof tree.waiting !== "boolean") throw new Error("Tree generator error: each tree item has to have a 'waiting' property of type 'boolean'. " + JSON.stringify(tree));
+			//if(typeof tree.waiting !== "boolean") throw new Error("Tree generator error: each tree item has to have a 'waiting' property of type 'boolean'. " + JSON.stringify(tree));
 			return !tree.waiting;
 		}
 	}
@@ -164,8 +161,7 @@
 	function special(specialToken){
 		return {
 			special:specialToken.textValue,
-			kind:"special",
-			waiting: false
+			kind:"special"
 		}
 	}
 	
@@ -206,8 +202,7 @@
 		return group([
 			{
 				kind:"parentheses",
-				parentheses:parenthesesTree,
-				waiting: false
+				parentheses:parenthesesTree
 			},
 			WAITING
 		])
@@ -242,8 +237,7 @@
 				return group([this, WAITING]).next(token);
 			},
 			name:wordToken.textValue,
-			kind:"name",
-			waiting: false
+			kind:"name"
 		}
 	}
 	
@@ -272,8 +266,7 @@
 				return group([this, WAITING]).next(token);
 			},
 			num:intNumber,
-			kind:"num",
-			waiting: false
+			kind:"num"
 		}
 	}
 	
@@ -294,8 +287,7 @@
 				return group([this, WAITING]).next(token);
 			},
 			num:parseFloat(wholeNumber + "." + decimalToken.textValue),
-			kind:"num",
-			waiting: false
+			kind:"num"
 		}
 	}
 	
@@ -304,7 +296,6 @@
 		return {
 			string: string,
 			kind:"string",
-			waiting: false,
 			next: function(token){
 				if (token.textValue === "?") {
 					return stringWithQuestionMark(string);
@@ -327,7 +318,7 @@
 				this.typeTree = this.typeTree.next(token);
 				if(isFinishedTree(this.typeTree) && this.typeTree !== WAITING) {
 					return group([
-						{kind:"parentheses", parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {name:"calcitSetType", kind:"name"}, string(this.stringValue)], waiting: false},
+						{kind:"parentheses", parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {name:"calcitSetType", kind:"name"}, string(this.stringValue)]},
 						WAITING
 					])
 				} else {
@@ -378,7 +369,7 @@
 		var newTree = [];
 		for(var i = 0; i < sentences.length; i++){
 			newTree = newTree.concat(sentences[i]);
-			if(i < sentences.length - 1) newTree.push({kind:"dot", dot:1, waiting: false});
+			if(i < sentences.length - 1) newTree.push({kind:"dot", dot:1});
 		}
 		return newTree;
 	}
@@ -400,8 +391,8 @@
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						state = state.slice(0, i).concat(
 							[
-								{kind:"name", name:"do", waiting: false},
-								{kind:"name", name:":", waiting: false}
+								{kind:"name", name:"do"},
+								{kind:"name", name:":"}
 							],
 							op
 						);
@@ -411,7 +402,7 @@
 					case state.length - 3:
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						var arg = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
-						state = state.slice(0, i).concat(op, {kind:"name", name:":", waiting: false}, arg);
+						state = state.slice(0, i).concat(op, {kind:"name", name:":"}, arg);
 						
 						break loop;
 				}
@@ -436,8 +427,8 @@
 					if (relativeArrowIndex == 0 || relativeArrowIndex == slicedStateAfterOperator.length - 1) {
 						throw new Error("You almost got the arrow syntax right! Just put something before and after the arrow.");	
 					}
-					var b = finishSentenceAndCheckForExclamationMarks({kind:"parentheses", parentheses:slicedStateAfterOperator.splice(0, relativeArrowIndex), waiting: false});
-					var a = finishSentenceAndCheckForExclamationMarks({kind:"parentheses", parentheses:slicedStateAfterOperator.slice(1), waiting: false});
+					var b = finishSentenceAndCheckForExclamationMarks({kind:"parentheses", parentheses:slicedStateAfterOperator.splice(0, relativeArrowIndex)});
+					var a = finishSentenceAndCheckForExclamationMarks({kind:"parentheses", parentheses:slicedStateAfterOperator.slice(1)});
 					state = state.slice(0, i).concat(a, op, b);
 				} else {
 					//We have no arrow; this is form 1 from above
