@@ -21,7 +21,7 @@ GLang.evaluateSentence = function evaluateSentence(sentence, env){
     if(len === 1) return GLang.evaluateSentenceFragment(sentence[0], env);
 	if(0 === len % 2){
 		//Even number of elements - add a colon
-		sentence = sentence.splice(0,1).concat([{kind:"special", special:":"}]).concat(sentence);
+		sentence = sentence.splice(0,1).concat([{kind:"name", name:":"}]).concat(sentence);
 	}
 	return GLang.evaluateOperation(sentence[0], sentence[1], sentence.slice(2), env);
 }
@@ -53,7 +53,7 @@ GLang.evaluateSentenceFragment = function evaluateSentenceFragment(fragment, env
 		case "name": return env.resolveName(fragment.name);
 		case "parentheses": return GLang.evaluateTree(fragment.parentheses, env);
 		case "array": return {value:[GLang.evaluateTree(fragment.array, env)]};
-		case "special": return env.resolveName(fragment.special);
+//		case "special": return env.resolveName(fragment.special);
 		default: console.error(fragment);
 	}
 }

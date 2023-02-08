@@ -28,7 +28,7 @@
 				case '-': return MINUS_SIGN;
 				case '=': return EQUALS_SIGN;
 			}
-			return group([special(token), WAITING]);
+			return name(token);
 		},
 		waiting:true,
 		kind:"waiting"
@@ -43,8 +43,8 @@
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		kind:"special",
-		special:"/"
+		kind:"name",
+		name:"/"
 	};
 	
 	const BLOCK_COMMENT = {
@@ -92,8 +92,8 @@
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		special:"-",
-		kind:"special"
+		name:"-",
+		kind:"name"
 	};
 	
 	const EQUALS_SIGN = {
@@ -105,8 +105,8 @@
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		special: "=",
-		kind: "special"
+		name: "=",
+		kind: "name"
 	};
 	
 	const ARROW = {
@@ -155,13 +155,6 @@
 					return this;
 				}
 			}
-		}
-	}
-	
-	function special(specialToken){
-		return {
-			special:specialToken.textValue,
-			kind:"special"
 		}
 	}
 	
@@ -358,7 +351,7 @@
 		var sentences = [];
 		var sentence = [];
 		for(var i = 0; i < tree.length; i++){
-			if(tree[i].special == "."){
+			if(tree[i].name == "."){
 				sentences.push(finishSentenceAndCheckForExclamationMarks(sentence));
 				sentence = [];
 			}else sentence.push(tree[i]);
@@ -385,7 +378,7 @@
 		loop:
 		for(var i = 0; i < state.length; i++){
 			//Check for exclamation marks
-			if(state[i].special === "!"){
+			if(state[i].name === "!"){
 				switch(i){
 					case state.length - 2:
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
