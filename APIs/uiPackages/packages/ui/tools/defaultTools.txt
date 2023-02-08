@@ -101,7 +101,7 @@ $separatorTool = !fun () {
 
 $additionalActionsTool = !fun ($object ; $additionalActions) {
 	["desktop"; object uiAdditionalActionsButton additionalActions];
-	["mobile"; uiContainer: !each additionalActions -> $action fun {
+	["mobile"; uiElementCollection: !each additionalActions -> $action fun {
 		uiListItem:
 			[$mainView; uiContainer: 0 at action];
 			[$onTap; 1 at action];

@@ -1,6 +1,6 @@
 $uiSlidesWithNavigation = ($_slides ? (List:Any) ; $startIndex ? (0 default Int)) fun {
 	$indexVar = 0. $indexVarRef = reference: $indexVar.
-	$result = uiContainer: (indexVarRef uiSlides _slides);(
+	$result = uiElementCollection: (indexVarRef uiSlides _slides);(
 		@(onTap: () fun {
 			indexVarRef = (0 > indexVar - 1) ifElse {(length: _slides) - 1};{indexVar - 1}
 		})
@@ -23,7 +23,7 @@ $uiLazySlidesWithNavigation = ($_slideGenerator ; $startIndex ? (default 0)) fun
 		reference: $indexVar
 	}.
 	
-	$result = uiContainer: (indexVarRef uiLazySlides _slideGenerator);(
+	$result = uiElementCollection: (indexVarRef uiLazySlides _slideGenerator);(
 		@(onTap: () fun {
 			indexVarRef = (0 > (resolveReference: indexVarRef) - 1) ifElse {(length: _slideGenerator) - 1};{(resolveReference: indexVarRef) - 1}
 		})

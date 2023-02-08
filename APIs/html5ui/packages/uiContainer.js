@@ -6,10 +6,12 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiContainer", {value:function(
 		arr = [args[0]];
 	}
 	
+    var frag = document.createDocumentFragment();
 	for(var i = 0; i < arr.length; i++){
-		div.appendChild(GLang.displayValue(arr[i]));
+		frag.appendChild(GLang.displayValue(arr[i]));
 	}
 	
+    div.appendChild(frag);
 	return {value:div, display:"dom"};
 }, display:"function"});
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiElementCollection", {value:function(env, args){

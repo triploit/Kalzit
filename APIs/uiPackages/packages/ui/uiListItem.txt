@@ -33,7 +33,7 @@ $uiListItem = !fun ($config) {
 		[{not: void eq $additionalViewFactory propOf config}; {
 			@verticalCenter @relative !uiButtonWithThreeDotIcon {
 				!ifElse (currentView eq mainView) {
-					currentViewRef = uiContainer:
+					currentViewRef = uiElementCollection:
 						[value ($additionalViewFactory propOf config) index].
 				};{
 					currentViewRef = mainView.	
@@ -43,7 +43,7 @@ $uiListItem = !fun ($config) {
 		
 	$mainViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 27px"}.
 	
-	$view = uiContainer:
+	$view = uiElementCollection:
 		(@(width mainViewWidth) uiShowVariable: currentViewRef);
 		!ifNot (void eq actionMenu) {
 			[uiHorizontalPxSpace 7];

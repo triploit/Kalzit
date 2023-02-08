@@ -73,7 +73,7 @@ $manageDomains registerSubApp popupSubApp:
 	!uiTitledPopupViewAsList (strings: $manageInternetAccess) ->
 		(@verticalScroller uiContainer: @(width: "100% - 14px") @center !uiListView allowedDomains -> {
 			uiListItem:
-				["mainView"; uiContainer: x];
+				["mainView"; uiElementCollection: x];
 				["value"; x];
 				["additionalActions"; [
 					["Don't allow anymore"; {($removeEquals propOf allowedDomains): x}]

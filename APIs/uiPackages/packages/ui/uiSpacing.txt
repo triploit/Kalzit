@@ -21,8 +21,8 @@ $uiTopBottomPxPadded = ($padding ? Int ; $view ? UiElement) fun {
 	result.
 }.
 $uiLeftRightPercentPadded = ($padding ? Int ; $view ? UiElement) fun {
-	uiContainer: [uiHorizontalPercentSpace: padding];[view];[uiHorizontalPercentSpace: padding].
+	uiElementCollection: [uiHorizontalPercentSpace: padding];[view];[uiHorizontalPercentSpace: padding].
 }.
 $uiTopBottomPercentPadded = ($padding ? Int ; $view ? UiElement) fun {
-	uiContainer: [uiVerticalPercentSpace: padding];[view];[uiVerticalPercentSpace: padding].
+	uiElementCollection: [uiVerticalPercentSpace: padding];[view];[uiVerticalPercentSpace: padding].
 }.

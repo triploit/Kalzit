@@ -1,7 +1,7 @@
 function makeCheckbox(text, withCheckbox) {
-	var container = document.createElement("label");
+	var container = document.createDocumentFragment();
+
 	container.appendChild(document.createTextNode(text));
-	container.classList.add("k-checkbox_container");
 	if(text == "") container.classList.add("k-checkbox_empty");
 	
 	var checkbox = document.createElement("input");
@@ -19,12 +19,15 @@ function makeCheckbox(text, withCheckbox) {
 		//13 is the ASCII code for "carriage return" - the enter key
 		if(event.keyCode === 13) {
 			//Do the same thing that happens when the user clicks the checkbox
-			container.click()
+			checkbox.click()
 		}
 	})
 	
+    var visibleThing = document.createElement("label");
+    visibleThing.classList.add("k-checkbox_container");
+    visibleThing.appendChild(container);
 	withCheckbox(checkbox);
-	return container;
+	return visibleThing;
 }
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiCheckbox", {value:GLang.arrayFun(function(env, args){
