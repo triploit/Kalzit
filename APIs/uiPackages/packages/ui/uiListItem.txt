@@ -43,7 +43,7 @@ $uiListItem = !fun ($config) {
 		
 	$mainViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 27px"}.
 	
-	$view = uiElementCollection:
+	$view = uiContainer:
 		(@(width mainViewWidth) uiShowVariable: currentViewRef);
 		!ifNot (void eq actionMenu) {
 			[uiHorizontalPxSpace 7];

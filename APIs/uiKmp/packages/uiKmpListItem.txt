@@ -121,7 +121,9 @@ $uiKmpListItem = !fun ($file ; $config) {
 					@relative @verticalCenter value ($additionalActionsButton propOf config) index
 				}
 			};{
-				@relative @verticalCenter file uiAdditionalActionsButton ($additionalActions propOf config)
+				!ifNot (void eq $additionalActions propOf config) {
+					@relative @verticalCenter file uiAdditionalActionsButton ($additionalActions propOf config)
+				}
 			}
 		]];
 		(!ifNot (void eq $additionalViewFactory propOf config) {
