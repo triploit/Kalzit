@@ -1,1 +1,3 @@
-/usr/bin/uglifycss
+#!/usr/bin/env bash
+
+env uglifycss "$@"
