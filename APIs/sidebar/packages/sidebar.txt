@@ -27,7 +27,7 @@ $leftSidebarDragHandler = !fun ($callback) {
 */
 $leftSidebarResizeTool = !fun ($callback ; $views) {
 	$viewInFront = @(cssClass: "k-sidebar_content_wide") !ifElse (void eq views) {
-		@(opacity 0) uiContainer: "0"
+		@(opacity 0) uiContainer: void
 	};{
 		uiContainer: views.
 	}.
