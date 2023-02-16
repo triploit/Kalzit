@@ -4,7 +4,7 @@ $uiTitledPopupViewAsList = !fun ($view ; $title) {
 }.
 
 $uiTitledPopupView = !fun ($view ; $title) {
-	uiElementCollection: !uiTitledPopupViewAsList view title
+	uiContainer: !uiTitledPopupViewAsList view title
 }.
 
 $uiTitledPopup = !fun ($view ; $title) {
