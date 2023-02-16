@@ -13,7 +13,6 @@ GLang.scopePrototype = {
 	registerVariableListener: function(n, listener){
 		this.variableUpdateFunctions.push({varName:this.unifyStringName(n), update:listener});
 	},
-	resolveUnknownName: "calcit_resolve_unknown",
 	resolveName: function(n){
 		var unified = this.unifyStringName(n);
 		var value = this["kv_" + unified];
@@ -76,7 +75,7 @@ GLang.scopePrototype = {
 		}
 	},
 	setInnerVariable: function(n, value, allowOverride, type){
-		if(!n.match("[a-zA-Z_]+")){
+		if(n.match("[^a-zA-Z_]")){
 			throw new Error(n + " is not a valid variable name!");
 		}
 		
@@ -166,7 +165,7 @@ GLang.scopePrototype = {
 //Holds all variables known to the program
 GLang.RuntimeEnvironment = function(outer){
 	//For debugging: test if this is called as a constructor
-	if(!this instanceof GLang.RuntimeEnvironment) throw new Error("GLang.RuntimeEnvironment not called with 'new' keyword");
+	//if(!this instanceof GLang.RuntimeEnvironment) throw new Error("GLang.RuntimeEnvironment not called with 'new' keyword");
 
 	var me = Object.create(outer || GLang.scopePrototype);
 	me.variableUpdateFunctions = [];

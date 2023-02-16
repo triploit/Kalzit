@@ -1,6 +1,6 @@
 ;(function(global){
 
-	GLang.defaultRuntimeEnvironment = new GLang.RuntimeEnvironment();
+	GLang.defaultRuntimeEnvironment = GLang.RuntimeEnvironment();
 
 	function stringValue(jsStr){
 		if(jsStr === undefined || jsStr === null){
@@ -18,7 +18,7 @@
 		}
 		function arrayFunWrapper(env, args){
 			//Length testing before cloning the arguments array
-			var originalArgumentCount = args.length;
+			const originalArgumentCount = args.length;
 			if(originalArgumentCount === 0){
 				return GLang.callObject(original, env, []);
 			}

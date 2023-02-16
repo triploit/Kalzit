@@ -1,5 +1,5 @@
 GLang.createFunctionScope = function(env, argumentList, args){
-	var functionEnvironment = new GLang.RuntimeEnvironment(env);
+	var functionEnvironment = GLang.RuntimeEnvironment(env);
 	
 		//add arguments to function environment
 		argumentList = argumentList.value || [];
@@ -70,16 +70,16 @@ GLang.callObject = function(obj, env, args){
 	GLang.callStack.push({obj: obj, args: args});
 	//Check if the value we want to call is deprecated - if yes, warn about that
 	if(GLANG_DEBUG && GLang.getFirstAnnotation(obj, GLang.stringValue("deprecated")) != undefined) {
-		console.warn("You called a deprecated value: " + (obj.varName ? obj.varName : "unnamed value") + ". This is OK, just for you to consider.");
+		console.warn("You called a deprecated value: " + (obj.varName || "unnamed value") + ". This is OK, just for you to consider.");
 		console.log("Kalzit call stack:");
 		console.log([...GLang.callStack]);
 		console.log("---");
 	}
 	
 	try{
-		if(typeof(obj) !== "object"){
-			throw new Error("Values have to be 'normal' objects, not functions. Trying to call: " + obj);
-		}else{
+//		if(typeof(obj) !== "object"){
+//			throw new Error("Values have to be 'normal' objects, not functions. Trying to call: " + obj);
+//		}else{
 			//Keep the original parameter untouched
 			var object = obj.value;
 			
@@ -96,10 +96,10 @@ GLang.callObject = function(obj, env, args){
 					result = obj; break;
 			}
 			
-			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later
-			if (result == null) {
-				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
-			}
+//			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later
+//			if (result == null) {
+//				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
+//			}
 			
 			//Before returning the result, remove the currently active function from the call stack
 			GLang.callStack.pop();
@@ -111,13 +111,13 @@ GLang.callObject = function(obj, env, args){
 				result.varName = "return-value of " + GLang.getValueVarName(obj);
 			}
 			return result;
-		}
+//		}
 	}catch(exception){
 		//Put a human-readable error on the app, and a detailed log on the console
 		GLang.print("Error: " + (exception.message || exception) + "; (oldest call first, ':' and 'do' excluded)");
 		
 		GLang.getSimplifiedCallStack().forEach(callEntry => {
-			if(!(callEntry === "do" || callEntry === ":")){
+			if(!(callEntry === ":" || callEntry === "do")){
 				//If the call entry is interesting, show it
 				GLang.error("at " + callEntry)
 			}
