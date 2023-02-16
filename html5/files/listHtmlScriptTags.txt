@@ -9,7 +9,7 @@ $relativeScriptPaths = coreLanguageFile ; `joined list` ;/
 	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/platformScripts.txt").
 
 $generateScript = $path fun {
-	runCommand "./cli command terser " + path
+	runCommand "./cli command terser --mangle keep_fnames " + path
 }.
 
 $topScript = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
