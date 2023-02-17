@@ -22,7 +22,7 @@
 		var request = new XMLHttpRequest();
 		request.open("GET", url);
 		
-		for(property in headers) {
+		for(var property in headers) {
 			console.log(property)
 			request.setRequestHeader(property, headers[property]);	
 		}
@@ -51,7 +51,7 @@
 		var request = new XMLHttpRequest();
 		request.open("POST", url);
 		
-		for(property in headers) {
+		for(var property in headers) {
 			console.log(property)
 			request.setRequestHeader(property, headers[property]);	
 		}
