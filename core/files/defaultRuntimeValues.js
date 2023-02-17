@@ -185,7 +185,7 @@
 			var code = GLang.generateTree(args[1].value);
 			var returnType = GLang.getType(args[1]);
 			
-			return result = GLang.functionFromTree(code, env, {value:argList}, returnType);
+			return GLang.functionFromTree(code, env, {value:argList}, returnType);
 		}}},
 		{varName:";", varValue:{value:function(env, args){
 			var val1 = args[0];

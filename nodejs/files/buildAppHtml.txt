@@ -40,7 +40,7 @@ $skeletonCode = do:{
 			}.
 			
 		`Include the needed standard APIs`
-		$scriptTags = "<script>GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
+		$scriptTags = "<script>'use strict'; GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
 		) + ";</script>".
 		

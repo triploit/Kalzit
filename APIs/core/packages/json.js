@@ -2,6 +2,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("parseJson", {value:function(en
 	try{
 		return GLang.wrapJsToValue(JSON.parse(args[0].value + ""));
 	}catch(e){
+        console.log(e.stack);
 		return GLang.voidValue;
 	}
 }});

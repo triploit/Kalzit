@@ -1,3 +1,5 @@
+"use strict";
+
 //Load libraries
 var http = require('http');
 var fs = require('fs');
@@ -28,14 +30,14 @@ function installCalcit(vm, context, fs, bootstrap){
 		var pmScripts = fs.readFileSync(bootstrap[i] + "/bootstrap/packageManagerScripts.txt", "utf8").trim().split("\n");
 		for(var k = 0; k < pmScripts.length; k++){
 			if(pmScripts[k]){
-				vm.runInNewContext(fs.readFileSync(bootstrap[i] + "/files/" + pmScripts[k].trim(), "utf8"), context, pmScripts[k]);
+				vm.runInNewContext("'use strict';" + fs.readFileSync(bootstrap[i] + "/files/" + pmScripts[k].trim(), "utf8"), context, pmScripts[k]);
 			}
 		}
 		
 		var platformScripts = fs.readFileSync(bootstrap[i] + "/bootstrap/platformScripts.txt", "utf8").trim().split("\n");
 		for(var k = 0; k < platformScripts.length; k++){
 			if(platformScripts[k]){
-				vm.runInNewContext(fs.readFileSync(bootstrap[i] + "/files/" + platformScripts[k].trim(), "utf8"), context, platformScripts[k]);
+				vm.runInNewContext("'use strict';" + fs.readFileSync(bootstrap[i] + "/files/" + platformScripts[k].trim(), "utf8"), context, platformScripts[k]);
 			}
 		}
 	}

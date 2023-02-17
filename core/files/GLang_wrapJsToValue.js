@@ -36,7 +36,7 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 	}
 	if(js instanceof Object){
 		var calcitObject = [];
-		for(prop in js){
+		for(var prop in js){
 			calcitObject.push({value:[
 				GLang.stringValue(prop),
 				GLang.wrapJsToValue(js[prop])

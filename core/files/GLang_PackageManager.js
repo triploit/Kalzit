@@ -110,7 +110,7 @@
 			//Tries to make "normal" javascript work as a calcit library, but it will probably never have all options a "real" calcit JS library can have.
 			var newThis = {};
 			fun.call(newThis);
-			for(property in newThis){
+			for(var property in newThis){
 				GLang.defaultRuntimeEnvironment.setInnerVariable(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
 			}
 		};
@@ -118,11 +118,7 @@
 		
 		this.supportedLanguages = {
 			lang_js: function(url, code){
-				try{
-					installJs(Function(code));
-				} catch(anyError) {
-					console.log(anyError.stack);
-				}
+				installJs(Function(code));
 			},
 			lang_txt: function(url, x){GLang.eval(x,true)},
 			lang_json: function(url, x){
