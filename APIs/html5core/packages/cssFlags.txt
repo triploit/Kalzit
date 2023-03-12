@@ -57,3 +57,6 @@ $relative = cssClass: "k-relative".
 Inverts an element in dark mode
 */
 $inverted = cssClass: "inverted".
+
+$mobile = cssClass: "k-mobile_only".
+$desktop = cssClass: "k-desktop_only".

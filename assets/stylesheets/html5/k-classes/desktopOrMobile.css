@@ -37,7 +37,7 @@
         max-height: 75%;
     }
     .k-mobile_only {
-        display: initial;   
+        display: inherit;   
     }
     .k-desktop_only {
         display: none;   
