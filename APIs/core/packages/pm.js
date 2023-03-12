@@ -3,7 +3,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("pmListRegisteredPackages", {va
 }});
 GLang.defaultRuntimeEnvironment.setInnerVariable("pmListInstalledNames", {value:function(){
 	var result = [];
-	for(entry in GLang.defaultRuntimeEnvironment){
+	for(var entry in GLang.defaultRuntimeEnvironment){
 		if(entry.startsWith("kv_"))	result.push(entry.substring(3));
 	}
 	return GLang.wrapJsToValue(result);
