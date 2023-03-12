@@ -20,7 +20,7 @@
 		{"provides":["ui_hide"],  "scriptUrl":"uiHide.js"},
 		{"provides":["ui_horizontal_px_space", "ui_horizontal_percent_space", "ui_vertical_px_space", "ui_vertical_percent_space"],  "scriptUrl":"uiSpace.js"},
 		{"provides":["ui_clear_app_container"],  "scriptUrl":"uiAppContainer.js"},
-		{"provides":["ui_container", "ui_element_collection"], "scriptUrl":"uiContainer.js"},
+		{"provides":["ui_container", "ui_element_collection", "ui_centering_container"], "scriptUrl":"uiContainer.js"},
 		{"provides":["ui_stack"], "scriptUrl":"uiStack.js"},
 		{"provides":["ui_text"], "scriptUrl":"uiText.js"},
 		{"provides":["set_css_color_combination"], "scriptUrl":"setCssColorCombination.js"},
