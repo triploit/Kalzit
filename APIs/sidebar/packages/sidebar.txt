@@ -112,7 +112,7 @@ $leftSidebarManager = !fun ($config) {
 }.
 $leftSidebarToggleButtonTool = !fun () {
 	["desktop";@(percentHeight 100) @(cmWidth 0,35) uiContainer:
-		(@(cmWidth 0,35) @verticalCenter !uiSidebarToggleButton);
+		(@(cmWidth 0,35) @(cmHeight 0,7) @verticalCenter !uiSidebarToggleButton);
 		@(width "0.35cm - 5px") uiContainer: void
 	];
 	["mobile";uiContainer: void]
