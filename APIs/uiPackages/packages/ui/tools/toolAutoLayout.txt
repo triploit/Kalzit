@@ -8,13 +8,7 @@ $generateDesktopToolsAtLeft = !fun ($_subTools) {
 	}
 }.
 $generateDesktopToolAtLeft = !fun ($_tool) {
-	{
-		@left uiContainer:
-			`At the very left, add a little space`
-			(uiHorizontalPxSpace: 5);
-			`Add the tool registered by the app`
-			do:$desktop propOf _tool
-	}
+	generateDesktopToolsAtLeft: [_tool]
 }.
 $generateDesktopToolsAtRight = !fun ($_subTools) {
 	{
@@ -24,9 +18,7 @@ $generateDesktopToolsAtRight = !fun ($_subTools) {
 	}
 }.
 $generateDesktopToolAtRight = !fun ($_tool) {
-	{
-		@right do:$desktop propOf _tool
-	}
+	generateDesktopToolsAtRight: [_tool]
 }.
 
 $toolLayoutManager = !fun () {
@@ -83,11 +75,7 @@ $toolsAtLeft = !fun ($_subTools) {
 	Otherwise, it might make the tools on the right not clickable.
 */
 $toolAtLeft = !fun ($_tool) {
-	`Desktop`
-	registerDesktopTool: generateDesktopToolAtLeft: _tool.
-	
-	`Mobile`
-	($mobile propOf _tool) registerMobileTool ($title propOf _tool).
+	toolsAtLeft: [_tool]
 }.
 
 /* @kalzit.for toolsAtRight
@@ -115,9 +103,5 @@ $toolsAtRight = !fun ($_subTools) {
 	Otherwise, it might make the tools on the right not clickable.
 */
 $toolAtRight = !fun ($_tool) {
-	`Desktop`
-	registerDesktopTool: generateDesktopToolAtRight: _tool..
-	
-	`Mobile`
-	($mobile propOf _tool) registerMobileTool ($title propOf _tool).
+	toolsAtRight: [_tool]
 }.
