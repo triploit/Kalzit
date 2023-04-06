@@ -79,6 +79,7 @@ function loadAsync(callbackValue, path, env, unimportant, fetchOptions){
 	})
 	.catch(error => {
 		console.error("Hi. We have an error in the load.js loadAsync API. This is probably not good." + error);
+		callback(GLang.voidValue);
 	})
 }
 

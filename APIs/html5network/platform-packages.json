@@ -5,6 +5,6 @@
 	},
 	"libraries":[
 		{"provides":["http_get_local_async", "http_post_local_async"],  "scriptUrl":"local.js"},
-		{"provides":["load_global_async", "load_global_in_background_async", "load_global_directly_async"],  "scriptUrl":"loadGlobalAsync.txt"}
+		{"provides":["load_global_async", "load_global_in_background_async", "load_global_directly_async", "load_global_server_url_ref"],  "scriptUrl":"loadGlobalAsync.txt"}
 	]
 }
