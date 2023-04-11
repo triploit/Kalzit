@@ -90,7 +90,9 @@ $generatedHtmlPath = appFolder + "/index.html".
 
 `Write the file content`
 generatedHtmlPath fileWrite
-	`We replace $app$ from the app skeleton with a minified version of the app code (available in $appBuildingTempFile)`
+	`We replace $app$ from the app skeleton with a minified version of the app code (available in $appBuildingTempFile), and $head$ with the contents of head.html`
+    `TODO: if $head$ or $app$ are parts of the app itself, this will probably cause problems`
+    ("$head$";(default: ""): fileContent: appFolder + "/head.html") strReplace
 	("$app$";(runCommand: './cli command terser --mangle keep_fnames "' + (appBuildingTempFile) + '" --keep-fnames')) strReplace skeletonCode.
 	
 `Remove the temporary file`
