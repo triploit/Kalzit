@@ -1,7 +1,10 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("each", {value:function(env, args){
-	return {value:args[1].value.map(
-		entry => GLang.callObject(args[0], env, [entry])
-	)}
+    var input = args[1].value;
+    var output = [];
+	for(var i = 0; i < input.length; i++) {
+		output.push(GLang.callObject(args[0], env, [input[i], {value: i}]));
+	}
+	return {value:output}
 }})
 /* @kalzit.for loop_each
 A function which does essentially the same as "each", but it does always return void.
@@ -10,7 +13,7 @@ Because of this, no return values of the repeated function need to be stored and
 GLang.defaultRuntimeEnvironment.setInnerVariable("loop_each", {value:function(env, args){
 	var array = args[1].value;
 	for(var i = 0; i < array.length; i++) {
-		GLang.callObject(args[0], env, [array[i]])
+		GLang.callObject(args[0], env, [array[i], {value: i}])
 	}
 	return GLang.voidValue;
 }})
