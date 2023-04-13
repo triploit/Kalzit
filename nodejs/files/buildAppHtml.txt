@@ -81,7 +81,7 @@ $prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
 `Here, we embed the actual app code - it is run in its own runtime environment / scope, not the global one`
 $appBuildingTempFile = (!getUnixUserFolder) + "/.kalzit/generated/appBuildingTempFile-" + (fileName: appFolder) + "-" + (!getCurrentDate) + ".js".
 
-(appBuildingTempFile) fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.RuntimeEnvironment(GLang.defaultRuntimeEnvironment));'.
+(appBuildingTempFile) fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.appEnvironment = GLang.RuntimeEnvironment(GLang.defaultRuntimeEnvironment));'.
 
 
 `Now we can generate the final HTML file`

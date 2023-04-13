@@ -1,5 +1,6 @@
 <div id="playground" style="width: 100%; height: 100%;;" class="calcitExtremeBackground">$html$</div>
 <script>
+(function() {
     "use strict";
 	//Timeout
 	var timeoutSince = parseInt(GLang.eval("storageLoadString: 'kalzit.timeoutSince'").value);
@@ -35,6 +36,7 @@
 			GLang.eval("!debugAutoRefresh");
 		}
 	} else GLang.eval("{} showMessageAsync 'Your app timeout is currently active - you can use the Kalzit apps again in 20 minutes (or less)'")
+})()
 </script>
 <noscript>
 	<!-- show a little message to tell the user that JavaScript has to be enabled -->
