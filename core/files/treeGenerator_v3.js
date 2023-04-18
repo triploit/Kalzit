@@ -366,11 +366,16 @@
 		
 		return {
 			next:function(token){
-				var nextState = stateList.pop().next(token);
-				if(nextState.group){
-					return group(stateList.concat(nextState.group));
-				}
-				return group(stateList.concat([nextState]));
+				try {
+                    var nextState = stateList.pop().next(token);
+				    if(nextState.group){
+					    return group(stateList.concat(nextState.group));
+				    }
+				    return group(stateList.concat([nextState]));
+                } catch (error) {
+                    console.error(error);
+                    throw new Error("An error was thrown in the following tree item group: " + JSON.stringify(this))
+                }
 			},
 			group: stateList,
 			kind:"group",

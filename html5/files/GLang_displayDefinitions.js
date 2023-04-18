@@ -16,6 +16,23 @@
 		}
 		return JSON.stringify(val);
 	}),
+    "codeBlock": GLang.stringDisplay(function(x){
+		var val = x.value;
+		if(val instanceof Array){
+			if(val.length === 0){
+				return "()";
+			}
+			var string = "";
+			for(var i = 0; i < val.length; i++){
+				string += "[" + GLang.displayValue(val[i]).innerHTML + "]";
+				if(i < val.length - 1){
+					string += "; "
+				}
+			}
+			return string;
+		}
+		return JSON.stringify(val);
+	}),
 	"string": GLang.stringDisplay(function(x){
 		return x.value;
 	}),

@@ -26,3 +26,6 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("calcitSetType", {value:functio
 	]});
 	return args[1];
 }, display:"function"});
+GLang.defaultRuntimeEnvironment.setInnerVariable("codeBlockFromString", {value:function(env, args){
+	return {value:{sentences:GLang.generateTree(args[0].value)}, display:"codeBlock"};
+}, display:"function"});

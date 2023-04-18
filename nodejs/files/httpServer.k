@@ -94,7 +94,7 @@ $onClientConnect = ($_request fun {
         !if (".ks" strEndsWith fname) {
             `Run a server-side script`
             print: (!dateString) + "Running '" + fname + "'".
-            do:() fun fileContent: fname.
+            do:() fun codeBlockFromString: fileContent: fname.
         }.
 	    
 	    !if (not async) {

@@ -11,6 +11,7 @@
 			try{
 				langRunner(url, this.loadUrl(url));
 			}catch(e){
+                console.error(e);
 				GLang.error(e);
 			}
 			return;

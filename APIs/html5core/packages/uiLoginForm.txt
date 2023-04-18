@@ -1,5 +1,5 @@
 $uiLoginForm = ($onLoginAttempt) fun {
-	$nameField = $nameInput uiTextfieldVariableOnchange {}.
+	$nameField = $nameInput uiTextfieldVariableOnchange "".
 	$passwordInput = "". $passwordInputRef = reference: $passwordInput.
 	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
 	
@@ -30,7 +30,7 @@ $uiLoginForm = ($onLoginAttempt) fun {
 }.
 
 $uiRegisterForm = ($onLoginAttempt) fun {
-	$nameField = $nameInput uiTextfieldVariableOnchange {}.
+	$nameField = $nameInput uiTextfieldVariableOnchange "".
 	$passwordInput = "". $passwordInputRef = reference: $passwordInput.
 	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
 	

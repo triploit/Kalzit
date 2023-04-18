@@ -1,7 +1,7 @@
 ;GLang.getAnnotationType = function(annotation){
 	//Since 2020-04-08, functions are acceptable annotations as well
 	var display = annotation.display;
-	if(display === "string" || display === "function"){
+	if(display === "codeBlock" || display === "function"){
 		return "function";
 	}
 	
@@ -20,7 +20,7 @@ GLang.applyAnnotation = function(actualValue, annotation, defaultBehavior){
 	switch(GLang.getAnnotationType(annotation)){
 		case "function": GLang.callObject(annotation, GLang.defaultRuntimeEnvironment, [actualValue]); break; //Use the annotation as a function
 		case "array": defaultBehavior(actualValue, annotation); break;
-		default: throw new Error("An annotation needs to be an array with two values, or a function - " + GLang.stringify(annotation) + " does not fit this rule");
+		default: throw new Error("An annotation needs to be an array with two values, or a function / code block - " + GLang.stringify(annotation) + " does not fit this rule");
 	}
 }
 

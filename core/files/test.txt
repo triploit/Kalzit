@@ -37,4 +37,8 @@ $block = ($outer fun {`Return` {print: outer}}): 8.
 print: do: block
 */
 
+/*
 print: (($a) fun {} ? 6): 0
+*/
+
+())

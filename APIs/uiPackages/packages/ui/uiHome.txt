@@ -30,7 +30,18 @@ $uiSimpleHomeScreenApp = ($description ? String ; $action) fun {
 }.
 
 $uiHomeScreenLink = ($appInfo) fun {
-	$appColor ? RgbColor = (default: 122): eval: $color propOf appInfo.
+    $colorInfo = $color propOf appInfo.
+    $appColor ? (122 default RgbColor) = !ifNot (void eq colorInfo) {
+        $potentialAppColor = resolveName: $color propOf appInfo.
+        `Return` !ifElse (void eq potentialAppColor) {
+            `Parse the color as a semicolon-separated list of integers`
+            (List:Int): ";" strSplit $color propOf appInfo
+        };{
+            `Continue with the found color`
+            potentialAppColor
+        }.
+    }.
+    
 	$description = (default: "Untitled"): $title propOf appInfo.
 	$iconPath = $icon propOf appInfo.
 	

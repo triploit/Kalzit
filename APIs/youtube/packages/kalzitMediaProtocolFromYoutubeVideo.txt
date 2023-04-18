@@ -84,5 +84,5 @@ $kmpFromYoutubeVideoNoTitles = ($id ? YoutubeVideoId) fun {
 */
 $kmpFromYoutubeUrlNoTitles = (($url ? String) fun {
 	$ids = youtubeVideoIdsByUrl: url.
-	"{" + {"link":"} + url + {","kind":"collection","protocolVersion":"2.0.0","collection":[} + ("," strJoin objToJson each kmpFromYoutubeVideoNoTitles each ids) + {]} + "}".
+	"{" + '"link":"' + url + '","kind":"collection","protocolVersion":"2.0.0","collection":[' + ("," strJoin objToJson each kmpFromYoutubeVideoNoTitles each ids) + "]}".
 }) cachedFun autoClearedCache: hoursToMillis: 2.

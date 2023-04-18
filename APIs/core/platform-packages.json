@@ -10,7 +10,7 @@
 		{"provides":["length", "list_contains"],  "scriptUrl":"arrays.js"},
 		{"provides":["pm_list_registered_packages", "pm_list_installed_names"],  "scriptUrl":"pm.js"},
 		{"provides":["listen_variable"],  "scriptUrl":"listen.js"},
-		{"provides":["calcit_unify_name", "calcit_annotations", "calcit_add_annotation", "calcit_set_annotation", "calcit_set_type", "calcit_add_comment"],  "scriptUrl":"calcit.js"},
+		{"provides":["calcit_unify_name", "calcit_annotations", "calcit_add_annotation", "calcit_set_annotation", "calcit_set_type", "calcit_add_comment", "code_block_from_string"],  "scriptUrl":"calcit.js"},
 		{"provides":["parse_json", "obj_to_json"],  "scriptUrl":"json.js"},
 		{"provides":["remove_duplicates"],  "scriptUrl":"removeDuplicates.js"},
 		{"provides":["parse_cookie_names", "parse_cookie_value"], "scriptUrl":"cookieParser.js"},

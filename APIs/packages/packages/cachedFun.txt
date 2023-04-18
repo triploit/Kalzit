@@ -1,8 +1,9 @@
 $cachedFunObject = ($originalFunction ; $_cache ? (default: modifiableObject: ())) fun {
-	$arguments = ($argumentList propOf calcitAnnotations: originalFunction) + "_cached".
+	/* $arguments = ($argumentList propOf calcitAnnotations: originalFunction) + "_cached". */
 	
-	$resultingFunction = (arguments) fun {
-		$evaluatedArguments = do each do each "{" + arguments + "}".
+    /* TODO: Make the parameter names nicer from the outside */
+	$resultingFunction = ($firstArg_cached; $secondArg_cached) fun {
+		$evaluatedArguments = [firstArg_cached];[secondArg_cached].
 		(not: ($isProperty propOf _cache): evaluatedArguments) ifElse {
 			$result = originalFunction do evaluatedArguments.
 			evaluatedArguments ($push propOf _cache) result.
