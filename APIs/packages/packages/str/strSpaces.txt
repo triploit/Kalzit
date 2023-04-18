@@ -15,4 +15,4 @@ $strNewline = "
 	Usage example:
 		"First" + strTab + "Second"
 */
-$strTab = " ".
+$strTab = "	".
