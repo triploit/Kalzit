@@ -15,7 +15,7 @@
 				case ")": throw new Error("Found block closing character without an opener: " + token.textValue);
 				case "?": throw new Error("The question mark (?) is only allowed after strings");
 				case ",": throw new Error("The comma (,) is only allowed as part of a number; it is used as the decimal point.");
-				case "{": return codeBlock(1);
+				case "{": return codeBlockInProgress(WAITING, "}");
 				case "[": return arrayBlock(1);
 				case "(": return parenthesesBlock(1);
 				case "'":
@@ -185,7 +185,23 @@
 		}
 	}
 	
-	var codeBlock = depthBlock("{", "}", function(text){return string(text)});
+	var codeBlockInProgress = function(tree, closer) {
+        return {
+            waiting: true,
+            kind:"codeBlockInProgress",
+            next:function(token){
+                if(isFinishedTree(tree)) {
+                    if(token.textValue === closer) {
+                        return group([{kind:"codeBlock", "sentences":makeSentences(tree.group || [tree])}, WAITING]);
+                    }
+                }
+                //Block is not finished; continue
+                return codeBlockInProgress(tree.next(token), closer);
+            },
+            tree:tree,
+            getReasonForWaiting: function(){return "You need to add } to finish the code block"}
+        }
+    };
 	var arrayBlock = depthBlock("[", "]", function(text){return group([{kind:"array", array:GLang.generateTree(text)}, WAITING])});
 	var parenthesesBlock = depthBlock("(", ")", function(text){
 		var parenthesesTree = GLang.generateTree(text);

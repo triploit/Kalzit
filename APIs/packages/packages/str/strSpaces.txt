@@ -5,8 +5,8 @@
 	Usage example:
 		"First line" + strNewline + "Second line"
 */
-$strNewline = {
-}.
+$strNewline = "
+".
 
 /* @kalzit.for strTab
 
@@ -15,4 +15,4 @@ $strNewline = {
 	Usage example:
 		"First" + strTab + "Second"
 */
-$strTab = {	}.
+$strTab = " ".
