@@ -112,12 +112,12 @@
 			fun.call(newThis);
 			for(var property in newThis){
 				GLang.defaultRuntimeEnvironment.setInnerVariable(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
-			}
-		};
+			} };
 		this.installJs = installJs;
 		
 		this.supportedLanguages = {
 			lang_js: function(url, code){
+                //console.log(url);
 				installJs(Function(code));
 			},
 			lang_txt: function(url, x){GLang.eval(x,true)},

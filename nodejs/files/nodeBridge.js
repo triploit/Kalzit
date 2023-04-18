@@ -9,11 +9,19 @@
 
 	//Initialize package manager - get the initial packages from nodejs/usable-libraries.json
 	GLang.packageManager = new GLang.NodePackageManager();
-	GLang.packageManager.initialize(
+
+    var packageList;
+    try {
 		//JSON.parse will return an array of folder names ...
-		JSON.parse(fs.readFileSync("./nodejs/usable-libraries.json"))
+		packageList = JSON.parse(fs.readFileSync("./nodejs/usable-libraries.json"))
 		//... but we need the platform-packages.json files within these folders, so we change the paths
-		.map(folderName => folderName + "/platform-packages.json")
+		.map(folderName => folderName + "/platform-packages.json")    
+    } catch (error) {
+        throw new Error("Package manager init failed!", error);
+    }
+
+	GLang.packageManager.initialize(
+        packageList
 	);
 	
 })(this);

@@ -53,7 +53,8 @@ GLang.evaluateSentenceFragment = function evaluateSentenceFragment(fragment, env
 		case "name": return env.resolveName(fragment.name);
 		case "parentheses": return GLang.evaluateTree(fragment.parentheses, env);
 		case "array": return {value:[GLang.evaluateTree(fragment.array, env)]};
+        case "codeBlock": return {value:{sentences: fragment.sentences}, display:"codeBlock", env:env};
 //		case "special": return env.resolveName(fragment.special);
-		default: console.error(fragment);
+		default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
 	}
 }

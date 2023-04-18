@@ -1,0 +1,40 @@
+/* print: fileParent: "a/b" */
+
+/*
+$path = "a/b".
+$split = "/" strSplit path. print: "/" strJoin ((0 rangeUp (length: split) - 1) - 1) at split.
+*/
+
+/*
+$path = "a/b".
+$split = "/" strSplit path.
+
+print: 0 rangeUp 4
+*/
+
+/*
+print: !ifElse false {()};{}
+*/
+
+/*
+print: do: ((0 eq do: true) at {()};{}).
+*/
+
+/*
+print: (() fun {} ? (default 6)): 8
+*/
+
+/*
+(($f ? String) fun {print: f}): "abc".
+*/
+
+/*
+(List:String): 9
+*/
+
+/*
+$block = ($outer fun {`Return` {print: outer}}): 8.
+print: do: block
+*/
+
+print: (($a) fun {} ? 6): 0

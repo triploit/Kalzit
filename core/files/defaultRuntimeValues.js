@@ -110,7 +110,12 @@
 
 	var globalVariables = [
 		{
-			varName:"+", varValue:{value:arrayFun(function(env, args){return {value:args[0].value+args[1].value, display:args[0].display || args[1].display}})}
+			varName:"+", varValue:{value:arrayFun(function(env, args){
+                if(args[0].display === "codeBlock" || args[1].display === "codeBlock") {
+                    throw new Error("Curly braces are not used for strings anymore! You attempted to use the '+' function with a code block as its parameter");
+                }
+                return {value:args[0].value+args[1].value, display:args[0].display || args[1].display
+            }})}
 		},
 		{
 			varName:"-", varValue:{value:arrayFun(function(env, args){
@@ -182,7 +187,10 @@
 				throw new Error("Functions can not have more than two parameters");
 			}
 			
-			var code = GLang.generateTree(args[1].value);
+            if((args[1].value + "") === args[1].value) {
+                throw new Error("fun must not be called with a string as its second parameter! Use a code block instead");
+            }
+			var code = args[1].value.sentences;
 			var returnType = GLang.getType(args[1]);
 			
 			return GLang.functionFromTree(code, env, {value:argList}, returnType);

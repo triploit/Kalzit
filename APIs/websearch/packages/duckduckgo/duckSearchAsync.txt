@@ -6,7 +6,7 @@
 */
 $duckSearchUrlsAsync=($callback ; $term ? String) fun {
 	{
-		$pattern = {"/l/\?.*\&amp;uddg=([^"]+)"}.
+		$pattern = '"/l/\?.*\&amp;uddg=([^"]+)"'.
     	callback: urlDecodeParameter each removeDuplicates: second each pattern allMatches x.
 	} loadGlobalAsync "https://www.duckduckgo.com/html?q=" + urlEncodeParameter: term
 }.

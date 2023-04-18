@@ -91,15 +91,22 @@ GLang.callObject = function(obj, env, args){
 					if (result == null) throw new Error("Calling the following function lead to a result of null or undefined: " + object);
 					break;
 				case "string":
-					result = GLang.functionFromString(object, obj.environment || env).value(env, args); break;
+                    throw new Error("Calling strings as code is not supported anymore!");
+					//result = GLang.functionFromString(object, obj.environment || env).value(env, args); break;
 				default:
-					result = obj; break;
+                    if(obj.display === "codeBlock") {
+                        result = GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
+                        //throw new Error("Calling code blocks is not implemented yet");
+                    } else {
+                        result = obj;
+                    }
+					break;
 			}
 			
-//			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later
-//			if (result == null) {
-//				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
-//			}
+			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later
+			if (result == null) {
+				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
+			}
 			
 			//Before returning the result, remove the currently active function from the call stack
 			GLang.callStack.pop();

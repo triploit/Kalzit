@@ -1,7 +1,7 @@
-;GLang.functionFromString = function(string, defaultEnv){
+;GLang.functionFromCodeBlock = function(codeBlock, defaultEnv){
 	return GLang.functionFromTree(
-		GLang.generateTree(string),
-		defaultEnv,
+		codeBlock.value.sentences,
+		codeBlock.env || defaultEnv,
 		//Argument list (default parameter names are specified here)
 		{value:[{value:"x"}, {value:"y"}]}
 		//Untyped function

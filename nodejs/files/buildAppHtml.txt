@@ -88,6 +88,12 @@ $appBuildingTempFile = (!getUnixUserFolder) + "/.kalzit/generated/appBuildingTem
 `Replace the last .k in the file name (file extension) by .html to get the path of the generated HTML file`
 $generatedHtmlPath = appFolder + "/index.html".
 
+print: "WRITE THE FILE CONTENT".
+print: "APP " + app.
+print: "APP PARENT " + fileParent: app.
+print: "APP FOLDER " + appFolder.
+print: "TO " + appBuildingTempFile.
+
 `Write the file content`
 generatedHtmlPath fileWrite
 	`We replace $app$ from the app skeleton with a minified version of the app code (available in $appBuildingTempFile), and $head$ with the contents of head.html`

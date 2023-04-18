@@ -192,7 +192,7 @@
             next:function(token){
                 if(isFinishedTree(tree)) {
                     if(token.textValue === closer) {
-                        return group([{kind:"codeBlock", "sentences":makeSentences(tree.group || [tree])}, WAITING]);
+                        return finishedCodeBlock(makeSentences(tree.group || [tree]));
                     }
                 }
                 //Block is not finished; continue
@@ -202,6 +202,21 @@
             getReasonForWaiting: function(){return "You need to add } to finish the code block"}
         }
     };
+    var finishedCodeBlock = function(sentences) {
+        return {
+            kind:"codeBlock",
+            sentences:sentences,
+            next:function(token) {
+                if (token.textValue === "?") {
+					return elementWithQuestionMark(this);
+				} else if (token.category === "Space") {
+					return this;
+				} else {
+					return new group([this, WAITING]).next(token);	
+				}
+            }
+        }
+    }
 	var arrayBlock = depthBlock("[", "]", function(text){return group([{kind:"array", array:GLang.generateTree(text)}, WAITING])});
 	var parenthesesBlock = depthBlock("(", ")", function(text){
 		var parenthesesTree = GLang.generateTree(text);
@@ -301,13 +316,13 @@
 	}
 	
 	//Defines any kind of string. Strings can be followed by a question mark.
-	function string(string){
+	function string(jsString){
 		return {
-			string: string,
+			string: jsString,
 			kind:"string",
 			next: function(token){
 				if (token.textValue === "?") {
-					return stringWithQuestionMark(string);
+					return elementWithQuestionMark(this);
 				} else if (token.category === "Space") {
 					return this;
 				} else {
@@ -317,17 +332,17 @@
 		}
 	}
 	
-	function stringWithQuestionMark(stringValue) {
+	function elementWithQuestionMark(originalTreeElement) {
 		return {
-			kind: "stringWithQuestionMark",
+			kind: "elementWithQuestionMark",
 			waiting: true,
-			stringValue: stringValue,
+			//stringValue: stringValue,
 			typeTree: WAITING,
 			next: function(token) {
 				this.typeTree = this.typeTree.next(token);
 				if(isFinishedTree(this.typeTree) && this.typeTree !== WAITING) {
 					return group([
-						{kind:"parentheses", parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {name:"calcitSetType", kind:"name"}, string(this.stringValue)]},
+						{kind:"parentheses", parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {name:"calcitSetType", kind:"name"}, originalTreeElement]},
 						WAITING
 					])
 				} else {

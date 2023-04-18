@@ -1,10 +1,14 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("parseJson", {value:function(env, args){
-	try{
-		return GLang.wrapJsToValue(JSON.parse(args[0].value + ""));
-	}catch(e){
-        console.log(e.stack);
-		return GLang.voidValue;
-	}
+    //console.log((args[0].value) instanceof Array);
+    if((args[0].value) instanceof Array && args[0].value.length === 0) {
+        return GLang.voidValue;
+    }
+    
+    //Check if the input is a string
+    if(args[0].value + "" !== args[0].value) {
+        throw new Error("parseJson did not get a string as input: " + JSON.stringify(args[0]));
+    }
+	return GLang.wrapJsToValue(JSON.parse(args[0].value + ""));
 }});
 GLang.defaultRuntimeEnvironment.setInnerVariable("objToJson", {value:function(env, args){
 	return GLang.stringValue(JSON.stringify(GLang.wrapValueToJsObject(args[0])))
