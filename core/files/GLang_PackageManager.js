@@ -95,7 +95,7 @@
 	GLang.PackageManager = function (){
 		this.loadPackageSync = loadPackageSync;
 		this.registeredPackages = [];
-		this.hiddenRegisteredPackages = [];
+		//this.hiddenRegisteredPackages = [];
 		this.installedUrls = [];
 		
 		this.register = register;

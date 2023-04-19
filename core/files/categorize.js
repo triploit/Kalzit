@@ -10,7 +10,9 @@ Returns a list with items of the form [category, matching_items].
 "category" is the category of each element in "matching_items".
 */
 GLang.categorize = function (items, categories){
-	
+	//Handle an empty array, so the code below can assume an array with at least one item
+	if(items.length === 0) return [];	
+
 	var unique = true;
 	
 	function uniqueCategory(){
@@ -31,10 +33,10 @@ GLang.categorize = function (items, categories){
 		return uniqueCategory();
 	}
 	
-	var currentCategory = null;
-	var currentGroup = [];
+	var currentCategory = findCategory(items[0]);
+	var currentGroup = [items[0]];
 	var result = [];
-	for(var i = 0; i < items.length; i++){
+	for(var i = 1; i < items.length; i++){
 		var item = items[i];
 		var newCategory = findCategory(item);
 		
@@ -47,10 +49,11 @@ GLang.categorize = function (items, categories){
 		}
 	}
 	
-	if(currentGroup.length > 0){
+	//if(currentGroup.length > 0){
 		result.push([currentCategory, currentGroup]);
-	}
+	//}
 	
-	return result.slice(1);
+	//return result.slice(1);
+	return result;
 
 }
