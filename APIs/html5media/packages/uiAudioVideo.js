@@ -145,13 +145,17 @@
 		audio.classList.add("calcitAudioPlayer");
 		audio.src = args[0].value;
 		audio.controls = "controls";
-		GLang.callObject((args.length >= 2 ? args[1] : GLang.stringValue("")), env, [makePlayerInterface(audio)]);
+		if(args.length === 2) {
+			GLang.callObject(args[1], env, [makePlayerInterface(audio)]);
+		}
 		return {value:audio, display:"dom"};
 	}, display:"function"});
 	
 	GLang.defaultRuntimeEnvironment.setInnerVariable("audioPlayer", {value:function(env, args){
 		var audio = new Audio(args[0].value);
-		GLang.callObject((args.length >= 2 ? args[1] : GLang.stringValue("")), env, [makePlayerInterface(audio)]);
+		if(args.length === 2) {
+			GLang.callObject(args[1], env, [makePlayerInterface(audio)]);
+		}
 		return {value:audio};
 	}, display:"function"});
 	
@@ -171,10 +175,12 @@
 	*/
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiVideoPlayer", {value:function(env, args){
 		var video = document.createElement("video");
-		video.classList.add("calcitAudioPlayer");
+		video.classList.add("calcitVideoPlayer");
 		video.src = args[0].value;
 		video.controls = "controls";
-		GLang.callObject((args.length >= 2 ? args[1] : GLang.stringValue("")), env, [makePlayerInterface(video)]);
+		if(args.length === 2) {
+			GLang.callObject(args[1], env, [makePlayerInterface(video)]);
+		}
 		return {value:video, display:"dom"};
 	}, display:"function"});
 })(this);
