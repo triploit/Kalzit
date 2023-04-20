@@ -367,7 +367,7 @@
                 } catch (error) {
                     console.error(error);
 					var unfinishedHint = isFinishedTree(this) ? "" : ("; The group is in an unfinished state (" + GLang.produceNestedWaitingReasons(this) + ")")
-                    throw new Error("An error was thrown in the following tree item group: " + JSON.stringify(this))
+                    throw new Error("An error was thrown in the following tree item group: " + JSON.stringify(this) + "; Message: " + error.message + unfinishedHint)
                 }
 			},
 			group: stateList,
