@@ -25,6 +25,7 @@
 				case "\\": return NEGATIVE_SIGN;
 				case '`':
 				case '´': return COMMENT_BLOCK;
+				case '#': return HASH;
 				case '-': return MINUS_SIGN;
 				case '=': return EQUALS_SIGN;
 			}
@@ -61,6 +62,16 @@
 			return "Block comments need to end with '*/"
 		},
 		kind:"blockComment"
+	};
+	
+	const HASH = {
+		next:function(token) {
+			if(token.textValue.indexOf("\n") !== -1) {
+				return WAITING;
+			} else {
+				return this;
+			}
+		}
 	};
 	
 	const POTENTIALLY_ENDING_BLOCK_COMMENT = {

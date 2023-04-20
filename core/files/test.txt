@@ -41,4 +41,6 @@ print: do: block
 print: (($a) fun {} ? 6): 0
 */
 
-())
+# Comment
+print: 7 # another comment
+print: calcitCompile: "#"
