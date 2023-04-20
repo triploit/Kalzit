@@ -15,9 +15,9 @@
 				case ")": throw new Error("Found block closing character without an opener: " + token.textValue);
 				case "?": throw new Error("The question mark (?) is only allowed after strings");
 				case ",": throw new Error("The comma (,) is only allowed as part of a number; it is used as the decimal point.");
-				case "{": return blockOfCode(WAITING, "}", "You need to add } to finish the code block", finishedCodeBlock);
-				case "[": return blockOfCode(WAITING, "]", "You need to add ] to finish the single-item array block", finishedArrayBlock);
-				case "(": return blockOfCode(WAITING, ")", "You need to add ) to finish the parentheses", finishedParentheses);
+				case "{": return blockOfCode(WAITING, "}", "You need to add '}' to finish the code block", finishedCodeBlock);
+				case "[": return blockOfCode(WAITING, "]", "You need to add ']' to finish the single-item array block", finishedArrayBlock);
+				case "(": return blockOfCode(WAITING, ")", "You need to add ')' to finish the parentheses", finishedParentheses);
 				case "'":
 				case '"': return quoteBlock(token.textValue);
 				case "$": return DOLLAR_STRING;
@@ -174,13 +174,19 @@
             waiting: true,
             kind:"blockOfCode",
             next:function(token){
-                if(isFinishedTree(tree)) {
-                    if(token.textValue === closer) {
-                        return makeTreeItemFromSentences(makeSentences(tree.group || [tree]));
-                    }
-                }
-                //Block is not finished; continue
-                return blockOfCode(tree.next(token), closer, reasonForWaitingText, makeTreeItemFromSentences);
+                try {
+					if(isFinishedTree(tree)) {
+		                if(token.textValue === closer) {
+		                    return makeTreeItemFromSentences(makeSentences(tree.group || [tree]));
+		                }
+		            }
+		            //Block is not finished; continue
+		            return blockOfCode(tree.next(token), closer, reasonForWaitingText, makeTreeItemFromSentences);
+				} catch (error) {
+					console.error(error);
+					var unfinishedHint = isFinishedTree(this) ? "" : ("; The block is in an unfinished state (" + GLang.produceNestedWaitingReasons(this) + ")")
+                    throw new Error("An error was thrown in the following block of code: " + JSON.stringify(this) + "; Message: " + error.message + unfinishedHint)
+				}
             },
             tree:tree,
             getReasonForWaiting: function(){return reasonForWaitingText}
@@ -360,6 +366,7 @@
 				    return group(stateList.concat([nextState]));
                 } catch (error) {
                     console.error(error);
+					var unfinishedHint = isFinishedTree(this) ? "" : ("; The group is in an unfinished state (" + GLang.produceNestedWaitingReasons(this) + ")")
                     throw new Error("An error was thrown in the following tree item group: " + JSON.stringify(this))
                 }
 			},
@@ -458,6 +465,16 @@
 		}
 		return state;
 	}
+	
+	GLang.produceNestedWaitingReasons = function(item) {
+		var reason =  item.getReasonForWaiting ? item.getReasonForWaiting() : "No reason given";
+		if(item.tree) {
+			if(!isFinishedTree(item.tree)) { reason += "; Inner block: " + GLang.produceNestedWaitingReasons(item.tree) }
+		} else if (item.group) {
+			if(!isFinishedTree(item.group)) { reason += "; Inner block: " + GLang.produceNestedWaitingReasons(item.group) }
+		}
+		return reason;
+	};
 
 	
 	GLang.generateTree= function(string){
@@ -468,11 +485,7 @@
 			state = state.next(tokens[i]);
 		}
 		if(!isFinishedTree(state)) {
-			if(!state.getReasonForWaiting) {
-				throw new Error("Your code is not finished. Relevant syntax tree: " + JSON.stringify(state.group ? state.group[state.group.length - 1] : state));
-			} else {
-				throw new Error("Unfinished code error. " + state.getReasonForWaiting() + ". Relevant syntax tree: " + JSON.stringify(state.group ? state.group[state.group.length - 1] : state));
-			}
+			throw new Error("Your code is not finished (" + GLang.produceNestedWaitingReasons(state) + "). Relevant syntax tree: " + JSON.stringify(state.group ? state.group[state.group.length - 1] : state));
 		}
 		var result = makeSentences(state.group || [state]);
 		
