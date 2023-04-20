@@ -15,9 +15,9 @@
 				case ")": throw new Error("Found block closing character without an opener: " + token.textValue);
 				case "?": throw new Error("The question mark (?) is only allowed after strings");
 				case ",": throw new Error("The comma (,) is only allowed as part of a number; it is used as the decimal point.");
-				case "{": return codeBlockInProgress(WAITING, "}");
-				case "[": return arrayBlock(1);
-				case "(": return parenthesesBlock(1);
+				case "{": return blockOfCode(WAITING, "}", "You need to add } to finish the code block", finishedCodeBlock);
+				case "[": return blockOfCode(WAITING, "]", "You need to add ] to finish the single-item array block", finishedArrayBlock);
+				case "(": return blockOfCode(WAITING, ")", "You need to add ) to finish the parentheses", finishedParentheses);
 				case "'":
 				case '"': return quoteBlock(token.textValue);
 				case "$": return DOLLAR_STRING;
@@ -169,50 +169,24 @@
 		}
 	}
 	
-	function depthBlock(open, close, then){
-		return function(depth /*of the block - increased with every 'open' character*/){
-			return {
-				next:function(token){
-					if(token.textValue === close){
-						if(depth === 1){
-							return then(this.text);
-						}
-						depth -= 1;
-						if(depth < 0) throw new Error("Block depth is smaller than zero - caused by this character: " + close);
-					}else if(token.textValue === open){
-						depth += 1;
-					}
-					
-					this.text += token.textValue;
-					return this;
-				},
-				text: "",
-				waiting: true,
-				kind:"depthBlock",
-				getReasonForWaiting: function() {
-					return "You have opened a block with the character '" + open + "' , so you have to close it with '" + close + "'"
-				}
-			}
-		}
-	}
-	
-	var codeBlockInProgress = function(tree, closer) {
-        return {
+	function blockOfCode(tree, closer, reasonForWaitingText, makeTreeItemFromSentences) {
+		return {
             waiting: true,
-            kind:"codeBlockInProgress",
+            kind:"blockOfCode",
             next:function(token){
                 if(isFinishedTree(tree)) {
                     if(token.textValue === closer) {
-                        return finishedCodeBlock(makeSentences(tree.group || [tree]));
+                        return makeTreeItemFromSentences(makeSentences(tree.group || [tree]));
                     }
                 }
                 //Block is not finished; continue
-                return codeBlockInProgress(tree.next(token), closer);
+                return blockOfCode(tree.next(token), closer, reasonForWaitingText, makeTreeItemFromSentences);
             },
             tree:tree,
-            getReasonForWaiting: function(){return "You need to add } to finish the code block"}
+            getReasonForWaiting: function(){return reasonForWaitingText}
         }
-    };
+	}
+	
     var finishedCodeBlock = function(sentences) {
         return {
             kind:"codeBlock",
@@ -228,20 +202,21 @@
             }
         }
     }
-	var arrayBlock = depthBlock("[", "]", function(text){return group([{kind:"array", array:GLang.generateTree(text)}, WAITING])});
-	var parenthesesBlock = depthBlock("(", ")", function(text){
-		var parenthesesTree = GLang.generateTree(text);
-		if(parenthesesTree.length == 1){
-			return group([parenthesesTree[0], WAITING])
+	function finishedArrayBlock(sentences){
+		return group([{kind:"array", array:sentences}, WAITING]);
+	}
+	function finishedParentheses(sentences){
+		if(sentences.length == 1){
+			return group([sentences[0], WAITING])
 		}
 		return group([
 			{
 				kind:"parentheses",
-				parentheses:parenthesesTree
+				parentheses:sentences
 			},
 			WAITING
 		])
-	});
+	}
 	
 	// This function defines normal, quoted strings. They end as soon as the "closer" is reached
 	function quoteBlock(closer){
