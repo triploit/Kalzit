@@ -1,12 +1,8 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("listenVariable", {value:GLang.arrayFun(function(env, args){
-	var varRef = args[0];
-	if(varRef.display !== "reference"){throw new Error("listenVariable needs a reference as the first parameter")}
+GLang.defaultRuntimeEnvironment.setInnerVariable("listenMutable", {value:GLang.arrayFun(function(env, args){
+	var mutable = args[0];
+	if(mutable.display !== "mutable"){throw new Error("listenMutable needs a mutable value as the first parameter")}
 	
-	var varEnv = varRef.environment;
-	var varName = varRef.value;
+	mutable.value.listeners.push(args[1]);
 	
-	varEnv.registerVariableListener(varName, function(){
-		GLang.callObject(args[1], env, [varEnv.resolveName(varName)]);
-	});
 	return {value:0, display:"none"}
 }), display:"function"});

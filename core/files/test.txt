@@ -42,4 +42,11 @@ print: (($a) fun {} ? 6): 0
 */
 
 $f = $p ? Float fun { $a ? Int = p. `Return` p + a } ? {x*2}.
-print: f: "1.5" #Expected result: 5
+print: f: "1.5". #Expected result: 5
+
+$m = mutable: 6.
+!listenMutable m {
+	print: "Here".
+	print: x
+}.
+m = 10.
