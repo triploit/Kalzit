@@ -1,19 +1,5 @@
 GLang.scopePrototype = {
-	
-	notifyVariableChange: function(n){
-		if(GLang.disableRuntimeUpdates) return;
-		for(var i = 0; i < this.variableUpdateFunctions.length; i++){
-			var updater = this.variableUpdateFunctions[i];
-			if(updater.varName === n){
-				updater.update();
-			}
-		}
-		//GLang.notifyGeneralChange();
-	},
-	registerVariableListener: function(n, listener){
-		this.variableUpdateFunctions.push({varName:this.unifyStringName(n), update:listener});
-	},
-	resolveName: function(n){
+		resolveName: function(n){
 		var unified = this.unifyStringName(n);
 		var value = this["kv_" + unified];
 		var result = null;
@@ -74,7 +60,8 @@ GLang.scopePrototype = {
 			return unifiedName	
 		}
 	},
-	setInnerVariable: function(n, value, allowOverride, type){
+	setInnerVariable: function(n, value, unneeded, type){
+		//if(arguments.length !== 2) throw new Error("runtimeEnvironment.setInnerVariable should be called with exactly two arguments");
 		if(n.match("[^a-zA-Z_]")){
 			throw new Error(n + " is not a valid variable name!");
 		}
@@ -94,33 +81,7 @@ GLang.scopePrototype = {
 		}
 		
 		if(this.hasOwnProperty("kv_" + n)){
-			var current = this["kv_" + n];
-			if(allowOverride){
-				//Check if the variable is typed
-				var newValue = value;
-				var oldValue = current.varValue;
-				if (current.varType) {
-					//Apply the type
-					newValue = GLang.callObject(current.varType, this, [value]);
-					//For debugging: log if the value was changed by the type
-					GLang.logTypeHint({
-						message:"The following variable was automatically changed by its type",
-						oldValue:value,
-						newValue:newValue,
-						typeName:GLang.getValueVarName(current.varType),
-						varName:n
-					})
-				}
-				
-				if(oldValue !== newValue){
-					//Overwrite its value and finish
-					current.varValue = newValue;
-					this.notifyVariableChange(n);
-				}
-				return newValue;
-			}else{
-				throw new Error("Not allowed to change variable $" + n);
-			}
+			throw new Error("Not allowed to change existing variable $" + n + "; consider using a mutable container");
 		}
 		
 		//If no existing variable was found, create a new one
@@ -147,8 +108,8 @@ GLang.scopePrototype = {
 // 				varName:n
 // 			})
 		}
-		this["kv_" + n] = {varName:n, varValue:v, varType:type};
-		this.notifyVariableChange(n);
+		this["kv_" + n] = {varName:n, varValue:v};
+		//this.notifyVariableChange(n);
 		return v;
 	},
 	setInnerWithoutListeners: function(name, value){
@@ -167,7 +128,5 @@ GLang.RuntimeEnvironment = function(outer){
 	//For debugging: test if this is called as a constructor
 	//if(!this instanceof GLang.RuntimeEnvironment) throw new Error("GLang.RuntimeEnvironment not called with 'new' keyword");
 
-	var me = Object.create(outer || GLang.scopePrototype);
-	me.variableUpdateFunctions = [];
-	return me;
+	return Object.create(outer || GLang.scopePrototype);
 }

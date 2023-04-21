@@ -41,8 +41,5 @@ print: do: block
 print: (($a) fun {} ? 6): 0
 */
 
-$a = mutable: 1.
-print: a.
-a = 2.
-print: a.
-print: get: a.
+$f = $p ? Float fun { $a ? Int = p. `Return` p + a } ? {x*2}.
+print: f: "1.5" #Expected result: 5

@@ -49,7 +49,7 @@ GLang.getValueVarName = function(anyValue) {
 //logConfig has fields oldValue,newValue,typeName,varName,message
 GLang.logTypeHint = function(logConfig) {
 	if(GLANG_DEBUG && !GLang.eq(logConfig.oldValue.value, logConfig.newValue.value)) {
-		console.warn(logConfig.message + ": " + logConfig.varName + " (type " + logConfig.typeName + ")");
+		console.warn(logConfig.message);
 		console.log("The type changed the assigned value from this:");
 		console.log(logConfig.oldValue);
 		console.log("... to that:");

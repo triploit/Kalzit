@@ -210,9 +210,9 @@
 			return GLang.callObject(args[0], env, [args[1]]);
 		}}},
 		{varName:"=", varValue:{value:function(env, args){
-			var name = args[0].value, environment = env, override = false;
+			var name = args[0].value, environment = env;
 			if("string" === typeof name) {
-				return environment.setInnerVariable(name, args[1], override, GLang.getType(args[0]));
+				return environment.setInnerVariable(name, args[1], false, GLang.getType(args[0]));
 			} else if (args[0].display === "mutable") {
 				args[0].value.set(args[1]);
 				return args[0];
@@ -262,7 +262,28 @@
 			if(args[0].display === "mutable"){
 				return args[0];
 			}
-			return {value:{mutable:args[0], set:function(v){this.mutable = v}}, display:"mutable"}
+			var mutableValue = {value:{mutable:args[0], listeners:[], type:args.length === 2 ? args[1] : null, set:function(v){
+				var newValue = v;
+				if (this.type) {
+					//Apply the type
+					newValue = GLang.callObject(this.type, env, [v]);
+					//For debugging: log if the value was changed by the type
+					GLang.logTypeHint({
+						message:"A mutable container was automatically changed by its type",
+						oldValue:v,
+						newValue:newValue,
+						typeName:GLang.getValueVarName(this.type)
+					})
+				}
+				this.mutable = newValue;
+
+				//Call all the variable listeners
+				for(var i = 0; i < this.listeners.length; i++) {
+					GLang.callObject(this.listeners[i], env, [this.mutable]);
+				}
+			}}, display:"mutable"};
+			mutableValue.value.set(args[0]);
+			return mutableValue;
 		}}},
 		{varName:"display_type", varValue:{value:function(env, args){
 			return GLang.stringValue(args[0].display || "default");
