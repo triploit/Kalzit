@@ -211,13 +211,14 @@
 		}}},
 		{varName:"=", varValue:{value:function(env, args){
 			var name = args[0].value, environment = env, override = false;
-			if("string" !== typeof name) throw new Error("First argument of = has to be a string or reference - " + JSON.stringify(name) + " does not fit this rule");
-			
-			if(args[0].display === "reference"){
-				environment = args[0].environment;
-				override = true;
+			if("string" === typeof name) {
+				return environment.setInnerVariable(name, args[1], override, GLang.getType(args[0]));
+			} else if (args[0].display === "mutable") {
+				args[0].value.set(args[1]);
+				return args[0];
+			} else {
+				throw new Error("First argument of = has to be a string or a mutable value - " + JSON.stringify(name) + " does not fit this rule");
 			}
-			return environment.setInnerVariable(name, args[1], override, GLang.getType(args[0]));
 		}}},
 		{varName:"range", varValue:{value:arrayFun(function(env, args){
 			var array = [];
@@ -257,18 +258,18 @@
 		{varName:"at", varValue:{value:function(env, args){
 			return atFunction(args[0].value, args[1]);
 		}}},
-		{varName:"reference", varValue:{value:function(env, args){
-			if(args[0].display === "reference"){
+		{varName:"mutable", varValue:{value:function(env, args){
+			if(args[0].display === "mutable"){
 				return args[0];
 			}
-			return {value:args[0].value, display:"reference", environment: env, name:args[0].value}
+			return {value:{mutable:args[0], set:function(v){this.mutable = v}}, display:"mutable"}
 		}}},
 		{varName:"display_type", varValue:{value:function(env, args){
 			return GLang.stringValue(args[0].display || "default");
 		}}},
-		{varName:"resolve_reference", varValue:{value:function(env, args){
-			var ref = args[0];
-			return ref.environment.resolveName(ref.name);
+		{varName:"get", varValue:{value:function(env, args){
+			if(!args[0].display === "mutable") throw new Error("'get' has to be called with a mutable value as the first parameter");
+			return args[0].value.mutable;
 		}}},
 		{varName:"is_defined", varValue:{value:function(env, args){
 			var name = args[0].value + "";

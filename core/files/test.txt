@@ -41,6 +41,8 @@ print: do: block
 print: (($a) fun {} ? 6): 0
 */
 
-# Comment
-print: 7 # another comment
-print: calcitCompile: "#"
+$a = mutable: 1.
+print: a.
+a = 2.
+print: a.
+print: get: a.

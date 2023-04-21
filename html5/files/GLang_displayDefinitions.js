@@ -61,8 +61,8 @@
 	"dom": function(x){
 		return x.value;
 	},
-	"reference": GLang.stringDisplay(function(x){
-		return "reference: $" + x.value;
+	"mutable": GLang.stringDisplay(function(x){
+		return "mutable: " + x.value.mutable;
 	})
 };
 
