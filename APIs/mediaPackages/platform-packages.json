@@ -5,7 +5,7 @@
 	"libraries":[
 		{"provides":["color_remove_alpha", "color_set_alpha"],  "scriptUrl":"imageColorAlpha.txt"},
 		{"provides":["kalzit_media_protocol_from_text"],  "scriptUrl":"kalzitMediaProtocolFromText.txt"},
-		{"provides":["play", "pause", "is_paused", "toggle_play", "mute", "increase_volume", "decrease_volume", "volume", "volume_step_size", "volume_step_size_ref"],  "scriptUrl":"mediaController.txt"},
+		{"provides":["play", "pause", "is_paused", "toggle_play", "mute", "increase_volume", "decrease_volume", "volume", "volume_step_size_ref"],  "scriptUrl":"mediaController.txt"},
 		{"provides":["replay", "replay_from", "media_section"],  "scriptUrl":"mediaSection.txt"}
 	]
 }

@@ -22,8 +22,8 @@ $modifiableList = ($_normalList ? (List:Any)) fun {
 			!onChange.
 			~listVarRef
 		}];
-		["setOnAddition";($function) fun {onAdditionListRef = onAdditionList;function}];
-		["setOnRemoval";($function) fun {onRemovalListRef = onRemovalList;function}];
+		["setOnAddition";($function) fun {onAdditionListRef = ~onAdditionListRef;function}];
+		["setOnRemoval";($function) fun {onRemovalListRef = ~onRemovalListRef;function}];
 		["setOnChange";($function) fun {onChangeListRef = onChangeList;function}];
 		["removeEquals";($_item) fun {
 			listVarRef = {not: _item eq x} filter ~listVarRef.
