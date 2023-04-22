@@ -39,17 +39,17 @@ $fileActionButton = $file fun {
 }.
 
 !registerSubApp $preview popupSubApp: {
-	$toolbar = ($title propOf openFile) uiTitleToolbarWithAdditionalActionsButton fileActionButton: openFile.
+	$toolbar = ($title propOf ~openFileRef) uiTitleToolbarWithAdditionalActionsButton fileActionButton: ~openFileRef.
 	
 
-	$url = ($default propOf $file propOf openFile) + "&session=" + session.
+	$url = ($default propOf $file propOf ~openFileRef) + "&session=" + session.
 
 
 	toolbar;
 	`The main file content view`
 	@(percentWidth 100) @belowToolbar
-		do: first: ($kind propOf openFile) switch
-			[{"audio" eq x};{@(backgroundImageUrl: ($default propOf $thumbnail propOf openFile) + "&session=" + session) uiAudioPlayer: url}];
+		do: first: ($kind propOf ~openFileRef) switch
+			[{"audio" eq x};{@(backgroundImageUrl: ($default propOf $thumbnail propOf ~openFileRef) + "&session=" + session) uiAudioPlayer: url}];
 			[{"video" eq x};{uiVideoPlayer: url}];
 			[{"image" eq x};{@fit uiShowImageUrl: url}];
 			[true;{uiShowWebpageUrl: url}].
@@ -138,7 +138,7 @@ $folderContentRef ? Var = void.
 			(uiPrint: filesView): fileView: file.
 			filesPresentRef = true.
 		}
-	}) each $collection propOf folderContent.
+	}) each $collection propOf ~folderContentRef.
 	
 	
 	$foldersArrow = !uiArrowIcon.

@@ -1,8 +1,8 @@
 $id ? SafeFilePath = "id" urlGetParameter $url propOf _request.
 
-!if sessionExists {
+!if ~sessionExistsRef {
 	
-	$filesFolder = userFolder + "/files/v2/main".
+	$filesFolder = ~userFolderRef + "/files/v2/main".
 	!if (fileIsFolder: filesFolder + "/" + id) {
 		$listingFile = filesFolder + "/" + id + "/listing.json".
 		asyncRef = true.

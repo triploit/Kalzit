@@ -1,7 +1,7 @@
 print: (!dateString) + "Logging out " + session.
 
-!if sessionExists {
-	$userSessionFolder = userFolder + "/sessions".
+!if ~sessionExistsRef {
+	$userSessionFolder = ~userFolderRef + "/sessions".
 	
 	fileDelete: userSessionFolder + "/keys.json".
 	fileDelete: userSessionFolder + "/files/audio-kmp.json".
@@ -11,5 +11,5 @@ print: (!dateString) + "Logging out " + session.
 	}.
 	
 	`TODO: We only delete the symbolic link to the user folder, not the actual user folder itself. Make that clear in the code`
-	fileDelete: userFolder.
+	fileDelete: ~userFolderRef.
 }

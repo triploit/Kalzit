@@ -9,7 +9,7 @@
 	* `defaultThumbnail` (optional): defines a default icon which will be used if no fixed icon is specified by the configuration or the KMP object (given it is not overridden by "thumbnailGenerator")
 	* `index` (optional): the index of this list item. Can be passed as a parameter to certain callbacks.
 	* `thumbnailGenerator` (optional): returns a thumbnail for a given KMP object. This is called at least once when the initial thumbnail is created, and then every time "onTap" is triggered. The thumbnail generator overrides `forcedThumbnail` and `defaultThumbnail` when it returns a non-void result.
-	* `thumbnailRef` (optional): a reference value where the current thumbnail URL is stored. The reference can then be modified to change the thumbnail.
+	* `thumbnailRef` (optional): a mutable value where the current thumbnail URL is stored. The mutable can then be modified to change the thumbnail.
 	* `thumbnailStyle` (optional): a function which gets the thumbnail view and applies a custom style to it. This can be used to add rounded corners, a background, etc.
 	* `titleStyle` (optional): a function which gets the title view and applies a custom style to it.
 	* `onTap` (optional): defines an action which will be triggered if the user taps on this list item. Gets the KMP object (`file`) as its parameter.
@@ -50,35 +50,34 @@ $uiKmpListItem = !fun ($file ; $config) {
 		}
 	}.
 	
-	$lastNonVoidThumbnailUrl = void. $lastNonVoidThumbnailUrlRef = reference: $lastNonVoidThumbnailUrl.
+	$lastNonVoidThumbnailUrlRef ? Var = void.
 	$thumbnailUrlRef = !ifElse (not: void eq $thumbnailRef propOf config) {
-		`We have an external reference for the thumbnail URL`
+		`We have an external mutable for the thumbnail URL`
 		$thumbnailRef propOf config
 	};{
-		`Make an internal reference`
-		$thumbnailUrl = void.
-		reference: $thumbnailUrl.
+		`Make an internal mutable`
+		mutable: void
 	}.
 	
-	`Listen to reference changes - when a change happens, update the thumbnail`
-	!listenVariable thumbnailUrlRef $thumbnailUrl fun {
+	`Listen to mutable changes - when a change happens, update the thumbnail`
+	!listen thumbnailUrlRef $thumbnailUrl fun {
 		!ifElse (thumbnailUrl eq void) {
 			`Empty URL - apply the usual thumbnail generator`
 			updateThumbnail: file.
 		};{
 			`Change the thumbnail to match the new URL`
-			!ifNot (lastNonVoidThumbnailUrl eq thumbnailUrl) {
+			!ifNot (~lastNonVoidThumbnailUrlRef eq thumbnailUrl) {
 				lastNonVoidThumbnailUrlRef = thumbnailUrl.
 				thumbnailRef = @thumbnailStyle @(percentHeight 100) @(percentWidth 100) @fit uiShowImageUrl: thumbnailUrl.
 			}
 		}
 	}.
 	
-	$thumbnail = void. $thumbnailRef = reference: $thumbnail.
+	$thumbnailRef ? Var = void.
 	
 	$updateThumbnail = !fun ($medium) {
 		$newThumbnailUrl = actualThumbnailGenerator: medium.
-		!ifNot (lastNonVoidThumbnailUrl eq newThumbnailUrl) {
+		!ifNot (~lastNonVoidThumbnailUrlRef eq newThumbnailUrl) {
 			thumbnailUrlRef = newThumbnailUrl.
 		}
 	}.

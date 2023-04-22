@@ -50,16 +50,15 @@ $uiModifiableStringListEditor = ($list ? ModifiableList ; $_onAdditionAndOnRemov
 	list uiCustomModifiableStringListEditor config
 }.
 
-$uiStringListEditor = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
-	$newAdditionRef = reference: $newAddition.
+$uiStringListEditor = ($listRef ? Mutable ; $_onAdditionAndOnRemoval) fun {
 	$onAddition = first: _onAdditionAndOnRemoval.
 	$onRemoval = second: _onAdditionAndOnRemoval.
 	
-	$modList ? ModifiableList = (resolveReference: listRef).
+	$modList ? ModifiableList = ~listRef.
 	modList uiModifiableStringListEditor {listRef onAddition x. listRef = getArray: modList};{listRef = getArray: modList. onRemoval: listRef}
 }.
 
-$uiStringListEditPopup = ($listRef ? Reference ; $_onAdditionAndOnRemoval) fun {
+$uiStringListEditPopup = ($listRef ? Mutable ; $_onAdditionAndOnRemoval) fun {
 	(@(percentHeight 100) listRef uiStringListEditor _onAdditionAndOnRemoval) uiPopup {
 		!closeSubApp
 	}

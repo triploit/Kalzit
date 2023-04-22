@@ -1,5 +1,5 @@
-$jsonPath = userFolder + "/keys.json".
-$hashPath = userFolder + "/keys-hash.txt".
+$jsonPath = ~userFolderRef + "/keys.json".
+$hashPath = ~userFolderRef + "/keys-hash.txt".
 
 !ifElse (fileIsFile: jsonPath) {
 	asyncRef = true.
@@ -18,12 +18,12 @@ $hashPath = userFolder + "/keys-hash.txt".
 	}.
 	do:($endServing propOf _request).
 };{
-	!if (sessionExists & fileIsFolder: userFolder + "/keys") {
+	!if (~sessionExistsRef & fileIsFolder: ~userFolderRef + "/keys") {
 		print: "Pulling data for session " + session + " from the server".
 	
 		$jsonBody = "," strJoin ($cookieFile fun {
 			(objToJson: urlDecodeParameter: fileName: cookieFile) + ":" + objToJson: fileContent: cookieFile.
-		}) each folderContent: userFolder + "/keys".
+		}) each folderContent: ~userFolderRef + "/keys".
 		
 		$hash = String: !getCurrentDate.
 		

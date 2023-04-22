@@ -1,7 +1,7 @@
 $folder = SafeFilePath: "folder" urlGetParameter $url propOf _request.
 
-!if sessionExists {
-	$accessFolder = userFolder + "/files/v2/main".
+!if ~sessionExistsRef {
+	$accessFolder = ~userFolderRef + "/files/v2/main".
 	
 	`TODO: add a check for nested folder creation (where multiple folders are created at once) - that will not be supported sooner or later`
 	fileCreateFolder: accessFolder + "/" + folder.

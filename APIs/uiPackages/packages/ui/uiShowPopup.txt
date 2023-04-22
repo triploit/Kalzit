@@ -9,11 +9,10 @@ $showPopup = $uiShowPopup = !fun ($popup) {
 }.
 
 `Only show the notification decision prompt when notifications are theoretically allowed. If they are not supported or forbidden, this variable is true - no dialog will appear`
-$notificationPromptShown = !notificationForbidden.
-$notificationPromptShownRef = reference: $notificationPromptShown.
+$notificationPromptShownRef ? Var = !notificationForbidden.
 
 $showNotificationPrompt = !fun ($message ? String) {
-	!ifNot (notificationPromptShown | !notificationAllowed) {
+	!ifNot (~notificationPromptShownRef | !notificationAllowed) {
 		$action = {uiHide: popup. do:callback}.
 		
 		$popupContent = @(cssClass: "k-vertical_scroller") @(percentHeight 100) uiContainer:
@@ -21,7 +20,7 @@ $showNotificationPrompt = !fun ($message ? String) {
 			[@center uiContainer:
 				[{
 					uiHide: popup.
-					!ifNot (notificationPromptShown) {
+					!ifNot (~notificationPromptShownRef) {
 						!notificationRequestPermission.
 						notificationPromptShownRef = true.
 					}.

@@ -1,11 +1,16 @@
 $YoutubeVideoId = !fun ($idOrUrl ? String) {
-	$vidRegex = "http(s)?://(www\.)?youtube.com/watch\?(.+&)?v=([a-zA-Z0-9_\-]+)". $vidMatchRef = reference: $vidMatch.
-	$embedRegex = "http(s)?://(www\.)?youtube.com/embed/([a-zA-Z0-9_\-]+)". $embedMatchRef = reference: $embedMatch.
-	$embedNocookieRegex = "http(s)?://(www\.)?youtube-nocookie.com/embed/([a-zA-Z0-9_\-]+)". $embedNocookieMatchRef = reference: $embedNocookieMatch.
+	$vidRegex = "http(s)?://(www\.)?youtube.com/watch\?(.+&)?v=([a-zA-Z0-9_\-]+)".
+	$vidMatchRef ? Var = void.
+
+	$embedRegex = "http(s)?://(www\.)?youtube.com/embed/([a-zA-Z0-9_\-]+)".
+	$embedMatchRef ? Var = void.
+
+	$embedNocookieRegex = "http(s)?://(www\.)?youtube-nocookie.com/embed/([a-zA-Z0-9_\-]+)".
+	$embedNocookieMatchRef ? Var = void.
 	
 	do: first: (idOrUrl switch
-		[{length: vidMatchRef = vidRegex match idOrUrl};{4 at vidMatch}];
-		[{length: embedMatchRef = embedRegex match idOrUrl};{3 at embedMatch}];
-		[{length: embedNocookieMatchRef = embedNocookieRegex match idOrUrl};{3 at embedNocookieMatch}]
+		[{length: vidMatchRef = vidRegex match idOrUrl};{4 at ~vidMatchRef}];
+		[{length: embedMatchRef = embedRegex match idOrUrl};{3 at ~embedMatchRef}];
+		[{length: embedNocookieMatchRef = embedNocookieRegex match idOrUrl};{3 at ~embedNocookieMatchRef}]
 	);{idOrUrl}
 }.

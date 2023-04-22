@@ -1,9 +1,9 @@
 !if ("POST" eq $method propOf _request) {
 	asyncRef = true.
 	
-	!if sessionExists {
+	!if ~sessionExistsRef {
 		`TODO: this relies on a specific file name format, which could change in the future`
-		$userToken = last: "/" strSplit fileRealpath: userFolder.
+		$userToken = last: "/" strSplit fileRealpath: ~userFolderRef.
 		
 		$onPreparation = () fun {
 			`Does nothing at the moment`
@@ -12,7 +12,7 @@
 			_request httpEndServingRaw strRaw: '{"success": 2}'
 		}.
 		$onSuccess = ($_postedFileName) fun {
-			$filesFolder = userFolder + "/files/v2".
+			$filesFolder = ~userFolderRef + "/files/v2".
 			fileCreateFolder: filesFolder.
 			
 			`Figure out where to store the file (which category)`

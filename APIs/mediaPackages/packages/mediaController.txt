@@ -29,12 +29,7 @@ $togglePlay = ($_mediaController) fun {
 	This value is used when calling "increaseVolume" or "decreaseVolume" on a medium.
 	To change the default value for this (0.1), use "volumeStepSizeRef"
 */
-$volumeStepSize = 0,1.
-
-/* @kalzit.for volume_step_size_ref
-    A reference pointing to the global "volumeStepSize" variable
-*/
-$volumeStepSizeRef = reference: $volumeStepSize.
+$volumeStepSizeRef ? (Volatile Float) = 0,1.
 
 /* @kalzit.for volume
 	Returns the current volume of an audio controller (any medium with sound). This is done by calling its $getVolume property.
@@ -51,7 +46,7 @@ $volume = ($_volumeController) fun {do $getVolume propOf _volumeController}.
 	How much the volume should be increased is defined by "volumeStepSize".
 	If the resulting new volume is larger than one (1), which would be to loud, it is set to 1.
 */
-$increaseVolume = ($_volumeController) fun {($setVolume propOf _volumeController): min: 1;(volume: _volumeController) + volumeStepSize}.
+$increaseVolume = ($_volumeController) fun {($setVolume propOf _volumeController): min: 1;(volume: _volumeController) + ~volumeStepSizeRef}.
 
 /* @kalzit.for decrease_volume
 	Decreases the current volume of an audio controller (any medium with sound). This is done by calling its $getVolume and $setVolume properties.
@@ -60,7 +55,7 @@ $increaseVolume = ($_volumeController) fun {($setVolume propOf _volumeController
 	How much the volume should be decreased is defined by "volumeStepSize".
 	If the resulting new volume is lower than one (0), which would be to quiet, it is set to 1.
 */
-$decreaseVolume = ($_volumeController) fun {($setVolume propOf _volumeController): max: 0;(volume: _volumeController) - volumeStepSize}.
+$decreaseVolume = ($_volumeController) fun {($setVolume propOf _volumeController): max: 0;(volume: _volumeController) - ~volumeStepSizeRef}.
 
 /* @kalzit.for mute
 	Mutes the volume of an audio controller (any medium with sound) by setting it to zero (0).

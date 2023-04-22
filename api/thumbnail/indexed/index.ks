@@ -1,5 +1,5 @@
-!if sessionExists {
-	$thumbnailsFolder = userFolder + "/files/v2/thumbnails".
+!if ~sessionExistsRef {
+	$thumbnailsFolder = ~userFolderRef + "/files/v2/thumbnails".
 	$index = "index" urlGetParameter $url propOf _request.
 	
 	!if (fileIsFile: $thumbnailFile = thumbnailsFolder + "/" + index + ".jpg") {

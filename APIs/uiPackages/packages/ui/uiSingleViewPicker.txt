@@ -1,6 +1,5 @@
 $uiLiveSingleViewPicker = ($onSelect ; $_modifiableViewsList ? ModifiableList) fun {
-	$currentView = onSelect uiSingleViewPicker getArray: _modifiableViewsList.
-	$currentViewRef = reference: $currentView.
+	$currentViewRef ? Var = onSelect uiSingleViewPicker getArray: _modifiableViewsList.
 	($setOnAddition propOf _modifiableViewsList): {
 		currentViewRef = onSelect uiSingleViewPicker getArray: _modifiableViewsList.
 	}.
@@ -8,14 +7,11 @@ $uiLiveSingleViewPicker = ($onSelect ; $_modifiableViewsList ? ModifiableList) f
 }.
 
 $uiSingleViewPicker = ($onSelect ; $_normalViews ? (List:UiElement)) fun {
-	$selected = (). $selectedRef = reference: $selected.
-	$hovered = (). $hoveredRef = reference: $hovered.
-	
 	$views = ($index fun {
 		$view = @(cssClass "k-single_view_picker") index at _normalViews.
 		
 		@(onTap: () fun {
-			(selectedRef = view) onSelect index
+			view onSelect index
 		})
 		view.
 	}) each arrayIndexes: _normalViews.

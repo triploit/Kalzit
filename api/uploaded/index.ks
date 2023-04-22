@@ -1,7 +1,7 @@
 $id = SafeFilePath: "id" urlGetParameter $url propOf _request.
 
-!if sessionExists {
-	$filesFolder = userFolder + "/files/v2/main".
+!if ~sessionExistsRef {
+	$filesFolder = ~userFolderRef + "/files/v2/main".
 	
 	!if (fileIsFile: print: ($uploadName = filesFolder + "/" + id) + "/currentVersion.txt") {
 		asyncRef = true.

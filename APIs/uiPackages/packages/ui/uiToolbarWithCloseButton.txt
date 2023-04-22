@@ -60,7 +60,7 @@ $uiTitleToolbar = ($title ? String ; $additionalViews) fun {
 			(additionalViews).
 		
 		`This variable contains the currently shown view - update it to switch between views`
-		$actualToolbarContent = defaultToolbarContent. $actualToolbarContentRef = reference: $actualToolbarContent.
+		$actualToolbarContentRef ? Var = defaultToolbarContent.
 		
 		uiToolbarWithCloseButton: $actualView = uiShowVariable: actualToolbarContentRef.
 	}

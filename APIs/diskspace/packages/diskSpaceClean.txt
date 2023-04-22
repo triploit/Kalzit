@@ -8,14 +8,13 @@ $diskSpaceClean = !fun ($freeTargetInMegabytes ? (default: 500) ; $callback) {
 	`How much space do we want to have free at the end?`
 	$targetInBytes = freeTargetInMegabytes * 1000000.
 	
-	$cleanLevel = 1.
-	$cleanLevelRef = reference: $cleanLevel.
+	$cleanLevelRef ? Var = 1.
 	
 	$cleanSomething = !fun () {
-		runCommandFromArray: "./cli";"run";"clean/level" + (Int: cleanLevel).
-		cleanLevelRef = cleanLevel + 1.
+		runCommandFromArray: "./cli";"run";"clean/level" + (Int: ~cleanLevelRef).
+		cleanLevelRef = ~cleanLevelRef + 1.
 		
-		!ifElse (fileIsFile: "./utilities/cli/run/clean/level" + (Int: cleanLevel) + ".sh") {
+		!ifElse (fileIsFile: "./utilities/cli/run/clean/level" + (Int: ~cleanLevelRef) + ".sh") {
 			`If there is another cleaning level, we can maybe use that`
 			!startNextLevelIfNeeded.
 		};{
@@ -29,7 +28,7 @@ $diskSpaceClean = !fun ($freeTargetInMegabytes ? (default: 500) ; $callback) {
 			!ifElse (freeBytes < targetInBytes) {
 				`There is work to be done`
 				
-				print: "Free space (" + freeBytes + " bytes) below target (" + targetInBytes + " bytes) - starting clean level " + cleanLevel.
+				print: "Free space (" + freeBytes + " bytes) below target (" + targetInBytes + " bytes) - starting clean level " + ~cleanLevelRef.
 				`We need to do something`
 				!cleanSomething
 			};{

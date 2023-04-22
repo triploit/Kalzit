@@ -1,7 +1,7 @@
 $folder = SafeFilePath: "folder" urlGetParameter $url propOf _request.
 
-!if sessionExists {
-	$accessFolder = userFolder + "/files/v2/main".
+!if ~sessionExistsRef {
+	$accessFolder = ~userFolderRef + "/files/v2/main".
 	
 	`Starting at the specified folder, mark all directories with a deleted.txt file`
 	$markFolderAsDeleted = !fun ($folder) {

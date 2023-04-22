@@ -10,8 +10,8 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 			print: "WARNING: The session " + session + " tried to push a password or session to the server.".
 			`Return name anyway` "failed";cookieName
 		};{
-			$deletionMarker = userFolder + "/deletedkeys/" + urlEncodeParameter: cookieName.
-			fileDelete: userFolder + "/keys-v2.json".
+			$deletionMarker = ~userFolderRef + "/deletedkeys/" + urlEncodeParameter: cookieName.
+			fileDelete: ~userFolderRef + "/keys-v2.json".
 			
 			!if undelete {
 				`Remove a potential deletion marker`
@@ -20,7 +20,7 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 			
 			!ifElse (not: fileIsFile: deletionMarker) {
 				`Save the cookie (it is not marked as deleted)`
-				(userFolder + "/keys/" + urlEncodeParameter: cookieName) fileWrite cookieValue.
+				(~userFolderRef + "/keys/" + urlEncodeParameter: cookieName) fileWrite cookieValue.
 				`Return a value that indicates a deleted key`
 				"succeeded";cookieName
 			};{
@@ -32,7 +32,7 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 }.
 
 ($startServing of _request): fileMime: "txt".
-sessionExists ifElse {
+~sessionExistsRef ifElse {
 	$cookieJson = parseJson: "push" urlGetParameter $url propOf _request.
 	!if (void eq cookieJson) {
 		`Failed - no data present (code 2)`

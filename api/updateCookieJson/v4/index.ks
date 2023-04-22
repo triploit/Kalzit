@@ -12,8 +12,8 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 			print: "WARNING: The session " + session + " tried to push a password or session to the server.".
 			`Return name anyway` "failed";cookieName
 		};{
-			$deletionMarker = userFolder + "/deletedkeys/" + urlEncodeParameter: cookieName.
-			fileDelete: userFolder + "/keys-v2.json".
+			$deletionMarker = ~userFolderRef + "/deletedkeys/" + urlEncodeParameter: cookieName.
+			fileDelete: ~userFolderRef + "/keys-v2.json".
 			
 			!if undelete {
 				`Remove a potential deletion marker`
@@ -22,15 +22,15 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 			
 			!ifElse (not: fileIsFile: deletionMarker) {
 				`Compare timestamps`
-				$storedTime ? (0 default Int) = fileContent: userFolder + "/keytimes/" + urlEncodeParameter: cookieName.
+				$storedTime ? (0 default Int) = fileContent: ~userFolderRef + "/keytimes/" + urlEncodeParameter: cookieName.
 				!ifElse (storedTime < timestamp) {
 					`Pushed cookie is newer than the stored one`
 					`Save the cookie`
-					(userFolder + "/keys/" + urlEncodeParameter: cookieName) fileWrite cookieValue.
+					(~userFolderRef + "/keys/" + urlEncodeParameter: cookieName) fileWrite cookieValue.
 					
 					`Save the modification date`
-					fileCreateFolder: (userFolder + "/keytimes").
-					(userFolder + "/keytimes/" + urlEncodeParameter: cookieName) fileWrite "" + timestamp.
+					fileCreateFolder: (~userFolderRef + "/keytimes").
+					(~userFolderRef + "/keytimes/" + urlEncodeParameter: cookieName) fileWrite "" + timestamp.
 					`Worked - return a success value`
 					"succeeded";cookieName
 				};{
@@ -47,7 +47,7 @@ $pushCookie = ($cookieName ; $cookieValue) fun {
 }.
 
 ($startServing propOf _request): fileMime: "txt".
-sessionExists ifElse {
+~sessionExistsRef ifElse {
 	$cookieJson = parseJson: "push" urlGetParameter $url propOf _request.
 	!if (void eq cookieJson) {
 		`Failed - no data present (code 2)`

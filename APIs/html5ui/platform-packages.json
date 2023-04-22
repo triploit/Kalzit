@@ -5,7 +5,6 @@
 	},
 	"libraries":[
 		{"provides":["ui_print"],  "scriptUrl":"uiPrint.js"},
-		{"provides":["ui_native_slider"],  "scriptUrl":"uiSlider.js"},
 		{"provides":["ui_show_variable", "ui_show_variable_as_list"],  "scriptUrl":"uiShow.js"},
 		{"provides":["ui_show_image_url", "ui_show_image_url_directly", "ui_image_button", "get_image_width", "get_image_height", "scale_image_to_url"],  "scriptUrl":"uiImage.js"},
 		{"provides":["ui_link"],  "scriptUrl":"uiLink.js"},

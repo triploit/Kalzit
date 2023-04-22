@@ -1,8 +1,8 @@
 $id = SafeFilePath: "id" urlGetParameter $url propOf _request.
 
-!if sessionExists {
+!if ~sessionExistsRef {
 	
-	!if (fileIsFile: $versionFile = ($uploadName = userFolder + "/files/v2/main/" + id) + "/currentVersion.txt") {
+	!if (fileIsFile: $versionFile = ($uploadName = ~userFolderRef + "/files/v2/main/" + id) + "/currentVersion.txt") {
 		asyncRef = true.
         !fileContentAsync versionFile -> $content fun {
             `Decide what to send`

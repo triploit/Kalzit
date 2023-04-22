@@ -215,7 +215,7 @@
 				return environment.setInnerVariable(name, args[1], false, GLang.getType(args[0]));
 			} else if (args[0].display === "mutable") {
 				args[0].value.set(args[1]);
-				return args[0];
+				return args[1];
 			} else {
 				throw new Error("First argument of = has to be a string or a mutable value - " + JSON.stringify(name) + " does not fit this rule");
 			}

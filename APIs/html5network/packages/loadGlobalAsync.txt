@@ -68,7 +68,7 @@ $uiShowDomainPermissionPopup = !fun ($domain ? String) {
 	}.
 }.
 
-/* This reference can be used to override the server used for loading data from the internet */
+/* This mutable can be used to override the server used for loading data from the internet */
 $loadGlobalServerUrlRef ? Var = void.
 
 `The following functions are the ones that should actually be used for loading data from the internet`

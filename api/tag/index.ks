@@ -1,18 +1,18 @@
 `Go through all the files a user has, check if it has the given tag, and if yes, add it to a KMP collection`
 
-!if sessionExists {
+!if ~sessionExistsRef {
 	asyncRef = true.
 	
 	$tag ? SafeFilePath = $tag urlGetParameter $url propOf _request.
-	$file = userFolder + "/files/v2/categories/" + tag + "-kmp.json".
-	fileCreateFolder: userFolder + "/files/v2/categories".
+	$file = ~userFolderRef + "/files/v2/categories/" + tag + "-kmp.json".
+	fileCreateFolder: ~userFolderRef + "/files/v2/categories".
 	
 	!ifNot (fileIsFile: file) {
 		`Get a list of files that are in the right category`
 		$categoryMarkers = strNewline strSplit strTrim: print: runCommandFromArray:
 			"find";
 			"-L";
-			(print: userFolder + "/files/v2/main");
+			(print: ~userFolderRef + "/files/v2/main");
 			("-iname"; tag);
 			("-type"; "f").
 		

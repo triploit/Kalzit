@@ -10,6 +10,7 @@
 		
 		mutable.value.listeners.push({value:function(){
 			div.replaceChild(GLang.displayValue(mutable.value.mutable), div.firstChild);
+			return GLang.voidValue;
 		}})
 		
 		return {value:div, display:"dom"};
@@ -33,6 +34,7 @@
 			for(var i = 0; i < arr.length; i++){
 				div.appendChild(GLang.displayValue(arr[i]));
 			}
+			return GLang.voidValue;
 		}})
 		
 		return {value:div, display:"dom"};

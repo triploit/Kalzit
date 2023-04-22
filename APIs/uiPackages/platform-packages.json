@@ -58,12 +58,6 @@
     }
     , {
         "provides": [
-          "ui_slider"
-      ]
-      , "scriptUrl": "ui/uiSlider.txt"
-    }
-    , {
-        "provides": [
           "ui_textarea_onchange"
         , "ui_textarea_variable_onchange"
       ]
