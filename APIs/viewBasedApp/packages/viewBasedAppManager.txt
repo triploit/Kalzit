@@ -73,7 +73,7 @@ $viewBasedAppManager = !fun ($config) {
 	$mainView = uiShowVariable: currentViewRef.
 	
 	`If the selected view index changes, update the current view`
-	!listenVariable currentViewIndexRef {
+	!listen currentViewIndexRef {
 		$index = x.
 		
 		`Prepare the new view as soon as we know we need it - makes the load time seem shorter`

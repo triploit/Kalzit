@@ -15,13 +15,12 @@ $applyMobileTools = !fun ($mobileTools) {
 		!if ("string" eq displayType: toolInfo) {
 			
 			`If the tool info is a string, register an appropriate sub app...`
-			$popupRef = reference: $popup.
 			$toolName = "tool_" + urlEncodeParameter: second: _tool.
 			
 			toolName registerSubApp {
 				$view = do: first: _tool.
 				!if (not view eq void) {
-					uiShowPopup: popupRef = (do: first: _tool) uiPopup {openSubApp: ""}
+					uiShowPopup: (do: first: _tool) uiPopup {openSubApp: ""}
 				}. !else closeSubApp
 			};{}.
 			

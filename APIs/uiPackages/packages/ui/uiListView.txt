@@ -34,8 +34,7 @@ $uiCustomListView = !fun ($_options ? ModifiableList ; $config) {
 		`Return` result
 	}.
 	
-	$currentView = !generateView.
-	$currentViewRef = reference: $currentView.
+	$currentViewRef ? Var = !generateView.
 	
 	($setOnChange propOf _options) {
 		currentViewRef = !generateView

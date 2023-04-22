@@ -1,9 +1,8 @@
 $fileListenFile = !fun ($file ; $listenersObject) {
 	`Store the hash to register if the file content changed`
-	$hash = !if ($onContentChange objHasProperty listenersObject) {
+	$hashRef ? Var = !if ($onContentChange objHasProperty listenersObject) {
 		fileMdFiveHash: file
 	}.
-	$hashRef = reference: $hash.
 
 	!nativeFileListenFileAsync file -> {
 		$event = x.
@@ -16,7 +15,7 @@ $fileListenFile = !fun ($file ; $listenersObject) {
 					`Check hash codes and trigger when the code is different`
 					$newHash = fileMdFiveHash: file.
 					
-					!ifNot (hash eq newHash) {
+					!ifNot (~hashRef eq newHash) {
 						`Trigger the listener and update the hash`
 						($onContentChange propOf listenersObject): file.
 						hashRef = newHash.

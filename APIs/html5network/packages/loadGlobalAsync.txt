@@ -69,7 +69,7 @@ $uiShowDomainPermissionPopup = !fun ($domain ? String) {
 }.
 
 /* This reference can be used to override the server used for loading data from the internet */
-$loadGlobalServerUrl = void. $loadGlobalServerUrlRef = reference: $loadGlobalServerUrl.
+$loadGlobalServerUrlRef ? Var = void.
 
 `The following functions are the ones that should actually be used for loading data from the internet`
 /* @kalzit.for loadGlobalAsync
@@ -81,10 +81,10 @@ $loadGlobalAsync = !fun ($callback ; $wantedUrl) {
 	`We have to allow the domain first`
 	$domain ? (default: "") = urlGetHostName: wantedUrl.
 	!askDomainPermissionIfNeededAndLoad domain -> {
-		!ifElse (void eq loadGlobalServerUrl) {
+		!ifElse (void eq ~loadGlobalServerUrlRef) {
 			callback loadGlobalAsyncNative wantedUrl
 		};{
-			callback loadGlobalAsyncNative loadGlobalServerUrl + "/api/loadUrl?query=" + urlEncodeParameter: wantedUrl
+			callback loadGlobalAsyncNative ~loadGlobalServerUrlRef + "/api/loadUrl?query=" + urlEncodeParameter: wantedUrl
 		}
 	}
 }.
@@ -98,10 +98,10 @@ $loadGlobalInBackgroundAsync = !fun ($callback ; $wantedUrl) {
 	`We have to allow the domain first`
 	$domain ? (default: "") = urlGetHostName: wantedUrl.
 	!askDomainPermissionIfNeededAndLoad domain -> {
-		!ifElse (void eq loadGlobalServerUrl) {
+		!ifElse (void eq ~loadGlobalServerUrlRef) {
 			callback loadGlobalInBackgroundAsyncNative wantedUrl
 		};{
-			callback loadGlobalInBackgroundAsyncNative loadGlobalServerUrl + "/api/loadUrl?query=" + urlEncodeParameter: wantedUrl
+			callback loadGlobalInBackgroundAsyncNative ~loadGlobalServerUrlRef + "/api/loadUrl?query=" + urlEncodeParameter: wantedUrl
 		}
 	}
 }.

@@ -24,7 +24,7 @@ $uiLiveIndexPicker = ($action ; $_list ? ModifiableList) fun {
 
 $uiLiveReferenceIndexPicker = ($ref ? Mutable ; $_list ? ModifiableList) fun {
 	$pickerRef ? Var = void.
-	ref listenVariable {
+	ref listen {
 		!updatePicker. picker uiUpdatePickerValue x.
 	}.
 	

@@ -8,9 +8,7 @@
 	        "provides": [
 	          "register_labeled_tool"
 	        , "ui_global_toolbar"
-	        , "global_desktop_toolbar"
 	        , "global_desktop_toolbar_ref"
-	        , "global_mobile_toolbar"
 	        , "global_mobile_toolbar_ref"
 	      ]
 	      , "scriptUrl": "registerLabeledTool.txt"

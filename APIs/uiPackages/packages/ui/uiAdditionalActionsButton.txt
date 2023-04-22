@@ -15,8 +15,7 @@ $uiAdditionalActionsButton = !fun ($object ; $actions) {
 		}.	
 	}.
 	
-	$result = void.
-	$resultRef = reference: $result.
+	$resultRef ? Var = void.
 	
 	$update = !fun () {
 		resultRef = generateMenu: !actions object update

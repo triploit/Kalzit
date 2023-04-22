@@ -1,24 +1,23 @@
 /* @kalzit.for uiSearchPanel
 
-	`searchTermReference` is optional
+	`searchTermRef` is an optional (mutable) value which can be used to keep track of what is in the search field
 */
-$uiSearchPanel = !fun ($searchResultFactory ; $searchTermReference) {
-	$currentSearchResults = @centerText uiContainer: strings: "pressGoHint". $currentSearchResultsRef = reference: $currentSearchResults.
+$uiSearchPanel = !fun ($searchResultFactory ; $searchTermRef ? Mutable) {
+	$currentSearchResultsRef ? Var = @centerText uiContainer: strings: "pressGoHint".
 	@(percentHeight 100) uiContainer: do:{
-		$currentSearchTermRef = !ifElse (void eq searchTermReference) {
-			`Construct a new reference to store the search term`
-			$currentSearchTerm = "".
-			reference: $currentSearchTerm.
+		$currentSearchTermRef = !ifElse (void eq searchTermRef) {
+			`Construct a new mutable to store the search term`
+			mutable: ""
 		};{
-			`Use the reference given by the caller of this function`
-			searchTermReference
+			`Use the mutable given by the caller of this function`
+			searchTermRef
 		}.
 		
 		$action = !fun ($currentSearchTerm ? strTrim) {
 			!if ("" eq currentSearchTerm) {
 				currentSearchResultsRef = @centerText uiText: strings: "enterSearchTerm".
 			}. !else {
-				currentSearchResultsRef = @verticalScroller uiContainer: @(width "100% - 14px") @(percentHeight 100) @center uiContainer: searchResultFactory: resolveReference: currentSearchTermRef.
+				currentSearchResultsRef = @verticalScroller uiContainer: @(width "100% - 14px") @(percentHeight 100) @center uiContainer: searchResultFactory: ~currentSearchTermRef.
 			}
 		}.
 		

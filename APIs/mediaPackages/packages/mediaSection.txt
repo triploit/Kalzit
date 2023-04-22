@@ -32,9 +32,8 @@ $replay = $_mediaController fun {_mediaController replayFrom 0}.
 	Also, it would then stop playing 10 seconds before its original end.
 */
 $mediaSection = ($_mediaController ; $_startAndEnd) fun {
-	$onProgress = $onEnd = void.
-	$onProgressRef = reference: $onProgress.
-	$onEndRef = reference: $onEnd.
+	$onProgressRef ? Var = void.
+	$onEndRef ? Var = void.
 	$start = first: _startAndEnd.
 	$end = second: _startAndEnd.
 	
@@ -65,9 +64,9 @@ $mediaSection = ($_mediaController ; $_startAndEnd) fun {
 	($setOnProgress propOf _mediaController): ($timestamp ; $_controller) fun {
 		!if (end < timestamp) {
 			pause _mediaController.
-			onEnd: controller
+			~onEndRef: controller
 		}.
-		(timestamp - start) onProgress controller
+		(timestamp - start) ~onProgressRef controller
 	}.
 	
 	controller

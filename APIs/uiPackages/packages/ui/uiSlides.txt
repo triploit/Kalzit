@@ -1,16 +1,16 @@
 $uiSlides = ($slideIndexRef ? Reference ; $_slides ? (List:Any)) fun {
-	$currentSlide = 0 at _slides. $currentSlideRef = reference: $currentSlide.
+	$currentSlideRef ? Var = 0 at _slides.
 	
 	slideIndexRef = 0.
-	slideIndexRef listenVariable {currentSlideRef = x at _slides}.
+	slideIndexRef listen {currentSlideRef = x at _slides}.
 	
 	uiShowVariable: currentSlideRef
 }.
 $uiLazySlides = ($slideIndexRef ? Reference ; $_slideGenerator) fun {
-	$currentSlide = _slideGenerator: 0. $currentSlideRef = reference: $currentSlide.
+	$currentSlideRef ? Var = _slideGenerator: 0.
 	
 	slideIndexRef = 0.
-	slideIndexRef listenVariable {currentSlideRef = _slideGenerator: x}.
+	slideIndexRef listen {currentSlideRef = _slideGenerator: x}.
 	
 	uiShowVariable: currentSlideRef
 }.

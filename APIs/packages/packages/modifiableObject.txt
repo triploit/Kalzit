@@ -14,30 +14,26 @@
 	* `getProperty` - takes a key and returns the value of it
 */
 $modifiableObject = ($_originalObject) fun {
-	$baseList ? ModifiableList = _originalObject.
-	$baseListRef = reference: $baseList.
+	$baseListRef ? (Volatile ModifiableList) = _originalObject.
+	$currentObjectRef ? Var = _originalObject.
+	$needsRefreshRef ? Var = false.
 	
-	$currentObject = _originalObject.
-	$currentObjectRef = reference: $currentObject.
-	
-	$needsRefresh = false. $needsRefreshRef = reference: $needsRefresh.
-	
-	$refreshObject = () fun {!if needsRefresh {currentObjectRef = do: $getArray propOf baseList. needsRefreshRef = false}. void}.
+	$refreshObject = () fun {!if ~needsRefreshRef {currentObjectRef = do: $getArray propOf ~baseListRef. needsRefreshRef = false}. void}.
 	
 	["push" ; ($_key ; $_value) fun {
-		($push propOf baseList): [[_key];[_value]].
+		($push propOf ~baseListRef): [[_key];[_value]].
 		needsRefreshRef = true. void
 	}];
 	["removeProperty"; $_key fun {
-		currentObjectRef = {not: (first: x) eq _key} filter do: $getArray propOf baseList.
-		baseListRef = currentObject.
+		currentObjectRef = {not: (first: x) eq _key} filter do: $getArray propOf ~baseListRef.
+		baseListRef = ~currentObjectRef.
 	}];
     ["remove"; ($_key ; $_value) fun {
-		currentObjectRef = {not: x eq [_key];[_value]} filter do: $getArray propOf baseList.
-		baseListRef = currentObject.
+		currentObjectRef = {not: x eq [_key];[_value]} filter do: $getArray propOf ~baseListRef.
+		baseListRef = ~currentObjectRef.
 	}];
-	["getObject" ; () fun {do refreshObject. currentObject}];
-	["clear" ; () fun {do: $clear propOf baseList. needsRefreshRef = true. void}];
-	["isProperty" ; $_possibleProperty fun {do refreshObject. _possibleProperty objHasProperty currentObject}];
-	["getProperty" ; $_property fun {do refreshObject. _property objFirstProperty currentObject}]
+	["getObject" ; () fun {!refreshObject. ~currentObjectRef}];
+	["clear" ; () fun {do: $clear propOf ~baseListRef. needsRefreshRef = true. void}];
+	["isProperty" ; $_possibleProperty fun {!refreshObject. _possibleProperty objHasProperty ~currentObjectRef}];
+	["getProperty" ; $_property fun {!refreshObject. _property propOf ~currentObjectRef}]
 }.

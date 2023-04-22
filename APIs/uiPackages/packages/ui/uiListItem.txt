@@ -16,7 +16,7 @@
 */
 $uiListItem = !fun ($config) {
 	$mainView ? UiElement = $mainView propOf config.
-	$currentView = mainView. $currentViewRef = reference: $currentView.
+	$currentViewRef ? Var = mainView.
 	
 	$value = $value propOf config.
 	$index = $index propOf config.
@@ -32,7 +32,7 @@ $uiListItem = !fun ($config) {
 		}];
 		[{not: void eq $additionalViewFactory propOf config}; {
 			@verticalCenter @relative !uiButtonWithThreeDotIcon {
-				!ifElse (currentView eq mainView) {
+				!ifElse (~currentViewRef eq mainView) {
 					currentViewRef = uiElementCollection:
 						[value ($additionalViewFactory propOf config) index].
 				};{

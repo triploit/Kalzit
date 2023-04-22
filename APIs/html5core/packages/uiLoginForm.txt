@@ -1,18 +1,19 @@
 $uiLoginForm = ($onLoginAttempt) fun {
-	$nameField = $nameInput uiTextfieldVariableOnchange "".
-	$passwordInput = "". $passwordInputRef = reference: $passwordInput.
-	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
+	$nameInputRef ? Var = "".
+	$nameField = nameInputRef uiTextfieldVariableOnchange "".
+	$passwordInputRef ? Var = "".
+	$passwordField = {passwordInputRef = x} uiPasswordOnchange ~passwordInputRef.
 	
 	$action = !fun () {
 		($response fun {
 			!if ("0" eq first: response) {
 				$calcitSession storageSaveString second: response.
-				$calcitUserName storageSaveString nameInput.
+				$calcitUserName storageSaveString ~nameInputRef.
 				{onLoginAttempt: true} showMessageAsync strings: $loginSuccess.
 			}. else {
 				{onLoginAttempt: false} showMessageAsync second: response.
 			}.
-		}) serviceLoginUserAsync nameInput;passwordInput.
+		}) serviceLoginUserAsync ~nameInputRef;~passwordInputRef.
 	}.
 	
 	$views =
@@ -30,9 +31,10 @@ $uiLoginForm = ($onLoginAttempt) fun {
 }.
 
 $uiRegisterForm = ($onLoginAttempt) fun {
-	$nameField = $nameInput uiTextfieldVariableOnchange "".
-	$passwordInput = "". $passwordInputRef = reference: $passwordInput.
-	$passwordField = {passwordInputRef = x} uiPasswordOnchange passwordInput.
+	$nameInputRef ? Var = "".
+	$nameField = nameInputRef uiTextfieldVariableOnchange "".
+	$passwordInputRef ? Var = "".
+	$passwordField = {passwordInputRef = x} uiPasswordOnchange ~passwordInputRef.
 	
 	$views =
 		[uiText: strings: $username];
@@ -46,10 +48,10 @@ $uiRegisterForm = ($onLoginAttempt) fun {
 					popupMessage: strings: $registrationSuccess.
 					`The user most likely intends to be logged in, so we do that automatically`
 					`TODO: this is duplicated code from "uiLoginForm" - unify that`
-					!serviceLoginUserAsync (nameInput;passwordInput) -> ($response fun {
+					!serviceLoginUserAsync (~nameInputRef;~passwordInputRef) -> ($response fun {
 						!if ("0" eq first: response) {
 							$calcitSession storageSaveString second: response.
-							$calcitUserName storageSaveString nameInput.
+							$calcitUserName storageSaveString ~nameInputRef.
 							{onLoginAttempt: true} showMessageAsync strings: $loginSuccess.
 						}. else {
 							{onLoginAttempt: false} showMessageAsync second: response.
@@ -58,7 +60,7 @@ $uiRegisterForm = ($onLoginAttempt) fun {
 	        	}. else {
 	        		popupMessage: second: response
 	        	}.
-			}) serviceRegisterUserAsync nameInput;passwordInput.
+			}) serviceRegisterUserAsync ~nameInputRef;~passwordInputRef.
         } uiButton strings: $register].
 		
 	uiContainer: views

@@ -92,7 +92,7 @@ $account registerSubApp popupSubApp: do:{
 	$highContrastRef ? (Volatile String) = 0.
 	$darkModeRef ? (Volatile String) = 0.
 	
-	darkModeRef listenVariable {
+	darkModeRef listen {
 		"kalzit.darkModeSetting" storageSaveString x.
 		
 		do: x switchFirst
@@ -101,7 +101,7 @@ $account registerSubApp popupSubApp: do:{
 			[{"-1" eq x}; styleDarkModeAuto]
 	}.
 	
-	highContrastRef listenVariable {
+	highContrastRef listen {
 		"kalzit.highContrastSetting" storageSaveString x.
 		
 		do: x switchFirst

@@ -1,7 +1,7 @@
 $storedModifiableStringList = !fun ($storageKey ? String) {
-	$onAdditionList = (). $onAdditionListRef = reference: $onAdditionList. $onAddition = referenceBasedComposedFunction: onAdditionListRef.
-	$onRemovalList = (). $onRemovalListRef = reference: $onRemovalList. $onRemoval = referenceBasedComposedFunction: onRemovalListRef.
-	$onChangeList = (). $onChangeListRef = reference: $onChangeList. $onChange = referenceBasedComposedFunction: onChangeListRef.
+	$onAdditionListRef ? Var = (). $onAddition = referenceBasedComposedFunction: onAdditionListRef.
+	$onRemovalListRef ? Var = (). $onRemoval = referenceBasedComposedFunction: onRemovalListRef.
+	$onChangeListRef ? Var = (). $onChange = referenceBasedComposedFunction: onChangeListRef.
 	
 	["push"; ($_items) fun {
 		storageKey storageExtendStringList _items.
@@ -15,9 +15,9 @@ $storedModifiableStringList = !fun ($storageKey ? String) {
 	["clear";() fun {
 		storageClearList storageKey
 	}];
-	["setOnAddition";($function) fun {onAdditionListRef = onAdditionList;function}];
-	["setOnRemoval";($function) fun {onRemovalListRef = onRemovalList;function}];
-	["setOnChange";($function) fun {onChangeListRef = onChangeList;function}];
+	["setOnAddition";($function) fun {onAdditionListRef = ~onAdditionListRef;function}];
+	["setOnRemoval";($function) fun {onRemovalListRef = ~onRemovalListRef;function}];
+	["setOnChange";($function) fun {onChangeListRef = ~onChangeListRef;function}];
 	["removeEquals";($_item) fun {
 		storageKey storageRemoveStringListItem _item.
 		storageOptimizeStringList: storageKey.
