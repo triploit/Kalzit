@@ -1,7 +1,7 @@
 $uiCyclingSlides = ($pauseTime ? Int ; $_slideValues ? (List:Any)) fun {
-	$slideIndexRef = reference: $slideIndex.
+	$slideIndexRef ? Var = void.
 	$mySlides = slideIndexRef uiSlides _slideValues.
-	$myIndex = 0. $myIndexRef = reference: $myIndex.
-	pauseTime repeatAsync {myIndexRef = (myIndex + 1) mod length: slideValues. slideIndexRef = myIndex}.
+	$myIndexRef ? Var = 0.
+	pauseTime repeatAsync {myIndexRef = (~myIndexRef + 1) mod length: slideValues. slideIndexRef = ~myIndexRef}.
 	mySlides
 }.

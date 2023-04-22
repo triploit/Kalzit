@@ -1,10 +1,10 @@
 `TODO: These functions seem to be broken`
 
-$uiTextfieldVariableOnaction = ($varRef ? Reference ; $initialValue ? String) fun {varRef = initialValue. {varRef = x} uiTextfieldOnaction initialValue}.
-$uiTextfieldVariableOnchange = ($varRef ? Reference ; $initialValue ? String) fun {
-	varRef = initialValue.
-	$result = {varRef = x} uiTextfieldOnchange initialValue.
-	!listenVariable varRef {
+$uiTextfieldVariableOnaction = ($ref ? Mutable ; $initialValue ? String) fun {ref = initialValue. {ref = x} uiTextfieldOnaction initialValue}.
+$uiTextfieldVariableOnchange = ($ref ? Mutable ; $initialValue ? String) fun {
+	ref = initialValue.
+	$result = {ref = x} uiTextfieldOnchange initialValue.
+	!listen ref {
 		result uiSetText x
 	}.
 	result

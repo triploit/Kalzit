@@ -19,7 +19,7 @@
 	* `$setCurrentViewIndex` - sets the currently selected view index (starts at zero) and makes the displayed view update accordingly.
 	* `$updateViewManually` - performs the view updating manually. Might be useful if you use a function as a view generator.
 	* `$getCurrentView` - returns the currently shown view; can change later.
-	* `$currentViewIndexRef` - a reference that points to the currently active view index.
+	* `$currentViewIndexRef` - a mutable that points to the currently active view index.
 	* `$mainView` - this is what you put in your UI to make the currently active view visible to the user. Updates automatically when the selection changes.
 */
 $viewBasedAppManager = !fun ($config) {
@@ -62,16 +62,14 @@ $viewBasedAppManager = !fun ($config) {
 	
 	
 	`Implementation`
-	$currentViewIndex = (0 default Int): storageLoadString: storageName.
-	$currentViewIndexRef = reference: $currentViewIndex.
+	$currentViewIndexRef ? Var = (0 default Int): storageLoadString: storageName.
 	
 	$getViewFromIndex = !fun ($index) {
 		(index at getArray: viewGenerators): index.
 	}.
 	
 	`The selected view will be put in here`
-	$currentView = getViewFromIndex: currentViewIndex.
-	$currentViewRef = reference: $currentView.
+	$currentViewRef ? Var = getViewFromIndex: currentViewIndex.
 	$mainView = uiShowVariable: currentViewRef.
 	
 	`If the selected view index changes, update the current view`

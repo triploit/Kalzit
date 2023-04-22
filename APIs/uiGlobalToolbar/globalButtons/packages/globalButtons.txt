@@ -89,10 +89,8 @@ $register registerSubApp popupSubApp: !uiTitledPopupViewAsList (strings: $regist
 
 `#account sub app`
 $account registerSubApp popupSubApp: do:{
-	$highContrast ? String = 0.
-	$highContrastRef = reference: $highContrast.
-	$darkMode ? String = 0.
-	$darkModeRef = reference: $darkMode.
+	$highContrastRef ? (Volatile String) = 0.
+	$darkModeRef ? (Volatile String) = 0.
 	
 	darkModeRef listenVariable {
 		"kalzit.darkModeSetting" storageSaveString x.

@@ -8,8 +8,8 @@
 				case "Space": return WAITING;
 			}
 			switch(token.textValue){
-				//case "#": throw new Error("Old-style doc comments (with a #) are deprecated; please replace them with /* */");
 				case "/": return SLASH;
+				case "~": return TILDE;
 				case "}":
 				case "]":
 				case ")": throw new Error("Found block closing character without an opener: " + token.textValue);
@@ -33,6 +33,16 @@
 		},
 		waiting:true,
 		kind:"waiting"
+	};
+
+	const TILDE = {
+		next:function(token) {
+			if(!token.category === "Word") throw new Error("The tilde (~; followed by the name of a mutable variable to be resolved) has to be immediately followed by a name; no spaces allowed");
+			var getCallTreeItem = {kind:"parentheses", parentheses: [
+				{kind:"name", name:"get"}, {kind:"name", name:":"}, {kind:"name", name:token.textValue}
+			]};
+			return group([getCallTreeItem, WAITING])
+		}
 	};
 	
 	const SLASH = {

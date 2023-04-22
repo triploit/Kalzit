@@ -19,9 +19,8 @@
 	If you want more freedom when defining sub apps, take a look at "registerSubApp".
 */
 $popupSubApp = ($contentGenerator) fun {
-	$popupRef = reference: $popup.
 	$showPopup = () fun {
-		uiShowPopup: popupRef = (!contentGenerator) uiPopup closeSubApp.
+		uiShowPopup: (!contentGenerator) uiPopup closeSubApp.
 	}.
 	
 	showPopup;{}.

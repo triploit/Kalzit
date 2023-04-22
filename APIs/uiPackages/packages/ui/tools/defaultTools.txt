@@ -13,7 +13,7 @@ $buttonTool = !fun ($action ; $title) {
 	["title";title]
 }.
 
-$indexPickerTool = !fun ($titleAndRef ? (Tuple: String;Reference) ; $_values ? ModifiableList) {
+$indexPickerTool = !fun ($titleAndRef ? (Tuple: String;Mutable) ; $_values ? ModifiableList) {
 	$title = first: titleAndRef.
 	$ref = second: titleAndRef.
 	
@@ -64,7 +64,7 @@ $modifiableListEditTool = !fun ($titleAndCallbacks ; $_values ? ModifiableList) 
 	["title";title]
 }.
 
-$listEditTool = !fun ($titleAndCallbacks ; $listRef ? Reference) {
+$listEditTool = !fun ($titleAndCallbacks ; $listRef ? Mutable) {
 	$callbacks = !if (3 eq length: titleAndCallbacks) {
 		(1 at titleAndCallbacks);
 		2 at titleAndCallbacks

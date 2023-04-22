@@ -75,8 +75,8 @@ $onClientConnect = ($_request fun {
 	`After that comes the normal server stuff`
 	$session ? Float = (default: $session urlGetParameter $url propOf _request): ($getHeader objFirstProperty _request): "kalzit-session".
 
-    $sessionExists = false. $sessionExistsRef = reference: $sessionExists.
-    $userFolder = void. $userFolderRef = reference: $userFolder.
+    $sessionExistsRef ? Var = false.
+    $userFolderRef ? Var = void.
     !ifNot (session eq void) {
 		!sessionValidate session _request.
         sessionExistsRef = fileIsFolder: userFolderRef = serverUsersFolder + "/sessions/" + session.
@@ -84,10 +84,8 @@ $onClientConnect = ($_request fun {
 
 	$fname = ifFolderThenMaybeIndexFile: serverRootPath + first: "?" strSplit $url propOf _request.
 	
-	$result = void.
-	$resultRef = reference: $result.
-	$async = false.
-	$asyncRef = reference: $async.
+	$resultRef ? Var = void.
+	$asyncRef ? Var = false.
 
 	`Figure out what to do with the requested file`
 	!ifElse (fileIsFile: fname) {

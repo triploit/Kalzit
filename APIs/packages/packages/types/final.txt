@@ -8,18 +8,7 @@
 	If you attempt to change that variable from now on, the actual value will not change - the type function will remember the first value and always return it.
 	It also works with any other type function.
 */
+@(deprecated: "All variables are now final by default")
 $Final = $_type fun {
-	$needsValue = true.
-	$needsValueRef = reference: $needsValue.
-	$initialValue ? _type = void.
-	$initialValueRef = reference: $initialValue.
-	
-	$_newValue fun {
-		needsValue ifElse {
-			initialValueRef = _newValue.
-			needsValueRef = false.
-		};{}.
-		
-		initialValue
-	}
+	`Return` _type
 }.
