@@ -105,7 +105,7 @@ $makeUploadView = !fun ($_files) {
 			].
 		}.
 		
-		!ifElse (($name propOf file) listContains {$title propOf x} each $collection propOf folderContent) {
+		!ifElse (($name propOf file) listContains {$title propOf x} each $collection propOf ~folderContentRef) {
 			`The file exists already`
 			statusRef = !uiButton "Replace existing" -> triggerUpload
 		};{
