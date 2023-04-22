@@ -1,6 +1,5 @@
 $docsView = !_ui_docs.
-$playgroundView = _ui_playground: appParameter: $code.
-$playgroundViewRef = reference: $playgroundView.
+$playgroundViewRef ? Var = _ui_playground: appParameter: $code.
 $fullTextEditorView = !_ui_full_text_editor.
 
 $viewManager = viewBasedAppManager:

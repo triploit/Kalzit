@@ -6,8 +6,7 @@ $session = storageLoadString: "calcitSession".
 $foldersView = uiContainer: ().
 $filesView = uiContainer: ().
 
-$openFile = void.
-$openFileRef = reference: $openFile.
+$openFileRef ? Var = void.
 
 $fileActions =
 	["Download"; ($file) fun {
@@ -89,8 +88,7 @@ $makeUploadView = !fun ($_files) {
 	!loopEach _files -> {
 		$file = x.
 		
-		$status = uiContainer: "Uploading...".
-		$statusRef = reference: $status.
+		$statusRef ? Var = uiContainer: "Uploading...".
 		
 		$triggerUpload = !fun () {
 			statusRef = uiContainer: "Uploading...".
@@ -123,10 +121,10 @@ $makeUploadView = !fun ($_files) {
 	result
 }.
 
-$foldersPresent = false. $foldersPresentRef = reference: $foldersPresent.
-$filesPresent = false. $filesPresentRef = reference: $filesPresent.
+$foldersPresentRef ? Var = false.
+$filesPresentRef ? Var = false.
 
-$folderContent = void. $folderContentRef = reference: $folderContent.
+$folderContentRef ? Var = void.
 
 `Load the user file infos from the server`
 !loadLocalAsync ("/api/folder?id=" + folderName + "&session=" + session) -> ($json fun {

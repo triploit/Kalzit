@@ -17,6 +17,6 @@
 		{"provides":["generate_guid"], "scriptUrl":"generateGuid.js"},
 		{"provides":["get_current_date", "date_to_utc"], "scriptUrl":"date.js"},
 		{"provides":["run_later"], "scriptUrl":"runLater.js"},
-		{"provides":["var", "volatile"], "sciptUrl":"mutableTypes.txt"}
+		{"provides":["var", "volatile"], "scriptUrl":"mutableTypes.txt"}
 	]
 }

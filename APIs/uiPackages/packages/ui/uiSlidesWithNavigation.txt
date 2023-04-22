@@ -1,13 +1,13 @@
 $uiSlidesWithNavigation = ($_slides ? (List:Any) ; $startIndex ? (0 default Int)) fun {
-	$indexVar = 0. $indexVarRef = reference: $indexVar.
+	$indexVarRef ? Var = 0.
 	$result = uiElementCollection: (indexVarRef uiSlides _slides);(
 		@(onTap: () fun {
-			indexVarRef = (0 > indexVar - 1) ifElse {(length: _slides) - 1};{indexVar - 1}
+			indexVarRef = (0 > ~indexVarRef - 1) ifElse {(length: _slides) - 1};{~indexVarRef - 1}
 		})
 		do:uiLeftButton
 	);(
 		@(onTap: () fun {
-			indexVarRef = ((length: _slides) eq indexVar + 1) ifElse {0};{indexVar + 1}
+			indexVarRef = ((length: _slides) eq ~indexVarRef + 1) ifElse {0};{~indexVarRef + 1}
 		})
 		do:uiRightButton
 	).
@@ -16,27 +16,19 @@ $uiSlidesWithNavigation = ($_slides ? (List:Any) ; $startIndex ? (0 default Int)
 }.
 
 $uiLazySlidesWithNavigation = ($_slideGenerator ; $startIndex ? (default 0)) fun {
-	$indexVarRef = !ifElse ("reference" eq displayType: startIndex) {
-		startIndex
-	};{
-		$indexVar = 0.
-		reference: $indexVar
-	}.
+	$indexVarRef ? Mutable = startIndex.
 	
 	$result = uiElementCollection: (indexVarRef uiLazySlides _slideGenerator);(
 		@(onTap: () fun {
-			indexVarRef = (0 > (resolveReference: indexVarRef) - 1) ifElse {(length: _slideGenerator) - 1};{(resolveReference: indexVarRef) - 1}
+			indexVarRef = (0 > ~indexVarRef - 1) ifElse {(length: _slideGenerator) - 1};{~indexVarRef - 1}
 		})
 		do:uiLeftButton
 	);(
 		@(onTap: () fun {
-			indexVarRef = ((length: _slideGenerator) eq (resolveReference: indexVarRef) + 1) ifElse {0};{(resolveReference: indexVarRef) + 1}
+			indexVarRef = ((length: _slideGenerator) eq (~indexVarRef + 1)) ifElse {0};{~indexVarRef + 1}
 		})
 		do:uiRightButton
 	).
-	
-	!if (not "reference" eq displayType: startIndex) {
-		indexVarRef = startIndex.
-	}.
+
 	result
 }

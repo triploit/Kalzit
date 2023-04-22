@@ -17,7 +17,8 @@
 		//... but we need the platform-packages.json files within these folders, so we change the paths
 		.map(folderName => folderName + "/platform-packages.json")    
     } catch (error) {
-        throw new Error("Package manager init failed!", error);
+		console.error(error);
+        throw new Error("Package manager init failed!");
     }
 
 	GLang.packageManager.initialize(

@@ -95,11 +95,11 @@ $onClientConnect = ($_request fun {
             do:() fun codeBlockFromString: fileContent: fname.
         }.
 	    
-	    !if (not async) {
-		    !ifElse (result eq void) {
+	    !if (not ~asyncRef) {
+		    !ifElse (~resultRef eq void) {
 			    _request serveExistingFile fname
 		    };{
-	        	($endServing propOf _request): result
+	        	($endServing propOf _request): ~resultRef
 	        }
         }
     };{

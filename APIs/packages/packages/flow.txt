@@ -6,8 +6,8 @@ $categorize = ($_items ? (List:Any) ; $_categories ? (List:2 SizedList Any)) fun
 $doEach = ($f ; $_argSets ? (List:List:Any)) fun {($_x fun {f do _x}) each _argSets}.
 
 
-$lastFlowCondition = true. $lastFlowConditionRef = reference: $lastFlowCondition.
+$lastFlowConditionRef ? Var = true.
 
 $if = ($condition ; $then) fun {$result = condition ifElse then;{void}. lastFlowConditionRef = condition. result}.
 $ifNot = ($condition ; $then) fun {$result = condition ifElse {void};then. lastFlowConditionRef = condition. result}.
-$else = ($then) fun {!ifNot lastFlowCondition then}.
+$else = ($then) fun {!ifNot ~lastFlowConditionRef then}.

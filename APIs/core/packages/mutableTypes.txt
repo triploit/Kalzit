@@ -3,6 +3,7 @@
  * $v ? (volatile Int) = 4. v = 5,6. print: get: v # Prints 5, because 5,6 has been changed by the Int type
  */
 $volatile = !fun $type {`Return a type function` $value fun {value mutable type}}.
+
 /* @kalzit.for var
  * Type function that produces a mutable container that can contain anything. Usage example:
  * $v ? Var = 4. v = 3. print: get: v # Prints 3
