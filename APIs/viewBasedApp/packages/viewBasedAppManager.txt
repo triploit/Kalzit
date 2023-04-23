@@ -54,7 +54,7 @@ $viewBasedAppManager = !fun ($config) {
 			!fillOthersBasedOnViewDefinitions.
 			
 			`After updating the other lists, set the current view index to zero`
-			currentViewIndex = 0.
+			currentViewIndexRef = 0.
 		}
 	}.
 	
@@ -69,7 +69,7 @@ $viewBasedAppManager = !fun ($config) {
 	}.
 	
 	`The selected view will be put in here`
-	$currentViewRef ? Var = getViewFromIndex: currentViewIndex.
+	$currentViewRef ? Var = getViewFromIndex: ~currentViewIndexRef.
 	$mainView = uiShowVariable: currentViewRef.
 	
 	`If the selected view index changes, update the current view`
@@ -93,9 +93,9 @@ $viewBasedAppManager = !fun ($config) {
 		(changeViewTitle;currentViewIndexRef) indexPickerTool
     		viewTitles.
 	}];
-	[$getCurrentViewIndex; () fun {currentViewIndex}];
+	[$getCurrentViewIndex; () fun {~currentViewIndexRef}];
 	[$setCurrentViewIndex; ($newViewIndex) fun {currentViewIndexRef = newViewIndex}];
-	[$updateViewManually; () fun {currentViewRef = getViewFromIndex: currentViewIndex}];
+	[$updateViewManually; () fun {currentViewRef = getViewFromIndex: ~currentViewIndexRef}];
 	[$currentViewIndexRef; currentViewIndexRef];
 	[$getCurrentView; () fun {currentView}];
 	[$mainView; mainView]
