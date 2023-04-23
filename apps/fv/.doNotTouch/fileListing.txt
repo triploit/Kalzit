@@ -1,9 +1,9 @@
-./build.sh
-./platform-packages.json
-./index.html
 ./fv.json
-./fv.k
-./checksum.shasum
-./strings/default.json
-./config/excluded-libraries.json
 ./_min.js
+./strings/default.json
+./checksum.shasum
+./index.html
+./platform-packages.json
+./config/excluded-libraries.json
+./build.sh
+./fv.k

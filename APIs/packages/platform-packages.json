@@ -118,7 +118,7 @@
         "provides": [
           "resolve_name"
       ]
-      , "scriptUrl": "resolveName.txt"
+      , "scriptUrl": "resolveName.js"
     }
     , {
         "provides": [

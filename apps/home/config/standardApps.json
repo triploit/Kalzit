@@ -1,3 +1,11 @@
 [
+{"id":"reader", "title":"Reader", "icon":".doNotTouch/static/4cccd42135afb712aecd0edfd674c84bff3f52ce.png", "dev":true},
 {"id":"ide", "title":"Development Tools", "dev":true},
+{"id":"music", "title":"Music", "color":"cyan", "icon":".doNotTouch/static/d169a58213f3271df20a65271ac3f09a5f7aa605.png", "dev":false},
+{"id":"PhotoShaker", "title":"PhotoShaker", "color":"150", "dev":true},
+{"id":"images", "title":"Images", "color":"green", "icon":".doNotTouch/static/0c0b8b3354e0a37df0898cce785f0847bb848335.png", "dev":true},
+{"id":"MusicShaker", "title":"MusicShaker", "color":"150", "dev":true},
+{"id":"todo", "title":"TODOs", "color":"magenta", "icon":".doNotTouch/static/d5dee058c385c24ec553396d36b9a5b36759bdbb.png", "dev":true},
+{"id":"videos", "title":"Videos", "color":"128;0", "icon":".doNotTouch/static/c0b6382ae8edd103eac100b7e1c434b321c182e2.png", "dev":false},
+{"id":"notes", "title":"Notes", "color":"blue", "icon":".doNotTouch/static/7f952eb1fd23566c1519debbe15cdf634099b5ca.png", "dev":false},
 {"id":"files", "title":"Files", "icon":".doNotTouch/static/e1e549d3b0fd8fb56bd303768bd4ad6bf34d74a4.png", "dev":false}]
