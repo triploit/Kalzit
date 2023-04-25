@@ -8,12 +8,19 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiStack", {value:function(env,
 	
 	function createLayer(value){
 		var layer = document.createElement("div");
-		layer.appendChild(GLang.displayValue(value));
+		
+		var child = GLang.displayValue(value);
+		if(!child.style.pointerEvents) {
+			child.style.pointerEvents = "auto"
+		}
+		layer.appendChild(child);
+
 		layer.style.width = "100%";
 		layer.style.height = "100%";
 		layer.style.position = "absolute";
 		layer.style.top = 0;
 		layer.style.left = 0;
+		layer.style.pointerEvents = "none";
 		
 		return layer
 	}
