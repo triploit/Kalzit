@@ -16,7 +16,7 @@
 		{"provides":["flag_on_drop", "ui_file_picker"],  "scriptUrl":"drop.js"},
 		{"provides":["flag_on_enter"], "scriptUrl":"enter.js"},
 		{"provides":["flag_on_select", "flag_on_deselect"], "scriptUrl":"selection.js"},
-		{"provides":["width", "height", "percent_width", "percent_height", "px_width", "px_height", "em_width", "em_height", "mm_width", "mm_height", "cm_width", "cm_height", "inch_width", "inch_height"],  "scriptUrl":"widthHeight.txt"},
+		{"provides":["width", "height", "percent_width", "percent_height", "px_width", "px_height", "em_width", "em_height", "mm_width", "mm_height", "cm_width", "cm_height", "inch_width", "inch_height", "full_height", "full_width"],  "scriptUrl":"widthHeight.txt"},
 		{"provides":["background_color", "background_image_url", "background_gradient_left_to_right", "background_gradient_top_to_bottom", "foreground_color", "opacity", "border_color"],  "scriptUrl":"bgfg.txt"},
 		{"provides":["on_hover", "on_tap", "on_pointer_up", "on_pointer_down", "on_pointer_move", "on_drag"],  "scriptUrl":"mouse.txt"},
 		{"provides":["on_text_select"],  "scriptUrl":"onTextSelect.txt"},

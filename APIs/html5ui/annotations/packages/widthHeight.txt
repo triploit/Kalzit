@@ -145,3 +145,6 @@ $inchWidth = curry: flagInchWidth.
 	Then the element will be displayed 3 inches tall.
 */
 $inchHeight = curry: flagInchHeight.
+
+$fullHeight = percentHeight: 100.
+$fullWidth = percentWidth: 100.
