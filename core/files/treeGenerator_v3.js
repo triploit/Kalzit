@@ -81,7 +81,8 @@
 			} else {
 				return this;
 			}
-		}
+		},
+		waiting: true
 	};
 	
 	const POTENTIALLY_ENDING_BLOCK_COMMENT = {
