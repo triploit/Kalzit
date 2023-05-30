@@ -11,19 +11,7 @@ GLang.createFunctionScope = function(env, argumentList, args){
 			var argumentType = GLang.getType(argumentList[argIndex]);
 			
 			//Check if we need to apply a type to the argument
-			var actualArgument = untypedArgument;
-			if(argumentType) {
-				actualArgument = GLang.callObject(argumentType, env, [untypedArgument]);
-				
-				//For debugging: check if the value was changed by the type
-				/* GLang.logTypeHint({
-					message:"The following parameter was changed by its type",
-					oldValue:untypedArgument,
-					newValue:actualArgument,
-					typeName:GLang.getValueVarName(argumentType),
-					varName:argumentName
-				}) */
-			}
+			var actualArgument = argumentType ? GLang.callObject(argumentType, env, [untypedArgument]) : untypedArgument;
 			
 			functionEnvironment.setInnerWithoutListeners(
 				//Name
@@ -34,6 +22,16 @@ GLang.createFunctionScope = function(env, argumentList, args){
 		}
 		
 		return functionEnvironment
+};
+
+//Performance optimized variant of createFunctionScope, specifically for code block environments
+GLang.createCodeBlockScope = function(env, args){
+	var functionEnvironment = GLang.RuntimeEnvironment(env);
+	
+	functionEnvironment.setInnerWithoutListeners("x", args.length > 0 ? args[0] : GLang.voidValue);
+	functionEnvironment.setInnerWithoutListeners("y", args.length > 1 ? args[1] : GLang.voidValue);
+	
+	return functionEnvironment;
 };
 
 //This is a stack (push, pop) used to keep track of the currently active function calls
@@ -66,6 +64,12 @@ GLang.getSimplifiedCallStack = function() {
 };
 
 GLang.callObject = function(obj, env, args){
+	//If we have a non-function, quit this as quickly as possible
+	if(!(obj.display === "codeBlock" || "function" === typeof obj.value)) {
+		return obj;
+	}
+	
+	//We have a function to call
 	//Before doing anything else, add the thing we want to call to the call stack
 	GLang.callStack.push({obj: obj, args: args});
 	//Check if the value we want to call is deprecated - if yes, warn about that
@@ -77,9 +81,6 @@ GLang.callObject = function(obj, env, args){
 	}
 	
 	try{
-//		if(typeof(obj) !== "object"){
-//			throw new Error("Values have to be 'normal' objects, not functions. Trying to call: " + obj);
-//		}else{
 			//Keep the original parameter untouched
 			var object = obj.value;
 			
@@ -88,19 +89,13 @@ GLang.callObject = function(obj, env, args){
 			switch(typeof object){
 				case "function":
 					result = object(env, args);
-					if (result == null) throw new Error("Calling the following function lead to a result of null or undefined: " + object);
+					if (result == null) {
+						throw new Error("Calling the following function lead to a result of null or undefined: " + object);
+					}
 					break;
-				case "string":
-                    throw new Error("Calling strings as code is not supported anymore!");
-					//result = GLang.functionFromString(object, obj.environment || env).value(env, args); break;
 				default:
-                    if(obj.display === "codeBlock") {
-                        result = GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
-                        //throw new Error("Calling code blocks is not implemented yet");
-                    } else {
-                        result = obj;
-                    }
-					break;
+					//Must be a code block (all other options are eliminated at the top of the function)
+                    result = GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
 			}
 			
 			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later

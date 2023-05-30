@@ -1,17 +1,15 @@
+//Supports neither typed arguments nor a function type; variant of functionFromTree heavily optimized for code block execution
 ;GLang.functionFromCodeBlock = function(codeBlock, defaultEnv){
-	return GLang.functionFromTree(
-		codeBlock.value.sentences,
-		codeBlock.env || defaultEnv,
-		//Argument list (default parameter names are specified here)
-		{value:[{value:"x"}, {value:"y"}]}
-		//Untyped function
-	)
+	return {value:function(env, args){
+		return GLang.evaluateTree(
+			codeBlock.value.sentences, GLang.createCodeBlockScope(codeBlock.env || defaultEnv, args));
+	}, display:"function"};
 };
+
+//Supports a typed argument list as well as a function type
 GLang.functionFromTree = function(tree, defaultEnv, argumentList, type){
-	var result = {value:function(env, args){
-		var functionEnvironment = GLang.createFunctionScope(defaultEnv, argumentList, args);
-		
-		var result = GLang.evaluateTree(tree, functionEnvironment);
+	const result = {value:function(env, args){
+		const result = GLang.evaluateTree(tree, GLang.createFunctionScope(defaultEnv, argumentList, args));
 		//Apply type if present
 		if(type) {
 			return GLang.callObject(type, env, [result]);
