@@ -398,10 +398,18 @@
 		}
 		
 		if(sentence.length) sentences.push(finishSentenceAndCheckForExclamationMarks(sentence));
-		
+
 		var newTree = [];
 		for(var i = 0; i < sentences.length; i++){
-			newTree = newTree.concat(sentences[i]);
+			var sentence = sentences[i];
+
+			//Add missing colons to each of the sentences
+			if(sentence.length !== 0 && 0 === sentence.length % 2){
+				//Even number of elements, but not zero elements - add a colon
+				sentence = sentence.splice(0,1).concat([{kind:"name", name:":"}]).concat(sentence);
+			}
+			
+			newTree = newTree.concat(sentence);
 			if(i < sentences.length - 1) newTree.push({kind:"dot", dot:1});
 		}
 		return newTree;
@@ -474,6 +482,7 @@
 				break;
 			}
 		}
+
 		return state;
 	}
 	
