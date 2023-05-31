@@ -28,8 +28,10 @@ GLang.createFunctionScope = function(env, argumentList, args){
 GLang.createCodeBlockScope = function(env, args){
 	var functionEnvironment = GLang.RuntimeEnvironment(env);
 	
-	functionEnvironment.setInnerWithoutListeners("x", args.length > 0 ? args[0] : GLang.voidValue);
-	functionEnvironment.setInnerWithoutListeners("y", args.length > 1 ? args[1] : GLang.voidValue);
+//	functionEnvironment.setInnerWithoutListeners("x", args.length > 0 ? args[0] : GLang.voidValue);
+//	functionEnvironment.setInnerWithoutListeners("y", args.length > 1 ? args[1] : GLang.voidValue);
+	functionEnvironment.kv_x = {varName:"x", varValue:args.length > 0 ? args[0] : GLang.voidValue};
+	functionEnvironment.kv_y = {varName:"y", varValue:args.length > 1 ? args[1] : GLang.voidValue};
 	
 	return functionEnvironment;
 };

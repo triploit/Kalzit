@@ -22,35 +22,48 @@ function evaluateStandardSentence(sentence, env) {
     switch(sentence.length) {
         case 0: return GLang.voidValue;
         case 1: return GLang.evaluateSentenceFragment(sentence[0], env);
-		case 3: return evaluateFragmentOperation(sentence[0], sentence[1], sentence[2], env);
-        default: return GLang.evaluateOperation(sentence[0], sentence[1], sentence.slice(2), env);
+		case 3: //Basic operation
+			return GLang.callObject(GLang.evaluateSentenceFragment(sentence[1], env), env, [
+				GLang.evaluateSentenceFragment(sentence[0], env),
+				GLang.evaluateSentenceFragment(sentence[2], env)
+			]);
+		default: //Longer sentence with multiple operations
+			//Evaluate each operation in the sentence; start at the last one
+			var result = GLang.evaluateSentenceFragment(sentence[sentence.length - 1], env);
+			for(var i = sentence.length - 2; i >= 1; i -= 2) {
+				result = GLang.callObject(GLang.evaluateSentenceFragment(sentence[i], env), env, [
+					GLang.evaluateSentenceFragment(sentence[i - 1], env),
+					result
+				])
+			}
+			return result;
     }
 }
 
-//Variant of evaluateOperation, where the caller guarantees that "b" is a sentence fragment
-function evaluateFragmentOperation(a, operator, b, env) {
-	var aValue = GLang.evaluateSentenceFragment(a, env);
-	var bValue = GLang.evaluateSentenceFragment(b, env);
-	var operatorValue = GLang.evaluateSentenceFragment(operator, env);
-	
-	return GLang.callObject(operatorValue, env, [aValue, bValue]);
-}
+////Variant of evaluateOperation, where the caller guarantees that "b" is a sentence fragment
+//function evaluateFragmentOperation(a, operator, b, env) {
+//	var aValue = GLang.evaluateSentenceFragment(a, env);
+//	var bValue = GLang.evaluateSentenceFragment(b, env);
+//	var operatorValue = GLang.evaluateSentenceFragment(operator, env);
+//	
+//	return GLang.callObject(operatorValue, env, [aValue, bValue]);
+//}
 
-GLang.evaluateOperation = function evaluateOperation(a, operator, b, env){
-	var aValue = GLang.evaluateSentenceFragment(a, env);
-	var bValue = evaluateStandardSentence(b, env);
-	var operatorValue = GLang.evaluateSentenceFragment(operator, env);
-	
-	return GLang.callObject(operatorValue, env, [aValue, bValue]);
-}
+//GLang.evaluateOperation = function evaluateOperation(a, operator, b, env){
+//	var aValue = GLang.evaluateSentenceFragment(a, env);
+//	var bValue = evaluateStandardSentence(b, env);
+//	var operatorValue = GLang.evaluateSentenceFragment(operator, env);
+//	
+//	return GLang.callObject(operatorValue, env, [aValue, bValue]);
+//}
 
 GLang.evaluateSentenceFragment = function evaluateSentenceFragment(fragment, env){
 	switch(fragment.kind){
 		case "string": return GLang.stringValue(fragment.string);
 		case "num": return {value:fragment.num};
 		case "name": return env.resolveName(fragment.name);
-		case "parentheses": return GLang.evaluateTree(fragment.parentheses, env);
-		case "array": return {value:[GLang.evaluateTree(fragment.array, env)]};
+		case "parentheses": return evaluateStandardSentence(fragment.parentheses, env);
+		case "array": return {value:[evaluateStandardSentence(fragment.array, env)]};
         case "codeBlock": return {value:{sentences: fragment.sentences}, display:"codeBlock", env:env};
 //		case "special": return env.resolveName(fragment.special);
 		default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));

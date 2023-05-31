@@ -3,20 +3,45 @@
 	//Loads a js file by http (or relative) url and runs it.
 	function loadPackageSync(url){
 		//Automatically determine the language code
-		var splitUrl = url.split(".");
-		var languageCode = splitUrl[splitUrl.length - 1];
+		const splitUrl = url.split(".");
+		const languageCode = splitUrl[splitUrl.length - 1];
 		
-		var langRunner = this.supportedLanguages["lang_" + languageCode];
-		if(langRunner){
-			try{
-				langRunner(url, this.loadUrl(url));
-			}catch(e){
-                console.error(e);
-				GLang.error(e);
+//		var langRunner = this.supportedLanguages["lang_" + languageCode];
+//		if(langRunner){
+//			try{
+//				langRunner(url, this.loadUrl(url));
+//			}catch(e){
+//                console.error(e);
+//				GLang.error(e);
+//			}
+//			return;
+//		}
+//		GLang.error("Unsupported language for packages: " + languageCode);
+		
+		//Decide which language we need to evaluate
+		try {
+			switch (languageCode) {
+				case "k":
+				case "txt":
+					GLang.eval(this.loadUrl(url),true); break;
+				case "js":
+					this.installJs(Function(this.loadUrl(url))); break;
+				case "json":
+					var packageInfo = JSON.parse(this.loadUrl(url));
+					if(packageInfo.requirements){
+						for(var i = 0; i < packageInfo.requirements.length; i++){
+							if(GLang.packageManager.registeredPackages.indexOf(packageInfo.requirements[i]) !== -1) continue;
+							this.loadPackageSync(packageInfo.requirements[i]);
+						}
+					}
+					this.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
+					break;
+				default: throw new Error("Unsupported language for packages: " + languageCode);
 			}
-			return;
+		} catch (e) {
+			console.error(e);
+			GLang.error(e);
 		}
-		GLang.error("Unsupported language for packages: " + languageCode);
 	}
 	
 	//Registers a package if it is not registered already.
@@ -31,6 +56,7 @@
 			var alreadyRegistered = this.registeredPackages[i];
 			if(alreadyRegistered.provides === packageData.provides){
 				GLang.error("The name " + alreadyRegistered.provides + " is already provided by " + alreadyRegistered);
+				return;
 			}
 		}
 		
@@ -116,24 +142,24 @@
 			} };
 		this.installJs = installJs;
 		
-		this.supportedLanguages = {
-			lang_js: function(url, code){
-                //console.log(url);
-				installJs(Function(code));
-			},
-			lang_txt: function(url, x){GLang.eval(x,true)},
-			lang_json: function(url, x){
-				var packageInfo = eval("(" + x + ")");
-				if(packageInfo.requirements){
-					for(var i = 0; i < packageInfo.requirements.length; i++){
-						if(GLang.packageManager.registeredPackages.indexOf(packageInfo.requirements[i]) !== -1) continue;
-						GLang.packageManager.loadPackageSync(packageInfo.requirements[i]);
-					}
-				}
-				GLang.packageManager.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
-			},
-			lang_k: function(url, x){GLang.eval(x,true)}
-		};
+//		this.supportedLanguages = {
+//			lang_js: function(url, code){
+//                //console.log(url);
+//				installJs(Function(code));
+//			},
+//			lang_txt: function(url, x){GLang.eval(x,true)},
+//			lang_json: function(url, x){
+//				var packageInfo = eval("(" + x + ")");
+//				if(packageInfo.requirements){
+//					for(var i = 0; i < packageInfo.requirements.length; i++){
+//						if(GLang.packageManager.registeredPackages.indexOf(packageInfo.requirements[i]) !== -1) continue;
+//						GLang.packageManager.loadPackageSync(packageInfo.requirements[i]);
+//					}
+//				}
+//				GLang.packageManager.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
+//			},
+//			lang_k: function(url, x){GLang.eval(x,true)}
+//		};
 		
 		this.initialize = initialize;
 	}
