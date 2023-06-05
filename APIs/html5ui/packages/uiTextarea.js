@@ -1,6 +1,6 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaVariableOnchange", {value:GLang.arrayFun(function(env, args){
 	var varRef = args[0];
-	if(varRef.display !== "reference"){throw new Error("uiPicker needs a reference as the first parameter")}
+	if(varRef.display !== "reference"){throw new Error("uiNativeTextareaVariableOnchange needs a reference as the first parameter")}
 	
 	var varEnv = varRef.environment;
 	var varName = varRef.value;
