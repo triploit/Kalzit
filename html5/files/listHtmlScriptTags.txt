@@ -1,7 +1,7 @@
+# This script is only ever used in html/files/buildForBrowser.sh, which itself is only used in html/files/build.sh
+
 $platform = appParameter: "platform".
 $rootFolder = appParameter: "kalzit-root-folder".
-$libraryFile ? (default: "generated/_max.js") = appParameter: "library-file".
-$forSkeleton ? Boolean = appParameter: "for-skeleton".
 
 $coreLanguageFile = "/core/files/_min.js".
 $relativeScriptPaths = coreLanguageFile ; `joined list` ;/
@@ -13,12 +13,10 @@ $generateScript = $path fun {
 }.
 
 $topScript = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
-!if (forSkeleton) {
-	fileCreateFolder: (!getUnixUserFolder) + "/.kalzit/generated".
-	((!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") fileWrite topScript.
-	print: "<script>" + (generateScript: (!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") + "</script>$scriptTags$"
-}. !else {
-	$bottomScript = ';GLang.packageManager.installJs(function(){' + (fileContent: rootFolder + "/" + libraryFile) + '});'.
-	((!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") fileWrite topScript + bottomScript.
-	print: "<script>" + (generateScript: (!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") + "</script>"
-}
+
+
+# Output HTML with a placeholder $scriptTags$ - will be replaced later in the build process
+
+fileCreateFolder: (!getUnixUserFolder) + "/.kalzit/generated".
+((!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") fileWrite topScript.
+print: "<script>" + (generateScript: (!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") + "</script>$scriptTags$"

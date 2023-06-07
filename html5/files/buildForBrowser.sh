@@ -1,4 +1,6 @@
 #!/bin/bash
+# This script is only ever used in html/files/build.sh
+
 input=$1
 out=$2
 options="${@:3}"
