@@ -48,11 +48,11 @@ $skeletonCode = do:{
 
 		$coreLanguageBlob = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
 		
-		$apisBlob = "GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
+		$apisBlob = (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
 		) + ";".
 		
-		$coreLanguageAndAPIsBlob = coreLanguageBlob + ";" + apisBlob.
+		$coreLanguageAndAPIsBlob = "const GLANG_DEBUG = "  + debugConstant + "; " + coreLanguageBlob + ";" + apisBlob.
 		
 		# Create a $scripts variable that either contains a readable or compressed version, depends on if we want to debug stuff
 		$scripts = !ifElse (debugConstant eq "false") {
@@ -64,7 +64,7 @@ $skeletonCode = do:{
 			tempFile fileWrite coreLanguageAndAPIsBlob.
 			
 			# Return a copressed version
-			runCommand "./cli command terser " + tempFile
+			runCommand "./cli command terser -c passes=15 " + tempFile
 		};{
 			# Readable
 			coreLanguageAndAPIsBlob

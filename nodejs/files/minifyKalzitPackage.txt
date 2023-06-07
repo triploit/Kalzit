@@ -31,7 +31,7 @@ $jsonFile = appParameter: "input-file".
 		print: "Output file " + (appParameter: "output-file") + " ended up empty.".
 	}.
 	
-	(appParameter: "output-file") fileWrite (runCommand: './cli command terser "' + (appParameter: "output-file") + '"')
+	(appParameter: "output-file") fileWrite (runCommand: './cli command terser -c passes=5 "' + (appParameter: "output-file") + '"')
 }. !else {
 	print: "The json file you specified is not a file! (--input-file):".
 	print: jsonFile.
