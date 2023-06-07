@@ -4,7 +4,7 @@ $appBase = ("(.+)\.k" ; "$1") strReplaceRegex app.
 $appFolder = fileParent: app.
 $rootFolder = appParameter: "kalzit-root-folder".
 $platform ? (default: "html5") = appParameter: "platform".
-$debugConstant ? (default: "true") = appParameter: "debug-value".
+$debugConstant ? (default: "false") = appParameter: "debug-value".
 
 `These variables allow you to add or remove used libraries using command line parameters; good for multiple versions (pro, lite, mobile, desktop, ...)`
 $commandLineExcludedLibraries = ";" strSplit appParameter: "excluded-libraries".
@@ -39,11 +39,38 @@ $skeletonCode = do:{
 				(fileParent: app) + "/.doNotTouch"
 			}.
 			
-		`Include the needed standard APIs`
-		$scripts = "GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
+		## Compile a single blob of JavaScript that includes the core language functions and needed APIs
+		# Make a list of all the core language files we need (does not include APIs, just the core language)
+		$coreLanguageFile = "/core/files/_min.js".
+		$relativeScriptPaths = coreLanguageFile ; `joined list` ;/
+			("/html5/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/html5/bootstrap/packageManagerScripts.txt");
+			("/html5/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/html5/bootstrap/platformScripts.txt").
+
+		$coreLanguageBlob = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
+		
+		$apisBlob = "GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
 		) + ";".
 		
+		$coreLanguageAndAPIsBlob = coreLanguageBlob + ";" + apisBlob.
+		
+		# Create a $scripts variable that either contains a readable or compressed version, depends on if we want to debug stuff
+		$scripts = !ifElse (debugConstant eq "false") {
+			# Compressed
+			
+			# Make a temporary file containing the blob
+			fileCreateFolder: (!getUnixUserFolder) + "/.kalzit/generated".
+			print: $tempFile = (!getUnixUserFolder) + "/.kalzit/generated/buildAppHtmlTempFile-" + (fileName: appBase) + ".js".
+			tempFile fileWrite coreLanguageAndAPIsBlob.
+			
+			# Return a copressed version
+			runCommand "./cli command terser " + tempFile
+		};{
+			# Readable
+			coreLanguageAndAPIsBlob
+		}.
+		
+		# Insert the appropriate scripts into the HTML skeleton
 		$withoutAppleIcon = ("$scripts$";scripts) strReplace fileContent: (!getUnixUserFolder) + "/.kalzit/generated/_browser_app_skeleton.html".
 		
 		$withoutCustomHtml = !ifElse (void eq appleTouchIcon) {

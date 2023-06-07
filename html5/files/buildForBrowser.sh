@@ -1,5 +1,6 @@
 #!/bin/bash
 # This script is only ever used in html/files/build.sh
+# It builds a HTML skeleton with placeholders that will be filled by nodejs/files/buildAppHtml.txt
 
 input=$1
 out=$2
@@ -11,7 +12,7 @@ echo "<html><head>" > "$out"
 cat "html5/files/head.html" >> "$out"
 
 #Script tags
-bash "html5/files/listHtmlScriptTags.sh" $options >> "$out"
+echo '<script>$scripts$</script>' >> "$out"
 
 #Styling
 cat "assets/stylesheets/html5/_min.html" >> "$out"
