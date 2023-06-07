@@ -1,12 +1,12 @@
 # This script is only ever used in html/files/buildForBrowser.sh, which itself is only used in html/files/build.sh
 
-$platform = appParameter: "platform".
 $rootFolder = appParameter: "kalzit-root-folder".
 
+# Make a list of all the core language files we need (does not include APIs, just the core language)
 $coreLanguageFile = "/core/files/_min.js".
 $relativeScriptPaths = coreLanguageFile ; `joined list` ;/
-	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/packageManagerScripts.txt");
-	("/" + platform + "/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/" + platform + "/bootstrap/platformScripts.txt").
+	("/html5/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/html5/bootstrap/packageManagerScripts.txt");
+	("/html5/files/" + first each "[^\s]+" allMatches fileContent: rootFolder + "/html5/bootstrap/platformScripts.txt").
 
 $generateScript = $path fun {
 	runCommand "./cli command terser --mangle keep_fnames " + path
@@ -15,8 +15,9 @@ $generateScript = $path fun {
 $topScript = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
 
 
-# Output HTML with a placeholder $scriptTags$ - will be replaced later in the build process
+# Output HTML with a placeholder $scripts$ - will be replaced later in the build process
+# Library functions will be inserted there (done in nodejs/files/buildAppHtml.txt)
 
 fileCreateFolder: (!getUnixUserFolder) + "/.kalzit/generated".
 ((!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") fileWrite topScript.
-print: "<script>" + (generateScript: (!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") + "</script>$scriptTags$"
+print: "<script>'use strict'; " + (generateScript: (!getUnixUserFolder) + "/.kalzit/generated/scriptTagListingTempFile.js") + "$scripts$</script>"

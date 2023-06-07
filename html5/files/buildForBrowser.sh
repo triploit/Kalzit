@@ -11,7 +11,7 @@ echo "<html><head>" > "$out"
 cat "html5/files/head.html" >> "$out"
 
 #Script tags
-bash "html5/files/listHtmlScriptTags.sh" --platform html5 $options >> "$out"
+bash "html5/files/listHtmlScriptTags.sh" $options >> "$out"
 
 #Styling
 cat "assets/stylesheets/html5/_min.html" >> "$out"

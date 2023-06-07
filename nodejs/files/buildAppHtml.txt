@@ -40,11 +40,11 @@ $skeletonCode = do:{
 			}.
 			
 		`Include the needed standard APIs`
-		$scriptTags = "<script>'use strict'; GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
+		$scripts = "GLANG_DEBUG = "  + debugConstant + "; " + (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
-		) + ";</script>".
+		) + ";".
 		
-		$withoutAppleIcon = ("$scriptTags$";scriptTags) strReplace fileContent: (!getUnixUserFolder) + "/.kalzit/generated/_browser_app_skeleton.html".
+		$withoutAppleIcon = ("$scripts$";scripts) strReplace fileContent: (!getUnixUserFolder) + "/.kalzit/generated/_browser_app_skeleton.html".
 		
 		$withoutCustomHtml = !ifElse (void eq appleTouchIcon) {
 			withoutAppleIcon
