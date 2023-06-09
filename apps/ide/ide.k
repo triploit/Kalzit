@@ -42,8 +42,8 @@ toolAtLeft: do: $getTool propOf viewManager.
 !if (not: isIframe) {
 	print: !uiGlobalToolbar.
 	
-	$standardDesktopToolbar = globalDesktopToolbar.
-	$standardMobileToolbar = globalMobileToolbar.
+	$standardDesktopToolbar = ~globalDesktopToolbarRef.
+	$standardMobileToolbar = ~globalMobileToolbarRef.
 	$standardMobileTools = getArray: registeredMobileTools.
 	$setCorrectToolbar = !fun ($viewIndex) {
 		globalDesktopToolbarRef = do: first: viewIndex switchEq
@@ -59,7 +59,7 @@ toolAtLeft: do: $getTool propOf viewManager.
 	
 	`Experiment with different toolbars for different app perspectives`
 	setCorrectToolbar: do: $getCurrentViewIndex propOf viewManager.
-	($currentViewIndexRef propOf viewManager) listenVariable {
+	($currentViewIndexRef propOf viewManager) listen {
 		setCorrectToolbar: x
 	}.
 }.
