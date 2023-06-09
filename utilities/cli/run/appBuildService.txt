@@ -1,7 +1,7 @@
 $appBuildListener = !fun ($appId) {
 	[$onContentChange; {
 		print: "File " + x + " changed - start to build app " + appId.
-		runCommandFromArray: "./cli"; "build"; "app"; appId
+		runCommandFromArray: "./cli"; "build"; "app"; appId; "--debug-value"; "true"
 	}].
 }.
 
@@ -23,7 +23,7 @@ $appBuildListener = !fun ($appId) {
 			
 			!nativeFileListenFolderAsync (appFolder + "/packages") -> {
 				print: "File " + x + " changed - start to build app " + appId.
-				runCommandFromArray: "./cli"; "build"; "app"; appId
+				runCommandFromArray: "./cli"; "build"; "app"; appId; "--debug-value"; "true"
 			}
 		}.
 	}
@@ -39,7 +39,7 @@ $watchLibraryFolder = !fun ($mainLibraryFolder ; $watchedFolder) {
 			print: "Building minified libraries (folder changed: " + watchedFolder + ")".
 			runCommandFromArray: "./cli"; "build"; "minifiedLibrary"; fileRealpath: mainLibraryFolder.
 			print: "Building all apps".
-			runCommandFromArray: "./cli"; "build"; "apps".
+			runCommandFromArray: "./cli"; "build"; "apps"; "--debug-value"; "true".
 		}
 	}.
 	
@@ -73,7 +73,7 @@ $watchStylesheetFolder = !fun ($watchedFolder) {
 			print: "Building stylesheets (folder changed: " + watchedFolder + ")".
 			runCommandFromArray: "./cli"; "build"; "core".
 			print: "Building all apps".
-			runCommandFromArray: "./cli"; "build"; "apps".
+			runCommandFromArray: "./cli"; "build"; "apps"; "--debug-value"; "true".
 		}
 	}.
 	
@@ -97,7 +97,7 @@ $watchStringAssetFolder = !fun ($watchedFolder) {
 			print: "Building string assets (folder changed: " + watchedFolder + ")".
 			runCommandFromArray: "./cli"; "build"; "globalTranslationMap".
 			print: "Building all apps".
-			runCommandFromArray: "./cli"; "build"; "apps".
+			runCommandFromArray: "./cli"; "build"; "apps"; "--debug-value"; "true".
 		}
 	}.
 	

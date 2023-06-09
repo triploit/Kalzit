@@ -15,7 +15,7 @@ do
 	processLimit=$(ulimit -u)
 	processLimit=$((processLimit / 10))
 	while [ $(jobs -r | wc -l) -ge $processLimit ] ; do sleep 1 ; done
-	./cli build app "$id" &
+	./cli build app "$id" "$@" &
 done
 
 wait
