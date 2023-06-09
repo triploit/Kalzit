@@ -1,5 +1,3 @@
-$printRef = reference: $print.
-
 $_ui_playground = !fun ($initialCode) {
     `To make stuff easy for now, just override "print" to always end up in our view`
     $playgroundView = uiContainer: void.
@@ -7,22 +5,14 @@ $_ui_playground = !fun ($initialCode) {
     
     `Here is the actual implementation of the playground; similar to the original`
     $makeCodePlayView = !fun ($initialCode ? (default: "")) {
-        $result = void. $resultRef = reference: $result.
-        $producesNewView = true. $producesNewViewRef = reference: $producesNewView.
+        $resultRef ? Var = void..
         
         @(percentWidth 100) @(autocorrect false)
         $inputField = {
-            $realPrint = print.
-            printRef = outputToEvalView.
             resultRef = evalGlobally: x.
-            printRef = realPrint.
             
-            !if (producesNewView) {
-                `Seems like we want to make a new input field available`
-                outputToFullView: !makeCodePlayView.
-                `This should only be done once per input field, though`
-                producesNewViewRef = false.
-            }
+            `Seems like we want to make a new input field available`
+            outputToFullView: !makeCodePlayView.
         } uiTextfieldOnaction initialCode.
         
         $view = uiContainer: inputField; uiShowVariable: resultRef.

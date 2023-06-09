@@ -1,21 +1,16 @@
-$_docsSelectedFunction = void.
-$_docsSelectedFunctionRef = reference: $_docsSelectedFunction.
-
 $_ui_docs = !fun () {
 	$view = uiContainer: void.
 	$printToView = uiPrint: view.
 	
-	$varListView = uiContainer: void.
-	$varListViewRef = reference: $varListView.
-    $searchResults = void.
-	$searchResultsRef = reference: $searchResults.
+	$varListViewRef ? Var = uiContainer: void.
+    $searchResultsRef ? Var = void.
 	
 	`Update the varListView if the search results change`
-	searchResultsRef listenVariable {
+	searchResultsRef listen {
 		varListViewRef = uiContainer: (($variableName) fun {
 			@(cssClass: "k-single_view_picker")
 			("https://www.github.com/triploit/Kalzit/blob/master/docs/library/" + variableName + ".md") uiLink variableName
-		}) each searchResults
+		}) each ~searchResultsRef
 	}.
 	
 	`Initiate the search results`
