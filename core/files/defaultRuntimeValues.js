@@ -275,11 +275,12 @@
 						typeName:GLang.getValueVarName(this.type)
 					})
 				}
+				var oldValue = this.mutable;
 				this.mutable = newValue;
 
 				//Call all the variable listeners
 				for(var i = 0; i < this.listeners.length; i++) {
-					GLang.callObject(this.listeners[i], env, [this.mutable]);
+					GLang.callObject(this.listeners[i], env, [this.mutable, oldValue]);
 				}
 			}}, display:"mutable"};
 			mutableValue.value.set(args[0]);
