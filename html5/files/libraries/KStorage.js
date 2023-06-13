@@ -122,7 +122,8 @@ const KStorage = {};
             return;
         } else {
             serverCookies = response.keys || {};
-            console.log(serverCookies);
+            if(GLANG_DEBUG) console.log(serverCookies);
+			
             //Save all the keys to client-side storage
             for(var key in serverCookies){
                 var value = serverCookies[key];
@@ -163,8 +164,10 @@ const KStorage = {};
             pushCount++;
         }
         if(pushCount === 0) return;
-        console.log("Trying to push this (as JSON):");
-        console.log(pushedObject);
+		if(GLANG_DEBUG) {
+			console.log("Trying to push this (as JSON):");
+        	console.log(pushedObject);
+		}
         
         try{
             //Send JSON to special API
@@ -177,9 +180,11 @@ const KStorage = {};
             xhr.onload = function () {
                 if (this.status >= 200 && this.status < 300) {
                     var jsonResponse = JSON.parse(this.responseText);
-                    console.log(jsonResponse);
-                    console.log("(Deleted values are):");
-                    console.log(deletedKeys);
+					if(GLANG_DEBUG) {
+						console.log(jsonResponse);
+		                console.log("(Deleted values are):");
+		                console.log(deletedKeys);
+					}
                     
                     //Check if an automatic logout should happen
                     if(jsonResponse.logout) {
@@ -201,7 +206,7 @@ const KStorage = {};
             };
             xhr.send();   
         }catch(error){
-            console.log(error);
+			if(GLANG_DEBUG) console.log(error);
             //If anything goes wrong, just re-add the name list to the toPush list - so we can try again later
             toPush.push(...nameList);
         }
@@ -227,7 +232,9 @@ const KStorage = {};
         if(!native_loadString("calcitSession")) return;
         var allExistingKeys = thiz.storageListKeys();
         var allNewKeys = allExistingKeys.filter(key => serverCookies[key] !== native_loadString(key));
-        console.log("Trying to push these keys: " + JSON.stringify(allNewKeys));
+        if(GLANG_DEBUG) {
+			console.log("Trying to push these keys: " + JSON.stringify(allNewKeys));
+		}
         pushCookies(allNewKeys, true);
     }
     
@@ -243,7 +250,8 @@ const KStorage = {};
     
     //TODO: change name, since browser cookie are not the underlying technology of this whole API.
     function deleteCookie(name) {
-        console.log("Trying to delete cookie " + name);
+        if(GLANG_DEBUG) console.log("Trying to delete cookie " + name);
+		
         deletedKeys.push(name);
         
         //Delete from server (asynchronously)
@@ -282,7 +290,8 @@ const KStorage = {};
                 list.push(storage.key(i));
             }
         });
-        console.log(list);
+		
+        if(GLANG_DEBUG) console.log(list);
         return list;
     };
     thiz.storageClear = function(){
@@ -293,7 +302,8 @@ const KStorage = {};
     
     //Get and validate the current session
     var token = native_loadString("calcitSession");
-    console.log("calcitSession is " + token);
+    if(GLANG_DEBUG) console.log("calcitSession is " + token);
+	
     if(token === undefined){
         //No storage support
         alert("Your browser does not support or allow storing data locally. The functionality of this app might be limited by that.");
@@ -304,7 +314,7 @@ const KStorage = {};
             dealWithInvalidSession();
             return;
         }else{
-            console.log("Session seems valid");
+            if(GLANG_DEBUG) console.log("Session seems valid");
         }
     }
     

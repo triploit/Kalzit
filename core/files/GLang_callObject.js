@@ -127,14 +127,16 @@ GLang.callObject = function(obj, env, args){
 			}
 		});
 		
-		//For console use, it is easier to explore the stack this way
-		console.log("JS call stack for console use:");
-		console.log(exception);
-		console.log("Kalzit call stack for console use:");
-		console.log([...GLang.callStack]);
-		console.log("This is probably the most important value in that stack (the last one):");
-		console.log(GLang.callStack[GLang.callStack.length - 1].obj);
-		console.log("---");
+		if(GLANG_DEBUG) {
+			//For console use, it is easier to explore the stack this way
+			console.log("JS call stack for console use:");
+			console.log(exception);
+			console.log("Kalzit call stack for console use:");
+			console.log([...GLang.callStack]);
+			console.log("This is probably the most important value in that stack (the last one):");
+			console.log(GLang.callStack[GLang.callStack.length - 1].obj);
+			console.log("---");
+		}
 		
 		//We still have to pop the current call stack entry
 		GLang.callStack.pop();

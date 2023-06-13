@@ -6,18 +6,6 @@
 		const splitUrl = url.split(".");
 		const languageCode = splitUrl[splitUrl.length - 1];
 		
-//		var langRunner = this.supportedLanguages["lang_" + languageCode];
-//		if(langRunner){
-//			try{
-//				langRunner(url, this.loadUrl(url));
-//			}catch(e){
-//                console.error(e);
-//				GLang.error(e);
-//			}
-//			return;
-//		}
-//		GLang.error("Unsupported language for packages: " + languageCode);
-		
 		//Decide which language we need to evaluate
 		try {
 			switch (languageCode) {
@@ -39,7 +27,9 @@
 				default: throw new Error("Unsupported language for packages: " + languageCode);
 			}
 		} catch (e) {
-			console.error(e);
+			if(GLANG_DEBUG) {
+				console.error(e);
+			}
 			GLang.error(e);
 		}
 	}
@@ -78,7 +68,9 @@
 	
 	//Searches for a package by name and loads it synchronously
 	function installPackage(provides){
-		if (GLANG_DEBUG) console.log("Looking for name " + provides);
+		if (GLANG_DEBUG) {
+			console.log("Looking for name " + provides);
+		}
 		
 		
 		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){
@@ -141,25 +133,6 @@
 				GLang.defaultRuntimeEnvironment.setInnerVariable(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
 			} };
 		this.installJs = installJs;
-		
-//		this.supportedLanguages = {
-//			lang_js: function(url, code){
-//                //console.log(url);
-//				installJs(Function(code));
-//			},
-//			lang_txt: function(url, x){GLang.eval(x,true)},
-//			lang_json: function(url, x){
-//				var packageInfo = eval("(" + x + ")");
-//				if(packageInfo.requirements){
-//					for(var i = 0; i < packageInfo.requirements.length; i++){
-//						if(GLang.packageManager.registeredPackages.indexOf(packageInfo.requirements[i]) !== -1) continue;
-//						GLang.packageManager.loadPackageSync(packageInfo.requirements[i]);
-//					}
-//				}
-//				GLang.packageManager.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
-//			},
-//			lang_k: function(url, x){GLang.eval(x,true)}
-//		};
 		
 		this.initialize = initialize;
 	}

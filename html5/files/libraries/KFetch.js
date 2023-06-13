@@ -46,7 +46,7 @@
 // 					removeFromArray(unimportantFetchesThatDidNotFinish, requestObject);
 					
 					if (error.name == 'AbortError') {
-						console.warn("Unimported fetch was interrupted; should be restarted soon");
+						if(GLANG_DEBUG) console.warn("Unimported fetch was interrupted; should be restarted soon");
 						//Queue this fetch for later; the "real" resolve function will not be called until later
 						queuedUnimportantFetches.push({request, options, resolve: actualResolveFunction, reject: actualRejectFunction});
 					}else{
@@ -119,7 +119,7 @@
 		activeImportantFetches++;
 		
 		//Show the loading indicator
-		console.log("Making loading indicator visible");
+		if(GLANG_DEBUG) console.log("Making loading indicator visible");
 		document.body.classList.add('k-loading_indicator_visible');
 	}
 	function finishImportantFetch(){
@@ -127,12 +127,12 @@
 		activeImportantFetches--;
 		
 		//Check for errors
-		if(activeImportantFetches < 0) console.error("Error: activeImportantFetches in KFetch is negative, indicating an implementation error: " + activeImportantFetches);
+		if(GLANG_DEBUG && activeImportantFetches < 0) console.error("Error: activeImportantFetches in KFetch is negative, indicating an implementation error: " + activeImportantFetches);
 		
 		//If there is no important fetch running anymore, start the queue of unimportant ones
 		if(activeImportantFetches == 0) {
 			//First, hide the loading indicator
-			console.log("Making loading indicator invisible");
+			if(GLANG_DEBUG) console.log("Making loading indicator invisible");
 			document.body.classList.remove('k-loading_indicator_visible');
 			
 			while(queuedUnimportantFetches.length) {

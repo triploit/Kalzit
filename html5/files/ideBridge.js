@@ -12,9 +12,19 @@
 		}catch(e){}
 	}
 
-	GLang.error = function(error){console.error(error); showMessageOnPage(error, "error")};
+	GLang.error = function(error){
+		if(GLANG_DEBUG) {
+			console.error(error);
+		}
+		showMessageOnPage(error, "error")
+	};
 	GLang.log = function(data){console.log(data)};
-	GLang.print = function(data){console.warn(data); showMessageOnPage(data, "print")};
+	GLang.print = function(data){
+		if(GLANG_DEBUG) {
+			console.warn(data);
+		}
+		showMessageOnPage(data, "print")
+	};
 	GLang.stringDisplay = function(stringProducer){
 		return function(value){
 			var paragraph = document.createElement("p");

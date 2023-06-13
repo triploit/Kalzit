@@ -23,7 +23,8 @@
 		request.open("GET", url);
 		
 		for(var property in headers) {
-			console.log(property)
+			if(GLANG_DEBUG) console.log(property);
+			
 			request.setRequestHeader(property, headers[property]);	
 		}
 		
@@ -52,7 +53,8 @@
 		request.open("POST", url);
 		
 		for(var property in headers) {
-			console.log(property)
+			if(GLANG_DEBUG) console.log(property);
+			
 			request.setRequestHeader(property, headers[property]);	
 		}
 		

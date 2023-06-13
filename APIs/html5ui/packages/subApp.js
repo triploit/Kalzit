@@ -75,7 +75,8 @@ function initiate(name){
 }
 
 window.onhashchange = function(){
-	console.log(hashes);
+	if(GLANG_DEBUG) console.log(hashes);
+	
 	var hash = location.hash.replace("#", "");
 	switch(hash) {
 		case "none":

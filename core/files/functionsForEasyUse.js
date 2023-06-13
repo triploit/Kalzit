@@ -10,7 +10,9 @@ GLang.eval = function (text, disableRuntimeUpdates){
 		return result;
 	}catch(e){
 		GLang.disableRuntimeUpdates-=allowRuntimeUpdates;
-		console.error(e);
+		if(GLANG_DEBUG) {
+			console.error(e);
+		}
 		throw e;
 	}
 };
@@ -35,22 +37,4 @@ GLang.stringify = function(anything){
 	}
 };
 
-(function(){
-//	var generalUpdateFunctions = [];
-	
-// 	GLang.notifyGeneralChange = function (){
-// 		console.log("GLang.notifyGeneralChange");
-// 		if(GLang.disableRuntimeUpdates) return;
-// 		for(var i = 0; i < generalUpdateFunctions.length; i++){
-// 			generalUpdateFunctions[i]();
-// 		}
-// 	};
-//	GLang.notifyVariableChange = GLang.defaultRuntimeEnvironment.notifyVariableChange;
-//	GLang.registerVariableListener = function(varName, fun){
-//		console.warn("GLang.registerVariableListener should not be used anymore - use GLang.defaultRuntimeEnvironment.registerVariableListener instead");
-//		GLang.defaultRuntimeEnvironment.registerVariableListener(varName, fun);
-//	};
-	//GLang.registerGeneralListener = function (listener){generalUpdateFunctions.push(listener)};
-	
-	GLang.disableRuntimeUpdates = 0;
-})();
+GLang.disableRuntimeUpdates = 0;

@@ -22,8 +22,10 @@ GLang.scopePrototype = {
 		try{
 			result.varName = n;
 		} catch (error) {
-			console.warn("There was a non-critical problem with adding a variable name to a resolved value: (" + n + ")")
-			console.warn(error);	
+			if(GLANG_DEBUG) {
+				console.warn("There was a non-critical problem with adding a variable name to a resolved value: (" + n + ")")
+				console.warn(error);
+			}
 		}
 		
 		return result;

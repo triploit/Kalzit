@@ -69,7 +69,8 @@ function loadAsync(callbackValue, path, env, unimportant, fetchOptions){
 				.catch(error => {
 					//This can (primarily) happen if the fetch was aborted.
 					//We can then try to restart it
-					console.error("There was an error when trying to get the text from a fetchResponse (in load.js). Restarting the fetch.");
+					if(GLANG_DEBUG) console.error("There was an error when trying to get the text from a fetchResponse (in load.js). Restarting the fetch.");
+					
 					loadAsync(callbackValue, path, env, unimportant, fetchOptions);
 				});
 		}else{
@@ -78,7 +79,8 @@ function loadAsync(callbackValue, path, env, unimportant, fetchOptions){
 		}
 	})
 	.catch(error => {
-		console.error("Hi. We have an error in the load.js loadAsync API. This is probably not good." + error);
+		if(GLANG_DEBUG) console.error("Hi. We have an error in the load.js loadAsync API. This is probably not good." + error);
+		
 		callback(GLang.voidValue);
 	})
 }
