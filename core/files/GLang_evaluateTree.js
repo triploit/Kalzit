@@ -59,12 +59,12 @@ function evaluateStandardSentence(sentence, env) {
 
 GLang.evaluateSentenceFragment = function evaluateSentenceFragment(fragment, env){
 	switch(fragment.kind){
-		case "string": return GLang.stringValue(fragment.string);
-		case "num": return {value:fragment.num};
-		case "name": return env.resolveName(fragment.name);
-		case "parentheses": return evaluateStandardSentence(fragment.parentheses, env);
-		case "array": return {value:[evaluateStandardSentence(fragment.array, env)]};
-        case "codeBlock": return {value:{sentences: fragment.sentences}, display:"codeBlock", env:env};
+		case KIND_STRING: return GLang.stringValue(fragment.string);
+		case KIND_NUMBER: return {value:fragment.num};
+		case KIND_NAME: return env.resolveName(fragment.name);
+		case KIND_PARENTHESES: return evaluateStandardSentence(fragment.parentheses, env);
+		case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.array, env)]};
+        case KIND_CODEBLOCK: return {value:{sentences: fragment.sentences}, display:"codeBlock", env:env};
 //		case "special": return env.resolveName(fragment.special);
 		default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
 	}

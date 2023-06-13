@@ -1,5 +1,15 @@
-;(function(){
+//These global constants represent all the kinds of tree items the evaluator can understand
+//During tree generation, there are more kinds of items; they are represented by strings
+//This makes it very easy to figure out which tree items are intended to be in the finished tree
+const KIND_PARENTHESES = 0;
+const KIND_CODEBLOCK = 1;
+const KIND_STRING = 2;
+const KIND_ARRAY = 3;
+const KIND_NAME = 4;
+const KIND_NUMBER = 5;
 
+;(function(){
+	
 	const WAITING = {
 		next:function(token){
 			switch(token.category){
@@ -38,8 +48,8 @@
 	const TILDE = {
 		next:function(token) {
 			if(!token.category === "Word") throw new Error("The tilde (~; followed by the name of a mutable variable to be resolved) has to be immediately followed by a name; no spaces allowed");
-			var getCallTreeItem = {kind:"parentheses", parentheses: [
-				{kind:"name", name:"get"}, {kind:"name", name:":"}, {kind:"name", name:token.textValue}
+			var getCallTreeItem = {kind:KIND_PARENTHESES, parentheses: [
+				{kind:KIND_NAME, name:"get"}, {kind:KIND_NAME, name:":"}, {kind:KIND_NAME, name:token.textValue}
 			]};
 			return group([getCallTreeItem, WAITING])
 		}
@@ -54,7 +64,7 @@
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		kind:"name",
+		kind:KIND_NAME,
 		name:"/"
 	};
 	
@@ -115,7 +125,7 @@
 			}
 		},
 		name:"-",
-		kind:"name"
+		kind:KIND_NAME
 	};
 	
 	const EQUALS_SIGN = {
@@ -128,7 +138,7 @@
 			}
 		},
 		name: "=",
-		kind: "name"
+		kind: KIND_NAME
 	};
 	
 	const ARROW = {
@@ -166,11 +176,11 @@
 					if(this.annotationTree.group) {
 						this.annotationTree.group.pop();
 						return group(this.annotationTree.group.concat([
-							{"name":annotationApplyName, "kind": "name"}, WAITING
+							{name:annotationApplyName, "kind": KIND_NAME}, WAITING
 						]))
 					} else {
 						return group([
-							this.annotationTree, {"name":annotationApplyName, "kind": "name"}, WAITING
+							this.annotationTree, {name:annotationApplyName, "kind": KIND_NAME}, WAITING
 						])
 					}
 				} else {
@@ -206,7 +216,7 @@
 	
     var finishedCodeBlock = function(sentences) {
         return {
-            kind:"codeBlock",
+            kind:KIND_CODEBLOCK,
             sentences:sentences,
             next:function(token) {
                 if (token.textValue === "?") {
@@ -220,7 +230,7 @@
         }
     }
 	function finishedArrayBlock(sentences){
-		return group([{kind:"array", array:sentences}, WAITING]);
+		return group([{kind:KIND_ARRAY, array:sentences}, WAITING]);
 	}
 	function finishedParentheses(sentences){
 		if(sentences.length == 1){
@@ -228,7 +238,7 @@
 		}
 		return group([
 			{
-				kind:"parentheses",
+				kind:KIND_PARENTHESES,
 				parentheses:sentences
 			},
 			WAITING
@@ -264,7 +274,7 @@
 				return group([this, WAITING]).next(token);
 			},
 			name:wordToken.textValue,
-			kind:"name"
+			kind:KIND_NAME
 		}
 	}
 	
@@ -293,7 +303,7 @@
 				return group([this, WAITING]).next(token);
 			},
 			num:intNumber,
-			kind:"num"
+			kind:KIND_NUMBER
 		}
 	}
 	
@@ -314,7 +324,7 @@
 				return group([this, WAITING]).next(token);
 			},
 			num:parseFloat(wholeNumber + "." + decimalToken.textValue),
-			kind:"num"
+			kind:KIND_NUMBER
 		}
 	}
 	
@@ -322,7 +332,7 @@
 	function string(jsString){
 		return {
 			string: jsString,
-			kind:"string",
+			kind:KIND_STRING,
 			next: function(token){
 				if (token.textValue === "?") {
 					return elementWithQuestionMark(this);
@@ -345,7 +355,7 @@
 				this.typeTree = this.typeTree.next(token);
 				if(isFinishedTree(this.typeTree) && this.typeTree !== WAITING) {
 					return group([
-						{kind:"parentheses", parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {name:"calcitSetType", kind:"name"}, originalTreeElement]},
+						{kind:KIND_PARENTHESES, parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {name:"calcitSetType", kind:KIND_NAME}, originalTreeElement]},
 						WAITING
 					])
 				} else {
@@ -406,11 +416,11 @@
 			//Add missing colons to each of the sentences
 			if(sentence.length !== 0 && 0 === sentence.length % 2){
 				//Even number of elements, but not zero elements - add a colon
-				sentence = sentence.splice(0,1).concat([{kind:"name", name:":"}]).concat(sentence);
+				sentence = sentence.splice(0,1).concat([{kind:KIND_NAME, name:":"}]).concat(sentence);
 			}
 			
 			newTree = newTree.concat(sentence);
-			if(i < sentences.length - 1) newTree.push({kind:"dot", dot:1});
+			if(i < sentences.length - 1) newTree.push({dot:1});
 		}
 		return newTree;
 	}
@@ -432,8 +442,8 @@
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						state = state.slice(0, i).concat(
 							[
-								{kind:"name", name:"do"},
-								{kind:"name", name:":"}
+								{kind:KIND_NAME, name:"do"},
+								{kind:KIND_NAME, name:":"}
 							],
 							op
 						);
@@ -443,7 +453,7 @@
 					case state.length - 3:
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						var arg = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
-						state = state.slice(0, i).concat(op, {kind:"name", name:":"}, arg);
+						state = state.slice(0, i).concat(op, {kind:KIND_NAME, name:":"}, arg);
 						
 						break loop;
 				}
@@ -468,8 +478,8 @@
 					if (relativeArrowIndex == 0 || relativeArrowIndex == slicedStateAfterOperator.length - 1) {
 						throw new Error("You almost got the arrow syntax right! Just put something before and after the arrow.");	
 					}
-					var b = finishSentenceAndCheckForExclamationMarks({kind:"parentheses", parentheses:slicedStateAfterOperator.splice(0, relativeArrowIndex)});
-					var a = finishSentenceAndCheckForExclamationMarks({kind:"parentheses", parentheses:slicedStateAfterOperator.slice(1)});
+					var b = finishSentenceAndCheckForExclamationMarks({kind:KIND_PARENTHESES, parentheses:slicedStateAfterOperator.splice(0, relativeArrowIndex)});
+					var a = finishSentenceAndCheckForExclamationMarks({kind:KIND_PARENTHESES, parentheses:slicedStateAfterOperator.slice(1)});
 					state = state.slice(0, i).concat(a, op, b);
 				} else {
 					//We have no arrow; this is form 1 from above
