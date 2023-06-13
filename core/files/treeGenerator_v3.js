@@ -7,8 +7,21 @@ const KIND_STRING = 2;
 const KIND_ARRAY = 3;
 const KIND_NAME = 4;
 const KIND_NUMBER = 5;
+const KIND_COLON = 6;
+const KIND_EQUALS = 7;
+const KIND_SEMICOLON = 8;
 
 ;(function(){
+
+	//Represents super common names - like ":" - which have their own kind constants for extra fast access
+	function superCommonName(kind) {
+		return {
+			kind:kind,
+			next:function(token){
+				return group([this, WAITING]).next(token);
+			}
+		}
+	}
 	
 	const WAITING = {
 		next:function(token){
@@ -49,7 +62,7 @@ const KIND_NUMBER = 5;
 		next:function(token) {
 			if(!token.category === "Word") throw new Error("The tilde (~; followed by the name of a mutable variable to be resolved) has to be immediately followed by a name; no spaces allowed");
 			var getCallTreeItem = {kind:KIND_PARENTHESES, parentheses: [
-				{kind:KIND_NAME, name:"get"}, {kind:KIND_NAME, name:":"}, {kind:KIND_NAME, name:token.textValue}
+				{kind:KIND_NAME, name:"get"}, {kind:KIND_COLON}, {kind:KIND_NAME, name:token.textValue}
 			]};
 			return group([getCallTreeItem, WAITING])
 		}
@@ -137,8 +150,7 @@ const KIND_NUMBER = 5;
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		name: "=",
-		kind: KIND_NAME
+		kind: KIND_EQUALS
 	};
 	
 	const ARROW = {
@@ -268,7 +280,16 @@ const KIND_NUMBER = 5;
 		kind:"commentBlock"
 	}
 	
+	const NAME_COLON = superCommonName(KIND_COLON);
+	const NAME_SEMICOLON = superCommonName(KIND_SEMICOLON);
+	
 	function name(wordToken){
+		//If we have one of the super common names, return a special tree item
+		switch(wordToken.textValue) {
+			case ":": return NAME_COLON;
+			case ";": return NAME_SEMICOLON;
+		}
+		
 		return {
 			next:function(token){
 				return group([this, WAITING]).next(token);
@@ -416,7 +437,7 @@ const KIND_NUMBER = 5;
 			//Add missing colons to each of the sentences
 			if(sentence.length !== 0 && 0 === sentence.length % 2){
 				//Even number of elements, but not zero elements - add a colon
-				sentence = sentence.splice(0,1).concat([{kind:KIND_NAME, name:":"}]).concat(sentence);
+				sentence = sentence.splice(0,1).concat([{kind:KIND_COLON}]).concat(sentence);
 			}
 			
 			newTree = newTree.concat(sentence);
@@ -443,7 +464,7 @@ const KIND_NUMBER = 5;
 						state = state.slice(0, i).concat(
 							[
 								{kind:KIND_NAME, name:"do"},
-								{kind:KIND_NAME, name:":"}
+								{kind:KIND_COLON}
 							],
 							op
 						);
@@ -453,7 +474,7 @@ const KIND_NUMBER = 5;
 					case state.length - 3:
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						var arg = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
-						state = state.slice(0, i).concat(op, {kind:KIND_NAME, name:":"}, arg);
+						state = state.slice(0, i).concat(op, {kind:KIND_COLON}, arg);
 						
 						break loop;
 				}

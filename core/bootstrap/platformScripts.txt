@@ -7,8 +7,8 @@ GLang_callObject.js
 GLang_addAnnotation.js
 GLang_getType.js
 GLang_functionFromString.js
-GLang_evaluateTree.js
 defaultRuntimeValues.js
+GLang_evaluateTree.js
 GLang_wrapJsToValue.js
 GLang_wrapValueToJsObject.js
 GLang_PackageManager.js
