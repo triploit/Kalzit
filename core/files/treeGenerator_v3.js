@@ -10,6 +10,10 @@ const KIND_NUMBER = 5;
 const KIND_COLON = 6;
 const KIND_EQUALS = 7;
 const KIND_SEMICOLON = 8;
+const KIND_SET_TYPE = 9;
+const KIND_SET_ANNOTATION = 10;
+const KIND_DO = 11;
+const KIND_GET = 12;
 
 ;(function(){
 
@@ -44,7 +48,7 @@ const KIND_SEMICOLON = 8;
 				case "'":
 				case '"': return quoteBlock(token.textValue);
 				case "$": return DOLLAR_STRING;
-				case "@": return annotationStart("calcitSetAnnotation");
+				case "@": return annotationStart();
 				case "\\": return NEGATIVE_SIGN;
 				case '`':
 				case '´': return COMMENT_BLOCK;
@@ -62,7 +66,7 @@ const KIND_SEMICOLON = 8;
 		next:function(token) {
 			if(!token.category === "Word") throw new Error("The tilde (~; followed by the name of a mutable variable to be resolved) has to be immediately followed by a name; no spaces allowed");
 			var getCallTreeItem = {kind:KIND_PARENTHESES, parentheses: [
-				{kind:KIND_NAME, name:"get"}, {kind:KIND_COLON}, {kind:KIND_NAME, name:token.textValue}
+				{kind:KIND_GET}, {kind:KIND_COLON}, {kind:KIND_NAME, name:token.textValue}
 			]};
 			return group([getCallTreeItem, WAITING])
 		}
@@ -167,7 +171,7 @@ const KIND_SEMICOLON = 8;
 		}
 	}
 	
-	function annotationStart(annotationApplyName) {
+	function annotationStart() {
 		return {
 			kind: "annotationStart",
 			annotationTree: WAITING,
@@ -188,11 +192,11 @@ const KIND_SEMICOLON = 8;
 					if(this.annotationTree.group) {
 						this.annotationTree.group.pop();
 						return group(this.annotationTree.group.concat([
-							{name:annotationApplyName, "kind": KIND_NAME}, WAITING
+							{kind: KIND_SET_ANNOTATION}, WAITING
 						]))
 					} else {
 						return group([
-							this.annotationTree, {name:annotationApplyName, "kind": KIND_NAME}, WAITING
+							this.annotationTree, {kind: KIND_SET_ANNOTATION}, WAITING
 						])
 					}
 				} else {
@@ -376,7 +380,7 @@ const KIND_SEMICOLON = 8;
 				this.typeTree = this.typeTree.next(token);
 				if(isFinishedTree(this.typeTree) && this.typeTree !== WAITING) {
 					return group([
-						{kind:KIND_PARENTHESES, parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {name:"calcitSetType", kind:KIND_NAME}, originalTreeElement]},
+						{kind:KIND_PARENTHESES, parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {kind:KIND_SET_TYPE}, originalTreeElement]},
 						WAITING
 					])
 				} else {
@@ -463,7 +467,7 @@ const KIND_SEMICOLON = 8;
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						state = state.slice(0, i).concat(
 							[
-								{kind:KIND_NAME, name:"do"},
+								{kind:KIND_DO},
 								{kind:KIND_COLON}
 							],
 							op

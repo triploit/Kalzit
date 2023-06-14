@@ -44,8 +44,8 @@ function installCalcit(vm, context, fs, bootstrap){
 }
 
 var context = {require:require, console:console, process:process};
-installCalcit(vm, context, fs, ["core", "nodejs"]);
 context.GLANG_DEBUG = debug; //Parsed from arguments at the top
+installCalcit(vm, context, fs, ["core", "nodejs"]);
 
 //We can now access the GLang object to evaluate the app code!
 context.GLang.eval(fs.readFileSync(app, "utf8"));

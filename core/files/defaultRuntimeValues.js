@@ -310,5 +310,47 @@
 	for(var i = 0; i < globalVariables.length; i++){
 		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i];
 	}
+
+	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitUnifyName", {value:function(env, args){
+		return GLang.stringValue(GLang.defaultRuntimeEnvironment.unifyStringName(args[0].value + ""));
+	}, display:"function"});
+	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAnnotations", {value:function(env, args){
+		return {value:args[0].annotations || []};
+	}, display:"function"});
+	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAddAnnotation", {value:function(env, args){
+		GLang.addAnnotation(args[1], args[0]);
+		return args[1];
+	}, display:"function"});
+	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitSetAnnotation", {value:function(env, args){
+		GLang.setAnnotation(args[1], args[0]);
+		return args[1];
+	}, display:"function"});
+	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAddComment", {value:function(env, args){
+		GLang.addAnnotation(args[1], {value:[
+			GLang.stringValue("comment"),
+			args[0]
+		]});
+		return args[1];
+	}, display:"function"});
+	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitSetType", {value:function(env, args){
+		GLang.addAnnotation(args[1], {value:[
+			GLang.stringValue("type"),
+			args[0]
+		]});
+		return args[1];
+	}, display:"function"});
+	GLang.defaultRuntimeEnvironment.setInnerVariable("codeBlockFromString", {value:function(env, args){
+		return {value:{sentences:GLang.generateTree(args[0].value)}, display:"codeBlock"};
+	}, display:"function"});
+	GLang.defaultRuntimeEnvironment.setInnerVariable("do", {value:function(env, args){
+		var params = [];
+		if(args.length >= 2){
+			params = args[1].value;
+			if(!(params instanceof Array)){
+				params = [args[1]];
+			}
+		}
+		return GLang.callObject(args[0], env, params);
+	}})
 	
 })(this);

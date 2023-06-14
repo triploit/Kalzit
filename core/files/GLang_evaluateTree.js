@@ -46,6 +46,10 @@
 	const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"].varValue;
 	const EQUALS_VALUE = GLang.defaultRuntimeEnvironment["kv_="].varValue;
 	const SEMICOLON_VALUE = GLang.defaultRuntimeEnvironment["kv_;"].varValue;
+	const SET_TYPE_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_type"].varValue;
+	const SET_ANNOTATION_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_annotation"].varValue;
+	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"].varValue;
+	const GET_VALUE = GLang.defaultRuntimeEnvironment["kv_get"].varValue;
 
 	function evaluateSentenceFragment(fragment, env){
 		switch(fragment.kind){
@@ -53,6 +57,8 @@
 			case KIND_COLON: return COLON_VALUE;
 			case KIND_EQUALS: return EQUALS_VALUE;
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
+			case KIND_SET_TYPE: return SET_TYPE_VALUE;
+			case KIND_SET_ANNOTATION: return SET_ANNOTATION_VALUE;
 			//Do the slightly less common things later
 			case KIND_STRING: return GLang.stringValue(fragment.string);
 			case KIND_NUMBER: return {value:fragment.num};
@@ -60,6 +66,8 @@
 			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.parentheses, env);
 			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.array, env)]};
 		    case KIND_CODEBLOCK: return {value:{sentences: fragment.sentences}, display:"codeBlock", env:env};
+			case KIND_DO: return DO_VALUE;
+			case KIND_GET: return GET_VALUE;
 	//		case "special": return env.resolveName(fragment.special);
 			default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
 		}
