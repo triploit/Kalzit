@@ -52,7 +52,7 @@
 	const GET_VALUE = GLang.defaultRuntimeEnvironment["kv_get"].varValue;
 
 	function evaluateSentenceFragment(fragment, env){
-		switch(fragment.kind){
+		switch(fragment.k){
 			//Do the super common things first
 			case KIND_COLON: return COLON_VALUE;
 			case KIND_EQUALS: return EQUALS_VALUE;
@@ -60,10 +60,10 @@
 			case KIND_SET_TYPE: return SET_TYPE_VALUE;
 			case KIND_SET_ANNOTATION: return SET_ANNOTATION_VALUE;
 			//Do the slightly less common things later
-			case KIND_STRING: return GLang.stringValue(fragment.string);
+			case KIND_STRING: return GLang.stringValue(fragment.s);
 			case KIND_NUMBER: return {value:fragment.num};
-			case KIND_NAME: return env.resolveName(fragment.name);
-			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.parentheses, env);
+			case KIND_NAME: return env.resolveName(fragment.n);
+			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.p, env);
 			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.array, env)]};
 		    case KIND_CODEBLOCK: return {value:{sentences: fragment.sentences}, display:"codeBlock", env:env};
 			case KIND_DO: return DO_VALUE;

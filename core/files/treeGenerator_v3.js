@@ -20,7 +20,7 @@ const KIND_GET = 12;
 	//Represents super common names - like ":" - which have their own kind constants for extra fast access
 	function superCommonName(kind) {
 		return {
-			kind:kind,
+			k:kind,
 			next:function(token){
 				return group([this, WAITING]).next(token);
 			}
@@ -59,14 +59,14 @@ const KIND_GET = 12;
 			return name(token);
 		},
 		waiting:true,
-		kind:"waiting"
+		k:"waiting"
 	};
 
 	const TILDE = {
 		next:function(token) {
 			if(!token.category === "Word") throw new Error("The tilde (~; followed by the name of a mutable variable to be resolved) has to be immediately followed by a name; no spaces allowed");
-			var getCallTreeItem = {kind:KIND_PARENTHESES, parentheses: [
-				{kind:KIND_GET}, {kind:KIND_COLON}, {kind:KIND_NAME, name:token.textValue}
+			var getCallTreeItem = {k:KIND_PARENTHESES, p: [
+				{k:KIND_GET}, {k:KIND_COLON}, {k:KIND_NAME, n:token.textValue}
 			]};
 			return group([getCallTreeItem, WAITING])
 		}
@@ -81,8 +81,8 @@ const KIND_GET = 12;
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		kind:KIND_NAME,
-		name:"/"
+		k:KIND_NAME,
+		n:"/"
 	};
 	
 	const BLOCK_COMMENT = {
@@ -98,7 +98,7 @@ const KIND_GET = 12;
 		getReasonForWaiting: function() {
 			return "Block comments need to end with '*/"
 		},
-		kind:"blockComment"
+		k:"blockComment"
 	};
 	
 	const HASH = {
@@ -129,7 +129,7 @@ const KIND_GET = 12;
 		getReasonForWaiting: function() {
 			return "Block comments need to end with '*/"
 		},
-		kind:"blockComment"
+		k:"blockComment"
 	};
 	
 	const MINUS_SIGN = {
@@ -141,8 +141,8 @@ const KIND_GET = 12;
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		name:"-",
-		kind:KIND_NAME
+		n:"-",
+		k:KIND_NAME
 	};
 	
 	const EQUALS_SIGN = {
@@ -154,11 +154,11 @@ const KIND_GET = 12;
 				return group([this, WAITING.next(token)]);	
 			}
 		},
-		kind: KIND_EQUALS
+		k: KIND_EQUALS
 	};
 	
 	const ARROW = {
-		kind: "arrow",
+		k: "arrow",
 		waiting: true
 	};
 	
@@ -173,7 +173,7 @@ const KIND_GET = 12;
 	
 	function annotationStart() {
 		return {
-			kind: "annotationStart",
+			k: "annotationStart",
 			annotationTree: WAITING,
 			waiting: true,
 			getReasonForWaiting: function() {
@@ -192,11 +192,11 @@ const KIND_GET = 12;
 					if(this.annotationTree.group) {
 						this.annotationTree.group.pop();
 						return group(this.annotationTree.group.concat([
-							{kind: KIND_SET_ANNOTATION}, WAITING
+							{k: KIND_SET_ANNOTATION}, WAITING
 						]))
 					} else {
 						return group([
-							this.annotationTree, {kind: KIND_SET_ANNOTATION}, WAITING
+							this.annotationTree, {k: KIND_SET_ANNOTATION}, WAITING
 						])
 					}
 				} else {
@@ -209,7 +209,7 @@ const KIND_GET = 12;
 	function blockOfCode(tree, closer, reasonForWaitingText, makeTreeItemFromSentences) {
 		return {
             waiting: true,
-            kind:"blockOfCode",
+            k:"blockOfCode",
             next:function(token){
                 try {
 					if(isFinishedTree(tree)) {
@@ -232,7 +232,7 @@ const KIND_GET = 12;
 	
     var finishedCodeBlock = function(sentences) {
         return {
-            kind:KIND_CODEBLOCK,
+            k:KIND_CODEBLOCK,
             sentences:sentences,
             next:function(token) {
                 if (token.textValue === "?") {
@@ -246,7 +246,7 @@ const KIND_GET = 12;
         }
     }
 	function finishedArrayBlock(sentences){
-		return group([{kind:KIND_ARRAY, array:sentences}, WAITING]);
+		return group([{k:KIND_ARRAY, array:sentences}, WAITING]);
 	}
 	function finishedParentheses(sentences){
 		if(sentences.length == 1){
@@ -254,8 +254,8 @@ const KIND_GET = 12;
 		}
 		return group([
 			{
-				kind:KIND_PARENTHESES,
-				parentheses:sentences
+				k:KIND_PARENTHESES,
+				p:sentences
 			},
 			WAITING
 		])
@@ -271,7 +271,7 @@ const KIND_GET = 12;
 			},
 			text:"",
 			waiting: true,
-			kind:"quoteBlock"
+			k:"quoteBlock"
 		}
 	}
 	
@@ -281,7 +281,7 @@ const KIND_GET = 12;
 			return this;
 		},
 		waiting: true,
-		kind:"commentBlock"
+		k:"commentBlock"
 	}
 	
 	const NAME_COLON = superCommonName(KIND_COLON);
@@ -298,8 +298,8 @@ const KIND_GET = 12;
 			next:function(token){
 				return group([this, WAITING]).next(token);
 			},
-			name:wordToken.textValue,
-			kind:KIND_NAME
+			n:wordToken.textValue,
+			k:KIND_NAME
 		}
 	}
 	
@@ -309,7 +309,7 @@ const KIND_GET = 12;
 			throw new Error("The dollar sign ($) has to be followed by a 'Word' token - but is followed by: " + token.textValue);
 		},
 		waiting: true,
-		kind:"dollarString"
+		k:"dollarString"
 	};
 	
 	const NEGATIVE_SIGN = {
@@ -317,7 +317,7 @@ const KIND_GET = 12;
 			if(token.category === "Digit") return group([integer(-parseInt(token.textValue)), WAITING])
 			throw new Error("The minus sign (\\) has to be followed by a 'Digit' token - but is followed by: " + token.textValue);
 		},
-		kind:"negativeSign",
+		k:"negativeSign",
 		waiting: true
 	}
 	
@@ -328,7 +328,7 @@ const KIND_GET = 12;
 				return group([this, WAITING]).next(token);
 			},
 			num:intNumber,
-			kind:KIND_NUMBER
+			k:KIND_NUMBER
 		}
 	}
 	
@@ -338,7 +338,7 @@ const KIND_GET = 12;
 				if(token.category === "Digit") return group([float(intNumber, token), WAITING]);
 				return error(token);
 			},
-			kind:"commaNumber",
+			k:"commaNumber",
 			waiting: true
 		}
 	}
@@ -349,15 +349,15 @@ const KIND_GET = 12;
 				return group([this, WAITING]).next(token);
 			},
 			num:parseFloat(wholeNumber + "." + decimalToken.textValue),
-			kind:KIND_NUMBER
+			k:KIND_NUMBER
 		}
 	}
 	
 	//Defines any kind of string. Strings can be followed by a question mark.
 	function string(jsString){
 		return {
-			string: jsString,
-			kind:KIND_STRING,
+			s: jsString,
+			k:KIND_STRING,
 			next: function(token){
 				if (token.textValue === "?") {
 					return elementWithQuestionMark(this);
@@ -372,7 +372,7 @@ const KIND_GET = 12;
 	
 	function elementWithQuestionMark(originalTreeElement) {
 		return {
-			kind: "elementWithQuestionMark",
+			k: "elementWithQuestionMark",
 			waiting: true,
 			//stringValue: stringValue,
 			typeTree: WAITING,
@@ -380,7 +380,7 @@ const KIND_GET = 12;
 				this.typeTree = this.typeTree.next(token);
 				if(isFinishedTree(this.typeTree) && this.typeTree !== WAITING) {
 					return group([
-						{kind:KIND_PARENTHESES, parentheses:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {kind:KIND_SET_TYPE}, originalTreeElement]},
+						{k:KIND_PARENTHESES, p:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {k:KIND_SET_TYPE}, originalTreeElement]},
 						WAITING
 					])
 				} else {
@@ -417,7 +417,7 @@ const KIND_GET = 12;
                 }
 			},
 			group: stateList,
-			kind:"group",
+			k:"group",
 			waiting: waiting
 		}
 	}
@@ -426,7 +426,7 @@ const KIND_GET = 12;
 		var sentences = [];
 		var sentence = [];
 		for(var i = 0; i < tree.length; i++){
-			if(tree[i].name == "."){
+			if(tree[i].n == "."){
 				sentences.push(finishSentenceAndCheckForExclamationMarks(sentence));
 				sentence = [];
 			}else sentence.push(tree[i]);
@@ -441,7 +441,7 @@ const KIND_GET = 12;
 			//Add missing colons to each of the sentences
 			if(sentence.length !== 0 && 0 === sentence.length % 2){
 				//Even number of elements, but not zero elements - add a colon
-				sentence = sentence.splice(0,1).concat([{kind:KIND_COLON}]).concat(sentence);
+				sentence = sentence.splice(0,1).concat([{k:KIND_COLON}]).concat(sentence);
 			}
 			
 			newTree = newTree.concat(sentence);
@@ -461,14 +461,14 @@ const KIND_GET = 12;
 		loop:
 		for(var i = 0; i < state.length; i++){
 			//Check for exclamation marks
-			if(state[i].name === "!"){
+			if(state[i].n === "!"){
 				switch(i){
 					case state.length - 2:
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						state = state.slice(0, i).concat(
 							[
-								{kind:KIND_DO},
-								{kind:KIND_COLON}
+								{k:KIND_DO},
+								{k:KIND_COLON}
 							],
 							op
 						);
@@ -478,7 +478,7 @@ const KIND_GET = 12;
 					case state.length - 3:
 						var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 						var arg = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
-						state = state.slice(0, i).concat(op, {kind:KIND_COLON}, arg);
+						state = state.slice(0, i).concat(op, {k:KIND_COLON}, arg);
 						
 						break loop;
 				}
@@ -503,8 +503,8 @@ const KIND_GET = 12;
 					if (relativeArrowIndex == 0 || relativeArrowIndex == slicedStateAfterOperator.length - 1) {
 						throw new Error("You almost got the arrow syntax right! Just put something before and after the arrow.");	
 					}
-					var b = finishSentenceAndCheckForExclamationMarks({kind:KIND_PARENTHESES, parentheses:slicedStateAfterOperator.splice(0, relativeArrowIndex)});
-					var a = finishSentenceAndCheckForExclamationMarks({kind:KIND_PARENTHESES, parentheses:slicedStateAfterOperator.slice(1)});
+					var b = finishSentenceAndCheckForExclamationMarks({k:KIND_PARENTHESES, p:slicedStateAfterOperator.splice(0, relativeArrowIndex)});
+					var a = finishSentenceAndCheckForExclamationMarks({k:KIND_PARENTHESES, p:slicedStateAfterOperator.slice(1)});
 					state = state.slice(0, i).concat(a, op, b);
 				} else {
 					//We have no arrow; this is form 1 from above
