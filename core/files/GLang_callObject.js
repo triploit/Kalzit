@@ -65,15 +65,23 @@ GLang.getSimplifiedCallStack = function() {
 	return GLang.callStack.map(callEntry => GLang.getValueVarName(callEntry.obj))
 };
 
+const GLANG_CALL_STACK_NEEDED = GLANG_DEBUG;
+
 GLang.callObject = function(obj, env, args){
 	//If we have a non-function, quit this as quickly as possible
 	if(!(obj.display === "codeBlock" || "function" === typeof obj.value)) {
 		return obj;
 	}
 	
+	//37752 calls when loading the IDE app
+	//console.log("GLang.callObject with real function");
+	
 	//We have a function to call
 	//Before doing anything else, add the thing we want to call to the call stack
-	GLang.callStack.push({obj: obj, args: args});
+	if(GLANG_CALL_STACK_NEEDED) {
+		GLang.callStack.push({obj: obj, args: args});
+	}
+	
 	//Check if the value we want to call is deprecated - if yes, warn about that
 	if(GLANG_DEBUG && GLang.getFirstAnnotation(obj, GLang.stringValue("deprecated")) != undefined) {
 		console.warn("You called a deprecated value: " + (obj.varName || "unnamed value") + ". This is OK, just for you to consider.");
@@ -97,37 +105,51 @@ GLang.callObject = function(obj, env, args){
 					break;
 				default:
 					//Must be a code block (all other options are eliminated at the top of the function)
-                    result = GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
+					//TODO: since we are calling GLang.callObject recursively here, maybe make this into a for loop
+					//For now: since we know that the result of GLang.callObject has to have reached the phase where
+					// we attach a name to the return value, we do not have to do that following this call.
+					// so we can immediately return here IF we do not need to care about a call stack
+					if(GLANG_CALL_STACK_NEEDED) {
+						result = GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
+					} else {
+                    	return GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
+					}
 			}
 			
-			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later
-			if (result == null) {
-				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
-			}
+//			//This is completely unneeded here, since the check has to have happened during the switch statement if we are here
+//			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later
+//			if (result == null) {
+//				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
+//			}
 			
-			//Before returning the result, remove the currently active function from the call stack
-			GLang.callStack.pop();
-			
-			//We attach a variable name to the value for debugging
-			//If we are calling the ":" opearator and a name is already present, skip this step
-			if(! (result.varName && ":" === GLang.getValueVarName(obj))) {
-				//Apparently we should set the varName property
-				result.varName = "return-value of " + GLang.getValueVarName(obj);
+			if(GLANG_CALL_STACK_NEEDED) {
+				//Before returning the result, remove the currently active function from the call stack
+				GLang.callStack.pop();
+				
+				//We attach a variable name to the value for debugging
+				//If we are calling the ":" opearator and a name is already present, skip this step
+				if(! (result.varName && ":" === GLang.getValueVarName(obj))) {
+					//Apparently we should set the varName property
+					result.varName = "return-value of " + GLang.getValueVarName(obj);
+				}
 			}
 			return result;
 //		}
 	}catch(exception){
 		//Put a human-readable error on the app, and a detailed log on the console
-		GLang.print("Error: " + (exception.message || exception) + "; (oldest call first, ':' and 'do' excluded)");
+		GLang.print("Error: " + (exception.message || exception));
 		
-		GLang.getSimplifiedCallStack().forEach(callEntry => {
-			if(!(callEntry === ":" || callEntry === "do")){
-				//If the call entry is interesting, show it
-				GLang.error("at " + callEntry)
-			}
-		});
+		if(GLANG_CALL_STACK_NEEDED) {
+			GLang.print("(oldest call first, ':' and 'do' excluded)")
+			GLang.getSimplifiedCallStack().forEach(callEntry => {
+				if(!(callEntry === ":" || callEntry === "do")){
+					//If the call entry is interesting, show it
+					GLang.error("at " + callEntry)
+				}
+			});
+		}
 		
-		if(GLANG_DEBUG) {
+		if(GLANG_DEBUG && GLANG_CALL_STACK_NEEDED) {
 			//For console use, it is easier to explore the stack this way
 			console.log("JS call stack for console use:");
 			console.log(exception);
@@ -138,8 +160,10 @@ GLang.callObject = function(obj, env, args){
 			console.log("---");
 		}
 		
-		//We still have to pop the current call stack entry
-		GLang.callStack.pop();
+		if(GLANG_CALL_STACK_NEEDED) {
+			//We still have to pop the current call stack entry
+			GLang.callStack.pop();
+		}
 		
 		return {value:[], error:exception, callStackCopy:[...GLang.callStack], annotations:[
 			{value:[
