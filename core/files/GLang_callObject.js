@@ -73,7 +73,7 @@ GLang.callObject = function(obj, env, args){
 		return obj;
 	}
 	
-	//37752 calls when loading the IDE app
+	//37752 calls when loading the IDE app (June 16 2023)
 	//console.log("GLang.callObject with real function");
 	
 	//We have a function to call
@@ -105,14 +105,11 @@ GLang.callObject = function(obj, env, args){
 					break;
 				default:
 					//Must be a code block (all other options are eliminated at the top of the function)
-					//TODO: since we are calling GLang.callObject recursively here, maybe make this into a for loop
-					//For now: since we know that the result of GLang.callObject has to have reached the phase where
-					// we attach a name to the return value, we do not have to do that following this call.
-					// so we can immediately return here IF we do not need to care about a call stack
 					if(GLANG_CALL_STACK_NEEDED) {
-						result = GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
+						//We need to reach the bottom of this function to manage the call stack
+						result = GLang.evaluateTree(obj.value.sentences, GLang.createCodeBlockScope(obj.env || env, args));
 					} else {
-                    	return GLang.callObject(GLang.functionFromCodeBlock(obj, env), env, args);
+                    	return GLang.evaluateTree(obj.value.sentences, GLang.createCodeBlockScope(obj.env || env, args));
 					}
 			}
 			
