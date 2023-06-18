@@ -52,7 +52,29 @@ $skeletonCode = do:{
 			fileContent: usedLibraries + "/_min.js"
 		) + ";".
 		
-		$coreLanguageAndAPIsBlob = "const GLANG_DEBUG = "  + debugConstant + "; " + coreLanguageBlob + ";" + apisBlob.
+		`This is JavaScript code responsible for setting the "appId" variable (makes appId variable work)`
+		$appIdCode = "GLang.packageManager.installJs(function(){this.appId='" + ((".k";"") strReplace fileName: app) + "'});".
+
+		$translationMapFile = appFolder + "/.doNotTouch/translationMap.json".
+		$prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
+			(!ifElse (fileIsFile: translationMapFile) {
+				`Add JavaScript code which fills the "stringAssetMap" variable`
+				"this.stringAssetMap=" + fileContent: translationMapFile
+			};{
+				`Do not fill "stringAssetMap" - just set "appId"`
+				""
+			}) + 
+			
+			`Include the standard-apps, so that fewer HTTP requests are needed`
+			";this.standardApps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + 
+			
+			`Include the global stringAssetMap`
+			";this.globalStringAssetMap=" + (fileContent: (!getUnixUserFolder) + "/.kalzit/generated/translationMap.json") + "});".
+		
+		$appBlob = prefix + ";window.addEventListener('load', function(){GLang.launchTree(" + ((fileContent: app) calcitCompile true `optimized`) + ")});".
+		
+		# Literally the entire script needed to run the Kalzit app. Will be compressed as a whole if we are not debugging
+		$coreLanguageAndAPIsBlob = "const GLANG_DEBUG = "  + debugConstant + "; " + coreLanguageBlob + ";" + apisBlob + ";" + appBlob.
 		
 		# Create a $scripts variable that either contains a readable or compressed version, depends on if we want to debug stuff
 		$scripts = !ifElse (debugConstant eq "false") {
@@ -84,31 +106,6 @@ $skeletonCode = do:{
 		
 		("</head>"; styling + "</head>") strReplace withoutCustomStyling
 	}.
-	
-
-`This is JavaScript code responsible for setting the "appId" variable (makes appId variable work)`
-$appIdCode = "GLang.packageManager.installJs(function(){this.appId='" + ((".k";"") strReplace fileName: app) + "'});".
-
-$translationMapFile = appFolder + "/.doNotTouch/translationMap.json".
-$prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
-	(!ifElse (fileIsFile: translationMapFile) {
-		`Add JavaScript code which fills the "stringAssetMap" variable`
-		"this.stringAssetMap=" + fileContent: translationMapFile
-	};{
-		`Do not fill "stringAssetMap" - just set "appId"`
-		""
-	}) + 
-	
-	`Include the standard-apps, so that fewer HTTP requests are needed`
-	";this.standardApps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + 
-	
-	`Include the global stringAssetMap`
-	";this.globalStringAssetMap=" + (fileContent: (!getUnixUserFolder) + "/.kalzit/generated/translationMap.json") + "});".
-
-`Here, we embed the actual app code - it is run in its own runtime environment / scope, not the global one`
-$appBuildingTempFile = (!getUnixUserFolder) + "/.kalzit/generated/appBuildingTempFile-" + (fileName: appFolder) + "-" + (!getCurrentDate) + ".js".
-
-(appBuildingTempFile) fileWrite prefix + ';GLang.evaluateTree(' + ((fileContent: app) calcitCompile true `optimized`) + ', GLang.appEnvironment = GLang.RuntimeEnvironment(GLang.defaultRuntimeEnvironment));'.
 
 
 `Now we can generate the final HTML file`
@@ -119,14 +116,9 @@ print: "WRITE THE FILE CONTENT".
 print: "APP " + app.
 print: "APP PARENT " + fileParent: app.
 print: "APP FOLDER " + appFolder.
-print: "TO " + appBuildingTempFile.
 
 `Write the file content`
 generatedHtmlPath fileWrite
-	`We replace $app$ from the app skeleton with a minified version of the app code (available in $appBuildingTempFile), and $head$ with the contents of head.html`
-    `TODO: if $head$ or $app$ are parts of the app itself, this will probably cause problems`
-    ("$head$";(default: ""): fileContent: appFolder + "/head.html") strReplace
-	("$app$";(runCommand: './cli command terser --mangle keep_fnames "' + (appBuildingTempFile) + '" --keep-fnames')) strReplace skeletonCode.
-	
-`Remove the temporary file`
-fileDelete: appBuildingTempFile.
+	`We replace $head$ with the contents of head.html`
+    `TODO: if $head$ is part of the app itself, this will probably cause problems`
+    ("$head$";(default: ""): fileContent: appFolder + "/head.html") strReplace skeletonCode.
