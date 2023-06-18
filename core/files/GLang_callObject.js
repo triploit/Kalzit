@@ -74,6 +74,9 @@ GLang.callObject = function(obj, env, args){
 	}
 	
 	//37752 calls when loading the IDE app (June 16 2023)
+	//33414 calls after code block call optimization
+	//30002 calls after colon optimization
+	//26045 after optimization of common operators
 	//console.log("GLang.callObject with real function");
 	
 	//We have a function to call

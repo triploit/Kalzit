@@ -18,29 +18,6 @@
 		return result;
 	}
 
-	//Evaluates sentences with an uneven number of elements; this function does NOT add an extra colon if needed
-	function evaluateStandardSentence(sentence, env) {
-		switch(sentence.length) {
-		    case 0: return GLang.voidValue;
-		    case 1: return evaluateSentenceFragment(sentence[0], env);
-			case 3: //Basic operation
-				return GLang.callObject(evaluateSentenceFragment(sentence[1], env), env, [
-					evaluateSentenceFragment(sentence[0], env),
-					evaluateSentenceFragment(sentence[2], env)
-				]);
-			default: //Longer sentence with multiple operations
-				//Evaluate each operation in the sentence; start at the last one
-				var result = evaluateSentenceFragment(sentence[sentence.length - 1], env);
-				for(var i = sentence.length - 2; i >= 1; i -= 2) {
-					result = GLang.callObject(evaluateSentenceFragment(sentence[i], env), env, [
-						evaluateSentenceFragment(sentence[i - 1], env),
-						result
-					])
-				}
-				return result;
-		}
-	}
-
 	//evaluateSentenceFragment will need to return specific values very, VERY often
 	//Load and store them here, so they are easily accessible
 	const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"].varValue;
@@ -50,6 +27,38 @@
 	const SET_ANNOTATION_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_annotation"].varValue;
 	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"].varValue;
 	const GET_VALUE = GLang.defaultRuntimeEnvironment["kv_get"].varValue;
+	
+	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
+		switch (operatorFragment.k) {
+			case KIND_COLON: return GLang.callObject(evaluateSentenceFragment(firstParamFragment, env), env, [secondParamValue]);
+			case KIND_EQUALS: return EQUALS_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
+			case KIND_SEMICOLON: return SEMICOLON_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
+			case KIND_SET_TYPE: return SET_TYPE_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
+			case KIND_SET_ANNOTATION: return SET_ANNOTATION_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
+		}
+		
+		return GLang.callObject(evaluateSentenceFragment(operatorFragment, env), env, [
+			evaluateSentenceFragment(firstParamFragment, env),
+			secondParamValue
+		]);
+	}
+
+	//Evaluates sentences with an uneven number of elements; this function does NOT add an extra colon if needed
+	function evaluateStandardSentence(sentence, env) {
+		switch(sentence.length) {
+		    case 0: return GLang.voidValue;
+		    case 1: return evaluateSentenceFragment(sentence[0], env);
+			case 3: //Basic operation
+				return evaluateOperation(sentence[0], sentence[1], evaluateSentenceFragment(sentence[2], env), env)
+			default: //Longer sentence with multiple operations
+				//Evaluate each operation in the sentence; start at the last one
+				var result = evaluateSentenceFragment(sentence[sentence.length - 1], env);
+				for(var i = sentence.length - 2; i >= 1; i -= 2) {
+					result = evaluateOperation(sentence[i - 1], sentence[i], result, env);
+				}
+				return result;
+		}
+	}
 
 	function evaluateSentenceFragment(fragment, env){
 		switch(fragment.k){
