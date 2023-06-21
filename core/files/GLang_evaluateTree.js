@@ -74,7 +74,7 @@
 			case KIND_NAME: return env.resolveName(fragment.n);
 			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.p, env);
 			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.array, env)]};
-		    case KIND_CODEBLOCK: return {value:{sentences: fragment.sentences}, display:"codeBlock", env:env};
+		    case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.sentences, env);
 			case KIND_DO: return DO_VALUE;
 			case KIND_GET: return GET_VALUE;
 	//		case "special": return env.resolveName(fragment.special);

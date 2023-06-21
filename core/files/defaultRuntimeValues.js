@@ -190,10 +190,10 @@
             if((args[1].value + "") === args[1].value) {
                 throw new Error("fun must not be called with a string as its second parameter! Use a code block instead");
             }
-			var code = args[1].value.sentences;
+			var codeblock = args[1].value.cb;
 			var returnType = GLang.getType(args[1]);
 			
-			return GLang.functionFromTree(code, env, {value:argList}, returnType);
+			return GLang.functionFromCodeblock(codeblock, env, {value:argList}, returnType);
 		}}},
 		{varName:";", varValue:{value:function(env, args){
 			var val1 = args[0];
@@ -340,7 +340,7 @@
 		return args[1];
 	}, display:"function"});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("codeBlockFromString", {value:function(env, args){
-		return {value:{sentences:GLang.generateTree(args[0].value)}, display:"codeBlock"};
+		return GLang.codeblockFromTree(GLang.generateTree(args[0].value), GLang.defaultRuntimeEnvironment);
 	}, display:"function"});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("do", {value:function(env, args){
 		var params = [];

@@ -110,9 +110,9 @@ GLang.callObject = function(obj, env, args){
 					//Must be a code block (all other options are eliminated at the top of the function)
 					if(GLANG_CALL_STACK_NEEDED) {
 						//We need to reach the bottom of this function to manage the call stack
-						result = GLang.evaluateTree(obj.value.sentences, GLang.createCodeBlockScope(obj.env || env, args));
+						result = object.cb(GLang.createCodeBlockScope(obj.env, args));
 					} else {
-                    	return GLang.evaluateTree(obj.value.sentences, GLang.createCodeBlockScope(obj.env || env, args));
+                    	return object.cb(GLang.createCodeBlockScope(obj.env, args));
 					}
 			}
 			
