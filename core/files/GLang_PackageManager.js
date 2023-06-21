@@ -76,10 +76,10 @@
 		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){
 			var packageData = this.registeredPrecompiledPackages[packageIndex];
 			if(packageData[0].includes(provides)){
-				GLang.evaluateTree(packageData[1], GLang.defaultRuntimeEnvironment);
+				packageData[1](GLang.defaultRuntimeEnvironment);
 				
-				//Freeze the package variables
-				validatePackageVariables(packageData[0]);
+				//Check that the package provides all the variables it should
+				if(GLANG_DEBUG) validatePackageVariables(packageData[0]);
 				
 				return true;
 			}
@@ -91,8 +91,8 @@
 				if(packageData.provides[providedName] === provides){
 					this.loadPackageSync(packageData.scriptUrl, packageData.scriptType);
 					
-					//Freeze the package variables
-					validatePackageVariables(packageData.provides, packageData.scriptUrl);
+					//Check that the package provides all the variables it should
+					if(GLANG_DEBUG) validatePackageVariables(packageData.provides, packageData.scriptUrl);
 					
 					return true;
 				}

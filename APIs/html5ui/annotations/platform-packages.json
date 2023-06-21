@@ -5,7 +5,7 @@
 	},
 	"libraries":[
 		{"provides":["flag_width", "flag_height", "flag_percent_width", "flag_percent_height", "flag_px_width", "flag_px_height", "flag_em_width", "flag_em_height", "flag_mm_width", "flag_mm_height", "flag_cm_width", "flag_cm_height", "flag_inch_width", "flag_inch_height"],  "scriptUrl":"widthHeight.js"},
-		{"provides":["flag_background_color", "flag_background_image_url", "flag_background_gradient_left_to_right", "flag_background_gradient_top_to_bottom", "flag_foreground_color", "flag_opacity", "flag_border_color"],  "scriptUrl":"bgfg.js"},
+		{"provides":["flag_background_color", "flag_background_image_url", "flag_background_gradient_left_to_right", "flag_background_gradient_top_to_bottom", "flag_foreground_color", "flag_opacity", "flag_border_color", "color_to_string"],  "scriptUrl":"bgfg.js"},
 		{"provides":["flag_on_hover", "flag_on_tap", "flag_on_pointer_up", "on_global_pointer_up", "flag_on_pointer_down", "flag_on_pointer_move", "on_global_pointer_move"],  "scriptUrl":"mouse.js"},
 		{"provides":["flag_on_text_select"],  "scriptUrl":"onTextSelect.js"},
 		{"provides":["flag_px_roundness", "flag_percent_roundness"],  "scriptUrl":"roundness.js"},
@@ -13,7 +13,7 @@
 		{"provides":["flag_columns"], "scriptUrl":"columns.js"},
 		{"provides":["flag_box_shadow"], "scriptUrl":"shadow.js"},
 		{"provides":["flag_css_class", "flag_css_remove_class"], "scriptUrl":"cssClass.js"},
-		{"provides":["flag_on_drop", "ui_file_picker"],  "scriptUrl":"drop.js"},
+		{"provides":["flag_on_drop", "ui_file_picker", "ui_multi_file_picker"],  "scriptUrl":"drop.js"},
 		{"provides":["flag_on_enter"], "scriptUrl":"enter.js"},
 		{"provides":["flag_on_select", "flag_on_deselect"], "scriptUrl":"selection.js"},
 		{"provides":["width", "height", "percent_width", "percent_height", "px_width", "px_height", "em_width", "em_height", "mm_width", "mm_height", "cm_width", "cm_height", "inch_width", "inch_height", "full_height", "full_width"],  "scriptUrl":"widthHeight.txt"},

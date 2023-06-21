@@ -23,7 +23,7 @@
 		{"provides":["ui_stack", "ui_print_into_stack"], "scriptUrl":"uiStack.js"},
 		{"provides":["ui_text"], "scriptUrl":"uiText.js"},
 		{"provides":["set_css_color_combination"], "scriptUrl":"setCssColorCombination.js"},
-		{"provides":["open_sub_app", "register_sub_app", "close_sub_app", "get_current_sub_app", "disable_scrolling"], "scriptUrl":"subApp.js"},
+		{"provides":["open_sub_app", "register_sub_app", "close_sub_app", "get_current_sub_app", "disable_scrolling", "sub_app_keep_initial"], "scriptUrl":"subApp.js"},
 		{"provides":["ui_title"], "scriptUrl":"setActiveAppName.js"},
 		{"provides":["expand_with_content"], "scriptUrl":"autoExpand.js"},
 		{"provides":["ui_check"], "scriptUrl":"check.js"},

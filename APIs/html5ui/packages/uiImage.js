@@ -57,16 +57,17 @@ function urlView(url, onLoad){
 		
 		//This function uses lazy loading; images are only loaded if they become visible
 		//The actual lazy loading is managed by the refresh() function below. In here, we just register views for lazy loading
-		if (windowLoaded){
-			//The window is ready - add this view to the "urlViews" array
+//		//We can be certain that the window is ready
+//		if (windowLoaded){
+//			//The window is ready - add this view to the "urlViews" array
 			urlViews.push({url, view: image});
-		} else {
-			//The window is NOT ready - register a window event listener to tell when it becomes ready
-			window.addEventListener('load', function(){
-				//The window is ready now - add this view to "urlViews"
-				urlViews.push({url, view: image});
-			}, false);
-		}
+//		} else {
+//			//The window is NOT ready - register a window event listener to tell when it becomes ready
+//			window.addEventListener('load', function(){
+//				//The window is ready now - add this view to "urlViews"
+//				urlViews.push({url, view: image});
+//			}, false);
+//		}
 	}
 	
 	return image;
