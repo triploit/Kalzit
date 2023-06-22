@@ -16,10 +16,6 @@ const KLoad = {};
 		}
 	}
 	
-	GLang.headersArrayToJson = function(_headers){
-		return _headers ? JSON.stringify(_headers) : "[]";
-	}
-	
 	//Loads a js file by http (or relative) url and runs it.
 	function loadUrl(url, _headers){
 		// get some kind of XMLHttpRequest

@@ -1,3 +1,1 @@
-this.GLang={
-	returnFalse: function(){return false;}
-};
+var GLang={};

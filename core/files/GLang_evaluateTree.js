@@ -1,19 +1,37 @@
 (function() {
-	GLang.evaluateTree = function evaluateTree(tree, env){
-		if(tree.length === 0) return GLang.voidValue;
+	GLang.prepareTree = function(tree) {
+		if(tree.length === 0) return [];
 		
 		var sentence = [];
-		var result = GLang.voidValue;
+		var result = [];
 		for(var i = 0; i < tree.length; i++){
 			if(tree[i].dot){
-				result = evaluateStandardSentence(sentence, env);
+				result.push(sentence);
 				sentence = [];
 			}else{
 				sentence.push(tree[i]);
 			}
 		}
 		if(sentence.length){
-			result = evaluateStandardSentence(sentence, env)
+			result.push(sentence)
+		}
+		return result;
+	}
+	
+	GLang.evaluateTree = function evaluateTree(tree, env){
+		//console.log("GLang.evaluateTree");
+		
+		if(tree.length === 0) return GLang.voidValue;
+		
+		return GLang.evaluatePreparedTree(GLang.prepareTree(tree), env);
+	}
+	
+	GLang.evaluatePreparedTree = function(sentenceList, env) {
+		if(sentenceList.length === 0) return GLang.voidValue;
+		
+		var result = GLang.voidValue;
+		for(var i = 0; i < sentenceList.length; i++) {
+			result = evaluateStandardSentence(sentenceList[i], env);
 		}
 		return result;
 	}

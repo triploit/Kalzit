@@ -1,4 +1,4 @@
-GLang.launchTree = function(tree) {
+GLang.launchTree = function(preparedTree) {
     "use strict";
 	//Timeout
 	var timeoutSince = parseInt(GLang.eval("storageLoadString: 'kalzit.timeoutSince'").value);
@@ -22,7 +22,7 @@ GLang.launchTree = function(tree) {
 	
 	if (!timeoutActive){
 		try {
-			GLang.evaluateTree(tree, GLang.appEnvironment = GLang.RuntimeEnvironment(GLang.defaultRuntimeEnvironment));
+			GLang.evaluatePreparedTree(preparedTree, GLang.appEnvironment = GLang.RuntimeEnvironment(GLang.defaultRuntimeEnvironment));
 		} catch (error) {
 			console.warn("Your app code crashed: ");
 			console.log(error);

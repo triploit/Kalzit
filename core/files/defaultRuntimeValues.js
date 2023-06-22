@@ -340,7 +340,7 @@
 		return args[1];
 	}, display:"function"});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("codeBlockFromString", {value:function(env, args){
-		return GLang.codeblockFromTree(GLang.generateTree(args[0].value), GLang.defaultRuntimeEnvironment);
+		return GLang.codeblockFromTree(GLang.prepareTree(GLang.generateTree(args[0].value)), GLang.defaultRuntimeEnvironment);
 	}, display:"function"});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("do", {value:function(env, args){
 		var params = [];

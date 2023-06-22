@@ -1,15 +1,7 @@
-GLang.eval = function (text, disableRuntimeUpdates){
-	var allowRuntimeUpdates = disableRuntimeUpdates ? 1 : 0;
-	GLang.disableRuntimeUpdates+=allowRuntimeUpdates;
+GLang.eval = function (text){
 	try{
-		var result = GLang.evaluateTree(GLang.generateTree(text), GLang.defaultRuntimeEnvironment);
-		GLang.disableRuntimeUpdates-=allowRuntimeUpdates;
-		if(GLang.disableRuntimeUpdates < 0){
-			GLang.error("GLang.disableRuntimeUpdates is " + GLang.disableRuntimeUpdates)
-		}
-		return result;
+		return GLang.evaluatePreparedTree(GLang.prepareTree(GLang.generateTree(text)), GLang.defaultRuntimeEnvironment);
 	}catch(e){
-		GLang.disableRuntimeUpdates-=allowRuntimeUpdates;
 		if(GLANG_DEBUG) {
 			console.error(e);
 		}
@@ -36,5 +28,3 @@ GLang.stringify = function(anything){
 		});	
 	}
 };
-
-GLang.disableRuntimeUpdates = 0;

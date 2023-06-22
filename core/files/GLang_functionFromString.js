@@ -1,7 +1,7 @@
-GLang.codeblockFromTree = function(tree, env) {
+GLang.codeblockFromTree = function(preparedTree, env) {
 	return {value:{
 		cb:function(env) {
-			return GLang.evaluateTree(tree, env);
+			return GLang.evaluatePreparedTree(preparedTree, env);
 		}
 	}, display:"codeBlock", env:env}
 }
