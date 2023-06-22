@@ -18,14 +18,6 @@
 		return result;
 	}
 	
-	GLang.evaluateTree = function evaluateTree(tree, env){
-		//console.log("GLang.evaluateTree");
-		
-		if(tree.length === 0) return GLang.voidValue;
-		
-		return GLang.evaluatePreparedTree(GLang.prepareTree(tree), env);
-	}
-	
 	GLang.evaluatePreparedTree = function(sentenceList, env) {
 		if(sentenceList.length === 0) return GLang.voidValue;
 		
