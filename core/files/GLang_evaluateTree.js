@@ -30,13 +30,13 @@
 
 	//evaluateSentenceFragment will need to return specific values very, VERY often
 	//Load and store them here, so they are easily accessible
-	const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"].varValue;
-	const EQUALS_VALUE = GLang.defaultRuntimeEnvironment["kv_="].varValue;
-	const SEMICOLON_VALUE = GLang.defaultRuntimeEnvironment["kv_;"].varValue;
-	const SET_TYPE_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_type"].varValue;
-	const SET_ANNOTATION_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_annotation"].varValue;
-	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"].varValue;
-	const GET_VALUE = GLang.defaultRuntimeEnvironment["kv_get"].varValue;
+	const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"];
+	const EQUALS_VALUE = GLang.defaultRuntimeEnvironment["kv_="];
+	const SEMICOLON_VALUE = GLang.defaultRuntimeEnvironment["kv_;"];
+	const SET_TYPE_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_type"];
+	const SET_ANNOTATION_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_annotation"];
+	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"];
+	const GET_VALUE = GLang.defaultRuntimeEnvironment["kv_get"];
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {

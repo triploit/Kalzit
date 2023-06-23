@@ -7,9 +7,9 @@ GLang.scopePrototype = {
 		
 		//Resolve the name and put it in "result".
 		if(value){
-			result = value.varValue;
+			result = value;
 		}else if(GLang.packageManager.installPackage(unified)){
-			result = GLang.defaultRuntimeEnvironment["kv_" + unified].varValue;
+			result = GLang.defaultRuntimeEnvironment["kv_" + unified];
 		}else{
 			throw new Error("You used this non-existent variable: " + unified);
 		}
@@ -111,14 +111,14 @@ GLang.scopePrototype = {
 // 				varName:n
 // 			})
 		}
-		this["kv_" + n] = {varName:n, varValue:v};
+		this["kv_" + n] = v;
 		//this.notifyVariableChange(n);
 		return v;
 	},
 	setInnerWithoutListeners: function(unified, value){
 		//This should only be (directly) used for things like function parameters, that are not supposed to trigger listeners
 		//name = this.unifyStringName(name);
-		this["kv_" + unified] = {varName: unified, varValue: value};
+		this["kv_" + unified] = value;
 	},
 	hasInnerVariable: function(n){
 		return this.hasOwnProperty("kv_" + this.unifyStringName(n));	

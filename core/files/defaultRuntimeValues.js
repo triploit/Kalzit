@@ -309,7 +309,7 @@
 	];
 	
 	for(var i = 0; i < globalVariables.length; i++){
-		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i];
+		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
 	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitUnifyName", {value:function(env, args){
