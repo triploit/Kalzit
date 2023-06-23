@@ -34,4 +34,4 @@ GLang.launchTree = function(preparedTree) {
 			GLang.eval("!debugAutoRefresh");
 		}
 	} else GLang.eval("{} showMessageAsync 'Your app timeout is currently active - you can use the Kalzit apps again in 20 minutes (or less)'")
-}
+};
