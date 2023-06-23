@@ -8,7 +8,7 @@
 				if("string" !== typeof argumentList[argIndex].value) throw new Error("Every entry of an argument list needs to be a string value - " + JSON.stringify(argumentList[argIndex]) + " does not fit this rule");
 				
 				var untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
-				var argumentName = argumentList[argIndex].value;
+				var argumentName = env.unifyStringName(argumentList[argIndex].value);
 				var argumentType = GLang.getType(argumentList[argIndex]);
 				
 				//Check if we need to apply a type to the argument

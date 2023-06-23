@@ -9,6 +9,8 @@ GLang.codeblockFromTree = function(preparedTree, env) {
 //Supports a typed argument list as well as a function type
 GLang.functionFromCodeblock = function(codeblock, defaultEnv, argumentList, type){
 	const result = {value:function(env, args){
+		//console.log("call of fun-based function");
+		
 		const result = codeblock(GLang.createFunctionScope(defaultEnv, argumentList, args));
 		//Apply type if present
 		if(type) {

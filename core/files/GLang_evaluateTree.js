@@ -86,7 +86,7 @@
 			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.array, env)]};
 		    case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.sentences, env);
 			case KIND_DO: return DO_VALUE;
-			case KIND_GET: return GET_VALUE;
+			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
 	//		case "special": return env.resolveName(fragment.special);
 			default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
 		}

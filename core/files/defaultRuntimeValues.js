@@ -187,6 +187,7 @@
 				throw new Error("Functions can not have more than two parameters");
 			}
 			
+			//console.log("typecheck !fun");
             if((args[1].value + "") === args[1].value) {
                 throw new Error("fun must not be called with a string as its second parameter! Use a code block instead");
             }
@@ -297,7 +298,7 @@
 			var name = args[0].value + "";
 			//TODO: Error-driven logic is probably a bad idea, but I guess it works
 			try {
-				env.resolveName(name);
+				env.resolveName(env.unifyStringName(name));
 				//When this causes no error, the variable exists
 				return {value:1};
 			} catch (e) {

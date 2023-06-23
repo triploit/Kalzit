@@ -1,6 +1,7 @@
 GLang.scopePrototype = {
-		resolveName: function(n){
-		var unified = this.unifyStringName(n);
+	resolveName: function(unified){
+		//var unified = this.unifyStringName(n);
+		//var unified = n;
 		var value = this["kv_" + unified];
 		var result = null;
 		
@@ -10,20 +11,20 @@ GLang.scopePrototype = {
 		}else if(GLang.packageManager.installPackage(unified)){
 			result = GLang.defaultRuntimeEnvironment["kv_" + unified].varValue;
 		}else{
-			throw new Error("You used this non-existent variable: " + n);
+			throw new Error("You used this non-existent variable: " + unified);
 		}
 		
-		if(result == null) {
-			//There was a serious problem when the result is undefined now
-			throw new Error("Variable resolve about to return null or undefined - this is a serious language implementation problem and should be addressed. Attempted to resolve '" + n + "'");
-		}
-		
-		//This exists to make function call stacks easier to understand
-		try{
-			result.varName = n;
-		} catch (error) {
-			if(GLANG_DEBUG) {
-				console.warn("There was a non-critical problem with adding a variable name to a resolved value: (" + n + ")")
+		if(GLANG_DEBUG) {
+			if(result == null) {
+				//There was a serious problem when the result is undefined now
+				throw new Error("Variable resolve about to return null or undefined - this is a serious language implementation problem and should be addressed. Attempted to resolve '" + unified + "'");
+			}
+
+			//This exists to make function call stacks easier to understand
+			try{
+				result.varName = unified;
+			} catch (error) {
+				console.warn("There was a non-critical problem with adding a variable name to a resolved value: (" + unified + ")")
 				console.warn(error);
 			}
 		}
@@ -114,10 +115,10 @@ GLang.scopePrototype = {
 		//this.notifyVariableChange(n);
 		return v;
 	},
-	setInnerWithoutListeners: function(name, value){
+	setInnerWithoutListeners: function(unified, value){
 		//This should only be (directly) used for things like function parameters, that are not supposed to trigger listeners
-		name = this.unifyStringName(name);
-		 this["kv_" + name] = {varName: name, varValue: value};
+		//name = this.unifyStringName(name);
+		this["kv_" + unified] = {varName: unified, varValue: value};
 	},
 	hasInnerVariable: function(n){
 		return this.hasOwnProperty("kv_" + this.unifyStringName(n));	

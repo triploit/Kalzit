@@ -140,9 +140,7 @@ const KIND_GET = 12;
 	const TILDE = {
 		next:function(token) {
 			if(!token.category === "Word") throw new Error("The tilde (~; followed by the name of a mutable variable to be resolved) has to be immediately followed by a name; no spaces allowed");
-			var getCallTreeItem = {k:KIND_PARENTHESES, p: [
-				{k:KIND_GET}, {k:KIND_COLON}, {k:KIND_NAME, n:token.textValue}
-			]};
+			var getCallTreeItem = {k:KIND_GET, m:GLang.defaultRuntimeEnvironment.unifyStringName(token.textValue)};
 			return group([getCallTreeItem, WAITING])
 		}
 	};
@@ -373,7 +371,7 @@ const KIND_GET = 12;
 			next:function(token){
 				return group([this, WAITING]).next(token);
 			},
-			n:wordToken.textValue,
+			n:GLang.defaultRuntimeEnvironment.unifyStringName(wordToken.textValue),
 			k:KIND_NAME
 		}
 	}
