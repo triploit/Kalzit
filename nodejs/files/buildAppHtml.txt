@@ -74,10 +74,10 @@ $skeletonCode = do:{
 		
 		$appBlob = prefix + (!ifElse ("true" eq timeoutWanted) {
 			# Timeout logic is wanted
-			fileContent: "/html5/files/launchTree-timeout.js"
+			fileContent: rootFolder + "/html5/files/launchTree-timeout.js"
 		};{
 			# Timeout logic is not wanted
-			fileContent: "/html5/files/launchTree-no-timeout.js"
+			fileContent: rootFolder + "/html5/files/launchTree-no-timeout.js"
 		}) + ";window.addEventListener('load', function(){GLang.launchTree(" + ((fileContent: app) calcitCompile true `optimized`) + ")});".
 		
 		# Literally the entire script needed to run the Kalzit app. Will be compressed as a whole if we are not debugging
