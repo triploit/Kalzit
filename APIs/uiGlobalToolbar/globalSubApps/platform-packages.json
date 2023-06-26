@@ -1,0 +1,14 @@
+{
+	"info":{
+		"description":"Library with some default sub apps (login, register, home, ...)",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		{
+	        "provides": [
+	          "activate_global_sub_apps"
+	      ]
+	      , "scriptUrl": "activateGlobalSubApps.txt"
+	    }
+	]
+}

@@ -50,111 +50,6 @@ $uiSidebarToggleButton = () fun {
 	@fit toggleSidebarExpansion uiImageButton leftArrowImageUrl
 } ? UiElement.
 
-`#apps sub app`
-$apps registerSubApp popupSubApp:
-	(@verticalScroller uiContainer:
-		(uiVerticalPercentSpace 10);
-		(@(percentHeight 80) uiHomeScreen: {launchAppName: x});
-		(uiVerticalPercentSpace 10)
-	).
-
-`#login sub app`
-$login registerSubApp popupSubApp:
-	!uiTitledPopupViewAsList (strings: $loginDialogTitle) ->
-		`This is the actual login form`
-		@verticalScroller uiContainer: (@(percentWidth 90) @center uiLoginForm: {
-			!if x {
-				!relaunchApp
-			}
-		}).
-	
-`#manageDomains sub app`
-$manageDomains registerSubApp popupSubApp:
-	!uiTitledPopupViewAsList (strings: $manageInternetAccess) ->
-		(@verticalScroller uiContainer: @(width: "100% - 14px") @center !uiListView allowedDomains -> {
-			uiListItem:
-				["mainView"; uiElementCollection: x];
-				["value"; x];
-				["additionalActions"; [
-					["Don't allow anymore"; {($removeEquals propOf allowedDomains): x}]
-				]]
-		}).
-
-$register registerSubApp popupSubApp: !uiTitledPopupViewAsList (strings: $registrationDialogTitle) ->
-	(@(percentWidth 90) @(percentHeight 90) @center uiRegisterForm: {
-		!if x {
-			!relaunchApp
-		}
-	}).
-
-`#account sub app`
-$account registerSubApp popupSubApp: do:{
-	$highContrastRef ? (Volatile String) = 0.
-	$darkModeRef ? (Volatile String) = 0.
-	
-	darkModeRef listen {
-		"kalzit.darkModeSetting" storageSaveString x.
-		
-		do: x switchFirst
-			[{"1" eq x}; styleDarkModeOn];
-			[{"0" eq x}; styleDarkModeOff];
-			[{"-1" eq x}; styleDarkModeAuto]
-	}.
-	
-	highContrastRef listen {
-		"kalzit.highContrastSetting" storageSaveString x.
-		
-		do: x switchFirst
-			[{"1" eq x}; styleHighContrastOn];
-			[{"0" eq x}; styleHighContrastOff];
-			[{"-1" eq x}; styleHighContrastAuto]
-	}.
-
-	$popupContent =
-		(uiTitleToolbar: (strings: $accountDialogTitlePrefix) + (default: "Unknown"): storageLoadString: "calcitUserName");
-		@center @(width "100% - 14px") uiContainer:
-			(uiVerticalPxSpace: 14);
-			($timeoutCheckbox = @(percentWidth 100) {
-				"kalzit.timeoutWanted" storageSaveString String: x.
-				!if x timeoutContinue. !else timeoutPause.
-			} uiCheckbox strings: $automaticTimeoutCheckbox);
-			(uiVerticalPxSpace: 14);
-			(@center timeoutNow uiButton strings: "needBreak");
-			(uiVerticalPxSpace: 14);
-			(!uiVerticalSeparator);
-			(uiVerticalPxSpace: 14);
-			(@center {openSubApp: "manageDomains"} uiButton strings: $manageInternetAccess);
-			(uiVerticalPxSpace: 14);
-			(!uiVerticalSeparator);
-			(uiVerticalPxSpace: 14);
-			(@center !uiPicker highContrastRef ["High contrast";1];["Standard (low) contrast";0];["System default contrast";\1]);
-			(uiVerticalPxSpace: 14);
-			(@center !uiPicker darkModeRef ["Dark mode";1];["Light mode";0];["System appearance";\1]);
-			(uiVerticalPxSpace: 14);
-			(!uiVerticalSeparator);
-			(uiVerticalPxSpace: 14);
-			(@center {
-				$session = storageLoadString: "calcitSession".
-				{
-					!storageClear.
-					!relaunchApp
-				} loadLocalAsync "/api/logoutUser?session=" + session.
-			} uiButton strings: $logoutButton).
-			
-	highContrastRef = (\1 default Int): storageLoadString: "kalzit.highContrastSetting".
-	darkModeRef = (\1 default Int): storageLoadString: "kalzit.darkModeSetting".
-	
-	!if ("1" eq storageLoadString: "kalzit.timeoutWanted") {
-		uiCheck: timeoutCheckbox
-	}.
-	
-	`return` popupContent.
-}.
-`Check if the timeout should be paused initially`
-!ifNot ("1" eq storageLoadString: "kalzit.timeoutWanted") {
-	!timeoutPause
-}.
-
 $uiAccountButton = () fun {@fit "#login" uiImageLink userOutlineImageUrl}.
 $uiUserConfigButton = () fun {@fit "#account" uiImageLink userImageUrl}.
 
@@ -167,3 +62,5 @@ $uiUserButton = () fun {
 $uiAppsButton = {@fit "#apps" uiImageLink appsImageUrl}.
 
 $uiHamburgerButton = () fun {@fit "#tools" uiImageLink menuImageUrl}.
+
+!runLater 10 -> {!activateGlobalSubApps}.
