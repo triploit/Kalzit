@@ -98,7 +98,7 @@ function wrapRequestValue(kServerRequest) {
 			value: function(env, args){
 				//We need to extract some named functions from a Kalzit object (first parameter)
 				var callbackObject = args[0];
-				var propOf = GLang.eval("propOf");
+				var propOf = GLang.defaultRuntimeEnvironment.resolveName("prop_of");
 				
 				//These are the needed Kalzit functions
 				var onSuccess = GLang.callObject(propOf, env, [

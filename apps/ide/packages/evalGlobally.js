@@ -3,4 +3,4 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("eval_globally", {value:functio
     var code = args[0].value + "";
     //Evaluate the code
     return GLang.eval(code);
-}, display: "function"});
+}, display: DISPLAY_FUNCTION});

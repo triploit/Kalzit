@@ -42,7 +42,7 @@ this.notificationShowShortText = function(text){
 			var notification = new Notification(text, {body: text, requireInteraction: true});
 			notification.onclick = function(event) {
 				event.preventDefault(); // prevent the browser from focusing the Notification's tab
-				GLang.callObject(GLang.eval("showMessageAsync"), GLang.defaultRuntimeEnvironment, [GLang.voidValue, GLang.stringValue(text)]);
+				GLang.callObject(GLang.defaultRuntimeEnvironment.resolveName("show_message_async"), GLang.defaultRuntimeEnvironment, [GLang.voidValue, GLang.stringValue(text)]);
 				notification.close();
 			}
 		})
@@ -56,7 +56,7 @@ this.notificationShowLongText = function(summary, full){
 			var notification = new Notification(summary, {body: full, requireInteraction: true});
 			notification.onclick = function(event) {
 				event.preventDefault(); // prevent the browser from focusing the Notification's tab
-				GLang.callObject(GLang.eval("showMessageAsync"), GLang.defaultRuntimeEnvironment, [GLang.voidValue, GLang.stringValue(full)]);
+				GLang.callObject(GLang.defaultRuntimeEnvironment.resolveName("show_message_async"), GLang.defaultRuntimeEnvironment, [GLang.voidValue, GLang.stringValue(full)]);
 				notification.close();
 			}
 		})
