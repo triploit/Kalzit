@@ -1,5 +1,5 @@
 Glang_.js
-treeGenerator_v3.js
+compiler/treeGenerator_v3.js
 variableScope.js
 GLang_callObject.js
 GLang_addAnnotation.js

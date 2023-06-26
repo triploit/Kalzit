@@ -1,0 +1,10 @@
+{
+	"info":{
+		"description":"Libraries for Vimeo access",
+		"platforms":["html5"]
+	},
+	"libraries":[
+		
+        {"provides":["ui_vimeo_player"],  "scriptUrl":"vimeoPlayer.js"}
+	]
+}

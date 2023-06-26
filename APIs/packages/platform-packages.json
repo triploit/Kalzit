@@ -165,13 +165,6 @@
     }
     , {
         "provides": [
-          "twitter_url"
-        , "twitter_user_url"
-      ]
-      , "scriptUrl": "twitterUser.txt"
-    }
-    , {
-        "provides": [
           "str_format"
         , "str_replace"
       ]

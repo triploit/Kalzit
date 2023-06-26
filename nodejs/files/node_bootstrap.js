@@ -45,6 +45,7 @@ function installCalcit(vm, context, fs, bootstrap){
 
 var context = {require:require, console:console, process:process};
 context.GLANG_DEBUG = debug; //Parsed from arguments at the top
+context.GLANG_TREE_GENERATOR_INCLUDED = true;
 installCalcit(vm, context, fs, ["core", "nodejs"]);
 
 //We can now access the GLang object to evaluate the app code!

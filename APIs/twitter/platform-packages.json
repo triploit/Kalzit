@@ -1,0 +1,9 @@
+{
+	"info":{
+		"description":"Libraries for Twitter access"
+	},
+	"libraries":[
+		
+        {"provides":["twitter_user_url", "twitter_url"],  "scriptUrl":"twitterUser.txt"}
+	]
+}
