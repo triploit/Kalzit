@@ -10,7 +10,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePickerContentTextVariabl
 		reader.readAsText(event.target.files[0]);
 	}
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePickerContentUrlVariable", {value:function(env, args){
@@ -25,5 +25,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePickerContentUrlVariable
 		reader.readAsDataURL(event.target.files[0]);
 	}
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});

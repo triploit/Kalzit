@@ -97,28 +97,28 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrl", {value:GLang.
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, callback === GLang.voidValue ? undefined :  () => {
 		//The image is loaded now
-		GLang.callObject(callback, env, [{value:image, display:"dom"}]);
+		GLang.callObject(callback, env, [{value:image, display:DISPLAY_DOM}]);
 	});
-	return {value:image, display:"dom"};
-}), display:"function"});
+	return {value:image, display:DISPLAY_DOM};
+}), display:DISPLAY_FUNCTION});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrlDirectly", {value:GLang.arrayFun(function(env, args){
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, () => {
 		//The image is loaded now
-		GLang.callObject(callback, env, [{value:image, display:"dom"}]);
+		GLang.callObject(callback, env, [{value:image, display:DISPLAY_DOM}]);
 	});
-	return {value:image, display:"dom"};
-}), display:"function"});
+	return {value:image, display:DISPLAY_DOM};
+}), display:DISPLAY_FUNCTION});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("getImageWidth", {value:GLang.arrayFun(function(env, args){
 	var image = args[0].value;
 	return {value:image.naturalWidth};
-}), display:"function"});
+}), display:DISPLAY_FUNCTION});
 GLang.defaultRuntimeEnvironment.setInnerVariable("getImageHeight", {value:GLang.arrayFun(function(env, args){
 	var image = args[0].value;
 	return {value:image.naturalHeight};
-}), display:"function"});
+}), display:DISPLAY_FUNCTION});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("scaleImageToUrl", {value:GLang.arrayFun(function(env, args){
 	var factor = args[0].value;
@@ -137,22 +137,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("scaleImageToUrl", {value:GLang
 	
 	//Produce a data URL from the drawn graphic
 	return GLang.stringValue(canvas.toDataURL());
-}), display:"function"});
-
-// GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowScaledImageUrl", {value:function(env, args){
-// 	var image = urlView(args[1].value, true); //Lazy image loading
-// 	image.style.width = args[0].value[0].value + "px";
-// 	image.style.height = args[0].value[1].value + "px";
-// 	return {value:image, display:"dom"};
-// }, display:"function"});
-// 
-// GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowScaledAndRoundedImageUrl", {value:function(env, args){
-// 	var image = urlView(args[1].value, true); //Lazy image loading
-// 	image.style.width = args[0].value[0].value + "px";
-// 	image.style.height = args[0].value[1].value + "px";
-// 	image.classList.add("k-rounded");
-// 	return {value:image, display:"dom"};
-// }, display:"function"});
+}), display:DISPLAY_FUNCTION});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiImageButton", {value:GLang.arrayFun(function(env, args){
 	//We need to trigger the same button action in multiple different situations, so it makes sense to isolate it as a function
@@ -177,5 +162,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiImageButton", {value:GLang.a
 	}
 	
 	image.setAttribute("tabindex", 0);
-	return {value:image, display:"dom"};
-}), display:"function"});
+	return {value:image, display:DISPLAY_DOM};
+}), display:DISPLAY_FUNCTION});

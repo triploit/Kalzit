@@ -103,7 +103,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("ui_plot_graph", {value:functio
 	GLang.registerGeneralListener(updatePlot);
 	updatePlot();
 	
-	return {value:canvas, display:"dom"};
+	return {value:canvas, display:DISPLAY_DOM};
 }});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("ui_plot_point", {value:function(env, args){
@@ -137,5 +137,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("ui_plot_point", {value:functio
 	GLang.registerGeneralListener(updatePlot);
 	updatePlot();
 	
-	return {value:canvas, display:"dom"};
+	return {value:canvas, display:DISPLAY_DOM};
 }})

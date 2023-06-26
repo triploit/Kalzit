@@ -6,7 +6,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiButton", {value:GLang.arrayF
 		GLang.callObject(args[0], env, []);
 	};
 	button.value = args[1].value;
-	return {value:button, display:"dom"};
+	return {value:button, display:DISPLAY_DOM};
 })});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiButtonWithThreeDotIcon", {value:GLang.arrayFun(function(env, args){
@@ -16,5 +16,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiButtonWithThreeDotIcon", {va
 	button.onclick = function(){
 		GLang.callObject(args[0], env, []);
 	};
-	return {value:button, display:"dom"};
+	return {value:button, display:DISPLAY_DOM};
 })});

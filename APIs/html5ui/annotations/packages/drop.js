@@ -112,7 +112,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePicker", {value:function
 		GLang.callObject(args[0], env, [{value:files}]);
 	}
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiMultiFilePicker", {value:function(env, args){
@@ -129,5 +129,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiMultiFilePicker", {value:fun
 		GLang.callObject(args[0], env, [{value:files}]);
 	}
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});

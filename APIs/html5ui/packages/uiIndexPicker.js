@@ -30,7 +30,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiIndexPicker", {value:functio
 		GLang.callObject(callback, env, [{value:parseInt(picker.value)}]);
 	}
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});
 
 /* @kalzit.for ui_index_reference_picker
@@ -61,7 +61,7 @@ void
 */
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiIndexReferencePicker", {value:function(env, args){
 	var mutable = args[0];
-	if(mutable.display !== "mutable"){throw new Error("uiIndexReferencePicker needs a mutable as the first parameter")}
+	if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiIndexReferencePicker needs a mutable as the first parameter")}
 	
 	var picker = document.createElement("select");
 	picker.classList.add("calcitPicker");
@@ -84,5 +84,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiIndexReferencePicker", {valu
 	
 	mutable.value.listeners.push({value:onVariableChange});
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});

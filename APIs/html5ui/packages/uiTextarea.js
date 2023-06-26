@@ -15,7 +15,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaVariableOnchan
 		textfield.value = varEnv.resolveName(varName).value;
 	})
 	
-	return {value:textfield, display:"dom"};
+	return {value:textfield, display:DISPLAY_DOM};
 })})
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaOnchange", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("textarea");
@@ -38,5 +38,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaOnchange", {va
 	textfield.addEventListener("keyup", callback, false);
 	textfield.addEventListener("paste", callback, false);
 	textfield.addEventListener("input", callback, false);
-	return {value:textfield, display:"dom"};
+	return {value:textfield, display:DISPLAY_DOM};
 })})

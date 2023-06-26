@@ -1,8 +1,8 @@
 GLang.displayValue = function displayValue(container){
-	var displayType = container.display || "default";
+	var displayType = container.display || DISPLAY_DEFAULT;
 	
 	switch(displayType) {
-		case "codeBlock": return GLang.stringDisplay(container, function(x){
+		case DISPLAY_CODEBLOCK: return GLang.stringDisplay(container, function(x){
 			var val = x.value;
 			if(val instanceof Array){
 				if(val.length === 0){
@@ -20,19 +20,15 @@ GLang.displayValue = function displayValue(container){
 			return JSON.stringify(val);
 		})
 
-		case "string": return GLang.stringDisplay(container, function(x){
+		case DISPLAY_STRING: return GLang.stringDisplay(container, function(x){
 			return x.value;
 		})
 
-		case "variable": return GLang.stringDisplay(container, function(x){
-			return "$" + x.value;
-		})
-
-		case "none": return GLang.stringDisplay(container, function(x){
+		case DISPLAY_NONE: return GLang.stringDisplay(container, function(x){
 			return "";
 		})
 
-		case "function": return GLang.stringDisplay(container, function(x){
+		case DISPLAY_FUNCTION: return GLang.stringDisplay(container, function(x){
 			var result = x.value.codeString ? "{" + x.value.codeString + "}" : "{{function}. void}";
 			if(GLang.getFirstAnnotation(x, GLang.stringValue("argumentList"))){
 				var argumentValues = GLang.getFirstAnnotation(x, GLang.stringValue("argumentList")).value;
@@ -49,9 +45,9 @@ GLang.displayValue = function displayValue(container){
 			return result;
 		})
 
-		case "dom": return container.value;
+		case DISPLAY_DOM: return container.value;
 
-		case "mutable": return GLang.stringDisplay(container, function(x){
+		case DISPLAY_MUTABLE: return GLang.stringDisplay(container, function(x){
 			return "mutable: " + x.value.mutable;
 		})
 

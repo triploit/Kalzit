@@ -3,5 +3,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPrint", {value:GLang.arrayFu
 	return {value:function(env, args){
 		element.appendChild(GLang.displayValue(args[0]));
 		return GLang.voidValue;
-	}, display:"function"};
+	}, display:DISPLAY_FUNCTION};
 })})

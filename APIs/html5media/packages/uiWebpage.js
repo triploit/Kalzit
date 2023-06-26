@@ -13,5 +13,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowWebpageUrlNative", {valu
 	iframe.src=args[0].value;
 	iframe.setAttribute("allowfullscreen", "true");
 	iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
-	return {value:iframe, display:"dom"}
+	return {value:iframe, display:DISPLAY_DOM}
 })});

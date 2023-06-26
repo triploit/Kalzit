@@ -37,7 +37,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiCheckbox", {value:GLang.arra
 			GLang.callObject(args[0], env, [{value:checkbox.checked ? 1 : 0}]);
 		}
 		
-	}), display:"dom"};
+	}), display:DISPLAY_DOM};
 })})
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiCheckboxVariable", {value:GLang.arrayFun(function(env, args){
@@ -51,5 +51,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiCheckboxVariable", {value:GL
 			checkbox.checked = env.resolveName(args[0].value).value !== 0;
 		})
 		
-	}), display:"dom"};
+	}), display:DISPLAY_DOM};
 })})

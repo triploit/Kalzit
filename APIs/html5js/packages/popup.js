@@ -28,7 +28,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("popup_values", {value:function
 	for(var i = 0; i < array.length; i++){
 		b.appendChild(GLang.displayValue(array[i]));
 	}
-	return {value:0, display:"none"};
+	return GLang.voidValue;
 }});
 
 /* @kalzit.for popup_message

@@ -1,6 +1,6 @@
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiPicker", {value:function(env, args){
 	var mutable = args[0];
-	if(mutable.display !== "mutable"){throw new Error("uiPicker needs a mutable as the first parameter")}
+	if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiPicker needs a mutable as the first parameter")}
 	
 	var picker = document.createElement("select");
 	picker.classList.add("calcitPicker");
@@ -22,5 +22,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPicker", {value:function(env
 	
 	mutable.value.listeners.push({value:onVariableChange});
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});

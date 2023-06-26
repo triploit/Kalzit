@@ -3,5 +3,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiLink", {value:GLang.arrayFun
 	anchor.classList.add("calcitLink");
 	anchor.appendChild(GLang.displayValue(args[1]));
 	anchor.href=args[0].value;
-	return {value:anchor, display:"dom"};
+	return {value:anchor, display:DISPLAY_DOM};
 })})

@@ -70,7 +70,7 @@
 
 	GLang.callObject = function(obj, env, args){
 		//If we have a non-function, quit this as quickly as possible
-		if(!(obj.display === "codeBlock" || "function" === typeof obj.value)) {
+		if(!(obj.display === DISPLAY_CODEBLOCK || "function" === typeof obj.value)) {
 			return obj;
 		}
 		

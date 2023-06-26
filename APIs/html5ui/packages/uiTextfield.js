@@ -7,7 +7,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiTextfieldOnaction", {value:G
 			GLang.callObject(args[0], env, [GLang.stringValue(textfield.value)]);
 		}
 	}
-	return {value:textfield, display:"dom"};
+	return {value:textfield, display:DISPLAY_DOM};
 })})
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiTextfieldOnchange", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("input");
@@ -32,5 +32,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiTextfieldOnchange", {value:G
 	textfield.addEventListener("paste", callback, false);
 	textfield.addEventListener("input", callback, false);
 	
-	return {value:textfield, display:"dom"};
+	return {value:textfield, display:DISPLAY_DOM};
 })})

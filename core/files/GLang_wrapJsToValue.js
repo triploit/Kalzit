@@ -27,7 +27,7 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 		
 		if(makeArrayFunction) calcitFunction = GLang.arrayFun(calcitFunction);
 		
-		return {value:calcitFunction, display:"function", argumentList:jsArgNames}
+		return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
 	}
 	if(js instanceof Array){
 		return {value:js.map(

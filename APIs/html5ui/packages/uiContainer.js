@@ -12,8 +12,8 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiContainer", {value:function(
 	}
 	
     div.appendChild(frag);
-	return {value:div, display:"dom"};
-}, display:"function"});
+	return {value:div, display:DISPLAY_DOM};
+}, display:DISPLAY_FUNCTION});
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiElementCollection", {value:function(env, args){
 	var frag = document.createDocumentFragment();
 	
@@ -26,8 +26,8 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiElementCollection", {value:f
 		frag.appendChild(GLang.displayValue(arr[i]));
 	}
 	
-	return {value:frag, display:"dom"};
-}, display:"function"});
+	return {value:frag, display:DISPLAY_DOM};
+}, display:DISPLAY_FUNCTION});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiCenteringContainer", {value:function(env, args){
 	var div = document.createElement("div");
@@ -46,5 +46,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiCenteringContainer", {value:
 	}
 	
     div.appendChild(frag);
-	return {value:div, display:"dom"};
-}, display:"function"});
+	return {value:div, display:DISPLAY_DOM};
+}, display:DISPLAY_FUNCTION});

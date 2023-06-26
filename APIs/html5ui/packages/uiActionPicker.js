@@ -20,7 +20,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiActionPicker", {value:functi
 		GLang.callObject(action, env, [{value: picker.value}]);
 	}
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiActionPickerWithIcon", {value:function(env, args){
@@ -46,7 +46,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiActionPickerWithIcon", {valu
 	}
 	setTimeout(reset, 0);
 	
-	return {value:picker, display:"dom"}
+	return {value:picker, display:DISPLAY_DOM}
 }});
 
 //This is needed as a workaround at the moment. If the action picker icon is added, then removed, and then re-added to the dom, its value gets set by the browser.

@@ -33,7 +33,7 @@
 		runWithVimeoApi(function(){
 			playerCallback(new Vimeo.Player(frame))
 		});
-		return {display:"dom", value:frame};
+		return {display:DISPLAY_DOM, value:frame};
 	}
 	
 	function playerValue(player){
@@ -55,35 +55,35 @@
 				value: function(env, args){
 					player.play();
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"pause"}, {
 				value: function(env, args){
 					player.pause();
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getDuration"}, {
 				value: function(env, args){
 					return {value:player.getDuration()};
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setTime"}, {
 				value: function(env, args){
 					player.seek(parseInt(args[0].value + ""));
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setVolume"}, {
 				value: function(env, args){
 					player.setVolume(parseFloat(args[0].value + ""));
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getVolume"}, {
 				value: function(env, args){
 					return {value:player.getVolume()};
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnEnd"}, {
 				value: function(env, args){
@@ -91,12 +91,12 @@
 						GLang.callObject(args[0], env, [controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getProgress"}, {
 				value: function(env, args){
 					return {value:player.getCurrentTime()};
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnProgress"}, {
 				value: function(env, args){
@@ -104,7 +104,7 @@
 						GLang.callObject(args[0], env, [{value:time}, controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]}
 		]};
 		

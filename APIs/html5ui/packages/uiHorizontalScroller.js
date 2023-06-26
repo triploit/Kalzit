@@ -4,5 +4,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiHorizontalScroller", {value:
 	for(var i = 0; i < args[0].value.length; i++){
 		scroller.appendChild(GLang.displayValue(args[0].value[i]))
 	}
-	return {value:scroller, display:"dom"};
+	return {value:scroller, display:DISPLAY_DOM};
 }});

@@ -2,7 +2,7 @@
 	
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowVariable", {value:function(env, args){
 		var mutable = args[0];
-		if(mutable.display !== "mutable"){throw new Error("uiShowVariable needs a mutable as the first parameter")}
+		if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiShowVariable needs a mutable as the first parameter")}
 		
 		var div = document.createElement("div");
 		
@@ -13,11 +13,11 @@
 			return GLang.voidValue;
 		}})
 		
-		return {value:div, display:"dom"};
-	}, display:"function"});
+		return {value:div, display:DISPLAY_DOM};
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowVariableAsList", {value:function(env, args){
 		var mutable = args[0];
-		if(mutable.display !== "mutable"){throw new Error("uiShowVariableAsList needs a mutable as the first parameter")}
+		if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiShowVariableAsList needs a mutable as the first parameter")}
 		
 		var div = document.createElement("div");
 		
@@ -37,6 +37,6 @@
 			return GLang.voidValue;
 		}})
 		
-		return {value:div, display:"dom"};
-	}, display:"function"});
+		return {value:div, display:DISPLAY_DOM};
+	}, display:DISPLAY_FUNCTION});
 })();

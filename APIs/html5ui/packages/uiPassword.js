@@ -8,7 +8,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPasswordOnaction", {value:GL
 			GLang.callObject(args[0], env, [GLang.stringValue(textfield.value)]);
 		}
 	}
-	return {value:textfield, display:"dom"};
+	return {value:textfield, display:DISPLAY_DOM};
 })})
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiPasswordOnchange", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("input");
@@ -21,5 +21,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPasswordOnchange", {value:GL
 	
 	textfield.addEventListener("change", callback, false);
 	textfield.addEventListener("keyup", callback, false);
-	return {value:textfield, display:"dom"};
+	return {value:textfield, display:DISPLAY_DOM};
 })})

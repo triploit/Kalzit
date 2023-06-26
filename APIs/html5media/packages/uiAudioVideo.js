@@ -28,41 +28,41 @@
 			{value:[{value:"isPaused"}, {
 				value: function(env, args){
 					return {value: mediaElement.paused ? 1 : 0};
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"play"}, {
 				value: function(env, args){
 					mediaElement.play();
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"pause"}, {
 				value: function(env, args){
 					mediaElement.pause();
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setVolume"}, {
 				value: function(env, args){
 					mediaElement.volume = parseFloat(args[0].value + "");
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getVolume"}, {
 				value: function(env, args){
 					return {value:mediaElement.volume};
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getDuration"}, {
 				value: function(env, args){
 					return {value:mediaElement.duration};
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setTime"}, {
 				value: function(env, args){
 					mediaElement.currentTime = parseFloat(args[0].value + "");
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnEnd"}, {
 				value: function(env, args){
@@ -70,7 +70,7 @@
 						GLang.callObject(args[0], env, [controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnPlay"}, {
 				value: function(env, args){
@@ -78,7 +78,7 @@
 						GLang.callObject(args[0], env, [controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"addOnPlay"}, {
 				value: function(env, args){
@@ -88,7 +88,7 @@
 						GLang.callObject(args[0], env, [controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnPause"}, {
 				value: function(env, args){
@@ -96,7 +96,7 @@
 						GLang.callObject(args[0], env, [controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"addOnPause"}, {
 				value: function(env, args){
@@ -106,12 +106,12 @@
 						GLang.callObject(args[0], env, [controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getProgress"}, {
 				value: function(env, args){
 					return {value:mediaElement.currentTime};
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnProgress"}, {
 				value: function(env, args){
@@ -119,7 +119,7 @@
 						GLang.callObject(args[0], env, [{value:time}, controller]);
 					}
 					return GLang.voidValue;
-				}, display: "function"
+				}, display: DISPLAY_FUNCTION
 			}]}
 		]};
 		
@@ -148,8 +148,8 @@
 		if(args.length === 2) {
 			GLang.callObject(args[1], env, [makePlayerInterface(audio)]);
 		}
-		return {value:audio, display:"dom"};
-	}, display:"function"});
+		return {value:audio, display:DISPLAY_DOM};
+	}, display:DISPLAY_FUNCTION});
 	
 	GLang.defaultRuntimeEnvironment.setInnerVariable("audioPlayer", {value:function(env, args){
 		var audio = new Audio(args[0].value);
@@ -157,7 +157,7 @@
 			GLang.callObject(args[1], env, [makePlayerInterface(audio)]);
 		}
 		return {value:audio};
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	
 	/* @kalzit.for ui_video_player
 	Creates a media controller and a graphical representation of the video (usually shows a frame of the video, control buttons and a progress indicator) from any URL that points to a video file.
@@ -181,6 +181,6 @@
 		if(args.length === 2) {
 			GLang.callObject(args[1], env, [makePlayerInterface(video)]);
 		}
-		return {value:video, display:"dom"};
-	}, display:"function"});
+		return {value:video, display:DISPLAY_DOM};
+	}, display:DISPLAY_FUNCTION});
 })(this);

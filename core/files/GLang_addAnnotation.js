@@ -4,7 +4,7 @@
 		//Figure out which kind of annotation we have
 		//Since 2020-04-08, functions are acceptable annotations as well
 		var display = annotation.display;
-		if(display === "codeBlock" || display === "function"){
+		if(display === DISPLAY_CODEBLOCK || display === DISPLAY_FUNCTION){
 			//We have a function annotation
 			GLang.callObject(annotation, GLang.defaultRuntimeEnvironment, [actualValue]);
 			return;

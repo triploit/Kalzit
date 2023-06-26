@@ -3,7 +3,7 @@ GLang.codeblockFromTree = function(preparedTree, env) {
 		cb:function(env) {
 			return GLang.evaluatePreparedTree(preparedTree, env);
 		}
-	}, display:"codeBlock", env:env}
+	}, display:DISPLAY_CODEBLOCK, env:env}
 }
 
 //Supports a typed argument list as well as a function type
@@ -18,7 +18,7 @@ GLang.functionFromCodeblock = function(codeblock, defaultEnv, argumentList, type
 		} else {
 			return result;
 		}
-	}, display:"function"};
+	}, display:DISPLAY_FUNCTION};
 	GLang.setAnnotation(result, {value:[
 		GLang.stringValue("argumentList"),
 		argumentList

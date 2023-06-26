@@ -53,7 +53,7 @@ this.fileDeleteFolder = function(filePath){
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("fileContentRaw", {value:GLang.arrayFun(function(env, args){
 	return {value:fileContentRaw(args[0].value)};
-}), display:"function"});
+}), display:DISPLAY_FUNCTION});
 GLang.defaultRuntimeEnvironment.setInnerVariable("fileContentAsync", {value:GLang.arrayFun(function(env, args){
 	function fileContentCallback(content){
 		GLang.callObject(args[0], env, [content])
@@ -67,8 +67,8 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("fileContentAsync", {value:GLan
 		}
 	}, args[1].value);
 	
-	return {value:0, display:"none"}
-}), display:"function"});
+	return GLang.voidValue
+}), display:DISPLAY_FUNCTION});
 GLang.defaultRuntimeEnvironment.setInnerVariable("folderContentAsync", {value:GLang.arrayFun(function(env, args){
 	function folderContentCallback(content){
 		GLang.callObject(args[0], env, [content])
@@ -92,8 +92,8 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("folderContentAsync", {value:GL
 	}, args[1].value);
 	//fs.realpathSync(args[1].value)
 	
-	return {value:0, display:"none"}
-}), display:"function"});
+	return GLang.voidValue
+}), display:DISPLAY_FUNCTION});
 
 this.fileExists = function(filePath){
 	return fs.existsSync(filePath);

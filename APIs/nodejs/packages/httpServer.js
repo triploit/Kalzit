@@ -6,13 +6,13 @@ function wrapRequestValue(kServerRequest) {
 			value: function(env, args){
 				kServerRequest.writeExistingFile(args[0].value, args.length > 1 ? args[1].value : null);
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"writeFile"}, {
 			value: function(env, args){
 				kServerRequest.writeFile(args[0].value, args.length > 1 ? args[1].value : null);
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"method"}, {value:kServerRequest.method}]},
 		{value:[{value:"endServing"}, {
@@ -24,55 +24,55 @@ function wrapRequestValue(kServerRequest) {
 					kServerRequest.endServing();
 					return GLang.voidValue;
 				}
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"write"}, {
 			value: function(env, args){
 				kServerRequest.write(args[0].value, args.length > 1 ? args[1].value : null);
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"writeBytes"}, {
 			value: function(env, args){
 				kServerRequest.writeBytes(args[0].value, args.length > 1 ? args[1].value : null);
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"writeRaw"}, {
 			value: function(env, args){
 				kServerRequest.writeRaw(args[0].value, args.length > 1 ? args[1].value : null);
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"startServing"}, {
 			value: function(env, args){
 				kServerRequest.startServing(args[0].value + "");
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"respondCode"}, {
 			value: function(env, args){
 				kServerRequest.respondCode(args[0].value);
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"setEncoding"}, {
 			value: function(env, args){
 				kServerRequest.setEncoding(args[0].value + "");
 				return args[0];
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"cookie"}, GLang.stringValue(kServerRequest.cookie)]},
 		{value:[{value:"getHeader"}, {
 			value: function(env, args){
 				return GLang.stringValue(kServerRequest.getHeader(args[0].value + ""));
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"setHeader"}, {
 			value: function(env, args){
 				kServerRequest.setHeader(args[0].value + "", args[1].value + "");
 				return GLang.voidValue
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"url"}, GLang.stringValue(kServerRequest.url)]},
 		{value:[{value:"host"}, GLang.stringValue(kServerRequest.host)]},
@@ -87,12 +87,12 @@ function wrapRequestValue(kServerRequest) {
 				}, sizeLimit);
 				
 				return GLang.voidValue
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"getPostDataByteSizeEstimate"}, {
 			value: function(env, args){
 				return {value:kServerRequest.getPostDataByteSizeEstimate()};
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]},
 		{value:[{value:"getPostDataFileAsync"}, {
 			value: function(env, args){
@@ -120,7 +120,7 @@ function wrapRequestValue(kServerRequest) {
 				
 				//Make sure that something valid is returned
 				return GLang.voidValue
-			}, display: "function"
+			}, display: DISPLAY_FUNCTION
 		}]}
 	]};
 };
@@ -131,7 +131,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("httpServer", {value:function(e
 	}, args[1].value);
 	
 	return GLang.voidValue;
-}, display:"function"})
+}, display:DISPLAY_FUNCTION})
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("httpsServer", {value:function(env, args){
 	kServer.httpsServer(function (request) {
@@ -139,7 +139,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("httpsServer", {value:function(
 	}, args[1].value);
 	
 	return GLang.voidValue;
-}, display:"function"})
+}, display:DISPLAY_FUNCTION})
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("customHttpsServer", {value:function(env, args){
 	var callback = args[0];
@@ -151,4 +151,4 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("customHttpsServer", {value:fun
 	kServer.customHttpsServer(config);
 	
 	return GLang.voidValue;
-}, display:"function"})
+}, display:DISPLAY_FUNCTION})

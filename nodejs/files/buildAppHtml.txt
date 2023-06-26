@@ -93,7 +93,7 @@ $skeletonCode = do:{
 			tempFile fileWrite coreLanguageAndAPIsBlob.
 			
 			# Return a copressed version
-			runCommand "./cli command terser -c passes=15 " + tempFile
+			runCommand "./cli command terser -c passes=15 --toplevel " + tempFile
 		};{
 			# Readable
 			coreLanguageAndAPIsBlob

@@ -32,8 +32,8 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiStack", {value:function(env,
 	
 	div.style.display = "inline-block";
 	div.style.position = "relative"
-	return {value:div, display:"dom"};
-}, display:"function"});
+	return {value:div, display:DISPLAY_DOM};
+}, display:DISPLAY_FUNCTION});
 
 GLang.defaultRuntimeEnvironment.setInnerVariable("uiPrintIntoStack", {value:function(env, args){
 	var stack = args[0].value;
@@ -42,5 +42,5 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPrintIntoStack", {value:func
 		stack.appendChild(createLayer(args[0]));
 		return GLang.voidValue;
 	}};
-}, display:"function"});
+}, display:DISPLAY_FUNCTION});
 

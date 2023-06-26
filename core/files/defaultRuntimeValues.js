@@ -6,11 +6,11 @@
 		if(jsStr === undefined || jsStr === null){
 			return GLang.voidValue;
 		}
-		return {value:jsStr, display:"string"}
+		return {value:jsStr, display:DISPLAY_STRING}
 	}
 	
 	GLang.stringValue = stringValue;
-	GLang.voidValue = {value:[], display:"none"};
+	GLang.voidValue = {value:[], display:DISPLAY_NONE};
 
 	function arrayFun(original){
 		if(!original.value){
@@ -111,9 +111,6 @@
 	var globalVariables = [
 		{
 			varName:"+", varValue:{value:arrayFun(function(env, args){
-                if(args[0].display === "codeBlock" || args[1].display === "codeBlock") {
-                    throw new Error("Curly braces are not used for strings anymore! You attempted to use the '+' function with a code block as its parameter");
-                }
                 return {value:args[0].value+args[1].value, display:args[0].display || args[1].display
             }})}
 		},
@@ -214,7 +211,7 @@
 			var name = args[0].value, environment = env;
 			if("string" === typeof name) {
 				return environment.setInnerVariable(name, args[1], false, GLang.getType(args[0]));
-			} else if (args[0].display === "mutable") {
+			} else if (args[0].display === DISPLAY_MUTABLE) {
 				args[0].value.set(args[1]);
 				return args[1];
 			} else {
@@ -260,7 +257,7 @@
 			return atFunction(args[0].value, args[1]);
 		}}},
 		{varName:"mutable", varValue:{value:function(env, args){
-			if(args[0].display === "mutable"){
+			if(args[0].display === DISPLAY_MUTABLE){
 				return args[0];
 			}
 			var mutableValue = {value:{mutable:args[0], listeners:[], type:args.length === 2 ? args[1] : null, set:function(v){
@@ -283,15 +280,26 @@
 				for(var i = 0; i < this.listeners.length; i++) {
 					GLang.callObject(this.listeners[i], env, [this.mutable, oldValue]);
 				}
-			}}, display:"mutable"};
+			}}, display:DISPLAY_MUTABLE};
 			mutableValue.value.set(args[0]);
 			return mutableValue;
 		}}},
 		{varName:"display_type", varValue:{value:function(env, args){
-			return GLang.stringValue(args[0].display || "default");
+			var result = undefined;
+			switch (args[0].display || DISPLAY_DEFAULT) {
+				case DISPLAY_DEFAULT: result = "default"; break;
+				case DISPLAY_CODEBLOCK: result = "codeBlock"; break;
+				case DISPLAY_STRING: result = "string"; break;
+				case DISPLAY_NONE: result = "none"; break;
+				case DISPLAY_FUNCTION: result = "function"; break;
+				case DISPLAY_DOM: result = "dom"; break;
+				case DISPLAY_MUTABLE: result = "mutable"; break;
+				default: result = "default";
+			}
+			return GLang.stringValue(result);
 		}}},
 		{varName:"get", varValue:{value:function(env, args){
-			if(!args[0].display === "mutable") throw new Error("'get' has to be called with a mutable value as the first parameter");
+			if(!args[0].display === DISPLAY_MUTABLE) throw new Error("'get' has to be called with a mutable value as the first parameter");
 			return args[0].value.mutable;
 		}}},
 		{varName:"is_defined", varValue:{value:function(env, args){
@@ -314,35 +322,35 @@
 
 	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitUnifyName", {value:function(env, args){
 		return GLang.stringValue(GLang.defaultRuntimeEnvironment.unifyStringName(args[0].value + ""));
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAnnotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAddAnnotation", {value:function(env, args){
 		GLang.addAnnotation(args[1], args[0]);
 		return args[1];
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitSetAnnotation", {value:function(env, args){
 		GLang.setAnnotation(args[1], args[0]);
 		return args[1];
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAddComment", {value:function(env, args){
 		GLang.addAnnotation(args[1], {value:[
 			GLang.stringValue("comment"),
 			args[0]
 		]});
 		return args[1];
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitSetType", {value:function(env, args){
 		GLang.addAnnotation(args[1], {value:[
 			GLang.stringValue("type"),
 			args[0]
 		]});
 		return args[1];
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("codeBlockFromString", {value:function(env, args){
 		return GLang.codeblockFromTree(GLang.prepareTree(GLang.generateTree(args[0].value)), GLang.defaultRuntimeEnvironment);
-	}, display:"function"});
+	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerVariable("do", {value:function(env, args){
 		var params = [];
 		if(args.length >= 2){
