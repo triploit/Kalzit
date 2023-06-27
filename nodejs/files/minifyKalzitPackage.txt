@@ -11,9 +11,9 @@ $jsonFile = appParameter: "input-file".
 		$scriptPath = jsonParent + "/packages/" + $scriptUrl propOf jsonEntry.
 		$result = do: !switchFirst (scriptPath)
 			[{(".k" strEndsWith x) | ".txt" strEndsWith x};{
-				"GLang.packageManager.registerPrecompiledPackage([" + ("," strJoin '"' + ($provides propOf jsonEntry) + '"') + "], function(env) {GLang.evaluatePreparedTree(" +
+				"GLang.packageManager.rppt([" + ("," strJoin '"' + ($provides propOf jsonEntry) + '"') + "], " +
 					((fileContent: scriptPath) calcitCompile true `optimized`) +
-				", env)})"
+				")"
 			}];
 			[{".js" strEndsWith x};{
 				"GLang.packageManager.installJs(function(){" + (fileContent: scriptPath) + "});"

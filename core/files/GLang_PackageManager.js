@@ -76,7 +76,8 @@
 		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){
 			var packageData = this.registeredPrecompiledPackages[packageIndex];
 			if(packageData[0].includes(provides)){
-				packageData[1](GLang.defaultRuntimeEnvironment);
+				//packageData[1](GLang.defaultRuntimeEnvironment);
+				GLang.evaluatePreparedTree(packageData[1], GLang.defaultRuntimeEnvironment);
 				
 				//Check that the package provides all the variables it should
 				if(GLANG_DEBUG) validatePackageVariables(packageData[0]);
@@ -120,10 +121,16 @@
 		this.installPackage = installPackage;
 		
 		this.registeredPrecompiledPackages = [];
-		this.registerPrecompiledPackage = function(names, compiledCode){
-			this.registeredPrecompiledPackages.push([names, compiledCode]);
+//		this.registerPrecompiledPackage = function(names, compiledCode){
+//			this.registeredPrecompiledPackages.push([names, compiledCode]);
+//			this.registeredPackages.push({provides: names, scriptUrl: null})
+//		};
+		
+		//Register precompiled package tree
+		this.rppt = function(names, tree) {
+			this.registeredPrecompiledPackages.push([names, tree]);
 			this.registeredPackages.push({provides: names, scriptUrl: null})
-		};
+		}
 		
 		function installJs(fun){
 			//Tries to make "normal" javascript work as a calcit library, but it will probably never have all options a "real" calcit JS library can have.

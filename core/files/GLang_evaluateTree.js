@@ -21,11 +21,13 @@
 	GLang.evaluatePreparedTree = function(sentenceList, env) {
 		if(sentenceList.length === 0) return GLang.voidValue;
 		
-		var result = GLang.voidValue;
-		for(var i = 0; i < sentenceList.length; i++) {
-			result = evaluateStandardSentence(sentenceList[i], env);
+		//var result = GLang.voidValue;
+		const LENGTH = sentenceList.length - 1;
+		for(var i = 0; i < LENGTH; i++) {
+			//We do not need the result here
+			evaluateStandardSentence(sentenceList[i], env);
 		}
-		return result;
+		return evaluateStandardSentence(sentenceList[LENGTH], env);;
 	}
 
 	//evaluateSentenceFragment will need to return specific values very, VERY often

@@ -6,28 +6,26 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 		case "boolean": return {value:js ? 1 : 0};
 	}
 	if(js instanceof Function){
-		var jsFunction = js
-		var calcitFunction = function(env, args){
-			var jsArguments = args.map(arg => arg.value);
-			return wrapJsToValue(jsFunction(...jsArguments));
+		function calcitFunction(env, args){
+			return wrapJsToValue(js(...args.map(arg => arg.value)));
 		}
 		
-		var jsArgNames = jsFunction.toString()
+		var jsArgNames = js.toString()
 			.replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
 			.match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1]
 			.split(/,/);
 		
-		var makeArrayFunction = true;
+		//var makeArrayFunction = true;
 		for(var i = 0; i < jsArgNames.length; i++){
 			if(jsArgNames[i].startsWith("_")){
-				makeArrayFunction = false;
-				break;
+				//We have to produce an array function
+				return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
 			}
 		}
 		
-		if(makeArrayFunction) calcitFunction = GLang.arrayFun(calcitFunction);
+		//if(makeArrayFunction) calcitFunction = GLang.arrayFun(calcitFunction);
 		
-		return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+		return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION, argumentList:jsArgNames}
 	}
 	if(js instanceof Array){
 		return {value:js.map(
