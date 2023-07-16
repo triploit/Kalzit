@@ -18,14 +18,25 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 		//var makeArrayFunction = true;
 		for(var i = 0; i < jsArgNames.length; i++){
 			if(jsArgNames[i].startsWith("_")){
-				//We have to produce an array function
-				return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+				//We have to produce a normal function
+				if(GLANG_DEBUG) {
+					//Include argument names at runtime
+					return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+				} else {
+					//Do not include argument names
+					return {value:calcitFunction, display:DISPLAY_FUNCTION}
+				}
 			}
 		}
 		
-		//if(makeArrayFunction) calcitFunction = GLang.arrayFun(calcitFunction);
-		
-		return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+		//We have to produce an array function
+		if(GLANG_DEBUG) {
+			//Include argument names at runtime
+			return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+		} else {
+			//Do not include argument names
+			return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION}
+		}
 	}
 	if(js instanceof Array){
 		return {value:js.map(

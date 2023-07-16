@@ -19,9 +19,12 @@ GLang.functionFromCodeblock = function(codeblock, defaultEnv, argumentList, type
 			return result;
 		}
 	}, display:DISPLAY_FUNCTION};
-	GLang.setAnnotation(result, {value:[
-		GLang.stringValue("argumentList"),
-		argumentList
-	]});
+	
+	if(GLANG_DEBUG) {
+		GLang.setAnnotation(result, {value:[
+			GLang.stringValue("argumentList"),
+			argumentList
+		]});
+	}
 	return result;
 }

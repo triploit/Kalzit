@@ -20,13 +20,6 @@
 		defaultBehavior(actualValue, annotation);
 	}
 
-	GLang.addAnnotation = function(actualValue, annotation){
-		applyAnnotation(actualValue, annotation, function(){
-			//Behavior for array annotations
-			actualValue.annotations = actualValue.annotations || [];
-			actualValue.annotations.push(annotation);
-		})
-	};
 	GLang.setAnnotation = function(actualValue, annotation){
 		applyAnnotation(actualValue, annotation, function(){
 			//Behavior for array annotations

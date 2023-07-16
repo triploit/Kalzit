@@ -38,7 +38,6 @@
 	const SET_TYPE_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_type"];
 	const SET_ANNOTATION_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_annotation"];
 	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"];
-	const GET_VALUE = GLang.defaultRuntimeEnvironment["kv_get"];
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {

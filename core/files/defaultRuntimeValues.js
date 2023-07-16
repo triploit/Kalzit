@@ -320,38 +320,24 @@
 		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
-	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitUnifyName", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_unify_name", {value:function(env, args){
 		return GLang.stringValue(GLang.defaultRuntimeEnvironment.unifyStringName(args[0].value + ""));
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAnnotations", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_annotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAddAnnotation", {value:function(env, args){
-		GLang.addAnnotation(args[1], args[0]);
-		return args[1];
-	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitSetAnnotation", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_set_annotation", {value:function(env, args){
 		GLang.setAnnotation(args[1], args[0]);
 		return args[1];
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitAddComment", {value:function(env, args){
-		GLang.addAnnotation(args[1], {value:[
-			GLang.stringValue("comment"),
-			args[0]
-		]});
+	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_set_type", {value:function(env, args){
+		args[1].type = args[0];
 		return args[1];
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("calcitSetType", {value:function(env, args){
-		GLang.addAnnotation(args[1], {value:[
-			GLang.stringValue("type"),
-			args[0]
-		]});
-		return args[1];
-	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("codeBlockFromString", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("code_block_from_string", {value:function(env, args){
 		return GLang.codeblockFromTree(GLang.prepareTree(GLang.generateTree(args[0].value)), GLang.defaultRuntimeEnvironment);
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("do", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("do", {value:function(env, args){
 		var params = [];
 		if(args.length >= 2){
 			params = args[1].value;
