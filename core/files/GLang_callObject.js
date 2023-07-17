@@ -9,7 +9,7 @@
 				
 				var untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
 				var argumentName = env.unifyStringName(argumentList[argIndex].value);
-				var argumentType = GLang.getType(argumentList[argIndex]);
+				var argumentType = argumentList[argIndex].type;
 				
 				//Check if we need to apply a type to the argument
 				var actualArgument = argumentType ? GLang.callObject(argumentType, env, [untypedArgument]) : untypedArgument;

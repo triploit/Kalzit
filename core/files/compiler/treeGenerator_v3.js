@@ -11,7 +11,8 @@ const KIND_NUMBER = 5;
 const KIND_COLON = 6;
 const KIND_EQUALS = 7;
 const KIND_SEMICOLON = 8;
-const KIND_SET_TYPE = 9;
+//const KIND_SET_TYPE = 9;
+const KIND_TYPED = 9;
 const KIND_SET_ANNOTATION = 10;
 const KIND_DO = 11;
 const KIND_GET = 12;
@@ -455,7 +456,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 					this.typeTree = this.typeTree.next(token);
 					if(isFinishedTree(this.typeTree) && this.typeTree !== WAITING) {
 						return group([
-							{k:KIND_PARENTHESES, p:[this.typeTree.group ? this.typeTree.group[0] : this.typeTree, {k:KIND_SET_TYPE}, originalTreeElement]},
+							{k:KIND_TYPED, t:this.typeTree.group ? this.typeTree.group[0] : this.typeTree, v:originalTreeElement},
 							WAITING
 						])
 					} else {
@@ -578,8 +579,8 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 						if (relativeArrowIndex == 0 || relativeArrowIndex == slicedStateAfterOperator.length - 1) {
 							throw new Error("You almost got the arrow syntax right! Just put something before and after the arrow.");	
 						}
-						var b = finishSentenceAndCheckForExclamationMarks({k:KIND_PARENTHESES, p:slicedStateAfterOperator.splice(0, relativeArrowIndex)});
-						var a = finishSentenceAndCheckForExclamationMarks({k:KIND_PARENTHESES, p:slicedStateAfterOperator.slice(1)});
+						var b = slicedStateAfterOperator.splice(0, relativeArrowIndex);
+						var a = {k:KIND_PARENTHESES, p:slicedStateAfterOperator.slice(1)};
 						state = state.slice(0, i).concat(a, op, b);
 					} else {
 						//We have no arrow; this is form 1 from above

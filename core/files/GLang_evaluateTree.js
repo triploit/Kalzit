@@ -35,8 +35,6 @@
 	const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"];
 	const EQUALS_VALUE = GLang.defaultRuntimeEnvironment["kv_="];
 	const SEMICOLON_VALUE = GLang.defaultRuntimeEnvironment["kv_;"];
-	const SET_TYPE_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_type"];
-	const SET_ANNOTATION_VALUE = GLang.defaultRuntimeEnvironment["kv_calcit_set_annotation"];
 	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"];
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
@@ -44,8 +42,12 @@
 			case KIND_COLON: return GLang.callObject(evaluateSentenceFragment(firstParamFragment, env), env, [secondParamValue]);
 			case KIND_EQUALS: return EQUALS_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
 			case KIND_SEMICOLON: return SEMICOLON_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
-			case KIND_SET_TYPE: return SET_TYPE_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
-			case KIND_SET_ANNOTATION: return SET_ANNOTATION_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
+//			case KIND_SET_TYPE:
+//				secondParamValue.type = evaluateSentenceFragment(firstParamFragment, env);
+//				return secondParamValue;
+			case KIND_SET_ANNOTATION:
+				GLang.setAnnotation(secondParamValue, evaluateSentenceFragment(firstParamFragment, env));
+				return secondParamValue;
 		}
 		
 		return GLang.callObject(evaluateSentenceFragment(operatorFragment, env), env, [
@@ -77,8 +79,20 @@
 			case KIND_COLON: return COLON_VALUE;
 			case KIND_EQUALS: return EQUALS_VALUE;
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
-			case KIND_SET_TYPE: return SET_TYPE_VALUE;
-			case KIND_SET_ANNOTATION: return SET_ANNOTATION_VALUE;
+			case KIND_TYPED:
+				const typeValue = evaluateSentenceFragment(fragment.t, env);
+				switch (fragment.v.k) {
+					//Which kind of typed value is this?
+					case KIND_STRING:
+						const string = GLang.stringValue(fragment.v.s);
+						string.type = typeValue;
+						return string;
+					case KIND_CODEBLOCK:
+						const cb = GLang.codeblockFromTree(fragment.v.sentences, env);
+						cb.type = typeValue;
+						return cb;
+					default: throw new Error("The following value can not be typed: " + fragment);
+				}
 			//Do the slightly less common things later
 			case KIND_STRING: return GLang.stringValue(fragment.s);
 			case KIND_NUMBER: return {value:fragment.num};
@@ -88,7 +102,6 @@
 		    case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.sentences, env);
 			case KIND_DO: return DO_VALUE;
 			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
-	//		case "special": return env.resolveName(fragment.special);
 			default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
 		}
 	}

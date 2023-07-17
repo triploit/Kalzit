@@ -189,7 +189,7 @@
                 throw new Error("fun must not be called with a string as its second parameter! Use a code block instead");
             }
 			var codeblock = args[1].value.cb;
-			var returnType = GLang.getType(args[1]);
+			var returnType = args[1].type;
 			
 			return GLang.functionFromCodeblock(codeblock, env, {value:argList}, returnType);
 		}}},
@@ -210,7 +210,7 @@
 		{varName:"=", varValue:{value:function(env, args){
 			var name = args[0].value, environment = env;
 			if("string" === typeof name) {
-				return environment.setInnerVariable(name, args[1], false, GLang.getType(args[0]));
+				return environment.setInnerVariable(name, args[1], false, args[0].type);
 			} else if (args[0].display === DISPLAY_MUTABLE) {
 				args[0].value.set(args[1]);
 				return args[1];
@@ -325,14 +325,6 @@
 	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_annotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
-	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_set_annotation", {value:function(env, args){
-		GLang.setAnnotation(args[1], args[0]);
-		return args[1];
-	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_set_type", {value:function(env, args){
-		args[1].type = args[0];
-		return args[1];
 	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("code_block_from_string", {value:function(env, args){
 		return GLang.codeblockFromTree(GLang.prepareTree(GLang.generateTree(args[0].value)), GLang.defaultRuntimeEnvironment);
