@@ -63,7 +63,7 @@ GLang.scopePrototype = {
 			return unifiedName	
 		}
 	},
-	setInnerVariable: function(n, value, unneeded, type){
+	setInnerVariable: function(n, value, unneeded){
 		//if(arguments.length !== 2) throw new Error("runtimeEnvironment.setInnerVariable should be called with exactly two arguments");
 		if(n.match("[^a-zA-Z_]")){
 			throw new Error(n + " is not a valid variable name!");
@@ -99,21 +99,7 @@ GLang.scopePrototype = {
 			console.log("---");
 		}
 		
-		var v = value;
-		if(type) {
-			v = GLang.callObject(type, this, [value], type);
-			//For debugging: log if the value was changed by the type
-// 			GLang.logTypeHint({
-// 				message:"The initial value of this variable was automatically changed by its type",
-// 				oldValue:value,
-// 				newValue:v,
-// 				typeName:GLang.getValueVarName(type),
-// 				varName:n
-// 			})
-		}
-		this["kv_" + n] = v;
-		//this.notifyVariableChange(n);
-		return v;
+		return this["kv_" + n] = value;
 	},
 	setInnerWithoutListeners: function(unified, value){
 		//This should only be (directly) used for things like function parameters, that are not supposed to trigger listeners

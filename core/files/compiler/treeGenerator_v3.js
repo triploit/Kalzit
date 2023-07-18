@@ -594,6 +594,33 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 				}
 			}
 
+			//TODO: I guess this functionality should be put into the "stringWithQuestionMark" state
+			//We have to make typed variable declarations into "normal" variable declarations
+			//Check for <typed> <equals> <value> and convert that into a "normal" declaration (<string> <equals> <type> <:> <value>)
+			for(var i = 1; i < state.length - 1; i+= 2) {
+				if(state[i].k === KIND_EQUALS && state[i - 1].k === KIND_TYPED) {
+					//Convert that into a "normal" variable declaration with a function call in front of the value
+					const typedName = state[i - 1];
+					const name = typedName.s;
+					const type = typedName.t;
+					
+					//console.log(name);
+					//console.log(type);
+					
+					//Replace the typed tree element with a "string" element (i - 1)
+					state[i - 1] = string(name);
+					//We already have the equals sign next (i)
+					//Place <type> and <:> after the equals sign (after position i, so at i + 1)
+					state.splice(i + 1, 0, type, {k:KIND_COLON});
+					
+					//Since we have inserted two things, increase i by 2
+					i += 2;
+					
+//					console.log("We have a typed variable declaration");
+//					throw new Error("We have a typed variable declaration!");
+				}
+			}
+
 			return state;
 		}
 		

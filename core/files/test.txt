@@ -9,3 +9,8 @@ $m = mutable: 6.
 m = 10.
 print ~m.
 print: m.
+
+print: calcitCompile: "$a ? Int = p".
+
+$a ? (List:Int) = "1.5";"3.5".
+print: a
