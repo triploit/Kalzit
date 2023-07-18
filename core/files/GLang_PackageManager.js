@@ -137,7 +137,7 @@
 			var newThis = {};
 			fun.call(newThis);
 			for(var property in newThis){
-				GLang.defaultRuntimeEnvironment.setInnerWithoutListeners(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
+				GLang.defaultRuntimeEnvironment.qdSet(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
 			} };
 		this.installJs = installJs;
 		

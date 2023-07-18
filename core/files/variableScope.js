@@ -63,12 +63,7 @@ GLang.scopePrototype = {
 			return unifiedName	
 		}
 	},
-	setInnerVariable: function(n, value, unneeded){
-		//if(arguments.length !== 2) throw new Error("runtimeEnvironment.setInnerVariable should be called with exactly two arguments");
-		if(n.match("[^a-zA-Z_]")){
-			throw new Error(n + " is not a valid variable name!");
-		}
-		
+	setInnerVariable: function(n, value, unneeded){		
 		//Look for an existing variable with the given name...
 		n = this.unifyStringName(n);
 		//For debugging, make sure the name is sort of meaningful
@@ -101,7 +96,8 @@ GLang.scopePrototype = {
 		
 		return this["kv_" + n] = value;
 	},
-	setInnerWithoutListeners: function(unified, value){
+	//Quick-and-dirty variable set - set a variable to a value in the fastest way possible, without any safety checks
+	qdSet: function(unified, value){
 		//This should only be (directly) used for things like function parameters, that are not supposed to trigger listeners
 		//name = this.unifyStringName(name);
 		this["kv_" + unified] = value;

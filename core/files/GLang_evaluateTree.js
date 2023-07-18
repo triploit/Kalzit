@@ -33,18 +33,13 @@
 	//evaluateSentenceFragment will need to return specific values very, VERY often
 	//Load and store them here, so they are easily accessible
 	const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"];
-	const EQUALS_VALUE = GLang.defaultRuntimeEnvironment["kv_="];
 	const SEMICOLON_VALUE = GLang.defaultRuntimeEnvironment["kv_;"];
 	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"];
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {
 			case KIND_COLON: return GLang.callObject(evaluateSentenceFragment(firstParamFragment, env), env, [secondParamValue]);
-			case KIND_EQUALS: return EQUALS_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
 			case KIND_SEMICOLON: return SEMICOLON_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
-//			case KIND_SET_TYPE:
-//				secondParamValue.type = evaluateSentenceFragment(firstParamFragment, env);
-//				return secondParamValue;
 			case KIND_SET_ANNOTATION:
 				GLang.setAnnotation(secondParamValue, evaluateSentenceFragment(firstParamFragment, env));
 				return secondParamValue;
@@ -77,7 +72,12 @@
 		switch(fragment.k){
 			//Do the super common things first
 			case KIND_COLON: return COLON_VALUE;
-			case KIND_EQUALS: return EQUALS_VALUE;
+			case KIND_ASSIGN_TO_STRING: return env.setInnerVariable(fragment.s, evaluateStandardSentence(fragment.v, env));
+			case KIND_ASSIGN_TO_MUTABLE_NAME:
+				//console.log(fragment);
+				const resultA = evaluateStandardSentence(fragment.v, env);
+				env.resolveName(fragment.n).value.set(resultA);
+				return resultA;
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
 			case KIND_TYPED:
 				//Typed values are always strings
@@ -93,7 +93,11 @@
 		    case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.sentences, env);
 			case KIND_DO: return DO_VALUE;
 			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
-			default: if(GLANG_DEBUG) throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
+			case KIND_ASSIGN_TO_MUTABLE_NONAME:
+				const result = evaluateStandardSentence(fragment.v, env);
+				evaluateSentenceFragment(fragment.m, env).value.set(result);
+				return result;
+			default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
 		}
 	}
 })()

@@ -9,13 +9,15 @@ const KIND_ARRAY = 3;
 const KIND_NAME = 4;
 const KIND_NUMBER = 5;
 const KIND_COLON = 6;
-const KIND_EQUALS = 7;
+const KIND_ASSIGN_TO_STRING = 7;
 const KIND_SEMICOLON = 8;
 //const KIND_SET_TYPE = 9;
 const KIND_TYPED = 9;
 const KIND_SET_ANNOTATION = 10;
 const KIND_DO = 11;
 const KIND_GET = 12;
+const KIND_ASSIGN_TO_MUTABLE_NAME = 13;
+const KIND_ASSIGN_TO_MUTABLE_NONAME = 14;
 
 if(GLANG_TREE_GENERATOR_INCLUDED) {
 	;(function(){
@@ -230,7 +232,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 					return group([this, WAITING.next(token)]);	
 				}
 			},
-			k: KIND_EQUALS
+			k: "equals"
 		};
 		
 		const ARROW = {
@@ -594,34 +596,69 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 				}
 			}
 
-			//TODO: I guess this functionality should be put into the "stringWithQuestionMark" state
-			//We have to make typed variable declarations into "normal" variable declarations
-			//Check for <typed> <equals> <value> and convert that into a "normal" declaration (<string> <equals> <type> <:> <value>)
-			for(var i = 1; i < state.length - 1; i+= 2) {
-				if(state[i].k === KIND_EQUALS && state[i - 1].k === KIND_TYPED) {
-					//Convert that into a "normal" variable declaration with a function call in front of the value
-					const typedName = state[i - 1];
-					const name = typedName.s;
-					const type = typedName.t;
+			function simplifyForRuntime(state) {
+				//TODO: I guess this functionality should be put into the "stringWithQuestionMark" state
+				const newState = [];
+				for(var i = 1; i <= state.length - 1; i+= 2) {
+					//We have to make all kinds of variable declarations simpler for the runtime
+					//Check for <typed> <equals> <value> and convert that into a "normal" declaration (<string> <equals> <type> <:> <value>)
+					if(state[i].k === "equals") {
+						//We have four cases. First case: typed variable names
+						if(state[i - 1].k === KIND_TYPED) {
+							//Convert that into a "normal" variable declaration with a function call in front of the value
+							const typedName = state[i - 1];
+
+							const name = typedName.s;
+							//Fail if the name is invalid
+							if(name.match("[^a-zA-Z_]")){
+								throw new Error(name + " is not a valid variable name!");
+							}
+							
+							const type = typedName.t;
+							
+							//console.log(name);
+							//console.log(type);
+							
+							var variableValueTree = [type, {k:KIND_COLON}, ...simplifyForRuntime(state.slice(i + 1))];
+							newState.push({k:KIND_ASSIGN_TO_STRING, s:name, v:variableValueTree})
+							
+							return newState;
+						}
+						//Second case: untyped variable names
+						else if(state[i - 1].k === KIND_STRING) {
+							//Tell the runtime that we are doing a string assignment
+							const name = GLang.defaultRuntimeEnvironment.unifyStringName(state[i - 1].s);
+							//Fail if the name is invalid
+							if(name.match("[^a-zA-Z_]")){
+								throw new Error(name + " is not a valid variable name!");
+							}							
+
+							newState.push({k:KIND_ASSIGN_TO_STRING, s:name, v:simplifyForRuntime(state.slice(i + 1))});
+							return newState;
+						}
+						//Third case: assigning to a mutable that is referenced by a name
+						else if(state[i - 1].k === KIND_NAME) {
+							//Tell the runtime that we are dong a name-based mutable assignment
+							newState.push({k:KIND_ASSIGN_TO_MUTABLE_NAME, n:state[i - 1].n, v:simplifyForRuntime(state.slice(i + 1))});
+							return newState;
+						}
+						//Fourth case case: we do have something other than a string literal. So we assume that we are supposed to assign something to a mutable container, not to a string name
+						else {
+							//Tell the runtime that we are doing a mutable container assignment
+							newState.push({k:KIND_ASSIGN_TO_MUTABLE_NONAME, m:state[i - 1], v:simplifyForRuntime(state.slice(i + 1))});
+							return newState;
+						}
 					
-					//console.log(name);
-					//console.log(type);
-					
-					//Replace the typed tree element with a "string" element (i - 1)
-					state[i - 1] = string(name);
-					//We already have the equals sign next (i)
-					//Place <type> and <:> after the equals sign (after position i, so at i + 1)
-					state.splice(i + 1, 0, type, {k:KIND_COLON});
-					
-					//Since we have inserted two things, increase i by 2
-					i += 2;
-					
-//					console.log("We have a typed variable declaration");
-//					throw new Error("We have a typed variable declaration!");
+					} else {
+						//Nothing special to do
+						newState.push(state[i - 1], state[i]);
+					}
 				}
+				
+				return state; //Return the OLD state - we do nothing
 			}
 
-			return state;
+			return simplifyForRuntime(state);
 		}
 		
 		GLang.produceNestedWaitingReasons = function(item) {

@@ -215,25 +215,6 @@
 		{varName:":", varValue:{value:function(env, args){
 			return GLang.callObject(args[0], env, [args[1]]);
 		}}},
-		{varName:"=", varValue:{value:function(env, args){
-			switch(args[0].display) {
-				case DISPLAY_STRING: return env.setInnerVariable(args[0].value, args[1], false, args[0].type);
-				case DISPLAY_MUTABLE:
-					args[0].value.set(args[1]);
-					return args[1];
-				default: if(GLANG_DEBUG) throw new Error("First argument of = has to be a string or a mutable value - " + JSON.stringify(name) + " does not fit this rule");
-			}
-
-//			var name = args[0].value, environment = env;
-//			if("string" === typeof name) {
-//				return environment.setInnerVariable(name, args[1], false, args[0].type);
-//			} else if (args[0].display === DISPLAY_MUTABLE) {
-//				args[0].value.set(args[1]);
-//				return args[1];
-//			} else {
-//				throw new Error("First argument of = has to be a string or a mutable value - " + JSON.stringify(name) + " does not fit this rule");
-//			}
-		}}},
 		{varName:"range", varValue:{value:arrayFun(function(env, args){
 			var array = [];
 			if(args[0].value <= args[1].value){
@@ -336,16 +317,16 @@
 		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
-	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_unify_name", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("calcit_unify_name", {value:function(env, args){
 		return GLang.stringValue(GLang.defaultRuntimeEnvironment.unifyStringName(args[0].value + ""));
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("calcit_annotations", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("calcit_annotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("code_block_from_string", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("code_block_from_string", {value:function(env, args){
 		return GLang.codeblockFromTree(GLang.prepareTree(GLang.generateTree(args[0].value)), GLang.defaultRuntimeEnvironment);
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerWithoutListeners("do", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("do", {value:function(env, args){
 		var params = [];
 		if(args.length >= 2){
 			params = args[1].value;

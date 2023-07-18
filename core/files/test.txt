@@ -1,16 +1,6 @@
-$f = $p ? Float fun { $a ? Int = p. `Return` (p + a) * 2 }.
-print: f: "1.5". #Expected result: 5
+$m ? Var = 6.
+print: ~m.
+m = 1.
+print: ~m.
 
-$m = mutable: 6.
-!listen m {
-	print: "Here".
-	print: x
-}.
-m = 10.
-print ~m.
-print: m.
-
-print: calcitCompile: "$a ? Int = p".
-
-$a ? (List:Int) = "1.5";"3.5".
-print: a
+print: calcitCompile: "$a = 'v'. a = 6."

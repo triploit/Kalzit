@@ -14,7 +14,7 @@
 				//Check if we need to apply a type to the argument
 				var actualArgument = argumentType ? GLang.callObject(argumentType, env, [untypedArgument]) : untypedArgument;
 				
-				functionEnvironment.setInnerWithoutListeners(
+				functionEnvironment.qdSet(
 					//Name
 					argumentName,
 					//Value
@@ -29,8 +29,6 @@
 	function createCodeBlockScope(env, args){
 		var functionEnvironment = GLang.RuntimeEnvironment(env);
 		
-	//	functionEnvironment.setInnerWithoutListeners("x", args.length > 0 ? args[0] : GLang.voidValue);
-	//	functionEnvironment.setInnerWithoutListeners("y", args.length > 1 ? args[1] : GLang.voidValue);
 		functionEnvironment.kv_x = args.length > 0 ? args[0] : GLang.voidValue;
 		functionEnvironment.kv_y = args.length > 1 ? args[1] : GLang.voidValue;
 		
