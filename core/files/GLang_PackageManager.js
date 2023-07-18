@@ -24,7 +24,7 @@
 					}
 					this.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
 					break;
-				default: throw new Error("Unsupported language for packages: " + languageCode);
+				default: if(GLANG_DEBUG) throw new Error("Unsupported language for packages: " + languageCode);
 			}
 		} catch (e) {
 			if(GLANG_DEBUG) {

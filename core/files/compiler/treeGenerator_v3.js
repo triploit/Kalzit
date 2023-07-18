@@ -312,7 +312,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 		        sentences:GLang.prepareTree(sentences),
 		        next:function(token) {
 		            if (token.textValue === "?") {
-						return elementWithQuestionMark(this);
+						throw new Error("Typed codeblocks are not supported anymore");
 					} else if (token.category === "Space") {
 						return this;
 					} else {
@@ -436,7 +436,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 				k:KIND_STRING,
 				next: function(token){
 					if (token.textValue === "?") {
-						return elementWithQuestionMark(this);
+						return stringWithQuestionMark(this);
 					} else if (token.category === "Space") {
 						return this;
 					} else {
@@ -446,9 +446,9 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 			}
 		}
 		
-		function elementWithQuestionMark(originalTreeElement) {
+		function stringWithQuestionMark(originalTreeElement) {
 			return {
-				k: "elementWithQuestionMark",
+				k: "stringWithQuestionMark",
 				waiting: true,
 				//stringValue: stringValue,
 				typeTree: WAITING,
@@ -456,7 +456,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 					this.typeTree = this.typeTree.next(token);
 					if(isFinishedTree(this.typeTree) && this.typeTree !== WAITING) {
 						return group([
-							{k:KIND_TYPED, t:this.typeTree.group ? this.typeTree.group[0] : this.typeTree, v:originalTreeElement},
+							{k:KIND_TYPED, t:this.typeTree.group ? this.typeTree.group[0] : this.typeTree, s:originalTreeElement.s},
 							WAITING
 						])
 					} else {

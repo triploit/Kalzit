@@ -22,7 +22,9 @@
 			if(originalArgumentCount === 0){
 				return GLang.callObject(original, env, []);
 			}
-			if(originalArgumentCount > 2){
+			
+			//console.log("arrayFunWrapper");
+			if(GLANG_DEBUG && originalArgumentCount > 2){
 				throw new Error("You can not call an array function with more than two parameters. (You should never call a function with more than two parameters)");
 			}
 			
@@ -35,20 +37,26 @@
 			}
 			
 			var a = args[0];
-			if(GLang.eq(a.value, [])) return {value:[]};
+			const aIsArray = a.value instanceof Array;
+			if(aIsArray && a.value.length === 0) return {value:[]}
+			//if(GLang.eq(a.value, [])) return {value:[]};
+
 			var b = args[1];
-			if(GLang.eq(b.value, [])) return {value:[]};
+			const bIsArray = b.value instanceof Array;
+			if(bIsArray && b.value.length === 0) return {value:[]}
+			//if(GLang.eq(b.value, [])) return {value:[]};
+
 			var result = [];
 			
 			//Called with at least one array
-			if(a.value instanceof Array || b.value instanceof Array){
-				a = a.value instanceof Array ? a : {value:[a]};
-				b = b.value instanceof Array ? b : {value:[b]};
-				var lenA = a.value.length, lenB = b.value.length;
+			if(aIsArray || bIsArray){
+				a = aIsArray ? a : {value:[a]};
+				b = bIsArray ? b : {value:[b]};
+				const lenA = a.value.length, lenB = b.value.length;
 				
 				var len = Math.max(lenA, lenB);
 				for(var i = 0; i < len; i++){
-					if(!b.value.length){
+					if(!lenB){
 						result.push(arrayFunWrapper(
 							env,
 							[
@@ -180,18 +188,18 @@
 			}else{
 				argList = argList.value;
 			}
-			if(argList.length > 2){
+			if(GLANG_DEBUG && argList.length > 2){
 				throw new Error("Functions can not have more than two parameters");
 			}
 			
 			//console.log("typecheck !fun");
-            if((args[1].value + "") === args[1].value) {
+            if(GLANG_DEBUG && (args[1].value + "") === args[1].value) {
                 throw new Error("fun must not be called with a string as its second parameter! Use a code block instead");
             }
 			var codeblock = args[1].value.cb;
-			var returnType = args[1].type;
+			//var returnType = args[1].type;
 			
-			return GLang.functionFromCodeblock(codeblock, env, {value:argList}, returnType);
+			return GLang.functionFromCodeblock(codeblock, env, {value:argList});
 		}}},
 		{varName:";", varValue:{value:function(env, args){
 			var val1 = args[0];
@@ -208,15 +216,23 @@
 			return GLang.callObject(args[0], env, [args[1]]);
 		}}},
 		{varName:"=", varValue:{value:function(env, args){
-			var name = args[0].value, environment = env;
-			if("string" === typeof name) {
-				return environment.setInnerVariable(name, args[1], false, args[0].type);
-			} else if (args[0].display === DISPLAY_MUTABLE) {
-				args[0].value.set(args[1]);
-				return args[1];
-			} else {
-				throw new Error("First argument of = has to be a string or a mutable value - " + JSON.stringify(name) + " does not fit this rule");
+			switch(args[0].display) {
+				case DISPLAY_STRING: return env.setInnerVariable(args[0].value, args[1], false, args[0].type);
+				case DISPLAY_MUTABLE:
+					args[0].value.set(args[1]);
+					return args[1];
+				default: if(GLANG_DEBUG) throw new Error("First argument of = has to be a string or a mutable value - " + JSON.stringify(name) + " does not fit this rule");
 			}
+
+//			var name = args[0].value, environment = env;
+//			if("string" === typeof name) {
+//				return environment.setInnerVariable(name, args[1], false, args[0].type);
+//			} else if (args[0].display === DISPLAY_MUTABLE) {
+//				args[0].value.set(args[1]);
+//				return args[1];
+//			} else {
+//				throw new Error("First argument of = has to be a string or a mutable value - " + JSON.stringify(name) + " does not fit this rule");
+//			}
 		}}},
 		{varName:"range", varValue:{value:arrayFun(function(env, args){
 			var array = [];

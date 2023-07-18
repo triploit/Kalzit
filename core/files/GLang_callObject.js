@@ -5,7 +5,7 @@
 			//add arguments to function environment
 			argumentList = argumentList.value || [];
 			for(var argIndex = 0; argIndex < argumentList.length; argIndex++){
-				if("string" !== typeof argumentList[argIndex].value) throw new Error("Every entry of an argument list needs to be a string value - " + JSON.stringify(argumentList[argIndex]) + " does not fit this rule");
+				if(GLANG_DEBUG && "string" !== typeof argumentList[argIndex].value) throw new Error("Every entry of an argument list needs to be a string value - " + JSON.stringify(argumentList[argIndex]) + " does not fit this rule");
 				
 				var untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
 				var argumentName = env.unifyStringName(argumentList[argIndex].value);
@@ -103,7 +103,7 @@
 				switch(typeof object){
 					case "function":
 						result = object(env, args);
-						if (result == null) {
+						if (GLANG_DEBUG && result == null) {
 							throw new Error("Calling the following function lead to a result of null or undefined: " + object);
 						}
 						break;

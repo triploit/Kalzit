@@ -10,5 +10,8 @@ $instagramUserImages=igUserParseUserImageUrls.
 		$rawImageUrl = second: pair.
 */
 $instagramUserPostUrlsWithImages = ($userName ? String) fun {
-	{("https://www.instagram.com/p/" + $shortcode propOf x);$display_url propOf x} each igUserParseUserImages: userName
-} ? (List:Tuple:Url;Image).
+	(List:Tuple:Url;Image):
+		!each igUserParseUserImages: userName -> {
+			("https://www.instagram.com/p/" + $shortcode propOf x);$display_url propOf x
+		}
+}.

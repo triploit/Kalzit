@@ -21,8 +21,9 @@ $storageLoadStringList = ($key ? String) fun {
 	} each (0 rangeUp len) - 1
 }.
 $storageLoadListLength = ($key ? String) fun {
-	storageLoadString: ("listLength_of_" + key)
-} ? (0 default Int).
+	(0 default Int):
+		storageLoadString: ("listLength_of_" + key)
+}.
 $storageExtendStringList = ($key ? String ; $_list ? ModifiableList) fun {
 	$startLength = storageLoadListLength: key.
 	$values = (List:String): getArray: _list.

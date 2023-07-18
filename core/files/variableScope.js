@@ -32,7 +32,7 @@ GLang.scopePrototype = {
 		return result;
 	},
 	unifyStringName: function(originalName){
-		if("string" !== typeof originalName) throw new Error("unifyStringName only accepts strings - " + JSON.stringify(originalName) + " does not fit this rule");
+		if(GLANG_DEBUG && "string" !== typeof originalName) throw new Error("unifyStringName only accepts strings - " + JSON.stringify(originalName) + " does not fit this rule");
 		
 		if(originalName === ""){
 			return "";

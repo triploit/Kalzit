@@ -34,12 +34,12 @@ $Color = ($_color ? (List:Int)) fun {
 			$secondColor = 1;2;3. `result is "rgba(1,2,3,1)"`
 */
 $ColorString = ($_color) fun {
-	!ifElse ("string" eq displayType: _color) {
+	String: !ifElse ("string" eq displayType: _color) {
 		_color
 	};{
 		colorToString: Color: _color
 	}
-} ? String.
+}.
 
 /* @kalzit.for red
 Constant for the color red

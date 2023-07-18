@@ -6,25 +6,26 @@ const KStorage = {};
     This is a helper function used for anything that has to do with local storage.
     It tests wether localStorage exists, and if it does the "onSuccess" function is called with the global "localStorage" object.
     
-    If either localStorage does not exist as an API or (probably more important) if onSuccess throws an error when called, "onError" is called with the thrown exception.
-    Basically you can very easily prevent an exception from being thrown, because it is handled in pretty much any case. The only exception would be any error thrown by "onError".
+    If either localStorage does not exist as an API or (probably more important) if onSuccess throws an error when called, the function fails silently
+    Basically you can very easily prevent an exception from being thrown, because it is handled in pretty much any case.
     
     Please note that "onSuccess" is a required parameter, while "onError" is optional.
     */
-    function withLocalStorage(onSuccess, onError){
-        try{
+    function withLocalStorage(onSuccess){
+//        try{
             //Check if localStorage is available
-            if(localStorage) {
+            if(window.localStorage) {
                 //If so, try to run "onSuccess" - if that ends well, this function stops.
                 onSuccess(localStorage);
-            }else{
-                //localStorage does not exist
-                throw new Error("The localStorage API is not available");   
             }
-        }catch (e){
-            //Any error occured - use the error handler if present
-            if(onError) onError(e);
-        }
+//			else{
+//                //localStorage does not exist
+//                throw new Error("The localStorage API is not available");   
+//            }
+//        }catch (e){
+//            //Any error occured - use the error handler if present
+//            if(onError) onError(e);
+//        }
     }
     
     /**

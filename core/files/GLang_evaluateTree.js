@@ -80,19 +80,10 @@
 			case KIND_EQUALS: return EQUALS_VALUE;
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
 			case KIND_TYPED:
-				const typeValue = evaluateSentenceFragment(fragment.t, env);
-				switch (fragment.v.k) {
-					//Which kind of typed value is this?
-					case KIND_STRING:
-						const string = GLang.stringValue(fragment.v.s);
-						string.type = typeValue;
-						return string;
-					case KIND_CODEBLOCK:
-						const cb = GLang.codeblockFromTree(fragment.v.sentences, env);
-						cb.type = typeValue;
-						return cb;
-					default: throw new Error("The following value can not be typed: " + fragment);
-				}
+				//Typed values are always strings
+				const string = GLang.stringValue(fragment.s);
+				string.type = evaluateSentenceFragment(fragment.t, env);
+				return string;
 			//Do the slightly less common things later
 			case KIND_STRING: return GLang.stringValue(fragment.s);
 			case KIND_NUMBER: return {value:fragment.num};
@@ -102,7 +93,7 @@
 		    case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.sentences, env);
 			case KIND_DO: return DO_VALUE;
 			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
-			default: throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
+			default: if(GLANG_DEBUG) throw new Error("The following sentence fragment could not be evaluated: " + JSON.stringify(fragment));
 		}
 	}
 })()
