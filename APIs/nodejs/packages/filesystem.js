@@ -1,14 +1,14 @@
 var fs = require('fs');
 var path = require("path");
 
-this.fileContent = function(filePath){
+this.file_content = function(filePath){
 	try{
 		return fs.readFileSync(filePath, "utf8");
 	}catch(e){
 		return null;
 	}
 }
-this.fileContentBytes = function(filePath){
+this.file_content_bytes = function(filePath){
 	var buffer = fs.readFileSync(filePath);
 	var byteArray = [];
 	for(var i = 0; i < buffer.length; i++){
@@ -16,13 +16,13 @@ this.fileContentBytes = function(filePath){
 	}
 	return byteArray;
 }
-function fileContentRaw(filePath){
+function file_content_raw(filePath){
 	return fs.readFileSync(filePath);
 }
 function fileContentAsync(callback, filePath){
 	fs.readFile(filePath, "utf8", callback);
 }
-this.folderContent = function(filePath){
+this.folder_content = function(filePath){
 	var array = fs.readdirSync(filePath);
 	var result = [];
 	for(var i = 0; i < array.length; i++){
@@ -33,7 +33,7 @@ this.folderContent = function(filePath){
 function folderContentAsync(callback, filePath){
 	fs.readdir(filePath, callback)
 }
-this.fileWrite = function(filePath, data){
+this.file_write = function(filePath, data){
 	try{
 		fs.writeFileSync(filePath, data);	
 	}catch(e){
@@ -41,13 +41,13 @@ this.fileWrite = function(filePath, data){
 		console.log(e);	
 	}
 }
-this.fileCreateFolder = function(folderPath){
+this.file_create_folder = function(folderPath){
 	!fs.existsSync(folderPath) && fs.mkdirSync(folderPath, {recursive: true});
 }
-this.fileDelete = function(filePath){
+this.file_delete = function(filePath){
 	fs.existsSync(filePath) && fs.unlinkSync(filePath);
 }
-this.fileDeleteFolder = function(filePath){
+this.file_delete_folder = function(filePath){
 	fs.existsSync(filePath) && fs.rmdirSync(filePath);
 }
 
@@ -95,33 +95,33 @@ GLang.defaultRuntimeEnvironment.qdSet("folder_content_async", {value:GLang.array
 	return GLang.voidValue
 }), display:DISPLAY_FUNCTION});
 
-this.fileExists = function(filePath){
+this.file_exists = function(filePath){
 	return fs.existsSync(filePath);
 }
 /* Returns if a file is a folder, not a file with contents nor a symbolic link pointing to a folder */
-this.fileIsFolderNotLink = function(filePath){
+this.file_is_folder_not_link = function(filePath){
 	try{
 		return fs.lstatSync(filePath).isDirectory();
 	}catch(e){
 		return false;
 	}
 }
-this.fileIsFolder = function(filePath){
+this.file_is_folder = function(filePath){
 	try{
 		return fs.lstatSync(fs.realpathSync(filePath)).isDirectory();
 	}catch(e){
 		return false;
 	}
 }
-this.fileRealpath = function(filePath){
+this.file_realpath = function(filePath){
 	return fs.realpathSync(filePath);
 }
-this.fileRenameFile = function(oldPath, newPath){
+this.file_rename_file = function(oldPath, newPath){
 	if (fs.existsSync(oldPath)) {
 		fs.renameSync(oldPath, newPath);
 	}
 }
-this.fileIsFile = function(filePath){
+this.file_is_file = function(filePath){
 	try{
 		return fs.lstatSync(fs.realpathSync(filePath)).isFile();
 	}catch(e){
@@ -129,7 +129,7 @@ this.fileIsFile = function(filePath){
 	}
 }
 /* Returns if a file is a file, not a folder nor a symbolic link pointing to a file */
-this.fileIsFileNotLink = function(filePath){
+this.file_is_file_not_link = function(filePath){
 	try{
 		return fs.lstatSync(filePath).isFile();
 	}catch(e){
@@ -137,7 +137,7 @@ this.fileIsFileNotLink = function(filePath){
 	}
 }
 /* Returns if a file is a symbolic link */
-this.fileIsLink = function(filePath){
+this.file_is_link = function(filePath){
 	try{
 		return fs.lstatSync(filePath).isSymbolicLink();
 	}catch(e){

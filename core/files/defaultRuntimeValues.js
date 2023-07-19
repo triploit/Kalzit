@@ -303,7 +303,7 @@
 			var name = args[0].value + "";
 			//TODO: Error-driven logic is probably a bad idea, but I guess it works
 			try {
-				env.resolveName(env.unifyStringName(name));
+				env.resolveName(name);
 				//When this causes no error, the variable exists
 				return {value:1};
 			} catch (e) {
@@ -317,9 +317,6 @@
 		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
-	GLang.defaultRuntimeEnvironment.qdSet("calcit_unify_name", {value:function(env, args){
-		return GLang.stringValue(GLang.defaultRuntimeEnvironment.unifyStringName(args[0].value + ""));
-	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.qdSet("calcit_annotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
 	}, display:DISPLAY_FUNCTION});

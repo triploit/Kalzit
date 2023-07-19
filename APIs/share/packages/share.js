@@ -1,4 +1,4 @@
-this.shareSupported = function(){
+this.share_supported = function(){
 	if(navigator.share) {
 		return true;	
 	}else{

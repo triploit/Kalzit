@@ -1,7 +1,7 @@
-this.disableHighlighting = function() {
+this.disable_highlighting = function() {
 	document.body.classList.add("k-no_highlight");
 }
 
-this.enableHighlighting = function() {
+this.enable_highlighting = function() {
 	document.body.classList.remove("k-no_highlight");
 }

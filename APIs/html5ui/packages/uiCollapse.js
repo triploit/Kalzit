@@ -31,7 +31,7 @@
 	uiToggleExpansion: yourUiElement
 	```
 	*/
-	global.uiToggleExpansion = function(element){
+	global.ui_toggle_expansion = function(element){
 		if(isCollapsed(element)){
 			expand(element);
 		}else{
@@ -48,7 +48,7 @@
 	uiExpand: yourUiElement
 	```
 	*/
-	global.uiExpand = expand;
+	global.ui_expand = expand;
 	
 	/* @kalzit.for ui_collapse
 	Changes the expanded / collapsed state of a UI element so it gets a height of zero pixels.
@@ -59,26 +59,26 @@
 	uiCollapse: yourUiElement
 	```
 	*/
-	global.uiCollapse = collapse;
+	global.ui_collapse = collapse;
 	
 	/* @kalzit.for ui_is_collapsed
 	Returns whether a UI element is collapsed (this state can be changed by uiCollapse or uiToggleExpansion)
 	*/
-	global.uiIsCollapsed = isCollapsed;
+	global.ui_is_collapsed = isCollapsed;
 	
 	/* @kalzit.for ui_is_expanded
 	Returns whether a UI element is expanded (this state can be changed by uiCollapse or uiToggleExpansion)
 	*/
-	global.uiIsExpanded = function(element){
+	global.ui_is_expanded = function(element){
 		return ! isCollapsed(element);
 	};
 	
-	global.flagOnExpand = function(listener, object){
+	global.flag_on_expand = function(listener, object){
 		object.addEventListener("k-before_expand", function(e){
 			GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
 		});
 	}
-	global.flagOnCollapse = function(listener, object){
+	global.flag_on_collapse = function(listener, object){
 		object.addEventListener("k-before_collapse", function(e){
 			GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
 		});

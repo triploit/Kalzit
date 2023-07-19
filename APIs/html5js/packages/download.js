@@ -18,6 +18,6 @@ function downloadText(text, title) {
     downloadUrl(strToDataUrl(text), title);
 }
 
-this.downloadUrl = downloadUrl;
-this.downloadText = downloadText;
-this.strToDataUrl = strToDataUrl;
+this.download_url = downloadUrl;
+this.download_text = downloadText;
+this.str_to_data_url = strToDataUrl;

@@ -12,7 +12,7 @@ $area = (`your text area`).
 print: @expandWithContent area.
 ```
 */
-this.expandWithContent = function(textarea){
+this.expand_with_content = function(textarea){
 	function update(){
 		textarea.rows = textarea.value.split("\n").length || 1
 	}

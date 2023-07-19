@@ -1,8 +1,8 @@
 $stringAssetAccess = cachedFun: ($_prefix ? ("/assets/strings/" default String) ; $_loader ? (default: {loadLocal: x})) fun {
-	$object = {(calcitUnifyName: first: x);second: x} each parseJson: _loader: _prefix + "default.json".
+	$object = parseJson: _loader: _prefix + "default.json".
 	!if (not object eq void) {
 		cachedFun: ($key ? String) fun {
-			(calcitUnifyName: key) objFirstProperty object
+			key objFirstProperty object
 		}
 	}
 }.

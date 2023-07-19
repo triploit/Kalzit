@@ -1,4 +1,4 @@
-this.flagOnTextSelect = function flagOnTextSelect(listener, object){
+this.flag_on_text_select = function flagOnTextSelect(listener, object){
 	
 	var lastStart, lastEnd;
 	

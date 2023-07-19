@@ -28,7 +28,7 @@ function motionSupported(){
 		return true
 	}, false)
 }
-this.motionSupported = motionSupported;
+this.motion_supported = motionSupported;
 
 function motionAllowedAsync(callback){
 	withMotionPermissionStatus(permission => {

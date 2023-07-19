@@ -1,43 +1,43 @@
-this.flagWidth = function(width, object){
+this.flag_width = function(width, object){
 	object.style.width = "calc(" + width + ")";
 }
-this.flagPxWidth = function(width, object){
+this.flag_px_width = function(width, object){
 	object.style.width = width + "px";
 }
-this.flagPxHeight = function(height, object){
+this.flag_px_height = function(height, object){
 	object.style.height = height + "px";
 }
-this.flagPercentWidth = function(width, object){
+this.flag_percent_width = function(width, object){
 	object.style.width = width + "%";
 }
-this.flagHeight = function(height, object){
+this.flag_height = function(height, object){
 	object.style.height = "calc(" + height + ")";
 }
-this.flagPercentHeight = function(height, object){
+this.flag_percent_height = function(height, object){
 	object.style.height = height + "%";
 }
-this.flagEmWidth = function(width, object){
+this.flag_em_width = function(width, object){
 	object.style.width = width + "em";
 }
-this.flagEmHeight = function(height, object){
+this.flag_em_height = function(height, object){
 	object.style.height = height + "em";
 }
 
-this.flagMmWidth = function(width, object){
+this.flag_mm_width = function(width, object){
 	object.style.width = width + "mm";
 }
-this.flagMmHeight = function(height, object){
+this.flag_mm_height = function(height, object){
 	object.style.height = height + "mm";
 }
-this.flagCmWidth = function(width, object){
+this.flag_cm_width = function(width, object){
 	object.style.width = width + "cm";
 }
-this.flagCmHeight = function(height, object){
+this.flag_cm_height = function(height, object){
 	object.style.height = height + "cm";
 }
-this.flagInchWidth = function(width, object){
+this.flag_inch_width = function(width, object){
 	object.style.width = width + "in";
 }
-this.flagInchHeight = function(height, object){
+this.flag_inch_height = function(height, object){
 	object.style.height = height + "in";
 }

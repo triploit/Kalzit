@@ -1,9 +1,9 @@
 @(useInstead: "localizedStringAssetAccess, stringAssetAccess")
 $simpleStringAssetAccess = cachedFun: ($path ; $_loader ? (default: {loadLocal: x})) fun {
-	$object = {(calcitUnifyName: first: x);second: x} each parseJson: _loader: path.
+	$object = parseJson: _loader: path.
 	!if (not object eq void) {
 		cachedFun: ($key ? String) fun {
-			(calcitUnifyName: key) objFirstProperty object
+			key objFirstProperty object
 		}
 	}
 }.

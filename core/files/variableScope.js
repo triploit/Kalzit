@@ -1,7 +1,5 @@
 GLang.scopePrototype = {
 	resolveName: function(unified){
-		//var unified = this.unifyStringName(n);
-		//var unified = n;
 		var value = this["kv_" + unified];
 		var result = null;
 		
@@ -65,7 +63,6 @@ GLang.scopePrototype = {
 	},
 	setInnerVariable: function(n, value, unneeded){		
 		//Look for an existing variable with the given name...
-		//n = this.unifyStringName(n);
 		
 		//For debugging, make sure the name is sort of meaningful
 		if (GLANG_DEBUG && n.length <= 1) {
@@ -103,7 +100,6 @@ GLang.scopePrototype = {
 		this["kv_" + unified] = value;
 	},
 	hasInnerVariable: function(n){
-		//return this.hasOwnProperty("kv_" + this.unifyStringName(n));
 		return this.hasOwnProperty("kv_" + n);
 	}
 	

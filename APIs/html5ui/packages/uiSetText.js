@@ -12,13 +12,13 @@ area uiSetText "New text".
 void
 ```
 */
-this.uiSetText = function(textControl, text){
+this.ui_set_text = function(textControl, text){
 	textControl.value = text;
 }
 
 /* @kalzit.for ui_get_text
 Allows you to get the text displayed by a text input control (like a textfield or a textarea).
 */
-this.uiGetText = function(textControl){
+this.ui_get_text = function(textControl){
 	return textControl.value + "";
 }

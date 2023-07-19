@@ -87,7 +87,7 @@ function makeDropEventAccess(event){
 	]};
 }
 
-this.flagOnDrop = function(listener, object){
+this.flag_on_drop = function(listener, object){
 	object.ondragover = function(event){
 		event.preventDefault();
 		event.dataTransfer.dropEffect = "copy";

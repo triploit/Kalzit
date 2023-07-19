@@ -8,7 +8,7 @@ This function only accepts the file extensions alone:
 $mime = nativeFileMime: "txt". `Returns "text/plain"`
 ```
 */
-this.nativeFileMime = function(extension){
+this.native_file_mime = function(extension){
 	switch(extension){
 		case "html": return "text/html";
 		case "js": return "text/javascript";

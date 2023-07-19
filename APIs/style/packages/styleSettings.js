@@ -1,33 +1,33 @@
 var manualDarkMode = false;
 var manualHighContrastMode = false;
 
-this.styleDarkModeAuto = function() {
+this.style_dark_mode_auto = function() {
 	manualDarkMode = false;
 	document.getElementById("k-style_dark").media = "(prefers-color-scheme: dark)";
 	updateHighContrastDark();
 }
-this.styleDarkModeOn = function() {
+this.style_dark_mode_on = function() {
 	manualDarkMode = true;
 	document.getElementById("k-style_dark").media = "all";
 	updateHighContrastDark();
 }
-this.styleDarkModeOff = function() {
+this.style_dark_mode_off = function() {
 	manualDarkMode = false;
 	document.getElementById("k-style_dark").media = "none";
 	document.getElementById("k-style_highcontrast_dark").media = "none";
 }
 
-this.styleHighContrastAuto = function() {
+this.style_high_contrast_auto = function() {
 	manualHighContrastMode = false;
 	document.getElementById("k-style_highcontrast").media = "(prefers-contrast: more)";
 	updateHighContrastDark();
 }
-this.styleHighContrastOn = function() {
+this.style_high_contrast_on = function() {
 	manualHighContrastMode = true;
 	document.getElementById("k-style_highcontrast").media = "all";
 	updateHighContrastDark();
 }
-this.styleHighContrastOff = function() {
+this.style_high_contrast_off = function() {
 	manualHighContrastMode = false;
 	document.getElementById("k-style_highcontrast").media = "none";
 	document.getElementById("k-style_highcontrast_dark").media = "none";

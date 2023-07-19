@@ -1,14 +1,14 @@
-this.flagOnHover = function(listener, object){
+this.flag_on_hover = function(listener, object){
 	object.onmouseover = function(){
 		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
 	}
 }
-this.flagOnTap = function(listener, object){
+this.flag_on_tap = function(listener, object){
 	object.onclick = function(){
 		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
 	}
 }
-this.flagOnPointerDown = function(listener, object){
+this.flag_on_pointer_down = function(listener, object){
 	object.addEventListener("mousedown", function(e){
 		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [
 			{value:e.pageX}, {value:e.pageY}
@@ -25,7 +25,7 @@ this.flagOnPointerDown = function(listener, object){
 		}
 	});
 }
-this.flagOnPointerUp = function(listener, object){
+this.flag_on_pointer_up = function(listener, object){
 	object.addEventListener("mouseup", function(e){
 		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [
 			{value:e.pageX}, {value:e.pageY}
@@ -42,7 +42,8 @@ this.flagOnPointerUp = function(listener, object){
 		}
 	});
 }
-this.onGlobalPointerUp = function(listener, object){
+
+this.on_global_pointer_up = function(listener, object){
 	document.body.addEventListener("mouseup", function(e){
 		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [
 			{value:e.pageX}, {value:e.pageY}
@@ -75,7 +76,7 @@ this.onGlobalPointerUp = function(listener, object){
 	
 }
 
-this.flagOnPointerMove = function(listener, object){
+this.flag_on_pointer_move = function(listener, object){
 	object.addEventListener("mousemove", function(e){
 		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [
 			{value:e.pageX}, {value:e.pageY}
@@ -93,7 +94,7 @@ this.flagOnPointerMove = function(listener, object){
 	});
 }
 
-this.onGlobalPointerMove = function(listener){
+this.on_global_pointer_move = function(listener){
 	document.body.addEventListener("mousemove", function(e){
 		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [
 			{value:e.pageX}, {value:e.pageY}

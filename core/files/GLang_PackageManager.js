@@ -137,7 +137,12 @@
 			var newThis = {};
 			fun.call(newThis);
 			for(var property in newThis){
-				GLang.defaultRuntimeEnvironment.qdSet(GLang.defaultRuntimeEnvironment.unifyStringName(property), GLang.wrapJsToValue(newThis[property]))
+				if(GLANG_DEBUG && ! /^[a-z_]+$/.test(property)) {
+					console.log("Please unify this variable name in your JS library: " + property);
+					return;
+					//throw new Error("Please unify this variable name in your JS library: " + property);
+				}
+				GLang.defaultRuntimeEnvironment.qdSet(property, GLang.wrapJsToValue(newThis[property]))
 			} };
 		this.installJs = installJs;
 		

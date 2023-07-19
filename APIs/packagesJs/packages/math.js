@@ -1,12 +1,12 @@
 /* @kalzit.for pi
 The constant number pi (about 3.14159)
 */
-this.PI = Math.PI;
+this.pi = Math.PI;
 
 /* @kalzit.for e
 The constant number e (about 2.71828)
 */
-this.E = Math.E;
+this.e = Math.E;
 
 /* @kalzit.for abs
 Returns the absolute value of a number.

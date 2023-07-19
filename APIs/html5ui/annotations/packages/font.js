@@ -1,4 +1,4 @@
-this.flagFontFamily = function(familyName, object){
+this.flag_font_family = function(familyName, object){
 	if(familyName === -1){
 		object.classList.add("k-standard_font");
 	}else{
@@ -6,6 +6,6 @@ this.flagFontFamily = function(familyName, object){
 	}
 }
 
-this.flagEmFontSize = function(size, object){
+this.flag_em_font_size = function(size, object){
 	object.style.fontSize = size + "em";
 }

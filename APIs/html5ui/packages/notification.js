@@ -11,30 +11,30 @@ function notificationSupported(){
 		return true
 	}, false)
 }
-this.notificationSupported = notificationSupported;
+this.notification_supported = notificationSupported;
 
 function notificationForbidden(){
 	return withNotification(Notification => {
 		return Notification.permission === "denied"
 	}, true)
 }
-this.notificationForbidden = notificationForbidden;
+this.notification_forbidden = notificationForbidden;
 
 function notificationAllowed(){
 	return withNotification(Notification => {
 		return Notification.permission === "granted"
 	}, false)
 }
-this.notificationAllowed = notificationAllowed;
+this.notification_allowed = notificationAllowed;
 
 function notificationRequestPermission(){
 	withNotification(Notification => {
 		Notification.requestPermission();
 	})
 }
-this.notificationRequestPermission = notificationRequestPermission;
+this.notification_request_permission = notificationRequestPermission;
 
-this.notificationShowShortText = function(text){
+this.notification_show_short_text = function(text){
 	if(!notificationAllowed()) {
 		notificationRequestPermission();
 	}else{
@@ -48,7 +48,7 @@ this.notificationShowShortText = function(text){
 		})
 	}
 }
-this.notificationShowLongText = function(summary, full){
+this.notification_show_long_text = function(summary, full){
 	if(!notificationAllowed()) {
 		notificationRequestPermission();
 	}else{

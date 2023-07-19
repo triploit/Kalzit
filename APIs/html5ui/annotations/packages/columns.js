@@ -1,4 +1,4 @@
-this.flagColumns = function(columnCount, object){
+this.flag_columns = function(columnCount, object){
 	if(columnCount < 0){
 		object.classList.add("k-columns");
 	}else{

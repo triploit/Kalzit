@@ -17,7 +17,7 @@ $_ui_docs = !fun () {
 	searchResultsRef = $originalList = {not: "_" strStartsWith x} filter !pmListNames.
 	
 	printToView: @(percentWidth 100) ($search fun {
-		searchResultsRef = {(calcitUnifyName: search) strContains x} filter originalList
+		searchResultsRef = {search strContains x} filter originalList
 	}) uiTextfieldOnchange "".
 	
 	printToView: uiShowVariable: varListViewRef.

@@ -1,15 +1,15 @@
-this.isPopupActive = function(){
+this.is_popup_active = function(){
 	return document.body.getElementsByClassName("k-popup").length >= 1;
 }
 
-this.hideAllPopups = function(){
+this.hide_all_popups = function(){
 	var popups = document.body.getElementsByClassName("k-popup_container");
 	for(var i = 0; i < popups.length; i++) {
 		popups[i].parentNode.removeChild(popups[i]);	
 	}
 }
 
-this.popupAnimateOut = function(){
+this.popup_animate_out = function(){
 	var popups = document.getElementsByClassName("k-popup_container");
 	if(popups.length == 1) {
 		//Trigger animation and remove from DOM after a few seconds

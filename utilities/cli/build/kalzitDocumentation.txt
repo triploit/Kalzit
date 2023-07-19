@@ -35,24 +35,6 @@ $generateJsDocumentation = !fun ($jsScriptPath) {
 	}) each comments.
 }.
 
-`Main app - old block comments`
-($givenName ? calcitUnifyName fun {
-	print: givenName.
-
-	`Get the documentation from a "normal" Kalzit value`
-	$value = resolveName: givenName.
-	$annotations = calcitAnnotations: value.
-	
-	!ifNot (void eq annotations) {
-		("./docs/library/" + givenName + ".md") fileWrite strNewline strJoin ("# " + givenName);
-		{
-			"## " + (strTrim: first: x) + strNewline + (strNewline strJoin strTrim each strLines: second: x)
-		} each annotations.
-	}.
-	
-	void
-}) loopEach !pmListNames.
-
 `Main app - new block comments`
 ($packageBasePath fun {
 

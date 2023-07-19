@@ -9,7 +9,7 @@ Since the JavaScript code run in a browser is not allowed to talk to most server
 
 If you want to use relative URLs, consider using "loadLocal".
 */
-this.loadGlobal = KLoad.loadGlobal;
+this.load_global = KLoad.loadGlobal;
 
 /* @kalzit.for load_local
 A function that is used to load data from the same server your app is hosted on. The preferred way to do this is by using relative URLs
@@ -19,7 +19,7 @@ Usage example (Kalzit):
 	
 If you want to use absolute URLs, consider using "loadGlobal".
 */
-this.loadLocal = KLoad.loadLocal;
+this.load_local = KLoad.loadLocal;
 
 /*
 Takes a Kalzit function value and turns it into a JavaScript function which expects one argument.

@@ -6,7 +6,7 @@ Usage example:
 
 Please note that nothing else is added to the opened HTML. This means that you would have to add all needed stylesheets etc. yourself.
 */
-this.popupHtml = function(html){
+this.popup_html = function(html){
 	window.open("", "", "").document.body.innerHTML = html;
 }
 
@@ -39,7 +39,7 @@ Usage example:
 
 The code execution will pause here until the user closed the dialog.
 */
-this.popupMessage = function(textMessage){alert(textMessage)};
+this.popup_message = function(textMessage){alert(textMessage)};
 
 /* @kalzit.for popup_question
 Shows the given text in a dialog box with an input field both a "confirm" and a "close" option.
@@ -50,4 +50,4 @@ Usage example:
 
 The code execution will pause here until the user closed the dialog.
 */
-this.popupQuestion = function(question){return prompt(question)};
+this.popup_question = function(question){return prompt(question)};

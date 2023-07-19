@@ -1,13 +1,13 @@
-this.getScreenWidth = function() {
+this.get_screen_width = function() {
 	return window.screen.availWidth;
 }
-this.getScreenHeight = function() {
+this.get_screen_height = function() {
 	return window.screen.availHeight;
 }
 
-this.getWindowWidth = function() {
+this.get_window_width = function() {
 	return window.innerWidth;
 }
-this.getWindowHeight = function() {
+this.get_window_height = function() {
 	return window.innerHeight;
 }

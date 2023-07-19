@@ -12,7 +12,7 @@ Usage example:
 this.match = function(regexString, stringToMatch){
 	return stringToMatch.match(regexString);
 };
-this.allMatches = function(regexString, stringToMatch){
+this.all_matches = function(regexString, stringToMatch){
 	var re = new RegExp(regexString, "g");
 	var s = stringToMatch;
 	var m;
@@ -27,6 +27,6 @@ this.allMatches = function(regexString, stringToMatch){
 	
 	return result;
 };
-this.strReplaceRegex = function(_regexAndReplacement, original){
+this.str_replace_regex = function(_regexAndReplacement, original){
 	return original.replace(new RegExp(_regexAndReplacement[0].value, "g"), _regexAndReplacement[1].value);
 };

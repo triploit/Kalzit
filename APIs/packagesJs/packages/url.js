@@ -10,7 +10,7 @@ $test = $test urlGetParameter "https://www.example.com/?test=5".
 `test is now "5"`
 ```
 */
-this.urlGetParameter = function(parameterName, url) {
+this.url_get_parameter = function(parameterName, url) {
 	try{
 		if(url.split("?").length !== 2) return null; //No parameters
 		
@@ -24,22 +24,22 @@ this.urlGetParameter = function(parameterName, url) {
 		return null; //No matching parameter found
 	}catch(e){return null;}
 }
-this.urlEncodeParameter = function(urlParameter){
+this.url_encode_parameter = function(urlParameter){
 	try {
 		return encodeURIComponent(urlParameter);
 	}catch(e){return null;}
 }
-this.urlDecodeParameter = function(urlParameter){
+this.url_decode_parameter = function(urlParameter){
 	try {
 		return decodeURIComponent(urlParameter);
 	}catch(e){return null;}
 }
-this.urlGetHostName = function(url) {
+this.url_get_host_name = function(url) {
 	try {
 		return new URL(url).hostname;
 	}catch(e){return null;}
 }
-this.urlGetOrigin = function(url) {
+this.url_get_origin = function(url) {
 	try {
 		return new URL(url).origin;
 	}catch(e){return null;}

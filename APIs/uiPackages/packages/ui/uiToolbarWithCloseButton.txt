@@ -1,6 +1,6 @@
 $uiToolbarWithCloseButton = $_views fun {
 	uiToolbar:
-		(!if ((isDefined: $uiCrossButton) & !isIosApp) {
+		(!if ((isDefined: "ui_cross_button") & !isIosApp) {
 			@left @verticalCenter uiContainer:
 				[uiHorizontalPxSpace: 7];
 				@(cmWidth: toolbarCmHeight % 2) @(percentHeight 50) !uiCrossButton.

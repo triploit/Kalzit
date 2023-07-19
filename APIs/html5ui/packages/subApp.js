@@ -29,7 +29,7 @@ function disableScrolling() {
 	//This line makes sure that scrolling will be re-enabled when any open sub-app is closed (managed by "window.onhashchange" below)
 	mainPageScrollingDisabled = true;
 }
-this.disableScrolling = function() {
+this.disable_scrolling = function() {
 	disableScrolling();
 	//Make sure the scrolling stays disabled after a sub-app is closed - that normally re-enables scrolling
 	mainPageScrollingShouldBeDisabled = true;
@@ -96,17 +96,17 @@ window.onhashchange = function(){
 var openSubApp = function(name) {
 	location.hash = name;
 };
-this.openSubApp = openSubApp;
+this.open_sub_app = openSubApp;
 
-this.closeSubApp = function() {
+this.close_sub_app = function() {
 	location.hash = "#none";
 };
 
 var keepInitial = false;
-this.subAppKeepInitial = function() {
+this.sub_app_keep_initial = function() {
 	keepInitial = true;
 };
-this.registerSubApp = function(name, _openAndClose){
+this.register_sub_app = function(name, _openAndClose){
 	hashes.set(name, {open:_openAndClose[0], close:_openAndClose[1]});
 	
 	if(location.hash == "#" + name) {
@@ -117,7 +117,7 @@ this.registerSubApp = function(name, _openAndClose){
 		}
 	}
 };
-this.getCurrentSubApp = function(){
+this.get_current_sub_app = function(){
 	return location.hash.replace("#", "");	
 };
 

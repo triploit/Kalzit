@@ -1,4 +1,4 @@
-this.appParameter = function(name){
+this.app_parameter = function(name){
 	name = name.toLowerCase();
 
 	var args = process.argv.slice(2);

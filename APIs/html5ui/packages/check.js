@@ -8,7 +8,7 @@ $box = {print: "This will not happen in this example"} uiCheckbox "".
 uiCheck: box.
 ```
 */
-this.uiCheck = function(checkbox){
+this.ui_check = function(checkbox){
 	//The Checkbox from the standard library is inside a div, so we need to get the "real" checkbox (firstChild)
 	checkbox.getElementsByTagName("input")[0].checked = true;
 }

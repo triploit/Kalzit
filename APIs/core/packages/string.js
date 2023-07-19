@@ -19,6 +19,6 @@ GLang.defaultRuntimeEnvironment.qdSet("str_sub", {value:function(env, args){
 	}
 	return GLang.stringValue(args[1].value.substring(from, to))
 }});
-this.strToLowerCase = function(string){return string.toLowerCase()};
-this.strToUpperCase = function(string){return string.toUpperCase()};
-this.strTrim = function(string){return string.trim()};
+this.str_to_lower_case = function(string){return string.toLowerCase()};
+this.str_to_upper_case = function(string){return string.toUpperCase()};
+this.str_trim = function(string){return string.trim()};

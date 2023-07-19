@@ -11,6 +11,6 @@ $json ? String = calcitCompile: "code".
 $optimized ? String = "code" calcitCompile true.
 ```
 */
-this.calcitCompile = function(code, optimized){
+this.calcit_compile = function(code, optimized){
 	return JSON.stringify(GLang.prepareTree(GLang.generateTree(code, optimized)))
 }

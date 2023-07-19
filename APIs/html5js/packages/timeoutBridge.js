@@ -1,7 +1,7 @@
-this.timeoutPause = function(){
+this.timeout_pause = function(){
 	Timeout.pauseTimer();
 };
 
-this.timeoutContinue = function(){
+this.timeout_continue = function(){
 	Timeout.continueTimer();
 };

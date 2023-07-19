@@ -55,23 +55,23 @@ $skeletonCode = do:{
 		) + ";".
 		
 		`This is JavaScript code responsible for setting the "appId" variable (makes appId variable work)`
-		$appIdCode = "GLang.packageManager.installJs(function(){this.appId='" + ((".k";"") strReplace fileName: app) + "'});".
+		$appIdCode = "GLang.packageManager.installJs(function(){this.app_id='" + ((".k";"") strReplace fileName: app) + "'});".
 
 		$translationMapFile = appFolder + "/.doNotTouch/translationMap.json".
 		$prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
 			(!ifElse (fileIsFile: translationMapFile) {
 				`Add JavaScript code which fills the "stringAssetMap" variable`
-				"this.stringAssetMap=" + fileContent: translationMapFile
+				"this.string_asset_map=" + fileContent: translationMapFile
 			};{
 				`Do not fill "stringAssetMap" - just set "appId"`
 				""
 			}) + 
 			
 			`Include the standard-apps, so that fewer HTTP requests are needed`
-			";this.standardApps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + 
+			";this.standard_apps=" + (fileContent: rootFolder + "/apps/home/config/standardApps.json") + 
 			
 			`Include the global stringAssetMap`
-			";this.globalStringAssetMap=" + (fileContent: (!getUnixUserFolder) + "/.kalzit/generated/translationMap.json") + "});".
+			";this.global_string_asset_map=" + (fileContent: (!getUnixUserFolder) + "/.kalzit/generated/translationMap.json") + "});".
 		
 		$appBlob = prefix + (!ifElse ("true" eq timeoutWanted) {
 			# Timeout logic is wanted

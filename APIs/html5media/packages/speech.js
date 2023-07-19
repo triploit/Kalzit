@@ -30,7 +30,7 @@ If you want to speak text that the user wrote, consider these two options:
 	1. Ask for the preferred language. This could be done using something like "uiPicker".
 	2. Assume that the user writes something in the system language and obtain that using "getSimpleUserLanguage".
 */
-this.speechSay = function(text, voice){
+this.speech_say = function(text, voice){
 	var ssu = new SpeechSynthesisUtterance(text);
 	ssu.voice = getVoiceObject(voice) || ssu.voice;
 	speechSynthesis.speak(ssu);
@@ -47,7 +47,7 @@ Usage example:
 	$voice = first: speechGetVoicesByLanguage: "en".
 	```
 */
-this.speechGetVoicesByLanguage = function(language){
+this.speech_get_voices_by_language = function(language){
 	var list = [];
 	for(var i = 0; i < speechSynthesis.getVoices().length; i++){
 		if(speechSynthesis.getVoices()[i].lang.startsWith(language)){
@@ -68,7 +68,7 @@ Usage example:
 	$allVoices = !speechGetVoices.
 	```
 */
-this.speechGetVoices = function(){
+this.speech_get_voices = function(){
 	var list = [];
 	for(var i = 0; i < speechSynthesis.getVoices().length; i++){
 		list.push(speechSynthesis.getVoices()[i].name);

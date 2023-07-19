@@ -1,6 +1,6 @@
-this.flagCssClass = function(clss, view) {
+this.flag_css_class = function(clss, view) {
 	view.classList.add(clss);
 }
-this.flagCssRemoveClass = function(clss, view) {
+this.flag_css_remove_class = function(clss, view) {
 	view.classList.remove(clss);
 }
