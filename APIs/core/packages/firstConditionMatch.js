@@ -13,7 +13,7 @@ That has essentially the same effect as this, but is potentially much faster:
 first: {x mod 2} filter 1;2;3.
 ```
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("firstConditionMatch", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("first_condition_match", {value:function(env, args){
 	var array = args[1].value;
 	if(0 === array.length) return GLang.voidValue; //If we can not match anything, return an empty list.
 	var condition = args[0];

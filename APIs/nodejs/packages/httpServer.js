@@ -125,7 +125,7 @@ function wrapRequestValue(kServerRequest) {
 	]};
 };
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("httpServer", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("http_server", {value:function(env, args){
 	kServer.httpServer(function (request) {
 		GLang.callObject(args[0], env, [wrapRequestValue(request)]);
 	}, args[1].value);
@@ -133,7 +133,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("httpServer", {value:function(e
 	return GLang.voidValue;
 }, display:DISPLAY_FUNCTION})
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("httpsServer", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("https_server", {value:function(env, args){
 	kServer.httpsServer(function (request) {
 		GLang.callObject(args[0], env, [wrapRequestValue(request)]);
 	}, args[1].value);
@@ -141,7 +141,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("httpsServer", {value:function(
 	return GLang.voidValue;
 }, display:DISPLAY_FUNCTION})
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("customHttpsServer", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("custom_https_server", {value:function(env, args){
 	var callback = args[0];
 	var config = GLang.wrapValueToJsObject(args[1]);
 	config.callback = function (request) {

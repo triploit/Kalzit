@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("disk_space_native_async", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("disk_space_native_async", {value:function(env, args){
 	var callback = args[0];
 	var disk = args[1].value;
 	

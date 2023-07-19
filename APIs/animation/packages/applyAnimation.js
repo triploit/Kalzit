@@ -38,7 +38,7 @@ function applyAnimation(env, args) {
 
 }
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("applyAnimation", {value:function(env, args) {
+GLang.defaultRuntimeEnvironment.qdSet("apply_animation", {value:function(env, args) {
 	applyAnimation(env, args);
 	return GLang.voidValue;
 }});

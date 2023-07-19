@@ -112,7 +112,7 @@
 		return controller;
 	}
 	
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeYoutubePlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_native_youtube_player", {value:function(env, args){
 		return uiYoutubePlayer(args[0].value, function(player){
 			console.log(player);
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])

@@ -44,15 +44,15 @@ var motionAllowedAsyncKalzit = {value:function(env, args) {
 	})
 	return GLang.voidValue;
 }};
-GLang.defaultRuntimeEnvironment.setInnerVariable("motion_request_permission_async", motionAllowedAsyncKalzit);
-GLang.defaultRuntimeEnvironment.setInnerVariable("motion_allowed_async", motionAllowedAsyncKalzit);
+GLang.defaultRuntimeEnvironment.qdSet("motion_request_permission_async", motionAllowedAsyncKalzit);
+GLang.defaultRuntimeEnvironment.qdSet("motion_allowed_async", motionAllowedAsyncKalzit);
 
 function motionForbiddenAsync(callback){
 	withMotionPermissionStatus(permission => {
 		callback(permission === "denied")
 	})
 }
-GLang.defaultRuntimeEnvironment.setInnerVariable("motion_forbidden_async", {value:function(env, args) {
+GLang.defaultRuntimeEnvironment.qdSet("motion_forbidden_async", {value:function(env, args) {
 	var callback = args[0];
 	motionForbiddenAsync(allowed => {
 		GLang.callObject(callback, env, [
@@ -67,7 +67,7 @@ function motionCanBeRequestedAsync(callback){
 		callback(permission === "unknown")
 	})
 }
-GLang.defaultRuntimeEnvironment.setInnerVariable("motion_can_be_requested_async", {value:function(env, args) {
+GLang.defaultRuntimeEnvironment.qdSet("motion_can_be_requested_async", {value:function(env, args) {
 	var callback = args[0];
 	motionCanBeRequestedAsync(allowed => {
 		GLang.callObject(callback, env, [
@@ -115,7 +115,7 @@ function setOnShake(then) {
 	window.addEventListener('devicemotion', onMotion);
 }
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("on_global_shake", {value:function(env, args) {
+GLang.defaultRuntimeEnvironment.qdSet("on_global_shake", {value:function(env, args) {
 	var callback = args[0];
 	setOnShake(() => {
 		GLang.callObject(callback, env, []);

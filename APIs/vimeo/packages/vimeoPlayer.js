@@ -111,7 +111,7 @@
 		 return controller
 	}
 	
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiVimeoPlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_vimeo_player", {value:function(env, args){
 		return uiVimeoPlayer(args[0].value, function(player){
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
 		});

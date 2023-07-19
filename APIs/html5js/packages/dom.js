@@ -8,7 +8,7 @@
 *
 * To work with the data, please take a look at the other functions defined in this file, like "domAttribute", "domInner" and "domInnerText"
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("dom_parse", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("dom_parse", {value:GLang.arrayFun(function(env, args){
 	var dom = new DOMParser().parseFromString(args[0].value, "text/xml");
 	return {value:dom};
 })});
@@ -20,7 +20,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("dom_parse", {value:GLang.array
 * Usage: $tagName domTags dom.
 * This produces a list which contains zero or more DOM objects.
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("dom_tags", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("dom_tags", {value:GLang.arrayFun(function(env, args){
 	var dom = args[1].value;
 	var tag = args[0].value;
 	var array = [];
@@ -41,7 +41,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("dom_tags", {value:GLang.arrayF
 * Usage: $viewBox domAttribute dom.
 * If the attribute was found, a string is returned - otherwise, it is an empty list.
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("dom_attribute", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("dom_attribute", {value:GLang.arrayFun(function(env, args){
 	var element = args[1].value;
 	var attrib = args[0].value;
 	return {value:element.getAttribute(attrib) || []};
@@ -52,7 +52,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("dom_attribute", {value:GLang.a
 * Returns the text content of a DOM element.
 * Usage: domInnerText: dom.
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("dom_inner_text", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("dom_inner_text", {value:GLang.arrayFun(function(env, args){
 	return {value:args[0].value.innerHTML};
 })});
 
@@ -62,7 +62,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("dom_inner_text", {value:GLang.
 * If there are nested elements inside, only the ons on the first layer are returned.
 * Usage: domInner: dom.
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("dom_inner", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("dom_inner", {value:GLang.arrayFun(function(env, args){
 	var elements = args[0].value.childNodes;
 	var newArray = [];
 	for(var i = 0; i < elements.length; i++){

@@ -100,7 +100,7 @@ this.flagOnDrop = function(listener, object){
 	};
 }
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePicker", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_file_picker", {value:function(env, args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";
@@ -115,7 +115,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePicker", {value:function
 	return {value:picker, display:DISPLAY_DOM}
 }});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiMultiFilePicker", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_multi_file_picker", {value:function(env, args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";

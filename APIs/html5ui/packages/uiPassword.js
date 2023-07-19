@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiPasswordOnaction", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_password_onaction", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("input");
 	textfield.classList.add("calcitPassword");
 	textfield.type="password";
@@ -10,7 +10,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiPasswordOnaction", {value:GL
 	}
 	return {value:textfield, display:DISPLAY_DOM};
 })})
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiPasswordOnchange", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_password_onchange", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("input");
 	textfield.classList.add("calcitPassword");
 	textfield.type="password";

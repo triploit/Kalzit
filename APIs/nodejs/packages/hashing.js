@@ -13,7 +13,7 @@ this.fileMdFiveHash = function(filePath){
 	return require("crypto").createHash("md5").update(require("fs").readFileSync(filePath)).digest("hex")
 }
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("fileMdFiveHashAsync", {
+GLang.defaultRuntimeEnvironment.qdSet("file_md_five_hash_async", {
 	value:function(env, args){
 		var filePath = args[1].value;
 		var callback = args[0];

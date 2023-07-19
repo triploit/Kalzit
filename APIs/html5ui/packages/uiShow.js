@@ -1,6 +1,6 @@
 ;(function(){
 	
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowVariable", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_show_variable", {value:function(env, args){
 		var mutable = args[0];
 		if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiShowVariable needs a mutable as the first parameter")}
 		
@@ -15,7 +15,7 @@
 		
 		return {value:div, display:DISPLAY_DOM};
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowVariableAsList", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_show_variable_as_list", {value:function(env, args){
 		var mutable = args[0];
 		if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiShowVariableAsList needs a mutable as the first parameter")}
 		

@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiButton", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_button", {value:GLang.arrayFun(function(env, args){
 	var button = document.createElement("input");
 	button.type = "button";
 	button.classList.add("calcitButton");
@@ -9,7 +9,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiButton", {value:GLang.arrayF
 	return {value:button, display:DISPLAY_DOM};
 })});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiButtonWithThreeDotIcon", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_button_with_three_dot_icon", {value:GLang.arrayFun(function(env, args){
 	var button = document.createElement("input");
 	button.type = "button";
 	button.classList.add("calcitPickerIcon");

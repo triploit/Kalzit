@@ -150,7 +150,7 @@
 	print: "channelName" uiTwitchChannelPlayer {play: x}.
 	```
 	*/
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiTwitchChannelPlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_twitch_channel_player", {value:function(env, args){
 		return uiTwitchChannelPlayer(args[0].value, function(player){
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
 		});
@@ -171,7 +171,7 @@
 	print: "videoId" uiTwitchVideoPlayer {play: x}.
 	```
 	*/
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiTwitchVideoPlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_twitch_video_player", {value:function(env, args){
 		return uiTwitchVideoPlayer(args[0].value, function(player){
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
 		});
@@ -192,7 +192,7 @@
 	print: "collectionId" uiTwitchCollectionPlayer {play: x}.
 	```
 	*/
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiTwitchCollectionPlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_twitch_collection_player", {value:function(env, args){
 		return uiTwitchCollectionPlayer(args[0].value, function(player){
 			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
 		});

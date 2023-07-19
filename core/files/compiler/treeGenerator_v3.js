@@ -608,7 +608,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 							//Convert that into a "normal" variable declaration with a function call in front of the value
 							const typedName = state[i - 1];
 
-							const name = typedName.s;
+							const name = GLang.defaultRuntimeEnvironment.unifyStringName(typedName.s);
 							//Fail if the name is invalid
 							if(name.match("[^a-zA-Z_]")){
 								throw new Error(name + " is not a valid variable name!");

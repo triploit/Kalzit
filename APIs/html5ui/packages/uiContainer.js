@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiContainer", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_container", {value:function(env, args){
 	var div = document.createElement("div");
 	
 	var arr = args[0].value;
@@ -14,7 +14,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiContainer", {value:function(
     div.appendChild(frag);
 	return {value:div, display:DISPLAY_DOM};
 }, display:DISPLAY_FUNCTION});
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiElementCollection", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_element_collection", {value:function(env, args){
 	var frag = document.createDocumentFragment();
 	
 	var arr = args[0].value;
@@ -29,7 +29,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiElementCollection", {value:f
 	return {value:frag, display:DISPLAY_DOM};
 }, display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiCenteringContainer", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_centering_container", {value:function(env, args){
 	var div = document.createElement("div");
 	div.style.display = "flex";
 	div.style.alignItems = "center";

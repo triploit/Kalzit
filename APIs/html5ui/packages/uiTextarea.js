@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaVariableOnchange", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_native_textarea_variable_onchange", {value:GLang.arrayFun(function(env, args){
 	var varRef = args[0];
 	if(varRef.display !== "reference"){throw new Error("uiPicker needs a reference as the first parameter")}
 	
@@ -17,7 +17,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaVariableOnchan
 	
 	return {value:textfield, display:DISPLAY_DOM};
 })})
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiNativeTextareaOnchange", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_native_textarea_onchange", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("textarea");
 	textfield.value=args[1].value;
 	

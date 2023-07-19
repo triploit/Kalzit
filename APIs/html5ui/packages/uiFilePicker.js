@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePickerContentTextVariable", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_file_picker_content_text_variable", {value:function(env, args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";
@@ -13,7 +13,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePickerContentTextVariabl
 	return {value:picker, display:DISPLAY_DOM}
 }});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiFilePickerContentUrlVariable", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_file_picker_content_url_variable", {value:function(env, args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";

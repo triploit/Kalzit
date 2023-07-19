@@ -140,7 +140,7 @@
 		
 	For more information about media controllers, take a look at the "[MediaController](/services/documentation/MediaController)" type.
 	*/
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiAudioPlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_audio_player", {value:function(env, args){
 		var audio = document.createElement("audio");
 		audio.classList.add("calcitAudioPlayer");
 		audio.src = args[0].value;
@@ -151,7 +151,7 @@
 		return {value:audio, display:DISPLAY_DOM};
 	}, display:DISPLAY_FUNCTION});
 	
-	GLang.defaultRuntimeEnvironment.setInnerVariable("audioPlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("audio_player", {value:function(env, args){
 		var audio = new Audio(args[0].value);
 		if(args.length === 2) {
 			GLang.callObject(args[1], env, [makePlayerInterface(audio)]);
@@ -173,7 +173,7 @@
 		
 	For more information about media controllers, take a look at the "MediaController" type.
 	*/
-	GLang.defaultRuntimeEnvironment.setInnerVariable("uiVideoPlayer", {value:function(env, args){
+	GLang.defaultRuntimeEnvironment.qdSet("ui_video_player", {value:function(env, args){
 		var video = document.createElement("video");
 		video.classList.add("calcitVideoPlayer");
 		video.src = args[0].value;

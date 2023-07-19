@@ -71,7 +71,7 @@ function showAxes(ctx,axes) {
 	ctx.stroke();
 }
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("ui_plot_graph", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_plot_graph", {value:function(env, args){
 	var canvas = makeCanvas();
 	
 	if(args.length === 1){
@@ -106,7 +106,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("ui_plot_graph", {value:functio
 	return {value:canvas, display:DISPLAY_DOM};
 }});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("ui_plot_point", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_plot_point", {value:function(env, args){
 	var canvas = makeCanvas();
 	
 	if(args.length === 1){

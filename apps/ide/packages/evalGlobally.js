@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("eval_globally", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("eval_globally", {value:function(env, args){
     //Get the code we want to evaluate
     var code = args[0].value + "";
     //Evaluate the code

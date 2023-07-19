@@ -65,7 +65,8 @@ GLang.scopePrototype = {
 	},
 	setInnerVariable: function(n, value, unneeded){		
 		//Look for an existing variable with the given name...
-		n = this.unifyStringName(n);
+		//n = this.unifyStringName(n);
+		
 		//For debugging, make sure the name is sort of meaningful
 		if (GLANG_DEBUG && n.length <= 1) {
 			console.warn("You should probably give this variable a more meaningful name: " + n);
@@ -98,12 +99,12 @@ GLang.scopePrototype = {
 	},
 	//Quick-and-dirty variable set - set a variable to a value in the fastest way possible, without any safety checks
 	qdSet: function(unified, value){
-		//This should only be (directly) used for things like function parameters, that are not supposed to trigger listeners
-		//name = this.unifyStringName(name);
+		//This should only be (directly) used for things like function parameters or global variables, that are not supposed to trigger listeners
 		this["kv_" + unified] = value;
 	},
 	hasInnerVariable: function(n){
-		return this.hasOwnProperty("kv_" + this.unifyStringName(n));	
+		//return this.hasOwnProperty("kv_" + this.unifyStringName(n));
+		return this.hasOwnProperty("kv_" + n);
 	}
 	
 };

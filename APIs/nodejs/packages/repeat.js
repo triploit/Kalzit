@@ -28,6 +28,6 @@
 		}
 	}
 
-	GLang.defaultRuntimeEnvironment.setInnerVariable("repeatAsync", {value:repeatAsync, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.setInnerVariable("repeat", {value:repeat, display:DISPLAY_FUNCTION});
+	GLang.defaultRuntimeEnvironment.qdSet("repeat_async", {value:repeatAsync, display:DISPLAY_FUNCTION});
+	GLang.defaultRuntimeEnvironment.qdSet("repeat", {value:repeat, display:DISPLAY_FUNCTION});
 })();

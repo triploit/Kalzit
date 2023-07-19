@@ -18,7 +18,7 @@ function createLayer(value){
 	return layer
 }
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiStack", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_stack", {value:function(env, args){
 	var div = document.createElement("div");
 	
 	var arr = args[0].value;
@@ -35,7 +35,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiStack", {value:function(env,
 	return {value:div, display:DISPLAY_DOM};
 }, display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiPrintIntoStack", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_print_into_stack", {value:function(env, args){
 	var stack = args[0].value;
 	
 	return {value:function(env, args) {

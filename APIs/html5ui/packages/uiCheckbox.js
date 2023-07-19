@@ -30,7 +30,7 @@ function makeCheckbox(text, withCheckbox) {
 	return visibleThing;
 }
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiCheckbox", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_checkbox", {value:GLang.arrayFun(function(env, args){
 	return {value:makeCheckbox(args[1].value, checkbox => {
 		
 		checkbox.onchange=function(e){
@@ -40,7 +40,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiCheckbox", {value:GLang.arra
 	}), display:DISPLAY_DOM};
 })})
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiCheckboxVariable", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_checkbox_variable", {value:GLang.arrayFun(function(env, args){
 	return {value:makeCheckbox(args[1].value, checkbox => {
 		
 		checkbox.onchange=function(e){

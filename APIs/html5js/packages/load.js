@@ -95,15 +95,15 @@ Usage example (Kalzit):
 	
 If you want to use absolute URLs, consider using "loadGlobalAsync".
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("load_local_async", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("load_local_async", {value:GLang.arrayFun(function(env, args){
 	loadAsync(args[0], args[1].value, env, false, {mode: "same-origin"});
 	return GLang.voidValue;
 })});
-GLang.defaultRuntimeEnvironment.setInnerVariable("load_local_async_without_indicator", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("load_local_async_without_indicator", {value:GLang.arrayFun(function(env, args){
 	loadAsync(args[0], args[1].value, env, true, {mode: "same-origin"});
 	return GLang.voidValue;
 })});
-GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_directly_async_native", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("load_global_directly_async_native", {value:GLang.arrayFun(function(env, args){
 	loadAsync(args[0], args[1].value, env, false);
 	return GLang.voidValue;
 })});
@@ -121,12 +121,12 @@ In its current form, the server handles these load requests in a synchronous way
 
 If you want to use absolute URLs, consider using "loadLocalAsync".
 */
-GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_async_native", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("load_global_async_native", {value:GLang.arrayFun(function(env, args){
 	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env, false);
 	return GLang.voidValue;
 })});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("load_global_in_background_async_native", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("load_global_in_background_async_native", {value:GLang.arrayFun(function(env, args){
 	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env, true);
 	return GLang.voidValue;
 })});

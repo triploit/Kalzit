@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("length", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("length", {value:function(env, args){
 	var array = args[0];
 	var lengthAnnotation = GLang.getFirstAnnotation(array, GLang.stringValue("length"));
 	
@@ -10,7 +10,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("length", {value:function(env, 
 		return {value:1};
 	}
 }});
-GLang.defaultRuntimeEnvironment.setInnerVariable("listContains", {value:function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("list_contains", {value:function(env, args){
 	var array = args[1];
 	var entry = args[0];
 	

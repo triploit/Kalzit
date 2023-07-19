@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.setInnerVariable("qrCodeDataUrlAsync", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("qr_code_data_url_async", {value:GLang.arrayFun(function(env, args){
 	var input = args[1].value + "";
 	
 	function callback(value){
@@ -12,7 +12,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("qrCodeDataUrlAsync", {value:GL
 	return GLang.voidValue;
 }), display:"function"});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("qrCodeRawAsync", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("qr_code_raw_async", {value:GLang.arrayFun(function(env, args){
 	var input = args[1].value + "";
 	
 	function callback(value){

@@ -93,7 +93,7 @@ setInterval(function(){
 	refresh();
 }, 100);
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrl", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_show_image_url", {value:GLang.arrayFun(function(env, args){
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, callback === GLang.voidValue ? undefined :  () => {
 		//The image is loaded now
@@ -102,7 +102,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrl", {value:GLang.
 	return {value:image, display:DISPLAY_DOM};
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrlDirectly", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_show_image_url_directly", {value:GLang.arrayFun(function(env, args){
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, () => {
 		//The image is loaded now
@@ -111,16 +111,16 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("uiShowImageUrlDirectly", {valu
 	return {value:image, display:DISPLAY_DOM};
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("getImageWidth", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("get_image_width", {value:GLang.arrayFun(function(env, args){
 	var image = args[0].value;
 	return {value:image.naturalWidth};
 }), display:DISPLAY_FUNCTION});
-GLang.defaultRuntimeEnvironment.setInnerVariable("getImageHeight", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("get_image_height", {value:GLang.arrayFun(function(env, args){
 	var image = args[0].value;
 	return {value:image.naturalHeight};
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("scaleImageToUrl", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("scale_image_to_url", {value:GLang.arrayFun(function(env, args){
 	var factor = args[0].value;
 	var image = args[1].value;
 	
@@ -139,7 +139,7 @@ GLang.defaultRuntimeEnvironment.setInnerVariable("scaleImageToUrl", {value:GLang
 	return GLang.stringValue(canvas.toDataURL());
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.setInnerVariable("uiImageButton", {value:GLang.arrayFun(function(env, args){
+GLang.defaultRuntimeEnvironment.qdSet("ui_image_button", {value:GLang.arrayFun(function(env, args){
 	//We need to trigger the same button action in multiple different situations, so it makes sense to isolate it as a function
 	function triggerAction() {
 		GLang.callObject(args[0], env, []);
