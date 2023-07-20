@@ -10,8 +10,6 @@ GLang.defaultRuntimeEnvironment.qdSet("resolve_name", {value:function(env, args)
 }});
 
 GLang.defaultRuntimeEnvironment.qdSet("no_parameter_function_from_string", {value:function(env, args) {
-	console.log("LOL");
-
 	const tree = GLang.prepareTree(GLang.generateTree(args[0].value));
 	return {value:function() {
 		return GLang.evaluatePreparedTree(tree, env);
