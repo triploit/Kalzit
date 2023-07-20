@@ -72,7 +72,25 @@
 		switch(fragment.k){
 			//Do the super common things first
 			case KIND_COLON: return COLON_VALUE;
-			case KIND_ASSIGN_TO_STRING: return env.setInnerVariable(fragment.s, evaluateStandardSentence(fragment.v, env));
+			case KIND_ASSIGN_TO_STRING:
+				const n = fragment.s;
+				if(env.hasOwnProperty("kv_" + n)){
+					throw new Error("Not allowed to change existing variable $" + n + "; consider using a mutable container");
+				}
+				
+				//If no existing variable was found, create a new one
+				//But first, check if it exists somewhere else - there should be a warning
+				if(GLANG_DEBUG && (env["kv_" + n] != undefined) ) {
+					console.warn("You attempted to define a variable that already exists in a higher scope: " +n);
+					console.log("Kalzit call stack:");
+					console.log([...GLang.callStack]);
+					console.log(new Error("JS call stack:"));
+					console.log("This is probably the most important value in that stack (the second-to-last one):");
+					console.log(GLang.callStack[GLang.callStack.length - 2].obj);
+					console.log("---");
+				}
+				
+				return env["kv_" + n] = evaluateStandardSentence(fragment.v, env);
 			case KIND_ASSIGN_TO_MUTABLE_NAME:
 				//console.log(fragment);
 				const resultA = evaluateStandardSentence(fragment.v, env);

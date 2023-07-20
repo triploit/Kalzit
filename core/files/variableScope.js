@@ -29,39 +29,6 @@ GLang.scopePrototype = {
 		
 		return result;
 	},
-	setInnerVariable: function(n, value, unneeded){		
-		//Look for an existing variable with the given name...
-		
-		//For debugging, make sure the name is sort of meaningful
-		if (GLANG_DEBUG && n.length <= 1) {
-			console.warn("You should probably give this variable a more meaningful name: " + n);
-			console.log("Kalzit call stack:");
-			console.log([...GLang.callStack]);
-			if(GLang.callStack.length) {
-				console.log("This is probably the most important value in the stack (the last one):");
-				console.log(GLang.callStack[GLang.callStack.length - 1].obj);
-			}
-			console.log("---");
-		}
-		
-		if(this.hasOwnProperty("kv_" + n)){
-			throw new Error("Not allowed to change existing variable $" + n + "; consider using a mutable container");
-		}
-		
-		//If no existing variable was found, create a new one
-		//But first, check if it exists somewhere else - there should be a warning
-		if(GLANG_DEBUG && (this["kv_" + n] != undefined) ) {
-			console.warn("You attempted to define a variable that already exists in a higher scope: " +n);
-			console.log("Kalzit call stack:");
-			console.log([...GLang.callStack]);
-			console.log(new Error("JS call stack:"));
-			console.log("This is probably the most important value in that stack (the second-to-last one):");
-			console.log(GLang.callStack[GLang.callStack.length - 2].obj);
-			console.log("---");
-		}
-		
-		return this["kv_" + n] = value;
-	},
 	//Quick-and-dirty variable set - set a variable to a value in the fastest way possible, without any safety checks
 	qdSet: function(unified, value){
 		//This should only be (directly) used for things like function parameters or global variables, that are not supposed to trigger listeners

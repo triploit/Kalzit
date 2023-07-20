@@ -39,17 +39,3 @@ GLang.defaultRuntimeEnvironment.qdSet("ui_checkbox", {value:GLang.arrayFun(funct
 		
 	}), display:DISPLAY_DOM};
 })})
-
-GLang.defaultRuntimeEnvironment.qdSet("ui_checkbox_variable", {value:GLang.arrayFun(function(env, args){
-	return {value:makeCheckbox(args[1].value, checkbox => {
-		
-		checkbox.onchange=function(e){
-			env.setInnerVariable(args[0].value, {value:checkbox.checked ? 1 : 0}, true);
-		}
-		
-		env.registerVariableListener(args[0].value, function(){
-			checkbox.checked = env.resolveName(args[0].value).value !== 0;
-		})
-		
-	}), display:DISPLAY_DOM};
-})})

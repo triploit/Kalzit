@@ -1,6 +1,3 @@
-$uiTextareaVariableOnchange = ($ref ? Mutable) fun {
-	uiNativeTextareaVariableOnchange: ref
-}.
 $uiTextareaOnchange = ($action ? RepeatedFunction ; $defaultText ? ("" default String)) fun {
 	@(cssClass "k-textarea") action uiNativeTextareaOnchange defaultText.
 }.

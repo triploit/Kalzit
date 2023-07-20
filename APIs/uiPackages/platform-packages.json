@@ -59,7 +59,6 @@
     , {
         "provides": [
           "ui_textarea_onchange"
-        , "ui_textarea_variable_onchange"
       ]
       , "scriptUrl": "ui/uiTextarea.txt"
     }
