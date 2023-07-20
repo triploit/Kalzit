@@ -1,1 +1,1 @@
-this.isIframe = self !== top;
+this.is_iframe = self !== top;

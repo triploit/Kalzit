@@ -39,7 +39,7 @@ $viewBasedAppManager = !fun ($config) {
 	`If the $viewDefinitions parameter is present, connect that with the other two lists`
 	!if (not: void eq viewDefinitions) {
 		$modifiableViewDefinitions ? ModifiableList = viewDefinitions.
-		!fillOthersBasedOnViewDefinitions
+		!fillOthersBasedOnViewDefinitions.
 		
 		`React to new additions`
 		($setOnAddition propOf modifiableViewDefinitions): {
