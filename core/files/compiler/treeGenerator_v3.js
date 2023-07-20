@@ -22,6 +22,40 @@ const KIND_FUNCTION_DEFINITION = 15;
 
 if(GLANG_TREE_GENERATOR_INCLUDED) {
 	;(function(){
+		//Brings a name into its unified form
+		function unifyStringName(originalName){
+			if(GLANG_DEBUG && "string" !== typeof originalName) throw new Error("unifyStringName only accepts strings - " + JSON.stringify(originalName) + " does not fit this rule");
+			
+			if(originalName === ""){
+				return "";
+			}
+			
+			//Try to go with an easy and fast unification method first
+			if(
+				//Check for an all-upper-case name - if present, make it lower case and return
+				originalName.includes("_") || 
+				//If the name does contain underscores, do the same thing
+				originalName === originalName.toUpperCase()
+			){
+				return originalName.toLowerCase();	
+			}
+			
+			//Otherwise, expect lower camel case, place a _ in front of every upper case character and make it lower case
+			var unifiedName = originalName.replace(
+				//All upper-case characters
+				/[A-Z]/g,
+				//What to do with them
+				char => "_" + char.toLowerCase()
+			)
+			
+			//Add an exception for the first letter of the name (remove leading _ if present)
+			if (unifiedName.startsWith("_")){
+				return unifiedName.slice(1);	
+			}else{
+				return unifiedName	
+			}
+		}
+
 		/*
 		This function categorizes a list (items) into categories.
 		"items" is a list containing any sort of item (or nothing).
@@ -146,7 +180,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 		const TILDE = {
 			next:function(token) {
 				if(!token.category === "Word") throw new Error("The tilde (~; followed by the name of a mutable variable to be resolved) has to be immediately followed by a name; no spaces allowed");
-				var getCallTreeItem = {k:KIND_GET, m:GLang.defaultRuntimeEnvironment.unifyStringName(token.textValue)};
+				var getCallTreeItem = {k:KIND_GET, m:unifyStringName(token.textValue)};
 				return group([getCallTreeItem, WAITING])
 			}
 		};
@@ -377,7 +411,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 				next:function(token){
 					return group([this, WAITING]).next(token);
 				},
-				n:GLang.defaultRuntimeEnvironment.unifyStringName(wordToken.textValue),
+				n:unifyStringName(wordToken.textValue),
 				k:KIND_NAME
 			}
 		}
@@ -602,7 +636,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 					case KIND_STRING:
 					case KIND_TYPED:
 						//We can re-use the parameter tree, but we have to unify the name
-						parameterTree.s = GLang.defaultRuntimeEnvironment.unifyStringName(parameterTree.s);
+						parameterTree.s = unifyStringName(parameterTree.s);
 						return parameterTree;
 					default: throw new Error("Invalid function parameter name: " + JSON.stringify(parameterTree));
 				}
@@ -645,7 +679,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 							//Convert that into a "normal" variable declaration with a function call in front of the value
 							const typedName = state[i - 1];
 
-							const name = GLang.defaultRuntimeEnvironment.unifyStringName(typedName.s);
+							const name = unifyStringName(typedName.s);
 							//Fail if the name is invalid
 							if(name.match("[^a-zA-Z_]")){
 								throw new Error(name + " is not a valid variable name!");
@@ -664,7 +698,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 						//Second case: untyped variable names
 						else if(state[i - 1].k === KIND_STRING) {
 							//Tell the runtime that we are doing a string assignment
-							const name = GLang.defaultRuntimeEnvironment.unifyStringName(state[i - 1].s);
+							const name = unifyStringName(state[i - 1].s);
 							//Fail if the name is invalid
 							if(name.match("[^a-zA-Z_]")){
 								throw new Error(name + " is not a valid variable name!");

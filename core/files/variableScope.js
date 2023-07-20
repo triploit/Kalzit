@@ -29,38 +29,6 @@ GLang.scopePrototype = {
 		
 		return result;
 	},
-	unifyStringName: function(originalName){
-		if(GLANG_DEBUG && "string" !== typeof originalName) throw new Error("unifyStringName only accepts strings - " + JSON.stringify(originalName) + " does not fit this rule");
-		
-		if(originalName === ""){
-			return "";
-		}
-		
-		//Try to go with an easy and fast unification method first
-		if(
-			//Check for an all-upper-case name - if present, make it lower case and return
-			originalName.includes("_") || 
-			//If the name does contain underscores, do the same thing
-			originalName === originalName.toUpperCase()
-		){
-			return originalName.toLowerCase();	
-		}
-		
-		//Otherwise, expect lower camel case, place a _ in front of every upper case character and make it lower case
-		var unifiedName = originalName.replace(
-			//All upper-case characters
-			/[A-Z]/g,
-			//What to do with them
-			char => "_" + char.toLowerCase()
-		)
-		
-		//Add an exception for the first letter of the name (remove leading _ if present)
-		if (unifiedName.startsWith("_")){
-			return unifiedName.slice(1);	
-		}else{
-			return unifiedName	
-		}
-	},
 	setInnerVariable: function(n, value, unneeded){		
 		//Look for an existing variable with the given name...
 		
