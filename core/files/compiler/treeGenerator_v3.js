@@ -550,12 +550,6 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 			var newTree = [];
 			for(var i = 0; i < sentences.length; i++){
 				var sentence = sentences[i];
-
-				//Add missing colons to each of the sentences
-				if(sentence.length !== 0 && 0 === sentence.length % 2){
-					//Even number of elements, but not zero elements - add a colon
-					sentence = sentence.splice(0,1).concat([{k:KIND_COLON}]).concat(sentence);
-				}
 				
 				newTree = newTree.concat(sentence);
 				if(i < sentences.length - 1) newTree.push({dot:1});
@@ -629,6 +623,12 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 					//The loop will end after this
 					break;
 				}
+			}
+
+			//Add missing colons to each of the sentences
+			if(state.length !== 0 && 0 === state.length % 2){
+				//Even number of elements, but not zero elements - add a colon
+				state = state.splice(0,1).concat([{k:KIND_COLON}]).concat(state);
 			}
 			
 			function simplifySingleFunctionParameterForRuntime(parameterTree) {

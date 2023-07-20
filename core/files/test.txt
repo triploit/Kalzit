@@ -1,3 +1,2 @@
-!ifElse true {
-	print 5
-};{}
+print calcitCompile: "@(void () fun {}) void".
+print calcitCompile: "@(void: () fun {}) void"
