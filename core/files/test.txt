@@ -1,3 +1,3 @@
-$thing = void.
-
-!thing "" -> ($searchTerm ? {strTrim: strToLowerCase: x}) fun {}.
+!ifElse true {
+	print 5
+};{}

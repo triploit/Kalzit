@@ -181,26 +181,6 @@
 		{
 			varName:"array", varValue:{value:function(env, args){return {value:args}}}
 		},
-		{varName:"fun", varValue:{value:function(env, args){
-			var argList = args[0];
-			if(!(argList.value instanceof Array)){
-				argList = [argList];
-			}else{
-				argList = argList.value;
-			}
-			if(GLANG_DEBUG && argList.length > 2){
-				throw new Error("Functions can not have more than two parameters");
-			}
-			
-			//console.log("typecheck !fun");
-            if(GLANG_DEBUG && (args[1].value + "") === args[1].value) {
-                throw new Error("fun must not be called with a string as its second parameter! Use a code block instead");
-            }
-			var codeblock = args[1].value.cb;
-			//var returnType = args[1].type;
-			
-			return GLang.functionFromCodeblock(codeblock, env, {value:argList});
-		}}},
 		{varName:";", varValue:{value:function(env, args){
 			var val1 = args[0];
 			if(!(val1.value instanceof Array)){

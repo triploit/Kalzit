@@ -8,7 +8,8 @@
 				if(GLANG_DEBUG && "string" !== typeof argumentList[argIndex].value) throw new Error("Every entry of an argument list needs to be a string value - " + JSON.stringify(argumentList[argIndex]) + " does not fit this rule");
 				
 				var untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
-				var argumentName = env.unifyStringName(argumentList[argIndex].value);
+				//We know that the name is always unified, since this is only ever called with pre-compiled values
+				var argumentName = argumentList[argIndex].value;
 				var argumentType = argumentList[argIndex].type;
 				
 				//Check if we need to apply a type to the argument

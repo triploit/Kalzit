@@ -601,6 +601,8 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 				switch(parameterTree.k) {
 					case KIND_STRING:
 					case KIND_TYPED:
+						//We can re-use the parameter tree, but we have to unify the name
+						parameterTree.s = GLang.defaultRuntimeEnvironment.unifyStringName(parameterTree.s);
 						return parameterTree;
 					default: throw new Error("Invalid function parameter name: " + JSON.stringify(parameterTree));
 				}
