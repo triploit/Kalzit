@@ -117,6 +117,7 @@
     , {
         "provides": [
           "resolve_name"
+		, "no_parameter_function_from_string"
       ]
       , "scriptUrl": "resolveName.js"
     }

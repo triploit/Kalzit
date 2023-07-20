@@ -1,6 +1,3 @@
-$m ? Var = 6.
-print: ~m.
-m = 1.
-print: ~m.
+$thing = void.
 
-print: calcitCompile: "$a = 'v'. a = 6."
+!thing "" -> ($searchTerm ? {strTrim: strToLowerCase: x}) fun {}.

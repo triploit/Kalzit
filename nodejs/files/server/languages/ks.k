@@ -1,1 +1,0 @@
-do:() fun fileContent: fname.

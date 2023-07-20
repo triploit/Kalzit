@@ -18,6 +18,7 @@ const KIND_DO = 11;
 const KIND_GET = 12;
 const KIND_ASSIGN_TO_MUTABLE_NAME = 13;
 const KIND_ASSIGN_TO_MUTABLE_NONAME = 14;
+const KIND_FUNCTION_DEFINITION = 15;
 
 if(GLANG_TREE_GENERATOR_INCLUDED) {
 	;(function(){
@@ -581,8 +582,8 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 						if (relativeArrowIndex == 0 || relativeArrowIndex == slicedStateAfterOperator.length - 1) {
 							throw new Error("You almost got the arrow syntax right! Just put something before and after the arrow.");	
 						}
-						var b = slicedStateAfterOperator.splice(0, relativeArrowIndex);
-						var a = {k:KIND_PARENTHESES, p:slicedStateAfterOperator.slice(1)};
+						var b = finishSentenceAndCheckForExclamationMarks(slicedStateAfterOperator.splice(0, relativeArrowIndex));
+						var a = {k:KIND_PARENTHESES, p:finishSentenceAndCheckForExclamationMarks(slicedStateAfterOperator.slice(1))};
 						state = state.slice(0, i).concat(a, op, b);
 					} else {
 						//We have no arrow; this is form 1 from above
@@ -593,6 +594,40 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 					
 					//The loop will end after this
 					break;
+				}
+			}
+			
+			function simplifySingleFunctionParameterForRuntime(parameterTree) {
+				switch(parameterTree.k) {
+					case KIND_STRING:
+					case KIND_TYPED:
+						return parameterTree;
+					default: throw new Error("Invalid function parameter name: " + JSON.stringify(parameterTree));
+				}
+			}
+			
+			function simplifyFunctionParametersForRuntime(parameterTree) {
+				switch(parameterTree.k) {
+					case KIND_PARENTHESES:
+						//We have four different cases here
+						switch(parameterTree.p.length) {
+							case 0: //Zero-argument function
+								return []; //Inner switch
+							case 1: //One-argument function
+								return [simplifySingleFunctionParameterForRuntime(parameterTree.p[0])]; //Inner switch
+							case 3: //Potential two-argument function
+								if(parameterTree.p[1].k !== KIND_SEMICOLON) {
+									throw new Error("Parentheses containing two function parameter names are expected to have the following form: <parameter> <semicolon> <parameter>");
+								}
+								return [
+									simplifySingleFunctionParameterForRuntime(parameterTree.p[0]),
+									simplifySingleFunctionParameterForRuntime(parameterTree.p[2])
+								]; //Inner switch
+							default: //Inner switch
+								throw new Error("Parentheses containing two function parameter names must contain one parameter name (string), or two, separated by a semicolon");
+						}
+					default: //Outer switch
+						return [simplifySingleFunctionParameterForRuntime(parameterTree)]
 				}
 			}
 
@@ -631,7 +666,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 							//Fail if the name is invalid
 							if(name.match("[^a-zA-Z_]")){
 								throw new Error(name + " is not a valid variable name!");
-							}							
+							}
 
 							newState.push({k:KIND_ASSIGN_TO_STRING, s:name, v:simplifyForRuntime(state.slice(i + 1))});
 							return newState;
@@ -649,6 +684,23 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 							return newState;
 						}
 					
+					} else if(state[i].k === KIND_NAME && state[i].n === "fun") {
+						//Okay, we have a function definition
+						//Check that it is valid
+						//Assume that we have exactly one following tree item in this sentence (the code block)
+						if(state.length !== i + 2) throw new Error("Uses of 'fun' must be followed by a code block");
+						if(state[i + 1].k !== KIND_CODEBLOCK) throw new Error("Function definitions need a code block as their second parameter");
+						const codeblock = state[i + 1];
+
+						const parameterList = simplifyFunctionParametersForRuntime(state[i - 1]);
+						
+						const newTreeItem = {k:KIND_FUNCTION_DEFINITION, c:codeblock.sentences, p:parameterList}
+						
+						//Insert this function item into the new sentence
+						newState.push(newTreeItem);
+						
+						//We are done here - it is guaranteed that nothing follows, because of the first length check
+						return newState;
 					} else {
 						//Nothing special to do
 						newState.push(state[i - 1], state[i]);

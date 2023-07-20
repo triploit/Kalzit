@@ -4,7 +4,9 @@
 
 	var redFormat = '\x1b[1m\x1b[31m%s\x1b[0m';
 
-	GLang.error = function(str){console.log(redFormat, "Error: " + GLang.stringify(str))};
+	GLang.error = function(str){
+		console.error(redFormat, str);
+	};
 	GLang.log = GLang.print = console.log;
 
 	//Initialize package manager - get the initial packages from nodejs/usable-libraries.json

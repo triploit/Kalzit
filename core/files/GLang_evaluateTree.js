@@ -79,11 +79,25 @@
 				env.resolveName(fragment.n).value.set(resultA);
 				return resultA;
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
-			case KIND_TYPED:
-				//Typed values are always strings
-				const string = GLang.stringValue(fragment.s);
-				string.type = evaluateSentenceFragment(fragment.t, env);
-				return string;
+			case KIND_FUNCTION_DEFINITION:
+				return GLang.functionFromCodeblock(
+					GLang.codeblockFromTree(fragment.c, env).value.cb,
+					env,
+					//Parameter list of the function
+					{value:fragment.p.map(parameter => {
+						//There are only two options for parameters: they can be KIND_STRING or KIND_TYPED
+						const result = GLang.stringValue(parameter.s);
+						if(parameter.k === KIND_TYPED) {
+							result.type = evaluateSentenceFragment(parameter.t, env)
+						}
+						return result
+					})}
+				);
+//			case KIND_TYPED:
+//				//Typed values are always strings
+//				const string = GLang.stringValue(fragment.s);
+//				string.type = evaluateSentenceFragment(fragment.t, env);
+//				return string;
 			//Do the slightly less common things later
 			case KIND_STRING: return GLang.stringValue(fragment.s);
 			case KIND_NUMBER: return {value:fragment.num};

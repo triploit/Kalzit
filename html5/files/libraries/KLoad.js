@@ -18,6 +18,8 @@ const KLoad = {};
 	
 	//Loads a js file by http (or relative) url and runs it.
 	function loadUrl(url, _headers){
+		if(url + "" === "") return null;
+		
 		// get some kind of XMLHttpRequest
 		var xhrObj = new XMLHttpRequest();
 		//if present, send headers (setRequestHeader())

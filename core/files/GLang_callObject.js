@@ -64,7 +64,7 @@
 		return GLang.callStack.map(callEntry => GLang.getValueVarName(callEntry.obj))
 	};
 
-	const GLANG_CALL_STACK_NEEDED = GLANG_DEBUG;
+	const GLANG_CALL_STACK_NEEDED = true;
 
 	GLang.callObject = function(obj, env, args){
 		//If we have a non-function, quit this as quickly as possible
@@ -136,7 +136,7 @@
 	//		}
 		}catch(exception){
 			//Put a human-readable error on the app, and a detailed log on the console
-			GLang.print("Error: " + (exception.message || exception));
+			GLang.error(exception);
 			
 			if(GLANG_CALL_STACK_NEEDED) {
 				GLang.print("(oldest call first, ':' and 'do' excluded)")

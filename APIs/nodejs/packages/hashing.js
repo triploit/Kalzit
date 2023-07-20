@@ -1,15 +1,15 @@
-this.mdFiveHash = function(string){
+this.md_five_hash = function(string){
 	return require("crypto").createHash("md5").update(string).digest("hex")
 }
-this.shaFiveTwelveHashWithSalt = function(string, salt){
+this.sha_five_twelve_hash_with_salt = function(string, salt){
 	return require("crypto").createHmac("sha512", salt).update(string).digest("hex")
 }
-this.generateSalt = function(length){
+this.generate_salt = function(length){
 	return require("crypto").randomBytes(length).toString('base64');
 }
 
 //Nice for smaller files, might cause memory problems for larger ones (that do not fit into RAM)
-this.fileMdFiveHash = function(filePath){
+this.file_md_five_hash = function(filePath){
 	return require("crypto").createHash("md5").update(require("fs").readFileSync(filePath)).digest("hex")
 }
 
