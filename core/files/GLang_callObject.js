@@ -122,7 +122,7 @@
 	//		}
 		}catch(exception){
 			//Put a human-readable error on the app, and a detailed log on the console
-			GLang.error(exception);
+			GLang.error("E:" + exception);
 			
 			if(GLANG_DEBUG) {
 				GLang.print("(oldest call first, ':' and 'do' excluded)")
