@@ -4,6 +4,6 @@
 		"platforms":["html5"]
 	},
 	"libraries":[
-		{"provides":["simple_string_asset_access", "app_strings", "strings"], "scriptUrl":"simpleStringAccess.txt"}
+		{"provides":["app_strings", "strings"], "scriptUrl":"simpleStringAccess.txt"}
 	]
 }

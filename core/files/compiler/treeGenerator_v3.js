@@ -346,7 +346,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 		var finishedCodeBlock = function(sentences) {
 		    return {
 		        k:KIND_CODEBLOCK,
-		        sentences:GLang.prepareTree(sentences),
+		        s:GLang.prepareTree(sentences),
 		        next:function(token) {
 		            if (token.textValue === "?") {
 						throw new Error("Typed codeblocks are not supported anymore");
@@ -359,7 +359,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 		    }
 		}
 		function finishedArrayBlock(sentences){
-			return group([{k:KIND_ARRAY, array:sentences}, WAITING]);
+			return group([{k:KIND_ARRAY, a:sentences}, WAITING]);
 		}
 		function finishedParentheses(sentences){
 			if(sentences.length == 1){
@@ -730,7 +730,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 
 						const parameterList = simplifyFunctionParametersForRuntime(state[i - 1]);
 						
-						const newTreeItem = {k:KIND_FUNCTION_DEFINITION, c:codeblock.sentences, p:parameterList}
+						const newTreeItem = {k:KIND_FUNCTION_DEFINITION, c:codeblock.s, p:parameterList}
 						
 						//Insert this function item into the new sentence
 						newState.push(newTreeItem);

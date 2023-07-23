@@ -192,9 +192,9 @@
 			}
 			return {value:[].concat(val1.value,val2.value)};
 		}}},
-		{varName:":", varValue:{value:function(env, args){
-			return GLang.callObject(args[0], env, [args[1]]);
-		}}},
+//		{varName:":", varValue:{value:function(env, args){
+//			return GLang.callObject(args[0], env, [args[1]]);
+//		}}},
 		{varName:"range", varValue:{value:arrayFun(function(env, args){
 			var array = [];
 			if(args[0].value <= args[1].value){

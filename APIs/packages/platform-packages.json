@@ -123,12 +123,6 @@
     }
     , {
         "provides": [
-          "final"
-      ]
-      , "scriptUrl": "types/final.txt"
-    }
-    , {
-        "provides": [
           "eval"
       ]
       , "scriptUrl": "eval.txt"
@@ -170,13 +164,6 @@
         , "str_replace"
       ]
       , "scriptUrl": "str/strFormat.txt"
-    }
-    , {
-        "provides": [
-          "info"
-        , "comment"
-      ]
-      , "scriptUrl": "annotations/comment.txt"
     }
     , {
         "provides": [

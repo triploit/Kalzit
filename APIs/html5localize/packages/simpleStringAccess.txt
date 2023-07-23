@@ -1,13 +1,3 @@
-@(useInstead: "localizedStringAssetAccess, stringAssetAccess")
-$simpleStringAssetAccess = cachedFun: ($path ; $_loader ? (default: {loadLocal: x})) fun {
-	$object = parseJson: _loader: path.
-	!if (not object eq void) {
-		cachedFun: ($key ? String) fun {
-			key objFirstProperty object
-		}
-	}
-}.
-
 /* @kalzit.for appStrings
 
 	A function for easily accessing app-specific localized strings.

@@ -1,2 +1,0 @@
-@(deprecated: "This is no longer the primary way to add doc comments; use /* */ with @kalzit.for")
-$comment = $info = ($_x) fun {["comment"];[_x]}.

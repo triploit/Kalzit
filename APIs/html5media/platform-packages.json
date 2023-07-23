@@ -4,7 +4,6 @@
 		"platforms":["html5"]
 	},
 	"libraries":[
-		{"provides":["speech_say", "speech_get_voices_by_language", "speech_get_voices"],  "scriptUrl":"speech.js"},
 		{"provides":["ui_audio_player", "ui_video_player", "audio_player"],  "scriptUrl":"uiAudioVideo.js"},
 		{"provides":["ui_show_webpage_url_native"],  "scriptUrl":"uiWebpage.js"}
 	]

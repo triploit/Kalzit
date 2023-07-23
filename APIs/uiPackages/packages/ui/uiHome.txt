@@ -3,32 +3,6 @@ $uiHomeScreenIcon = ($iconGraphic ? UiElement ; $_applySpecificLook ? (default: 
 	_applySpecificLook: ico
 }.
 
-@(useInstead: "uiHomeScreenLink - much more integrated with OS features, like drag and drop on iPad")
-$uiHomeScreenAppButton = ($action ; $appInfo) fun {
-	$appColor ? RgbColor = (default: 122): eval: $color propOf appInfo.
-	$description = (default: "Untitled"): $title propOf appInfo.
-	$iconPath = $icon propOf appInfo.
-	
-	$gradient = backgroundGradientTopToBottom: [appColor];[{max: 0;x} each appColor - 150].
-	$border = borderColor: {max: 0;x} each appColor - 50.
-	$graphic = !ifElse (not: void eq iconPath) {
-		uiShowImageUrl: "/apps/" + ($id propOf appInfo) + "/" + iconPath.
-	};{
-		uiContainer: @(emFontSize 1,5) uiText: first: "" strSplit description.
-	}.
-	
-	@(onTap action) @centerText uiContainer: (graphic uiHomeScreenIcon {@(foregroundColor white) @border @gradient x});uiText: description
-}.
-
-@(useInstead: "uiHomeScreenLink - much more integrated with OS features, like drag and drop on iPad")
-$uiSimpleHomeScreenApp = ($description ? String ; $action) fun {
-	action uiHomeScreenAppButton
-		[$title;description];
-		[$color;[
-			randomItem: "red";"green";"blue"
-		]].
-}.
-
 $uiHomeScreenLink = ($appInfo) fun {
     $colorInfo = $color propOf appInfo.
     $appColor ? (default: RgbColor: 122) = !ifNot (void eq colorInfo) {

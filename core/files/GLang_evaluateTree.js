@@ -32,7 +32,7 @@
 
 	//evaluateSentenceFragment will need to return specific values very, VERY often
 	//Load and store them here, so they are easily accessible
-	const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"];
+	//const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"];
 	const SEMICOLON_VALUE = GLang.defaultRuntimeEnvironment["kv_;"];
 	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"];
 	
@@ -71,7 +71,7 @@
 	function evaluateSentenceFragment(fragment, env){
 		switch(fragment.k){
 			//Do the super common things first
-			case KIND_COLON: return COLON_VALUE;
+			//case KIND_COLON: return COLON_VALUE;
 			case KIND_ASSIGN_TO_STRING:
 				const n = fragment.s;
 				if(env.hasOwnProperty("kv_" + n)){
@@ -121,8 +121,8 @@
 			case KIND_NUMBER: return {value:fragment.num};
 			case KIND_NAME: return env.resolveName(fragment.n);
 			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.p, env);
-			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.array, env)]};
-		    case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.sentences, env);
+			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.a, env)]};
+		    case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.s, env);
 			case KIND_DO: return DO_VALUE;
 			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
 			case KIND_ASSIGN_TO_MUTABLE_NONAME:

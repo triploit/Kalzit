@@ -107,8 +107,8 @@
     , {
         "provides": [
           "ui_home_screen"
-        , "ui_home_screen_icon"
-        , "ui_simple_home_screen_app"
+		, "ui_home_screen_icon"
+        , "ui_home_screen_link"
       ]
       , "scriptUrl": "ui/uiHome.txt"
     }
