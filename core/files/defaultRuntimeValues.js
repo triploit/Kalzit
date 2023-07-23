@@ -243,12 +243,18 @@
 					//Apply the type
 					newValue = GLang.callObject(this.type, env, [v]);
 					//For debugging: log if the value was changed by the type
-					GLang.logTypeHint({
-						message:"A mutable container was automatically changed by its type",
-						oldValue:v,
-						newValue:newValue,
-						typeName:GLang.getValueVarName(this.type)
-					})
+					if(GLANG_DEBUG && !GLang.eq(logConfig.oldValue.value, logConfig.newValue.value)) {
+						console.warn(logConfig.message);
+						console.log("The type changed the assigned value from this:");
+						console.log(logConfig.oldValue);
+						console.log("... to that:");
+						console.log(logConfig.newValue);
+						console.log("Kalzit call stack:");
+						console.log([...GLang.callStack]);
+						console.log("This is probably the most important value in that stack (the second-to-last one):");
+						console.log(GLang.callStack[GLang.callStack.length - 2].obj);
+						console.log("---");
+					}
 				}
 				var oldValue = this.mutable;
 				this.mutable = newValue;

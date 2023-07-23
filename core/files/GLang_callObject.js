@@ -35,37 +35,22 @@
 		
 		return functionEnvironment;
 	};
-
-	//This is a stack (push, pop) used to keep track of the currently active function calls
-	GLang.callStack = [];
-	GLang.getValueVarName = function(anyValue) {
-		try {
-			if(anyValue.varName) return anyValue.varName;
-			return "unnamed value (JS " + (typeof anyValue.value) + ")";
-		} catch (anyError) {
-			return "unknown value"	
-		}
-	};
-	//logConfig has fields oldValue,newValue,typeName,varName,message
-	GLang.logTypeHint = function(logConfig) {
-		if(GLANG_DEBUG && !GLang.eq(logConfig.oldValue.value, logConfig.newValue.value)) {
-			console.warn(logConfig.message);
-			console.log("The type changed the assigned value from this:");
-			console.log(logConfig.oldValue);
-			console.log("... to that:");
-			console.log(logConfig.newValue);
-			console.log("Kalzit call stack:");
-			console.log([...GLang.callStack]);
-			console.log("This is probably the most important value in that stack (the second-to-last one):");
-			console.log(GLang.callStack[GLang.callStack.length - 2].obj);
-			console.log("---");
-		}
+	
+	if(GLANG_DEBUG) {
+		//This is a stack (push, pop) used to keep track of the currently active function calls
+		GLang.callStack = [];
+		GLang.getValueVarName = function(anyValue) {
+			try {
+				if(anyValue.varName) return anyValue.varName;
+				return "unnamed value (JS " + (typeof anyValue.value) + ")";
+			} catch (anyError) {
+				return "unknown value"	
+			}
+		};
+		GLang.getSimplifiedCallStack = function() {
+			return GLang.callStack.map(callEntry => GLang.getValueVarName(callEntry.obj))
+		};
 	}
-	GLang.getSimplifiedCallStack = function() {
-		return GLang.callStack.map(callEntry => GLang.getValueVarName(callEntry.obj))
-	};
-
-	const GLANG_CALL_STACK_NEEDED = true;
 
 	GLang.callObject = function(obj, env, args){
 		//If we have a non-function, quit this as quickly as possible
@@ -81,7 +66,7 @@
 		
 		//We have a function to call
 		//Before doing anything else, add the thing we want to call to the call stack
-		if(GLANG_CALL_STACK_NEEDED) {
+		if(GLANG_DEBUG) {
 			GLang.callStack.push({obj: obj, args: args});
 		}
 		
@@ -108,7 +93,7 @@
 						break;
 					default:
 						//Must be a code block (all other options are eliminated at the top of the function)
-						if(GLANG_CALL_STACK_NEEDED) {
+						if(GLANG_DEBUG) {
 							//We need to reach the bottom of this function to manage the call stack
 							result = object.cb(createCodeBlockScope(obj.env, args));
 						} else {
@@ -122,7 +107,7 @@
 	//				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
 	//			}
 				
-				if(GLANG_CALL_STACK_NEEDED) {
+				if(GLANG_DEBUG) {
 					//Before returning the result, remove the currently active function from the call stack
 					GLang.callStack.pop();
 					
@@ -139,7 +124,7 @@
 			//Put a human-readable error on the app, and a detailed log on the console
 			GLang.error(exception);
 			
-			if(GLANG_CALL_STACK_NEEDED) {
+			if(GLANG_DEBUG) {
 				GLang.print("(oldest call first, ':' and 'do' excluded)")
 				GLang.getSimplifiedCallStack().forEach(callEntry => {
 					if(!(callEntry === ":" || callEntry === "do")){
@@ -149,7 +134,7 @@
 				});
 			}
 			
-			if(GLANG_DEBUG && GLANG_CALL_STACK_NEEDED) {
+			if(GLANG_DEBUG) {
 				//For console use, it is easier to explore the stack this way
 				console.log("JS call stack for console use:");
 				console.log(exception);
@@ -160,17 +145,19 @@
 				console.log("---");
 			}
 			
-			if(GLANG_CALL_STACK_NEEDED) {
+			if(GLANG_DEBUG) {
 				//We still have to pop the current call stack entry
 				GLang.callStack.pop();
+				return {value:[], error:exception, callStackCopy:[...GLang.callStack], annotations:[
+					{value:[
+						GLang.stringValue("error"),
+						GLang.stringValue(exception.message)
+					]}
+				]};
+			} else {
+				return GLang.voidValue;
 			}
 			
-			return {value:[], error:exception, callStackCopy:[...GLang.callStack], annotations:[
-				{value:[
-					GLang.stringValue("error"),
-					GLang.stringValue(exception.message)
-				]}
-			]};
 		}
 	}
 })();

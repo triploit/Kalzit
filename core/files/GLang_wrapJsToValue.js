@@ -5,7 +5,7 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 		case "string": return GLang.stringValue(js);
 		case "boolean": return {value:js ? 1 : 0};
 	}
-	if(js instanceof Function){
+	if("function" === typeof js){
 		function calcitFunction(env, args){
 			return wrapJsToValue(js(...args.map(arg => arg.value)));
 		}
@@ -37,21 +37,22 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 			//Do not include argument names
 			return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION}
 		}
-	}
-	if(js instanceof Array){
-		return {value:js.map(
-			entry => GLang.wrapJsToValue(entry)
-		)};
-	}
-	if(js instanceof Object){
-		var calcitObject = [];
-		for(var prop in js){
-			calcitObject.push({value:[
-				GLang.stringValue(prop),
-				GLang.wrapJsToValue(js[prop])
-			]});
+	} else if('object' === typeof js) {
+		//Do we have an array, or a "normal" object?
+		if(Array.isArray(js)){
+			return {value:js.map(
+				entry => GLang.wrapJsToValue(entry)
+			)};
+		} else {
+			var calcitObject = [];
+			for(var prop in js){
+				calcitObject.push({value:[
+					GLang.stringValue(prop),
+					GLang.wrapJsToValue(js[prop])
+				]});
+			}
+			return {value:calcitObject};
 		}
-		return {value:calcitObject};
 	}
 	
 	//Default case

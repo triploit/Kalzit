@@ -1,7 +1,7 @@
 GLang.wrapValueToJsObject = function(container){
 	container = container.value;
-	if(container instanceof Array){
-		var object = {};
+	if(Array.isArray(container)){
+		const object = {};
 		for(var i = 0; i < container.length; i++){
 			const PAIR = container[i].value;
 			if(PAIR.length === 2 && "string" === typeof PAIR[0].value){
@@ -17,11 +17,6 @@ GLang.wrapValueToJsObject = function(container){
 			}else{
 				//Return usual array
 				return container.map(GLang.wrapValueToJsObject);
-//				var array = [];
-//				for(var i = 0; i < container.length; i++){
-//					array[i] = GLang.wrapValueToJsObject(container[i]);
-//				}
-//				return array
 			}
 		}
 		return object;
