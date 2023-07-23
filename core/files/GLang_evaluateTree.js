@@ -1,23 +1,4 @@
-(function() {
-	GLang.prepareTree = function(tree) {
-		if(tree.length === 0) return [];
-		
-		var sentence = [];
-		var result = [];
-		for(var i = 0; i < tree.length; i++){
-			if(tree[i].dot){
-				result.push(sentence);
-				sentence = [];
-			}else{
-				sentence.push(tree[i]);
-			}
-		}
-		if(sentence.length){
-			result.push(sentence)
-		}
-		return result;
-	}
-	
+(function() {	
 	GLang.evaluatePreparedTree = function(sentenceList, env) {
 		if(sentenceList.length === 0) return GLang.voidValue;
 		

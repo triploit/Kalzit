@@ -1,7 +1,4 @@
 ;(function(global){
-
-	GLang.defaultRuntimeEnvironment = GLang.RuntimeEnvironment();
-
 	function stringValue(jsStr){
 		if(jsStr === undefined || jsStr === null){
 			return GLang.voidValue;
@@ -305,9 +302,6 @@
 
 	GLang.defaultRuntimeEnvironment.qdSet("calcit_annotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
-	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.qdSet("code_block_from_string", {value:function(env, args){
-		return GLang.codeblockFromTree(GLang.prepareTree(GLang.generateTree(args[0].value)), GLang.defaultRuntimeEnvironment);
 	}, display:DISPLAY_FUNCTION});
 	GLang.defaultRuntimeEnvironment.qdSet("do", {value:function(env, args){
 		var params = [];

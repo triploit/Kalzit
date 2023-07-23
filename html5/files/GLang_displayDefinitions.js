@@ -29,8 +29,8 @@ GLang.displayValue = function displayValue(container){
 		})
 
 		case DISPLAY_FUNCTION: return GLang.stringDisplay(container, function(x){
-			var result = x.value.codeString ? "{" + x.value.codeString + "}" : "{{function}. void}";
-			if(GLang.getFirstAnnotation(x, GLang.stringValue("argumentList"))){
+			var result = "{{function}. void}";
+			if(GLANG_DEBUG && GLang.getFirstAnnotation(x, GLang.stringValue("argumentList"))){
 				var argumentValues = GLang.getFirstAnnotation(x, GLang.stringValue("argumentList")).value;
 				var argList = "(";
 				for(var i = 0; i < argumentValues.length; i++){

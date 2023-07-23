@@ -1,3 +1,3 @@
 //A package manager implementation for the browser
-GLang.domPackageManager = Object.create(new GLang.PackageManager());
-GLang.domPackageManager.loadUrl = KLoad.loadUrl;
+GLang.packageManager = new GLang.PackageManager();
+GLang.packageManager.loadUrl = KLoad.loadUrl;

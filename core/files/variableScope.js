@@ -1,4 +1,4 @@
-GLang.scopePrototype = {
+GLang.defaultRuntimeEnvironment = {
 	resolveName: function(unified){
 		var value = this["kv_" + unified];
 		var result = null;
@@ -45,5 +45,5 @@ GLang.RuntimeEnvironment = function(outer){
 	//For debugging: test if this is called as a constructor
 	//if(!this instanceof GLang.RuntimeEnvironment) throw new Error("GLang.RuntimeEnvironment not called with 'new' keyword");
 
-	return Object.create(outer || GLang.scopePrototype);
+	return Object.create(outer);
 }

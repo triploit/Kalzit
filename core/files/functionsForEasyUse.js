@@ -1,13 +1,15 @@
-GLang.eval = function (text){
-	try{
-		return GLang.evaluatePreparedTree(GLang.prepareTree(GLang.generateTree(text)), GLang.defaultRuntimeEnvironment);
-	}catch(e){
-		if(GLANG_DEBUG) {
-			console.error(e);
+if(GLANG_TREE_GENERATOR_INCLUDED) {
+	GLang.eval = function (text){
+		try{
+			return GLang.evaluatePreparedTree(GLang.prepareTree(GLang.generateTree(text)), GLang.defaultRuntimeEnvironment);
+		}catch(e){
+			if(GLANG_DEBUG) {
+				console.error(e);
+			}
+			throw e;
 		}
-		throw e;
-	}
-};
+	};
+}
 
 //A function that attempts to produce a human-readability-first, completeness-second string from any value
 GLang.stringify = function(anything){

@@ -7,7 +7,7 @@
 	GLang.error = function(str){
 		console.error(redFormat, str);
 	};
-	GLang.log = GLang.print = console.log;
+	GLang.print = console.log;
 
 	//Initialize package manager - get the initial packages from nodejs/usable-libraries.json
 	GLang.packageManager = new GLang.NodePackageManager();

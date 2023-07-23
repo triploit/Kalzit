@@ -18,7 +18,6 @@
 		}
 		showMessageOnPage(error, "error")
 	};
-	GLang.log = function(data){console.log(data)};
 	GLang.print = function(data){
 		if(GLANG_DEBUG) {
 			console.warn(data);
@@ -33,8 +32,5 @@
 	GLang.printValue = function(container){
 		document.getElementById("playground").appendChild(GLang.displayValue(container));
 	}
-
-	//Initialize package manager
-	GLang.packageManager = GLang.domPackageManager;
 	
 })();
