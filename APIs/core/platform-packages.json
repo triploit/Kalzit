@@ -12,7 +12,6 @@
 		{"provides":["listen"],  "scriptUrl":"listen.js"},
 		{"provides":["parse_json", "obj_to_json"],  "scriptUrl":"json.js"},
 		{"provides":["remove_duplicates"],  "scriptUrl":"removeDuplicates.js"},
-		{"provides":["parse_cookie_names", "parse_cookie_value"], "scriptUrl":"cookieParser.js"},
 		{"provides":["generate_guid"], "scriptUrl":"generateGuid.js"},
 		{"provides":["get_current_date", "date_to_utc"], "scriptUrl":"date.js"},
 		{"provides":["run_later"], "scriptUrl":"runLater.js"},

@@ -10,4 +10,3 @@ GLang_wrapJsToValue.js
 GLang_wrapValueToJsObject.js
 GLang_PackageManager.js
 functionsForEasyUse.js
-cookieParser.js
