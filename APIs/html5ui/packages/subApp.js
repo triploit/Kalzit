@@ -61,10 +61,10 @@ function enableScrolling() {
 function initiate(name){
 	if(hashes.has(lastSubApp)){
 		//Close the sub app
-		GLang.callObject(hashes.get(lastSubApp).close, GLang.defaultRuntimeEnvironment, []);
+		GLang.callObject(hashes.get(lastSubApp).close, GLang.dr, []);
 	}
 	if(hashes.has(name)){
-		GLang.callObject(hashes.get(name).open, GLang.defaultRuntimeEnvironment, []);
+		GLang.callObject(hashes.get(name).open, GLang.dr, []);
 		
 		//If it is not done already, disable scrolling of the main page content
 		if(!mainPageScrollingDisabled) {
@@ -84,7 +84,7 @@ window.onhashchange = function(){
 			//Here we go - we have to re-enable scrolling
 			const scrollY = document.body.style.top;
 			
-			GLang.defaultRuntimeEnvironment.resolveName("popup_animate_out").value(GLang.defaultRuntimeEnvironment, []);
+			GLang.dr.resolveName("popup_animate_out").value(GLang.dr, []);
 			//If it is not done already, re-enable scrolling of the main page content
 			if(mainPageScrollingDisabled && !mainPageScrollingShouldBeDisabled) {
 				enableScrolling()

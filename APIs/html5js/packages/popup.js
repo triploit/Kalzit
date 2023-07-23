@@ -19,7 +19,7 @@ Usage example:
 The values will be displayed as if you used the "print" function on each of them.
 Please note that nothing else is added to the opened window, including stylesheets. This means that many default styles and any themes you set do not apply there.
 */
-GLang.defaultRuntimeEnvironment.qdSet("popup_values", {value:function(env, args){
+GLang.dr.qdSet("popup_values", {value:function(env, args){
 	var b = window.open("", "", "").document.body;
 	var array = args[0].value;
 	if(!(array instanceof Array)){

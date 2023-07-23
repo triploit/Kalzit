@@ -6,7 +6,7 @@ this.share_supported = function(){
 	}
 }
 
-GLang.defaultRuntimeEnvironment.qdSet("share_url", {value:function(env, args) {
+GLang.dr.qdSet("share_url", {value:function(env, args) {
 	var url = args[0].value;
 
 	var jsShareObject = {url: url};
@@ -17,7 +17,7 @@ GLang.defaultRuntimeEnvironment.qdSet("share_url", {value:function(env, args) {
 	return GLang.voidValue;
 }});
 
-GLang.defaultRuntimeEnvironment.qdSet("share_text", {value:function(env, args) {
+GLang.dr.qdSet("share_text", {value:function(env, args) {
 	var text = args[0].value;
 
 	var jsShareObject = {text: text};

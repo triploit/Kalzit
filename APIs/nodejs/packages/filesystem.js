@@ -51,10 +51,10 @@ this.file_delete_folder = function(filePath){
 	fs.existsSync(filePath) && fs.rmdirSync(filePath);
 }
 
-GLang.defaultRuntimeEnvironment.qdSet("file_content_raw", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("file_content_raw", {value:GLang.arrayFun(function(env, args){
 	return {value:fileContentRaw(args[0].value)};
 }), display:DISPLAY_FUNCTION});
-GLang.defaultRuntimeEnvironment.qdSet("file_content_async", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("file_content_async", {value:GLang.arrayFun(function(env, args){
 	function fileContentCallback(content){
 		GLang.callObject(args[0], env, [content])
 	}
@@ -69,7 +69,7 @@ GLang.defaultRuntimeEnvironment.qdSet("file_content_async", {value:GLang.arrayFu
 	
 	return GLang.voidValue
 }), display:DISPLAY_FUNCTION});
-GLang.defaultRuntimeEnvironment.qdSet("folder_content_async", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("folder_content_async", {value:GLang.arrayFun(function(env, args){
 	function folderContentCallback(content){
 		GLang.callObject(args[0], env, [content])
 	}

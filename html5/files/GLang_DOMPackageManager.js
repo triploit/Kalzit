@@ -1,3 +1,3 @@
 //A package manager implementation for the browser
-GLang.packageManager = new GLang.PackageManager();
-GLang.packageManager.loadUrl = KLoad.loadUrl;
+GLang.pm = new GLang.PackageManager();
+GLang.pm.loadUrl = KLoad.loadUrl;

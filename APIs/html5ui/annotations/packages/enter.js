@@ -5,7 +5,7 @@ You should not use this function directly - instead, you should add the onEnter-
 this.flag_on_enter = function(listener, object){
 	object.onkeypress = function(event){
 		if(event.keyCode === 13){
-			GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
+			GLang.callObject({value:listener}, GLang.dr, []);
 		}
 	}
 }

@@ -1,8 +1,8 @@
-GLang.defaultRuntimeEnvironment.qdSet("set_css_color_combination", {value:function(env, args){
+GLang.dr.qdSet("set_css_color_combination", {value:function(env, args){
 	var object = GLang.wrapValueToJsObject(args[0]);
 	function colorString(color){
 		return GLang.wrapValueToJsObject(GLang.callObject(
-			GLang.defaultRuntimeEnvironment.resolveName("ColorString"),
+			GLang.dr.resolveName("ColorString"),
 			env,
 			[GLang.wrapJsToValue(color)]
 		))

@@ -94,13 +94,13 @@ this.flag_on_drop = function(listener, object){
 	};
 	object.ondrop = function(event){
 		event.preventDefault();
-		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [
+		GLang.callObject({value:listener}, GLang.dr, [
 			makeDropEventAccess(event)
 		]);	
 	};
 }
 
-GLang.defaultRuntimeEnvironment.qdSet("ui_file_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_file_picker", {value:function(env, args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";
@@ -115,7 +115,7 @@ GLang.defaultRuntimeEnvironment.qdSet("ui_file_picker", {value:function(env, arg
 	return {value:picker, display:DISPLAY_DOM}
 }});
 
-GLang.defaultRuntimeEnvironment.qdSet("ui_multi_file_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_multi_file_picker", {value:function(env, args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";

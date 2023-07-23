@@ -70,7 +70,7 @@ const KStorage = {};
         if(!token) return;
         
         try{
-            return JSON.parse(GLang.packageManager.loadUrl("/api/cookieJson/v2", [
+            return JSON.parse(GLang.pm.loadUrl("/api/cookieJson/v2", [
                  ["kalzit-session", token]
             ]));
         }catch(e){}

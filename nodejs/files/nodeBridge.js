@@ -10,7 +10,7 @@
 	GLang.print = console.log;
 
 	//Initialize package manager - get the initial packages from nodejs/usable-libraries.json
-	GLang.packageManager = new GLang.NodePackageManager();
+	GLang.pm = new GLang.NodePackageManager();
 
     var packageList;
     try {
@@ -23,7 +23,7 @@
         throw new Error("Package manager init failed!");
     }
 
-	GLang.packageManager.initialize(
+	GLang.pm.initialize(
         packageList
 	);
 	

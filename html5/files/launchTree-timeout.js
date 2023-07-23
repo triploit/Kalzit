@@ -22,7 +22,7 @@ GLang.launchTree = function(preparedTree) {
 	
 	if (!timeoutActive){
 		try {
-			GLang.evaluatePreparedTree(preparedTree, GLang.appEnvironment = GLang.RuntimeEnvironment(GLang.defaultRuntimeEnvironment));
+			GLang.evaluatePreparedTree(preparedTree, GLang.appEnvironment = GLang.RuntimeEnvironment(GLang.dr));
 		} catch (error) {
 			console.warn("Your app code crashed: ");
 			console.log(error);

@@ -14,7 +14,7 @@ print: callback uiIndexPicker options.
 void
 ```
 */
-GLang.defaultRuntimeEnvironment.qdSet("ui_index_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_index_picker", {value:function(env, args){
 	var callback = args[0];
 
 	var picker = document.createElement("select");
@@ -59,7 +59,7 @@ print: uiShowVariable: selectionRef.
 void
 ```
 */
-GLang.defaultRuntimeEnvironment.qdSet("ui_index_reference_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_index_reference_picker", {value:function(env, args){
 	var mutable = args[0];
 	if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiIndexReferencePicker needs a mutable as the first parameter")}
 	

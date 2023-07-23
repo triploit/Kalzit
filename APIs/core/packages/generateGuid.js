@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.qdSet("generate_guid", {value:function(){
+GLang.dr.qdSet("generate_guid", {value:function(){
 	var S4 = function() {
 		return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	};

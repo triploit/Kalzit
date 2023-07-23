@@ -18,7 +18,7 @@
 					var packageInfo = JSON.parse(this.loadUrl(url));
 					if(packageInfo.requirements){
 						for(var i = 0; i < packageInfo.requirements.length; i++){
-							if(GLang.packageManager.registeredPackages.indexOf(packageInfo.requirements[i]) !== -1) continue;
+							if(GLang.pm.registeredPackages.indexOf(packageInfo.requirements[i]) !== -1) continue;
 							this.loadPackageSync(packageInfo.requirements[i]);
 						}
 					}
@@ -60,7 +60,7 @@
 	
 	function validatePackageVariables(names){
 		for(var name = 0; name < names.length; name++){
-			if(!GLang.defaultRuntimeEnvironment.hasInnerVariable(names[name])){
+			if(!GLang.dr.hasInnerVariable(names[name])){
 				throw new Error("A package has claimed to provide the variable " + names[name] + " - but it does not");
 			}
 		}
@@ -76,8 +76,7 @@
 		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){
 			var packageData = this.registeredPrecompiledPackages[packageIndex];
 			if(packageData[0].includes(provides)){
-				//packageData[1](GLang.defaultRuntimeEnvironment);
-				GLang.evaluatePreparedTree(packageData[1], GLang.defaultRuntimeEnvironment);
+				GLang.evaluatePreparedTree(packageData[1], GLang.dr);
 				
 				//Check that the package provides all the variables it should
 				if(GLANG_DEBUG) validatePackageVariables(packageData[0]);
@@ -142,7 +141,7 @@
 					return;
 					//throw new Error("Please unify this variable name in your JS library: " + property);
 				}
-				GLang.defaultRuntimeEnvironment.qdSet(property, GLang.wrapJsToValue(newThis[property]))
+				GLang.dr.qdSet(property, GLang.wrapJsToValue(newThis[property]))
 			} };
 		this.installJs = installJs;
 		

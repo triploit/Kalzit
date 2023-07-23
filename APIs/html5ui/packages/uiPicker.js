@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.qdSet("ui_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_picker", {value:function(env, args){
 	var mutable = args[0];
 	if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiPicker needs a mutable as the first parameter")}
 	

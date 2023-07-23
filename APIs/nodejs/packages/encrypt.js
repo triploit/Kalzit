@@ -29,9 +29,9 @@ function encryptFileGetInitVector(_config) {
 	return initVector;
 }
 
-GLang.defaultRuntimeEnvironment.qdSet("encrypt_file_get_init_vector", {value:function(env, args){
+GLang.dr.qdSet("encrypt_file_get_init_vector", {value:function(env, args){
 	//Make a JS config object from the Kalzit one
-	var propOf = GLang.defaultRuntimeEnvironment.resolveName("prop_of");
+	var propOf = GLang.dr.resolveName("prop_of");
 	var configObject = args[0];
 	var jsConfig = {
 		key: GLang.callObject(propOf, env, [

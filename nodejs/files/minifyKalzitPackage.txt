@@ -11,12 +11,12 @@ $jsonFile = appParameter: "input-file".
 		$scriptPath = jsonParent + "/packages/" + $scriptUrl propOf jsonEntry.
 		$result = do: !switchFirst (scriptPath)
 			[{(".k" strEndsWith x) | ".txt" strEndsWith x};{
-				"GLang.packageManager.rppt([" + ("," strJoin '"' + ($provides propOf jsonEntry) + '"') + "], " +
+				"GLang.pm.rppt([" + ("," strJoin '"' + ($provides propOf jsonEntry) + '"') + "], " +
 					((fileContent: scriptPath) calcitCompile true `optimized`) +
 				")"
 			}];
 			[{".js" strEndsWith x};{
-				"GLang.packageManager.installJs(function(){" + (fileContent: scriptPath) + "});"
+				"GLang.pm.installJs(function(){" + (fileContent: scriptPath) + "});"
 			}].
 		
 		!ifElse ("" eq strTrim: (default: ""): result) {

@@ -98,7 +98,7 @@ function wrapRequestValue(kServerRequest) {
 			value: function(env, args){
 				//We need to extract some named functions from a Kalzit object (first parameter)
 				var callbackObject = args[0];
-				var propOf = GLang.defaultRuntimeEnvironment.resolveName("prop_of");
+				var propOf = GLang.dr.resolveName("prop_of");
 				
 				//These are the needed Kalzit functions
 				var onSuccess = GLang.callObject(propOf, env, [
@@ -125,7 +125,7 @@ function wrapRequestValue(kServerRequest) {
 	]};
 };
 
-GLang.defaultRuntimeEnvironment.qdSet("http_server", {value:function(env, args){
+GLang.dr.qdSet("http_server", {value:function(env, args){
 	kServer.httpServer(function (request) {
 		GLang.callObject(args[0], env, [wrapRequestValue(request)]);
 	}, args[1].value);
@@ -133,7 +133,7 @@ GLang.defaultRuntimeEnvironment.qdSet("http_server", {value:function(env, args){
 	return GLang.voidValue;
 }, display:DISPLAY_FUNCTION})
 
-GLang.defaultRuntimeEnvironment.qdSet("https_server", {value:function(env, args){
+GLang.dr.qdSet("https_server", {value:function(env, args){
 	kServer.httpsServer(function (request) {
 		GLang.callObject(args[0], env, [wrapRequestValue(request)]);
 	}, args[1].value);
@@ -141,7 +141,7 @@ GLang.defaultRuntimeEnvironment.qdSet("https_server", {value:function(env, args)
 	return GLang.voidValue;
 }, display:DISPLAY_FUNCTION})
 
-GLang.defaultRuntimeEnvironment.qdSet("custom_https_server", {value:function(env, args){
+GLang.dr.qdSet("custom_https_server", {value:function(env, args){
 	var callback = args[0];
 	var config = GLang.wrapValueToJsObject(args[1]);
 	config.callback = function (request) {

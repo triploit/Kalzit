@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment.qdSet("ui_textfield_onaction", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_textfield_onaction", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("input");
 	textfield.type="text";
 	textfield.value=args[1].value;
@@ -9,7 +9,7 @@ GLang.defaultRuntimeEnvironment.qdSet("ui_textfield_onaction", {value:GLang.arra
 	}
 	return {value:textfield, display:DISPLAY_DOM};
 })})
-GLang.defaultRuntimeEnvironment.qdSet("ui_textfield_onchange", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_textfield_onchange", {value:GLang.arrayFun(function(env, args){
 	var textfield = document.createElement("input");
 	textfield.type="text";
 	textfield.value=args[1].value;

@@ -1,7 +1,7 @@
 if(GLANG_TREE_GENERATOR_INCLUDED) {
 	GLang.eval = function (text){
 		try{
-			return GLang.evaluatePreparedTree(GLang.prepareTree(GLang.generateTree(text)), GLang.defaultRuntimeEnvironment);
+			return GLang.evaluatePreparedTree(GLang.prepareTree(GLang.generateTree(text)), GLang.dr);
 		}catch(e){
 			if(GLANG_DEBUG) {
 				console.error(e);
@@ -17,7 +17,7 @@ GLang.stringify = function(anything){
 		return JSON.stringify(anything);
 	}catch(error){
 		//Something went wrong - try to exclude repeated values
-		var seen = [GLang.defaultRuntimeEnvironment];
+		var seen = [GLang.dr];
 	
 		return JSON.stringify(anything, function(key, val) {
 		   if (val != null && typeof val == "object") {

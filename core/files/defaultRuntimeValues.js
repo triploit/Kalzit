@@ -297,13 +297,13 @@
 	];
 	
 	for(var i = 0; i < globalVariables.length; i++){
-		GLang.defaultRuntimeEnvironment["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
+		GLang.dr["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
-	GLang.defaultRuntimeEnvironment.qdSet("calcit_annotations", {value:function(env, args){
+	GLang.dr.qdSet("calcit_annotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
 	}, display:DISPLAY_FUNCTION});
-	GLang.defaultRuntimeEnvironment.qdSet("do", {value:function(env, args){
+	GLang.dr.qdSet("do", {value:function(env, args){
 		var params = [];
 		if(args.length >= 2){
 			params = args[1].value;

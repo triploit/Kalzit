@@ -93,7 +93,7 @@ setInterval(function(){
 	refresh();
 }, 100);
 
-GLang.defaultRuntimeEnvironment.qdSet("ui_show_image_url", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_show_image_url", {value:GLang.arrayFun(function(env, args){
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, callback === GLang.voidValue ? undefined :  () => {
 		//The image is loaded now
@@ -102,7 +102,7 @@ GLang.defaultRuntimeEnvironment.qdSet("ui_show_image_url", {value:GLang.arrayFun
 	return {value:image, display:DISPLAY_DOM};
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.qdSet("ui_show_image_url_directly", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_show_image_url_directly", {value:GLang.arrayFun(function(env, args){
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, () => {
 		//The image is loaded now
@@ -111,16 +111,16 @@ GLang.defaultRuntimeEnvironment.qdSet("ui_show_image_url_directly", {value:GLang
 	return {value:image, display:DISPLAY_DOM};
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.qdSet("get_image_width", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("get_image_width", {value:GLang.arrayFun(function(env, args){
 	var image = args[0].value;
 	return {value:image.naturalWidth};
 }), display:DISPLAY_FUNCTION});
-GLang.defaultRuntimeEnvironment.qdSet("get_image_height", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("get_image_height", {value:GLang.arrayFun(function(env, args){
 	var image = args[0].value;
 	return {value:image.naturalHeight};
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.qdSet("scale_image_to_url", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("scale_image_to_url", {value:GLang.arrayFun(function(env, args){
 	var factor = args[0].value;
 	var image = args[1].value;
 	
@@ -139,7 +139,7 @@ GLang.defaultRuntimeEnvironment.qdSet("scale_image_to_url", {value:GLang.arrayFu
 	return GLang.stringValue(canvas.toDataURL());
 }), display:DISPLAY_FUNCTION});
 
-GLang.defaultRuntimeEnvironment.qdSet("ui_image_button", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_image_button", {value:GLang.arrayFun(function(env, args){
 	//We need to trigger the same button action in multiple different situations, so it makes sense to isolate it as a function
 	function triggerAction() {
 		GLang.callObject(args[0], env, []);

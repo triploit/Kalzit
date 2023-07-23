@@ -55,10 +55,10 @@ $skeletonCode = do:{
 		) + ";".
 		
 		`This is JavaScript code responsible for setting the "appId" variable (makes appId variable work)`
-		$appIdCode = "GLang.packageManager.installJs(function(){this.app_id='" + ((".k";"") strReplace fileName: app) + "'});".
+		$appIdCode = "GLang.pm.installJs(function(){this.app_id='" + ((".k";"") strReplace fileName: app) + "'});".
 
 		$translationMapFile = appFolder + "/.doNotTouch/translationMap.json".
-		$prefix = appIdCode + "GLang.packageManager.installJs(function(){" +
+		$prefix = appIdCode + "GLang.pm.installJs(function(){" +
 			(!ifElse (fileIsFile: translationMapFile) {
 				`Add JavaScript code which fills the "stringAssetMap" variable`
 				"this.string_asset_map=" + fileContent: translationMapFile

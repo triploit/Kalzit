@@ -1,4 +1,4 @@
-GLang.defaultRuntimeEnvironment = {
+GLang.dr = {
 	resolveName: function(unified){
 		var value = this["kv_" + unified];
 		var result = null;
@@ -6,8 +6,8 @@ GLang.defaultRuntimeEnvironment = {
 		//Resolve the name and put it in "result".
 		if(value){
 			result = value;
-		}else if(GLang.packageManager.installPackage(unified)){
-			result = GLang.defaultRuntimeEnvironment["kv_" + unified];
+		}else if(GLang.pm.installPackage(unified)){
+			result = GLang.dr["kv_" + unified];
 		}else{
 			throw new Error("You used this non-existent variable: " + unified);
 		}

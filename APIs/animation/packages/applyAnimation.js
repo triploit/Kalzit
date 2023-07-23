@@ -19,7 +19,7 @@ function applyAnimation(env, args) {
 	if(_config.onEnd) {
 		element.onanimationend = function() {
 			//Run " $onEnd propOf _config "
-			var onEnd = GLang.callObject(GLang.defaultRuntimeEnvironment.resolveName("prop_of"), env, [GLang.stringValue("onEnd"), _originalConfig])
+			var onEnd = GLang.callObject(GLang.dr.resolveName("prop_of"), env, [GLang.stringValue("onEnd"), _originalConfig])
 			GLang.callObject(onEnd, env, [])
 		}
 	} else {
@@ -38,7 +38,7 @@ function applyAnimation(env, args) {
 
 }
 
-GLang.defaultRuntimeEnvironment.qdSet("apply_animation", {value:function(env, args) {
+GLang.dr.qdSet("apply_animation", {value:function(env, args) {
 	applyAnimation(env, args);
 	return GLang.voidValue;
 }});

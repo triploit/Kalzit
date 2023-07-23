@@ -30,7 +30,7 @@ function makeCheckbox(text, withCheckbox) {
 	return visibleThing;
 }
 
-GLang.defaultRuntimeEnvironment.qdSet("ui_checkbox", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_checkbox", {value:GLang.arrayFun(function(env, args){
 	return {value:makeCheckbox(args[1].value, checkbox => {
 		
 		checkbox.onchange=function(e){

@@ -69,7 +69,7 @@
 		return GLang.voidValue;
 	}
 
-	GLang.defaultRuntimeEnvironment.qdSet("http_get_local_async", {value: httpGetLocalAsync});
-	GLang.defaultRuntimeEnvironment.qdSet("http_post_local_async", {value: httpPostLocalAsync});
+	GLang.dr.qdSet("http_get_local_async", {value: httpGetLocalAsync});
+	GLang.dr.qdSet("http_post_local_async", {value: httpPostLocalAsync});
 	
 })();

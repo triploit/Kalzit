@@ -13,7 +13,7 @@
         return result;
     }
     
-    GLang.defaultRuntimeEnvironment.qdSet("remove_duplicates", {value:function(env, args){
+    GLang.dr.qdSet("remove_duplicates", {value:function(env, args){
     	return {value:uniques(args[0].value)}
     }});
 })();

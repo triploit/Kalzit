@@ -13,9 +13,9 @@
 
 	//evaluateSentenceFragment will need to return specific values very, VERY often
 	//Load and store them here, so they are easily accessible
-	//const COLON_VALUE = GLang.defaultRuntimeEnvironment["kv_:"];
-	const SEMICOLON_VALUE = GLang.defaultRuntimeEnvironment["kv_;"];
-	const DO_VALUE = GLang.defaultRuntimeEnvironment["kv_do"];
+	//const COLON_VALUE = GLang.dr["kv_:"];
+	const SEMICOLON_VALUE = GLang.dr["kv_;"];
+	const DO_VALUE = GLang.dr["kv_do"];
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {

@@ -4,7 +4,7 @@ You should not use this function directly - instead, you should add the onSelect
 */
 this.flag_on_select = function(listener, object){
 	object.onfocus = function(event){
-		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
+		GLang.callObject({value:listener}, GLang.dr, []);
 	}
 }
 
@@ -14,6 +14,6 @@ You should not use this function directly - instead, you should add the onDesele
 */
 this.flag_on_deselect = function(listener, object){
 	object.onblur = function(event){
-		GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, []);
+		GLang.callObject({value:listener}, GLang.dr, []);
 	}
 }

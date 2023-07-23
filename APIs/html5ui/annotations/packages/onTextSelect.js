@@ -6,7 +6,7 @@ this.flag_on_text_select = function flagOnTextSelect(listener, object){
 		if(startPos !== lastStart || endPos !== lastEnd){
 			lastStart = startPos;
 			lastEnd = endPos;
-			GLang.callObject({value:listener}, GLang.defaultRuntimeEnvironment, [GLang.stringValue(object.value.substring(startPos, endPos))])
+			GLang.callObject({value:listener}, GLang.dr, [GLang.stringValue(object.value.substring(startPos, endPos))])
 		}
 	}
 	

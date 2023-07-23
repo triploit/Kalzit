@@ -25,5 +25,5 @@
 	* It is repeated until the main app is closed, without any other condition.
 	* Usage: repeatAsync: function.
 	*/
-	GLang.defaultRuntimeEnvironment.qdSet("repeat_async", {value:repeatAsync, display:DISPLAY_FUNCTION});
+	GLang.dr.qdSet("repeat_async", {value:repeatAsync, display:DISPLAY_FUNCTION});
 })();
