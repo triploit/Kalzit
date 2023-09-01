@@ -168,10 +168,21 @@ $folderContentRef ? Var = void.
 		
 }).
 
+$uiFileListView = !fun ($filesList) {
+    `Return` !uiListView filesList -> $file fun {
+		`It is a match - make the correct view and show it`
+		!ifElse ($folder eq $kind propOf file) {
+			folderView: file
+		};{
+			fileView: file
+		}
+    }.
+}.
+
 `Prepare the search functionality`
 $searchWindowContent = uiSearchPanel: $currentSearchTerm fun {
-	$searchContainer = @(percentHeight 100) uiContainer: void.
-	$print = uiPrint: searchContainer.
+    $results ? ModifiableList = ().
+    $searchContainer = uiFileListView: results.
 	
 	$workWithFolder = $folder fun {
 		($content fun {
@@ -179,12 +190,7 @@ $searchWindowContent = uiSearchPanel: $currentSearchTerm fun {
 			`Print matching files`
 			($file fun {
 				!if ((strToLowerCase currentSearchTerm) strContains strToLowerCase: $title propOf file) {
-					`It is a match - make the correct view and show it`
-					!ifElse ($folder eq $kind propOf file) {
-						print: folderView: file
-					};{
-						print: fileView: file
-					}
+					($push propOf results): [file].
 				}
 			}) each json.
 			
@@ -221,7 +227,12 @@ toolsAtLeft:
 		!ifNot (newFolder eq void) {
 			relaunchApp loadLocalAsync "/api/createFolder?folder=" + folderName + "/" + (urlEncodeParameter: newFolder) + "&session=" + session
 		}
-	}].
+	}];
+    [!buttonTool "Download all" -> {
+        !loopEach {not: "folder" eq $kind propOf x} filter $collection propOf ~folderContentRef -> $file fun {
+            (($default propOf $file propOf file) + "&session=" + session) downloadUrl $title propOf file
+        }
+    }].
 
 toolsAtRight:
 	[!popupTool "Search..." searchWindowContent];
