@@ -18,9 +18,10 @@
 		
 		$kmpObjects = {not: void eq x} filter !each categoryMarkers -> $categoryMarker fun {
 			!if (fileIsFile: categoryMarker) {
-				
+                $path = fileParent: fileParent: categoryMarker.				
+
 				`Return the KMP object for the tagged file`
-				(parseJson: fileContent: ($path = fileParent: fileParent: categoryMarker) + "/kmp.json");
+				(parseJson: fileContent: path + "/kmp.json");
 				["title"; fileName: fileParent: fileRealpath: path];
 				(!if (fileIsFile: print: $metadataFile =  path + "/metadata.json") {
 					["k-metadata";[
