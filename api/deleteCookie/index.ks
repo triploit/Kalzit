@@ -15,6 +15,7 @@ print: "Deleting cookie " + cookieName + " from the server".
 		
 		`Remove the cached version of the user data .json file`
 		fileDelete: ~userFolderRef + "/keys.json".
+        fileDelete: ~userFolderRef + "/keys-v2.json".
 		
 		resultRef = "0".
 	}
