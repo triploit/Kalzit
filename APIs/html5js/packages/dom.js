@@ -53,7 +53,7 @@ GLang.dr.qdSet("dom_attribute", {value:GLang.arrayFun(function(env, args){
 * Usage: domInnerText: dom.
 */
 GLang.dr.qdSet("dom_inner_text", {value:GLang.arrayFun(function(env, args){
-	return {value:args[0].value.innerHTML};
+	return GLang.stringValue(args[0].value.textContent);
 })});
 
 /*
