@@ -58,7 +58,8 @@ GLang.dr.qdSet("dom_tags", {value:GLang.arrayFun(function(env, args){
 GLang.dr.qdSet("dom_attribute", {value:GLang.arrayFun(function(env, args){
 	var element = args[1].value;
 	var attrib = args[0].value;
-	return {value:element.getAttribute(attrib) || []};
+    console.log(element);
+	return {value:element.getAttribute ? element.getAttribute(attrib) || [] : []};
 })});
 
 /*
@@ -82,5 +83,14 @@ GLang.dr.qdSet("dom_inner", {value:GLang.arrayFun(function(env, args){
 	for(var i = 0; i < elements.length; i++){
 		newArray.push({value:elements[i]});
 	}
-	return {value:elements};
+	return {value:newArray};
+})});
+
+/*
+* @kalzit.for dom_tag_name
+* Returns the tag name of a DOM element.
+* Usage: domTagName: dom.
+*/
+GLang.dr.qdSet("dom_tag_name", {value:GLang.arrayFun(function(env, args){
+	return GLang.stringValue(args[0].value.tagName);
 })});
