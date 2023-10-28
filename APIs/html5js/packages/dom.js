@@ -14,6 +14,20 @@ GLang.dr.qdSet("dom_parse", {value:GLang.arrayFun(function(env, args){
 })});
 
 /*
+* @kalzit.for dom_parse_html
+* Provides a simple way to parse data from HTML.
+* You can do something like this:
+*
+* $dom = domParseHtml: htmlCode.
+*
+* To work with the data, please take a look at the other functions defined in this file, like "domAttribute", "domInner" and "domInnerText"
+*/
+GLang.dr.qdSet("dom_parse_html", {value:GLang.arrayFun(function(env, args){
+	var dom = new DOMParser().parseFromString(args[0].value, "text/html");
+	return {value:dom};
+})});
+
+/*
 * @kalzit.for dom_tags
 * Returns all tags with a given name that are found in a given DOM object.
 *

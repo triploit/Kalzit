@@ -5,7 +5,7 @@
 	},
 	"libraries":[
 		{"provides":["load_local", "load_global", "load_local_async", "load_local_async_without_indicator", "load_global_async_native", "load_global_in_background_async_native", "load_global_directly_async_native"],  "scriptUrl":"load.js"},
-		{"provides":["dom_parse", "dom_tags", "dom_inner_text", "dom_attribute", "dom_inner"],  "scriptUrl":"dom.js"},
+		{"provides":["dom_parse", "dom_parse_html", "dom_tags", "dom_inner_text", "dom_attribute", "dom_inner"],  "scriptUrl":"dom.js"},
 		{"provides":["popup_html", "popup_values", "popup_message", "popup_question"],  "scriptUrl":"popup.js"},
 		{"provides":["storage_save_string", "storage_load_string", "storage_remove", "storage_clear"],  "scriptUrl":"storage.js"},
 		{"provides":["app_url", "dynamic_app_url"],  "scriptUrl":"appUrl.js"},
