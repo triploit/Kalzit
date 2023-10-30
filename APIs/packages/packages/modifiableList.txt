@@ -33,7 +33,7 @@ $modifiableList = ($_normalList ? (List:Any)) fun {
 		}];
 		["removeIndex";($index ? Int) fun {
 			$item = index at ~listVarRef.
-			listVarRef = ({not: index eq x} filter arrayIndexes) at ~listVarRef.
+			listVarRef = ({not: index eq x} filter arrayIndexes: ~listVarRef) at ~listVarRef.
 			onRemoval: item.
 			!onChange.
 			~listVarRef
