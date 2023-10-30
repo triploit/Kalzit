@@ -1,15 +1,15 @@
-this.setSidebarContentWidth = function(pxWidth) {
+this.set_sidebar_content_width = function(pxWidth) {
 	document.documentElement.style.setProperty("--kv-sidebar_content_width", Math.max(pxWidth,0) + "px");
 }
 
-this.collapseSidebar = function() {
+this.collapse_sidebar = function() {
 	document.body.classList.add("k-sidebar_hidden");
 }
 
-this.expandSidebar = function() {
+this.expand_sidebar = function() {
 	document.body.classList.remove("k-sidebar_hidden");
 }
 
-this.toggleSidebarExpansion = function() {
+this.toggle_sidebar_expansion = function() {
 	document.body.classList.toggle("k-sidebar_hidden");
 }

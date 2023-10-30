@@ -8,9 +8,10 @@ Essentially, this function is only really there because it allows voices to be r
 However, that might become a problem if different platforms use different voice names. Another way of representing voices would be preferred.
 */
 function getVoiceObject(voiceName){
-	for(var i = 0; i < speechSynthesis.getVoices().length; i++){
-		if(speechSynthesis.getVoices()[i].name === voiceName){
-			return speechSynthesis.getVoices()[i];
+    const voices = speechSynthesis.getVoices();
+	for(var i = 0; i < voices.length; i++){
+		if(voices[i].name === voiceName){
+			return voices[i];
 		}
 	}
 }
@@ -48,10 +49,12 @@ Usage example:
 	```
 */
 this.speech_get_voices_by_language = function(language){
+    //console.log(language);
+    const voices = speechSynthesis.getVoices();
 	var list = [];
-	for(var i = 0; i < speechSynthesis.getVoices().length; i++){
-		if(speechSynthesis.getVoices()[i].lang.startsWith(language)){
-			list.push(speechSynthesis.getVoices()[i].name);
+	for(var i = 0; i < voices.length; i++){
+		if(voices[i].lang.startsWith(language)){
+			list.push(voices[i].name);
 		}
 	}
 	return list;
