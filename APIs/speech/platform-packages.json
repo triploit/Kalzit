@@ -4,6 +4,6 @@
 		"platforms":["html5"]
 	},
 	"libraries":[
-		{"provides":["speech_say", "speech_get_voices_by_language", "speech_get_voices"],  "scriptUrl":"speech.js"}
+		{"provides":["speech_say", "speech_get_voices_by_language", "speech_get_voices", "speech_cancel"],  "scriptUrl":"speech.js"}
 	]
 }

@@ -78,3 +78,7 @@ this.speech_get_voices = function(){
 	}
 	return list;
 }
+
+this.speech_cancel = function(){
+    speechSynthesis.cancel();
+}
