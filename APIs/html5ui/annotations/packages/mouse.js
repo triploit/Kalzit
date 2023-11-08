@@ -4,9 +4,43 @@ this.flag_on_hover = function(listener, object){
 	}
 }
 this.flag_on_tap = function(listener, object){
-	object.onclick = function(){
-		GLang.callObject({value:listener}, GLang.dr, []);
-	}
+    var secondaryTapActive = false;
+    //Make sure we never react to clicks with two fingers
+    object.addEventListener("touchstart", function(event){
+        if(event.touches.length >= 2) {
+            secondaryTapActive = true;
+        } else {
+            secondaryTapActive = false;
+        }
+    });
+    
+    object.addEventListener("click",function(event){
+        if(event.which === 1 && !secondaryTapActive) {
+            GLang.callObject({value:listener}, GLang.dr, []);
+        }
+	})
+}
+this.flag_on_secondary_tap = function(listener, object){
+//    object.addEventListener("click",function(event){
+//        console.log(event);
+//        if(event.which === 3) {
+//            event.preventDefault();
+//            GLang.callObject({value:listener}, GLang.dr, []);
+//            return false;
+//        }
+//	});
+    //Context menu handler seems to work better
+    object.addEventListener("contextmenu", function(event){
+        event.preventDefault();
+        GLang.callObject({value:listener}, GLang.dr, []);
+        return false;
+    });
+    
+    object.addEventListener("touchstart", function(event){
+        if(event.touches.length === 2) {
+            GLang.callObject({value:listener}, GLang.dr, []);
+        }
+    })
 }
 this.flag_on_pointer_down = function(listener, object){
 	object.addEventListener("mousedown", function(e){
@@ -17,7 +51,7 @@ this.flag_on_pointer_down = function(listener, object){
 	object.addEventListener("touchstart", function(e){
 		var touches = e.changedTouches;
 		
-		 if (touches.length >= 1) {
+		 if (touches.length === 1) {
 		 	var touch = touches[0];
 	    	GLang.callObject({value:listener}, GLang.dr, [
 				{value:touch.pageX}, {value:touch.pageY}

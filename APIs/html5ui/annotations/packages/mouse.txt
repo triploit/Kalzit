@@ -29,6 +29,8 @@ $onTap = curry: flagOnTap.
 */
 $onPointerDown = curry: flagOnPointerDown.
 
+$onSecondaryTap = curry: flagOnSecondaryTap.
+
 /* @kalzit.for onPointerUp
 
 	An annotation that adds a function to a UI element when the user pointer goes up.

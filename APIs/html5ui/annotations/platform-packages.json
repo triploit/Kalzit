@@ -6,7 +6,7 @@
 	"libraries":[
 		{"provides":["flag_width", "flag_height", "flag_percent_width", "flag_percent_height", "flag_px_width", "flag_px_height", "flag_em_width", "flag_em_height", "flag_mm_width", "flag_mm_height", "flag_cm_width", "flag_cm_height", "flag_inch_width", "flag_inch_height"],  "scriptUrl":"widthHeight.js"},
 		{"provides":["flag_background_color", "flag_background_image_url", "flag_background_gradient_left_to_right", "flag_background_gradient_top_to_bottom", "flag_foreground_color", "flag_opacity", "flag_border_color", "color_to_string"],  "scriptUrl":"bgfg.js"},
-		{"provides":["flag_on_hover", "flag_on_tap", "flag_on_pointer_up", "on_global_pointer_up", "flag_on_pointer_down", "flag_on_pointer_move", "on_global_pointer_move"],  "scriptUrl":"mouse.js"},
+		{"provides":["flag_on_hover", "flag_on_tap", "flag_on_pointer_up", "on_global_pointer_up", "flag_on_pointer_down", "flag_on_pointer_move", "on_global_pointer_move", "flag_on_secondary_tap"],  "scriptUrl":"mouse.js"},
 		{"provides":["flag_on_text_select"],  "scriptUrl":"onTextSelect.js"},
 		{"provides":["flag_px_roundness", "flag_percent_roundness"],  "scriptUrl":"roundness.js"},
 		{"provides":["flag_font_family", "flag_em_font_size"],  "scriptUrl":"font.js"},
@@ -18,7 +18,7 @@
 		{"provides":["flag_on_select", "flag_on_deselect"], "scriptUrl":"selection.js"},
 		{"provides":["width", "height", "percent_width", "percent_height", "px_width", "px_height", "em_width", "em_height", "mm_width", "mm_height", "cm_width", "cm_height", "inch_width", "inch_height", "full_height", "full_width"],  "scriptUrl":"widthHeight.txt"},
 		{"provides":["background_color", "background_image_url", "background_gradient_left_to_right", "background_gradient_top_to_bottom", "foreground_color", "opacity", "border_color"],  "scriptUrl":"bgfg.txt"},
-		{"provides":["on_hover", "on_tap", "on_pointer_up", "on_pointer_down", "on_pointer_move", "on_drag"],  "scriptUrl":"mouse.txt"},
+		{"provides":["on_hover", "on_tap", "on_pointer_up", "on_pointer_down", "on_pointer_move", "on_drag", "on_secondary_tap"],  "scriptUrl":"mouse.txt"},
 		{"provides":["on_text_select"],  "scriptUrl":"onTextSelect.txt"},
 		{"provides":["px_roundness", "percent_roundness"],  "scriptUrl":"roundness.txt"},
 		{"provides":["font_family", "em_font_size"],  "scriptUrl":"font.txt"},
