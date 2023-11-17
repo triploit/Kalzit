@@ -4,18 +4,23 @@ this.flag_on_hover = function(listener, object){
 	}
 }
 this.flag_on_tap = function(listener, object){
-    var secondaryTapActive = false;
+    var eventPending = false;
     //Make sure we never react to clicks with two fingers
     object.addEventListener("touchstart", function(event){
         if(event.touches.length >= 2) {
-            secondaryTapActive = true;
+            eventPending = false;
         } else {
-            secondaryTapActive = false;
+            eventPending = true;
         }
     });
     
     object.addEventListener("click",function(event){
-        if(event.which === 1 && !secondaryTapActive) {
+        GLang.callObject({value:listener}, GLang.dr, []);
+	})
+
+    object.addEventListener("touchend",function(event){
+        if(eventPending) {
+            eventPending = false;
             GLang.callObject({value:listener}, GLang.dr, []);
         }
 	})
@@ -49,6 +54,9 @@ this.flag_on_pointer_down = function(listener, object){
 		]);
 	});
 	object.addEventListener("touchstart", function(e){
+        //Make sure we do not fire "mousedown"
+        e.preventDefault()
+
 		var touches = e.changedTouches;
 		
 		 if (touches.length === 1) {
@@ -66,9 +74,12 @@ this.flag_on_pointer_up = function(listener, object){
 		]);
 	});
 	object.addEventListener("touchend", function(e){
+        //Make sure we do not fire "mouseup"
+        e.preventDefault()
+
 		var touches = e.changedTouches;
 		
-		 if (touches.length >= 1) {
+		 if (touches.length === 1) {
 		 	var touch = touches[0];
 	    	GLang.callObject({value:listener}, GLang.dr, [
 				{value:touch.pageX}, {value:touch.pageY}
