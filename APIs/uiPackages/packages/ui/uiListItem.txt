@@ -44,7 +44,7 @@ $uiListItem = !fun ($config) {
 	$mainViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 27px"}.
 	
 	$view = uiContainer:
-		(@(width mainViewWidth) uiShowVariable: currentViewRef);
+		(@(width mainViewWidth) ~currentViewRef);
 		!ifNot (void eq actionMenu) {
 			[uiHorizontalPxSpace 7];
 			[actionMenu] `If it is void, no action menu is shown`

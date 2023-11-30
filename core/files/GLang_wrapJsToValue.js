@@ -44,6 +44,12 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 				entry => GLang.wrapJsToValue(entry)
 			)};
 		} else {
+            //Do we have a DOM element?
+            if(GLang.global.Element ? js instanceof GLang.global.Element : false) {
+                return {display:DISPLAY_DOM, value:js}
+            }
+            
+            //Otherwise, convert to a normal Kalzit object (list of name value pairs)
 			var calcitObject = [];
 			for(var prop in js){
 				calcitObject.push({value:[

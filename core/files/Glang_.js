@@ -6,4 +6,4 @@ const DISPLAY_FUNCTION = 4;
 const DISPLAY_DOM = 5;
 const DISPLAY_MUTABLE = 6;
 
-var GLang={};
+var GLang={global:this};
