@@ -1,4 +1,8 @@
 $objProperty=($_prop;$_obj) fun {{_prop eq 0 at x} filter _obj}.
 $objPropertyValues=($_prop;$_obj) fun {{1 at x} each _prop objProperty _obj}.
 $objHasProperty=($_prop ; $_obj) fun {not: void eq _prop objFirstProperty _obj}.
-$objPropertyValue = $objFirstProperty = ($_name;$_object) fun {1 at {_name eq 0 at x} firstConditionMatch _object}.
+$objPropertyValue = $objFirstProperty = ($_name;$_object ? {x;() `make sure we have a list here`}) fun {
+    # The idea is to find the first item in _object that matches with _name
+    # After this, we return a part of the matching item
+    1 at !firstConditionMatch _object -> {_name eq 0 at x}
+}.

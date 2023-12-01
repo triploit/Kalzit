@@ -1,5 +1,10 @@
 GLang.dr.qdSet("each", {value:function(env, args){
     var input = args[1].value;
+    if(GLANG_DEBUG && !Array.isArray(input)) {
+        console.log(input);
+        throw new Error("each needs an array as its second parameter");
+    }
+
     var output = [];
 	for(var i = 0; i < input.length; i++) {
 		output.push(GLang.callObject(args[0], env, [input[i], {value: i}]));

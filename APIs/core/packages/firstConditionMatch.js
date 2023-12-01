@@ -15,6 +15,10 @@ first: {x mod 2} filter 1;2;3.
 */
 GLang.dr.qdSet("first_condition_match", {value:function(env, args){
 	var array = args[1].value;
+    if(GLANG_DEBUG && !Array.isArray(array)) {
+        console.log(array);
+        throw new Error("firstConditionMatch needs an array as its second parameter");
+    }
 	if(0 === array.length) return GLang.voidValue; //If we can not match anything, return an empty list.
 	var condition = args[0];
 	
