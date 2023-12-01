@@ -25,16 +25,6 @@
 			
 			return functionEnvironment
 	};
-
-	//Performance optimized variant of createFunctionScope, specifically for code block environments
-	function createCodeBlockScope(env, args){
-		var functionEnvironment = GLang.RuntimeEnvironment(env);
-		
-		functionEnvironment.kv_x = args.length > 0 ? args[0] : GLang.voidValue;
-		functionEnvironment.kv_y = args.length > 1 ? args[1] : GLang.voidValue;
-		
-		return functionEnvironment;
-	};
 	
 	if(GLANG_DEBUG) {
 		//This is a stack (push, pop) used to keep track of the currently active function calls
@@ -54,7 +44,7 @@
 
 	GLang.callObject = function(obj, env, args){
 		//If we have a non-function, quit this as quickly as possible
-		if(!(obj.display === DISPLAY_CODEBLOCK || "function" === typeof obj.value)) {
+		if(!("function" === typeof obj.value)) {
 			return obj;
 		}
 		
@@ -84,21 +74,9 @@
 				
 				//Figure out the result of this (function-) call
 				var result = null;
-				switch(typeof object){
-					case "function":
-						result = object(env, args);
-						if (GLANG_DEBUG && result == null) {
-							throw new Error("Calling the following function lead to a result of null or undefined: " + object);
-						}
-						break;
-					default:
-						//Must be a code block (all other options are eliminated at the top of the function)
-						if(GLANG_DEBUG) {
-							//We need to reach the bottom of this function to manage the call stack
-							result = object.cb(createCodeBlockScope(obj.env, args));
-						} else {
-		                	return object.cb(createCodeBlockScope(obj.env, args));
-						}
+				result = object(env, args);
+				if (GLANG_DEBUG && result == null) {
+					throw new Error("Calling the following function lead to a result of null or undefined: " + object);
 				}
 				
 	//			//This is completely unneeded here, since the check has to have happened during the switch statement if we are here

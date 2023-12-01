@@ -93,18 +93,12 @@
 						return result
 					})}
 				);
-//			case KIND_TYPED:
-//				//Typed values are always strings
-//				const string = GLang.stringValue(fragment.s);
-//				string.type = evaluateSentenceFragment(fragment.t, env);
-//				return string;
 			//Do the slightly less common things later
 			case KIND_STRING: return GLang.stringValue(fragment.s);
 			case KIND_NUMBER: return {value:fragment.num};
 			case KIND_NAME: return env.resolveName(fragment.n);
 			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.p, env);
 			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.a, env)]};
-		    //case KIND_CODEBLOCK: return GLang.codeblockFromTree(fragment.c, env);
 			case KIND_DO: return DO_VALUE;
 			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
 			case KIND_ASSIGN_TO_MUTABLE_NONAME:

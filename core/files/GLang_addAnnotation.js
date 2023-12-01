@@ -4,7 +4,7 @@
 		//Figure out which kind of annotation we have
 		//Since 2020-04-08, functions are acceptable annotations as well
 		var display = annotation.display;
-		if(display === DISPLAY_CODEBLOCK || display === DISPLAY_FUNCTION){
+		if(display === DISPLAY_FUNCTION){
 			//We have a function annotation
 			GLang.callObject(annotation, annotation.env, [actualValue]);
 			return;
@@ -13,7 +13,7 @@
 		//If not a possible function, check for an array of length 2
 		if(!(annotation.value instanceof Array && annotation.value.length === 2)){
 			//We have an invalid annotation
-			throw new Error("An annotation needs to be an array with two values, or a function / code block - " + GLang.stringify(annotation) + " does not fit this rule");
+			throw new Error("An annotation needs to be an array with two values, or a function - " + GLang.stringify(annotation) + " does not fit this rule");
 		}
 
 		//Behavior for array annotations

@@ -268,7 +268,6 @@
 			var result = undefined;
 			switch (args[0].display || DISPLAY_DEFAULT) {
 				case DISPLAY_DEFAULT: result = "default"; break;
-				case DISPLAY_CODEBLOCK: result = "codeBlock"; break;
 				case DISPLAY_STRING: result = "string"; break;
 				case DISPLAY_NONE: result = "none"; break;
 				case DISPLAY_FUNCTION: result = "function"; break;

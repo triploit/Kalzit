@@ -3,7 +3,7 @@ GLang.codeblockFromTree = function(preparedTree, env) {
 		cb:function(env) {
 			return GLang.evaluatePreparedTree(preparedTree, env);
 		}
-	}, display:DISPLAY_CODEBLOCK, env:env}
+	}, env:env}
 }
 
 //Supports a typed argument list

@@ -2,24 +2,6 @@ GLang.displayValue = function displayValue(container){
 	var displayType = container.display || DISPLAY_DEFAULT;
 	
 	switch(displayType) {
-		case DISPLAY_CODEBLOCK: return GLang.stringDisplay(container, function(x){
-			var val = x.value;
-			if(val instanceof Array){
-				if(val.length === 0){
-					return "()";
-				}
-				var string = "";
-				for(var i = 0; i < val.length; i++){
-					string += "[" + GLang.displayValue(val[i]).innerHTML + "]";
-					if(i < val.length - 1){
-						string += "; "
-					}
-				}
-				return string;
-			}
-			return JSON.stringify(val);
-		})
-
 		case DISPLAY_STRING: return GLang.stringDisplay(container, function(x){
 			return x.value;
 		})
