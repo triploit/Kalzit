@@ -346,7 +346,8 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 		var finishedCodeBlock = function(sentences) {
 		    return {
 		        k:KIND_CODEBLOCK,
-		        s:GLang.prepareTree(sentences),
+		        c:GLang.prepareTree(sentences),
+                p:[{s:"x"}, {s:"y"}], //Parameters of this codeblock are x and y (if used as a function)
 		        next:function(token) {
 		            if (token.textValue === "?") {
 						throw new Error("Typed codeblocks are not supported anymore");
@@ -730,7 +731,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 
 						const parameterList = simplifyFunctionParametersForRuntime(state[i - 1]);
 						
-						const newTreeItem = {k:KIND_FUNCTION_DEFINITION, c:codeblock.s, p:parameterList}
+						const newTreeItem = {k:KIND_FUNCTION_DEFINITION, c:codeblock.c, p:parameterList}
 						
 						//Insert this function item into the new sentence
 						newState.push(newTreeItem);
