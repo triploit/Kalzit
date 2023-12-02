@@ -15,6 +15,9 @@
 			onEnd();
 	    } ,false);
 	    mediaElement.addEventListener('timeupdate',function myHandler(e) {
+            //The medium may have been stopped, so check first
+            if(mediaElement == null) return;
+
 			onProgress(mediaElement.currentTime);
 	    } ,false);
 	   	mediaElement.addEventListener('playing',function myHandler(e) {
