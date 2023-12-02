@@ -42,6 +42,15 @@
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
 			}]},
+			{value:[{value:"stop"}, {
+				value: function(env, args){
+					mediaElement.pause();
+                    mediaElement.src = "INVALID://";
+                    //mediaElement.load();
+                    mediaElement = null;
+					return GLang.voidValue;
+				}, display: DISPLAY_FUNCTION
+			}]},
 			{value:[{value:"setVolume"}, {
 				value: function(env, args){
 					mediaElement.volume = parseFloat(args[0].value + "");
