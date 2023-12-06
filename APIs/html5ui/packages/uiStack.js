@@ -44,3 +44,10 @@ GLang.dr.qdSet("ui_print_into_stack", {value:function(env, args){
 	}};
 }, display:DISPLAY_FUNCTION});
 
+GLang.dr.qdSet("ui_remove_from_stack", {value:function(env, args){
+	var stack = args[0].value;
+    var child = args[1].value.parentNode;
+	
+    stack.removeChild(child);
+    return GLang.voidValue;
+}, display:DISPLAY_FUNCTION});
