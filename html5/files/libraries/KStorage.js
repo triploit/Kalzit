@@ -12,20 +12,12 @@ const KStorage = {};
     Please note that "onSuccess" is a required parameter, while "onError" is optional.
     */
     function withLocalStorage(onSuccess){
-//        try{
-            //Check if localStorage is available
-            if(window.localStorage) {
+        const storage = KStorage.override || window.localStorage; 
+        
+            if(storage) {
                 //If so, try to run "onSuccess" - if that ends well, this function stops.
-                onSuccess(localStorage);
+                onSuccess(storage);
             }
-//			else{
-//                //localStorage does not exist
-//                throw new Error("The localStorage API is not available");   
-//            }
-//        }catch (e){
-//            //Any error occured - use the error handler if present
-//            if(onError) onError(e);
-//        }
     }
     
     /**
@@ -66,7 +58,7 @@ const KStorage = {};
     You can be certain that all properties of this object (not including any prototypes!) contain stored values.
     */
     function getServerCookies(){
-        var token = native_loadString("calcitSession");
+        // var token = native_loadString("calcitSession");
         if(!token) return;
         
         try{
@@ -219,6 +211,8 @@ const KStorage = {};
     This causes the "toPush" variable to become an empty array - however, if the pushing of some keys fails, that might change quickly again.
     */
     function pushNewCookies(){
+        if(!token) return;
+        
         var toPushCopy = [...toPush];
         toPush = [];
         pushCookies(toPushCopy, true);
@@ -230,7 +224,7 @@ const KStorage = {};
     Pushes all key-value-pairs to the server that are new or have changed locally since the last successful pull (here is the difference to "pushNewCookies").
     */
     function pushAllCookies(){
-        if(!native_loadString("calcitSession")) return;
+        if(!token) return;
         var allExistingKeys = thiz.storageListKeys();
         var allNewKeys = allExistingKeys.filter(key => serverCookies[key] !== native_loadString(key));
         if(GLANG_DEBUG) {
@@ -275,6 +269,10 @@ const KStorage = {};
         if(native_loadString(name) === value) return;
         
         native_saveString(name, value);
+        
+        //This is the server-push functionality; only do this if there is a logged in user
+        if(!token) return;
+        
         if (deletedKeys.includes(name)) {
             //Un-delete the value, so it gets pushed
             deletedKeys.splice(deletedKeys.indexOf(name), 1);
