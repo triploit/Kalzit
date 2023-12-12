@@ -3,7 +3,6 @@ compiler/treeGenerator_v3.js
 variableScope.js
 GLang_callObject.js
 GLang_addAnnotation.js
-GLang_functionFromString.js
 defaultRuntimeValues.js
 GLang_evaluateTree.js
 GLang_wrapJsToValue.js

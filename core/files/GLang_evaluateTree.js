@@ -49,6 +49,42 @@
 		}
 	}
 
+    function codeblockFromTree(preparedTree) {
+        //Do some quick optimizations for simple code
+        if(preparedTree.length === 1) {
+            //We got a single sentence - this allows for more light-weight functions
+            const sentence = preparedTree[0]; //Doing this should allow the preparedTree variable to be garbage collected, as we only reference "sentence" later
+            switch(sentence.length) {
+                case 0: return () => GLang.voidValue;
+                case 1: return (env) => evaluateSentenceFragment(sentence[0], env);
+                case 3: return (env) => evaluateOperation(sentence[0], sentence[1], evaluateSentenceFragment(sentence[2], env), env)
+                default: return (env) => evaluateStandardSentence(sentence, env);
+            }
+        }
+        
+        //The default case that can handle any tree
+	    return function(env) {
+			return GLang.evaluatePreparedTree(preparedTree, env);
+	    }
+    }
+
+    //Supports a typed argument list
+    function functionFromCodeblock(codeblock, defaultEnv, argumentList){
+	    const result = {value:function(env, args){
+		    //console.log("call of fun-based function");
+		    
+		    return codeblock(GLang.createFunctionScope(defaultEnv, argumentList, args));
+	    }, display:DISPLAY_FUNCTION};
+	    
+	    if(GLANG_DEBUG) {
+		    GLang.setAnnotation(result, {value:[
+			    GLang.stringValue("argumentList"),
+			    argumentList
+		    ]});
+	    }
+	    return result;
+    }
+
 	function evaluateSentenceFragment(fragment, env){
 		switch(fragment.k){
 			//Do the super common things first
@@ -80,8 +116,8 @@
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
 			case KIND_FUNCTION_DEFINITION:
             case KIND_CODEBLOCK:
-				return GLang.functionFromCodeblock(
-					GLang.codeblockFromTree(fragment.c, env).value.cb,
+				return functionFromCodeblock(
+					codeblockFromTree(fragment.c),
 					env,
 					//Parameter list of the function
 					{value:fragment.p.map(parameter => {
