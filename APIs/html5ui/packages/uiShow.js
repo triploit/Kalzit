@@ -21,9 +21,7 @@ GLang.dr.qdSet("ui_show_variable", {value:function(env, args){
 	div.appendChild(GLang.displayValue(visualizer(mutable.value.mutable)));
 	
 	mutable.value.listeners.push({value:function(){
-        //If this is not done before .replaceChild, there might be a period where the view stays blank
-        const newChild = GLang.displayValue(visualizer(mutable.value.mutable));
-		div.replaceChild(newChild, div.firstChild);
+        div.replaceChildren(GLang.displayValue(visualizer(mutable.value.mutable)));
 		return GLang.voidValue;
 	}})
 	
