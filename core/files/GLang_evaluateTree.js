@@ -62,7 +62,17 @@
             case 0: return sentence.fn = returnsVoid;
             case 1: return sentence.fn = (env) => {return evaluateSentenceFragment(sentence[0], env)};
             case 3: return sentence.fn = (env) => {return evaluateOperation(sentence[0], sentence[1], evaluateSentenceFragment(sentence[2], env), env)}
-            default: return sentence.fn = (env) => {return evaluateStandardSentence(sentence, env)}
+            default:
+                const LENGTH = sentence.length - 1;
+                return sentence.fn = (env) => {
+                    //Longer sentence with multiple operations
+				    //Evaluate each operation in the sentence; start at the last one
+				    var result = evaluateSentenceFragment(sentence[LENGTH], env);
+				    for(var i = LENGTH - 1; i >= 1; i -= 2) {
+					    result = evaluateOperation(sentence[i - 1], sentence[i], result, env);
+				    }
+				    return result;
+                }
         }
     }
 
