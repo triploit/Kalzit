@@ -48,23 +48,43 @@
 				return result;
 		}
 	}
+    
+    function returnsVoid(){return GLang.voidValue};
+
+    function jsFnFromSentence(sentence){
+        //Have we dealt with this already?
+        if(sentence.fn) return sentence.fn;
+        
+        //console.log("jsFnFromSentence");
+        
+        //We got a single sentence - this allows for more light-weight functions
+        switch(sentence.length) {
+            case 0: return sentence.fn = returnsVoid;
+            case 1: return sentence.fn = (env) => {return evaluateSentenceFragment(sentence[0], env)};
+            case 3: return sentence.fn = (env) => {return evaluateOperation(sentence[0], sentence[1], evaluateSentenceFragment(sentence[2], env), env)}
+            default: return sentence.fn = (env) => {return evaluateStandardSentence(sentence, env)}
+        }
+    }
 
     function codeblockFromTree(preparedTree) {
         //Do some quick optimizations for simple code
         if(preparedTree.length === 1) {
-            //We got a single sentence - this allows for more light-weight functions
-            const sentence = preparedTree[0]; //Doing this should allow the preparedTree variable to be garbage collected, as we only reference "sentence" later
-            switch(sentence.length) {
-                case 0: return () => GLang.voidValue;
-                case 1: return (env) => evaluateSentenceFragment(sentence[0], env);
-                case 3: return (env) => evaluateOperation(sentence[0], sentence[1], evaluateSentenceFragment(sentence[2], env), env)
-                default: return (env) => evaluateStandardSentence(sentence, env);
-            }
+            jsFnFromSentence(preparedTree[0]);
+        }
+        if(preparedTree.length === 0) {
+            return returnsVoid;
         }
         
         //The default case that can handle any tree
+        //When we get here, we know that jsFnFromSentence.length >= 2
+        const functions = preparedTree.map(jsFnFromSentence);
+        const LENGTH = functions.length - 1;
 	    return function(env) {
-			return GLang.evaluatePreparedTree(preparedTree, env);
+            for(var i = 0; i < LENGTH; i++) {
+                functions[i](env);
+            }
+            return functions[LENGTH](env);
+			//return GLang.evaluatePreparedTree(preparedTree, env);
 	    }
     }
 
