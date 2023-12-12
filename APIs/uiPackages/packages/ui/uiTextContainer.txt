@@ -3,8 +3,5 @@
 	A text view with spacing to the right and left side. Good for list items.
 */
 $uiTextContainer = !fun ($text) {
-	uiContainer:
-		[uiHorizontalPxSpace 7];
-		[@(width "100% - 14px") uiContainer: text];
-		[uiHorizontalPxSpace 7]
+	@(cssClass: "k-text_container") uiContainer: text
 }.
