@@ -69,7 +69,7 @@
     function codeblockFromTree(preparedTree) {
         //Do some quick optimizations for simple code
         if(preparedTree.length === 1) {
-            jsFnFromSentence(preparedTree[0]);
+            return jsFnFromSentence(preparedTree[0]);
         }
         if(preparedTree.length === 0) {
             return returnsVoid;
