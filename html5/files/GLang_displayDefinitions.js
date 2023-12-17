@@ -32,6 +32,8 @@ GLang.displayValue = function displayValue(container){
 		case DISPLAY_MUTABLE: return GLang.stringDisplay(container, function(x){
 			return "mutable: " + x.value.mutable;
 		})
+        
+        case DISPLAY_IMPORTED_DOM: return document.importNode(container.value, true);
 
 		default: return GLang.stringDisplay(container, function(x){
 			var val = x.value;
