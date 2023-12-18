@@ -1,8 +1,9 @@
-/* @kalzit.for uiListItem
+/* @kalzit.for uiUncontainedListItem
 
 	This is a helper function for creating generic list items.
 	List items can have a custom view, an action button and a tap action, as well as a value that is connected to all these actions.
 	Most standard uses for list items are probably covered by this.
+    Please note that the return value of this is not a UI element, but a UI element collection. This means you can not apply styling directly. To allow this, use `uiListItem`
 	
 	You can configure your list item with the `config` object. It has the following properties:
 	* `mainView` (required) - a UI element that is the main view of your list item. It takes up most of its space, except where the potential action button is.
@@ -14,7 +15,7 @@
 		* `additionalActionsButton` (optional) - you can specify a full action button (with custom styling, for example) instead of `additionalActions`. This can also be a function that returns said view - if it is, it gets the `value` property of `config` as its first parameter, and the `index` property as the second
 		* `additionalViewFactory` (optional): a view factory (function which gets the value associated with this list item and returns a view) which can be displayed where the title usually is shown. Can be accessed via a three-dot button.
 */
-$uiListItem = !fun ($config) {
+$uiUncontainedListItem = !fun ($config) {
 	$mainView ? UiElement = $mainView propOf config.
 	$currentViewRef ? Var = mainView.
 	
@@ -43,7 +44,7 @@ $uiListItem = !fun ($config) {
 		
 	$mainViewWidth = !ifElse (void eq actionMenu) {"100%"};{"100% - 27px"}.
 	
-	$view = uiContainer:
+	$view = uiElementCollection:
 		(@(width mainViewWidth) uiShowVariable: currentViewRef);
 		!ifNot (void eq actionMenu) {
 			[uiHorizontalPxSpace 7];
@@ -63,3 +64,8 @@ $uiListItem = !fun ($config) {
 	`Return the UI element that represents this list item`
 	view
 }.
+
+/* @kalzit.for uiListItem
+The same as uiUncontainedListItem, but the result is wrapped into a uiContainer
+*/
+$uiListItem = !fun ($config) {uiContainer: uiUncontainedListItem: config}.

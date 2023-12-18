@@ -235,7 +235,8 @@
     }
     , {
         "provides": [
-          "ui_list_item"
+          "ui_list_item",
+          "ui_uncontained_list_item"
       ]
       , "scriptUrl": "ui/uiListItem.txt"
     }

@@ -1,5 +1,5 @@
-/* @kalzit.for ui_kmp_list_item
-	Produces a uiListItem that displays a KMP object (that is a single item, not a collection) with an icon and a title text.
+/* @kalzit.for ui_uncontained_kmp_list_item
+	Produces a uiUncontainedListItem that displays a KMP object (that is a single item, not a collection) with an icon and a title text.
 
 	* `file` is a KMP object (already parsed, not in JSON format)
 	* `config` is a configuration object
@@ -23,7 +23,7 @@
 		* `additionalViewFactory` (optional): a view which can be displayed where the title usually is shown. Can be accessed via a three-dot button.
 		* `additionalActionsButton` (optional): a view, or a function returning that view, which is displayed in the same spot where the additional actions button (three-dot button) usually is. This can be used for a fully custom implementation of the control to the right of a list item. If `additionalActionsButton` is a function, it is called with `file` as its first parameter, and the index of the list item as the second.
 */
-$uiKmpListItem = !fun ($file ; $config) {
+$uiUncontainedKmpListItem = !fun ($file ; $config) {
 	$includeSessionInThumbnailUrl ? (default: true) = $includeSession propOf config.
 	$thumbnailStyle ? (default: () fun {}) = $thumbnailStyle propOf config.
 	$titleStyle ? (default: () fun {}) = $titleStyle propOf config.
@@ -106,7 +106,7 @@ $uiKmpListItem = !fun ($file ; $config) {
 			@titleStyle @(width: "100% - " + (iconWidth + 40) + "px") @(pxHeight 50) file previewGenerator titleGenerator: file.
 		
 	`Return`
-	uiListItem:
+	uiUncontainedListItem:
 		["mainView"; preview];
 		["index"; [$index propOf config]];
 		["onTap"; $medium fun {
@@ -132,3 +132,8 @@ $uiKmpListItem = !fun ($file ; $config) {
 		});
 		["value"; [file]]
 }.
+
+/* @kalzit.for ui_kmp_list_item
+Same as uiUncontainedKmpListItem, but wrapped in a uiContainer.
+*/
+$uiKmpListItem = !fun ($file ; $config) {uiContainer: file uiUncontainedKmpListItem config}.
