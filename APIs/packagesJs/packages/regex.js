@@ -27,6 +27,16 @@ this.all_matches = function(regexString, stringToMatch){
 	
 	return result;
 };
+
+GLang.dr.qdSet("str_replace_regex", {value:function(env, args){
+    const _regexAndReplacement = args[0].value;
+    return GLang.stringValue(
+        args[1].value.replace(new RegExp(_regexAndReplacement[0].value, "g"), _regexAndReplacement[1].value)
+    )
+}});
+
+/*
 this.str_replace_regex = function(_regexAndReplacement, original){
 	return original.replace(new RegExp(_regexAndReplacement[0].value, "g"), _regexAndReplacement[1].value);
 };
+*/

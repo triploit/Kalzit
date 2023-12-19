@@ -1,3 +1,3 @@
-this.flag_blur = function(_pixels, view) {
-	view.style.filter = "blur(" + _pixels + "px)";
+this.flag_blur = function(pixels, view) {
+	view.style.filter = "blur(" + pixels + "px)";
 }

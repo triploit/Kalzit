@@ -10,24 +10,29 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 			return wrapJsToValue(js(...args.map(arg => arg.value)));
 		}
 		
-		var jsArgNames = js.toString()
-			.replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
-			.match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1]
-			.split(/,/);
-		
-		//var makeArrayFunction = true;
-		for(var i = 0; i < jsArgNames.length; i++){
-			if(jsArgNames[i].startsWith("_")){
-				//We have to produce a normal function
-				if(GLANG_DEBUG) {
-					//Include argument names at runtime
-					return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
-				} else {
-					//Do not include argument names
-					return {value:calcitFunction, display:DISPLAY_FUNCTION}
-				}
-			}
-		}
+        if(GLANG_DEBUG) {
+		    var jsArgNames = js.toString()
+			    .replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
+			    .match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1]
+			    .split(/,/);
+		    
+		    for(var i = 0; i < jsArgNames.length; i++){
+			    if(jsArgNames[i].startsWith("_")){
+				    //We have to produce a normal function
+                    throw new Error("wrapJsToValue produces a non-array function for: " + js);
+                    
+                    /*
+				    if(GLANG_DEBUG) {
+					    //Include argument names at runtime
+					    return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+				    } else {
+					    //Do not include argument names
+					    return {value:calcitFunction, display:DISPLAY_FUNCTION}
+				    }
+                    */
+			    }
+		    }
+        }
 		
 		//We have to produce an array function
 		if(GLANG_DEBUG) {

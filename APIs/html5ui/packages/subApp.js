@@ -106,9 +106,12 @@ var keepInitial = false;
 this.sub_app_keep_initial = function() {
 	keepInitial = true;
 };
-this.register_sub_app = function(name, _openAndClose){
-	hashes.set(name, {open:_openAndClose[0], close:_openAndClose[1]});
-	
+
+GLang.dr.qdSet("register_sub_app", {value:function(env, args){
+    const name = args[0].value;
+    const _openAndClose = args[1].value;
+
+    hashes.set(name, {open:_openAndClose[0], close:_openAndClose[1]});
 	if(location.hash == "#" + name) {
 		location.hash = "none";
 		if(keepInitial) {
@@ -116,7 +119,9 @@ this.register_sub_app = function(name, _openAndClose){
 			location.hash = name
 		}
 	}
-};
+    
+    return GLang.voidValue;
+}});
 this.get_current_sub_app = function(){
 	return location.hash.replace("#", "");	
 };
