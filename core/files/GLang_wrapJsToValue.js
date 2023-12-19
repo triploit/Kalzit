@@ -10,8 +10,9 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 			return wrapJsToValue(js(...args.map(arg => arg.value)));
 		}
 		
-        if(GLANG_DEBUG) {
-		    var jsArgNames = js.toString()
+		//We have to produce an array function
+		if(GLANG_DEBUG) {
+            var jsArgNames = js.toString()
 			    .replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
 			    .match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1]
 			    .split(/,/);
@@ -32,10 +33,6 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
                     */
 			    }
 		    }
-        }
-		
-		//We have to produce an array function
-		if(GLANG_DEBUG) {
 			//Include argument names at runtime
 			return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION, argumentList:jsArgNames}
 		} else {

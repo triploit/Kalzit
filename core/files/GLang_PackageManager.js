@@ -128,7 +128,7 @@
 		//Register precompiled package tree
 		this.rppt = function(names, tree) {
 			this.registeredPrecompiledPackages.push([names, tree]);
-			this.registeredPackages.push({provides: names, scriptUrl: null})
+			//this.registeredPackages.push({provides: names})
 		}
 		
 		function installJs(fun){

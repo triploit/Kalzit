@@ -121,7 +121,7 @@
 			//case KIND_COLON: return COLON_VALUE;
 			case KIND_ASSIGN_TO_STRING:
 				const n = fragment.s;
-				if(env.hasOwnProperty("kv_" + n)){
+				if(GLANG_DEBUG && env.hasOwnProperty("kv_" + n)){
 					throw new Error("Not allowed to change existing variable $" + n + "; consider using a mutable container");
 				}
 				
