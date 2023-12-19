@@ -6,12 +6,13 @@
 		var display = annotation.display;
 		if(display === DISPLAY_FUNCTION){
 			//We have a function annotation
-			GLang.callObject(annotation, annotation.env, [actualValue]);
+            annotation.value(annotation.env, [actualValue]);
+			//GLang.callObject(annotation, annotation.env, [actualValue]);
 			return;
 		}
 		
 		//If not a possible function, check for an array of length 2
-		if(!(annotation.value instanceof Array && annotation.value.length === 2)){
+		if(GLANG_DEBUG && !(annotation.value instanceof Array && annotation.value.length === 2)){
 			//We have an invalid annotation
 			throw new Error("An annotation needs to be an array with two values, or a function - " + GLang.stringify(annotation) + " does not fit this rule");
 		}
