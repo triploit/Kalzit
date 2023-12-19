@@ -10,14 +10,17 @@
 	GLang.voidValue = {value:[], display:DISPLAY_NONE};
 
 	function arrayFun(original){
-		if(!original.value){
-			original = {value: original}
+        //console.log("arrayFun called");
+		if(GLANG_DEBUG && ("function" !== typeof original)){
+            throw new Error("arrayFun only accepts JS functions, got: " + original);
+			//original = {value: original}
 		}
 		function arrayFunWrapper(env, args){
 			//Length testing before cloning the arguments array
 			const originalArgumentCount = args.length;
 			if(originalArgumentCount === 0){
-				return GLang.callObject(original, env, []);
+                return original(env, []);
+				//return GLang.callObject(original, env, []);
 			}
 			
 			//console.log("arrayFunWrapper");
@@ -73,9 +76,11 @@
 			
 			//Called with no arrays as parameter
 			if(originalArgumentCount == 1){
-				return GLang.callObject(original, env, [a]);
+                return original(env, [a]);
+				//return GLang.callObject(original, env, [a]);
 			}else{
-				return GLang.callObject(original, env, [a, b]);
+                return original(env, [a, b]);
+				//return GLang.callObject(original, env, [a, b]);
 			}
 		}
 		return arrayFunWrapper;
