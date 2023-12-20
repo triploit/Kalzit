@@ -120,34 +120,39 @@
 			//return GLang.evaluatePreparedTree(preparedTree, env);
 	    }
     }
-
-    //Supports a typed argument list
-    function functionFromCodeblock(codeblock, defaultEnv, argumentList){
-	    const result = {value:function(env, args){
-		    const functionEnvironment = GLang.RuntimeEnvironment(defaultEnv);
-		    
-		    //add arguments to function environment
-		    for(var argIndex = 0; argIndex < argumentList.length; argIndex++){
-			    const untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
-			    
-                functionEnvironment.qdSet(
-				    //Name
-				    argumentList[argIndex].name,
-				    //Value
-				    argumentList[argIndex].type(untypedArgument)
-			    )
-		    }
-		    
-		    return codeblock(functionEnvironment);
-	    }, display:DISPLAY_FUNCTION};
-	    
-	    if(GLANG_DEBUG) {
-		    GLang.setAnnotation(result, {value:[
-			    GLang.stringValue("argumentList"),
-			    argumentList
-		    ]});
-	    }
-	    return result;
+    
+    function functionFromCodeblock(codeblock, defaultEnv, argumentList) {
+        switch(argumentList.length) {
+            case 0:
+                //console.log("!!! makeInternalCodeblockFunction length 0");
+                return () => codeblock(Object.create(defaultEnv));
+            case 1:
+                //console.log("!!! makeInternalCodeblockFunction length 1");
+                const paramA = "kv_" + argumentList[0].name;
+                if(argumentList[0].type === IDENTITY) {
+                    //We have an untyped function parameter
+                    return (e, args) => {
+                        const functionEnvironment = Object.create(defaultEnv);
+                        functionEnvironment[paramA] = args[0] || GLang.voidValue;
+                        return codeblock(functionEnvironment)
+                    }
+                } else {
+                    const type = argumentList[0].type;
+                    //We have a typed function parameter
+                    return (e, args) => {
+                        const functionEnvironment = Object.create(defaultEnv);
+                        functionEnvironment[paramA] = type(args[0] || GLang.voidValue);
+                        return codeblock(functionEnvironment)
+                    }
+                }
+            default:
+                return function(env, args){
+		            const functionEnvironment = Object.create(defaultEnv);
+                    functionEnvironment["kv_" + argumentList[0].name] = argumentList[0].type(args[0] || GLang.voidValue);
+                    functionEnvironment["kv_" + argumentList[1].name] = argumentList[1].type(args[1] || GLang.voidValue);
+                    return codeblock(functionEnvironment)
+	            }
+        }
     }
 
 	function evaluateSentenceFragment(fragment, env){
@@ -181,14 +186,14 @@
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
 			case KIND_FUNCTION_DEFINITION:
             case KIND_CODEBLOCK:
-				return functionFromCodeblock(
+				return {value:functionFromCodeblock(
 					codeblockFromTree(fragment.c),
 					env,
 					//Parameter list of the function
 					fragment.p.map(parameter => {
 						return {name:parameter.s, type:jsFnFromParameter(parameter, env)}
 					})
-				);
+				), display:DISPLAY_FUNCTION};
 			//Do the slightly less common things later
 			case KIND_STRING: return GLang.stringValue(fragment.s);
 			case KIND_NUMBER: return {value:fragment.num};
