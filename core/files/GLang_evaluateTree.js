@@ -22,7 +22,11 @@
 			case KIND_COLON: return GLang.callObject(evaluateSentenceFragment(firstParamFragment, env), env, [secondParamValue]);
 			case KIND_SEMICOLON: return SEMICOLON_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
 			case KIND_SET_ANNOTATION:
-				GLang.setAnnotation(secondParamValue, evaluateSentenceFragment(firstParamFragment, env));
+				const annotation = evaluateSentenceFragment(firstParamFragment, env);
+                if(GLANG_DEBUG && "function" !== typeof annotation.value) {
+                    throw new Error("Annotations are required to be functions; " + GLang.stringify(secondParamValue) + " does not fit this rule. To attach info, consider using the 'info' function ( @(info: 'name';'value') x )");
+                }
+                annotation.value(env, [secondParamValue]);
 				return secondParamValue;
 		}
 		

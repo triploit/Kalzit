@@ -304,9 +304,34 @@
 		GLang.dr["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
+    GLang.dr.qdSet("info", {value:function(env, args){
+        const annotation = args[0];
+        
+        //Check for an array of length 2
+		if(GLANG_DEBUG && !(annotation.value instanceof Array && annotation.value.length === 2)){
+			//We have an invalid annotation
+			throw new Error("An annotation given to 'info' needs to be an array with two values - " + GLang.stringify(annotation) + " does not fit this rule");
+		}
+        
+        return {value:function(env, args){
+            const actualValue = args[0];
+            
+            //Behavior for array annotations
+		    actualValue.annotations = actualValue.annotations || [];
+		    for(var i = 0; i < actualValue.annotations.length; i++){
+			    if(GLang.eq(actualValue.annotations[i].value[0].value, annotation.value[0].value)){
+				    actualValue.annotations[i] = annotation;
+				    return;
+			    }
+		    }
+		    actualValue.annotations.push(annotation);
+        }, display:DISPLAY_FUNCTION}
+    }, display:DISPLAY_FUNCTION});
+    
 	GLang.dr.qdSet("calcit_annotations", {value:function(env, args){
 		return {value:args[0].annotations || []};
 	}, display:DISPLAY_FUNCTION});
+    
 	GLang.dr.qdSet("do", {value:function(env, args){
 		var params = [];
 		if(args.length >= 2){
