@@ -79,6 +79,25 @@
                 }
         }
     }
+    
+    const IDENTITY = x => x;
+    
+    //Creates a function from a parameter definition that either just returns the parameter given an environment,
+    //or applies the given type first before returning the result
+    function jsFnFromParameter(parameter, env) {
+        //There are only two options for parameters: they can be KIND_STRING or KIND_TYPED
+		if(parameter.k === KIND_TYPED) {
+            const type = evaluateSentenceFragment(parameter.t, env).value;
+            if(GLANG_DEBUG && "function" !== typeof type) {
+                throw new Error("Types of parameters have to be functions, otherwise the parameter is always constant");
+            }
+		    return function(value) {
+                //apply the type, return the result
+                return type(env, [value]);
+            }
+		}
+		return IDENTITY;
+    };
 
     function codeblockFromTree(preparedTree) {
         //Do some quick optimizations for simple code
@@ -105,9 +124,21 @@
     //Supports a typed argument list
     function functionFromCodeblock(codeblock, defaultEnv, argumentList){
 	    const result = {value:function(env, args){
-		    //console.log("call of fun-based function");
+		    const functionEnvironment = GLang.RuntimeEnvironment(defaultEnv);
 		    
-		    return codeblock(GLang.createFunctionScope(defaultEnv, argumentList, args));
+		    //add arguments to function environment
+		    for(var argIndex = 0; argIndex < argumentList.length; argIndex++){
+			    const untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
+			    
+                functionEnvironment.qdSet(
+				    //Name
+				    argumentList[argIndex].name,
+				    //Value
+				    argumentList[argIndex].type(untypedArgument)
+			    )
+		    }
+		    
+		    return codeblock(functionEnvironment);
 	    }, display:DISPLAY_FUNCTION};
 	    
 	    if(GLANG_DEBUG) {
@@ -154,14 +185,9 @@
 					codeblockFromTree(fragment.c),
 					env,
 					//Parameter list of the function
-					{value:fragment.p.map(parameter => {
-						//There are only two options for parameters: they can be KIND_STRING or KIND_TYPED
-						const result = GLang.stringValue(parameter.s);
-						if(parameter.k === KIND_TYPED) {
-							result.type = evaluateSentenceFragment(parameter.t, env)
-						}
-						return result
-					})}
+					fragment.p.map(parameter => {
+						return {name:parameter.s, type:jsFnFromParameter(parameter, env)}
+					})
 				);
 			//Do the slightly less common things later
 			case KIND_STRING: return GLang.stringValue(fragment.s);

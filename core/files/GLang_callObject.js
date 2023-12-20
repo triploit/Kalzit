@@ -1,31 +1,4 @@
-(function(){
-	GLang.createFunctionScope = function(env, argumentList, args){
-		var functionEnvironment = GLang.RuntimeEnvironment(env);
-		
-			//add arguments to function environment
-			argumentList = argumentList.value || [];
-			for(var argIndex = 0; argIndex < argumentList.length; argIndex++){
-				if(GLANG_DEBUG && "string" !== typeof argumentList[argIndex].value) throw new Error("Every entry of an argument list needs to be a string value - " + JSON.stringify(argumentList[argIndex]) + " does not fit this rule");
-				
-				var untypedArgument = args.length > argIndex ? args[argIndex] : GLang.voidValue;
-				//We know that the name is always unified, since this is only ever called with pre-compiled values
-				var argumentName = argumentList[argIndex].value;
-				var argumentType = argumentList[argIndex].type;
-				
-				//Check if we need to apply a type to the argument
-				var actualArgument = argumentType ? GLang.callObject(argumentType, env, [untypedArgument]) : untypedArgument;
-				
-				functionEnvironment.qdSet(
-					//Name
-					argumentName,
-					//Value
-					actualArgument
-				)
-			}
-			
-			return functionEnvironment
-	};
-	
+(function(){	
 	if(GLANG_DEBUG) {
 		//This is a stack (push, pop) used to keep track of the currently active function calls
 		GLang.callStack = [];
