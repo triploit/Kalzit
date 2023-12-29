@@ -21,7 +21,12 @@ GLang.dr.qdSet("ui_show_variable", {value:function(env, args){
 	div.appendChild(GLang.displayValue(visualizer(mutable.value.mutable)));
 	
 	mutable.value.listeners.push({value:function(){
-        div.replaceChildren(GLang.displayValue(visualizer(mutable.value.mutable)));
+		//replaceChildren does not work until pretty recent versions of Android webview (Dec 2023)
+        // div.replaceChildren(GLang.displayValue(visualizer(mutable.value.mutable)));
+        
+        //This should do the same thing as replaceChildren
+        div.innerHTML = "";
+        div.appendChild(GLang.displayValue(visualizer(mutable.value.mutable)));
 		return GLang.voidValue;
 	}})
 	
