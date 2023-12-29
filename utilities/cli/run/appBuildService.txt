@@ -1,7 +1,7 @@
 $appBuildListener = !fun ($appId) {
 	[$onContentChange; {
 		print: "File " + x + " changed - start to build app " + appId.
-		runCommandFromArray: "./cli"; "build"; "app"; appId; "--debug-value"; "true"
+		runCommandFromArray: "./cli"; "build"; "app"; appId; "--debug-value"; "true"; "--tree-generator"; "true"
 	}].
 }.
 
