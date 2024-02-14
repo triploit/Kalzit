@@ -9,6 +9,7 @@
 	* `defaultThumbnail` (optional): defines a default icon which will be used if no fixed icon is specified by the configuration or the KMP object (given it is not overridden by "thumbnailGenerator")
 	* `index` (optional): the index of this list item. Can be passed as a parameter to certain callbacks.
 	* `thumbnailGenerator` (optional): returns a thumbnail for a given KMP object. This is called at least once when the initial thumbnail is created, and then every time "onTap" is triggered. The thumbnail generator overrides `forcedThumbnail` and `defaultThumbnail` when it returns a non-void result.
+    * `thumbnailViewGenerator` (optional): turns a thumbnail URL (potentially from thumbnailGenerator) into a UI element. The default produces an image view. First parameter is a URL string, second parameter is the default view generator function.
 	* `thumbnailRef` (optional): a mutable value where the current thumbnail URL is stored. The mutable can then be modified to change the thumbnail.
 	* `thumbnailStyle` (optional): a function which gets the thumbnail view and applies a custom style to it. This can be used to add rounded corners, a background, etc.
 	* `titleStyle` (optional): a function which gets the title view and applies a custom style to it.
@@ -27,6 +28,9 @@ $uiUncontainedKmpListItem = !fun ($file ; $config) {
 	$includeSessionInThumbnailUrl ? (default: true) = $includeSession propOf config.
 	$thumbnailStyle ? (default: () fun {}) = $thumbnailStyle propOf config.
 	$titleStyle ? (default: () fun {}) = $titleStyle propOf config.
+    
+    $defaultThumbnailViewGenerator = {@fit uiShowImageUrl: x}.
+    $thumbnailViewGenerator ? (default: defaultThumbnailViewGenerator) = $thumbnailViewGenerator propOf config.
 	
 	$defaultThumbnailGenerator = !fun () {
 		!ifElse (void eq $forcedThumbnail propOf config) {
@@ -68,7 +72,7 @@ $uiUncontainedKmpListItem = !fun ($file ; $config) {
 			`Change the thumbnail to match the new URL`
 			!ifNot (~lastNonVoidThumbnailUrlRef eq thumbnailUrl) {
 				lastNonVoidThumbnailUrlRef = thumbnailUrl.
-				thumbnailRef = @thumbnailStyle @(percentHeight 100) @(percentWidth 100) @fit uiShowImageUrl: thumbnailUrl.
+				thumbnailRef = @thumbnailStyle @(percentHeight 100) @(percentWidth 100) !thumbnailViewGenerator thumbnailUrl defaultThumbnailViewGenerator.
 			}
 		}
 	}.
