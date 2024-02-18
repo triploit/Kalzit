@@ -70,6 +70,24 @@
 					return {value:mediaElement.duration};
 				}, display: DISPLAY_FUNCTION
 			}]},
+            {value:[{value:"getDurationAsync"}, {
+				value: function(env, args){
+                    const callback = duration => GLang.callObject(args[0], env, [{value:duration}]);
+                    
+                    const currentDuration = mediaElement.duration;
+                    if(currentDuration != null && currentDuration === currentDuration) {
+                        //We do know the duration already - yay!
+                        callback(currentDuration)
+                    } else {
+                        //Guess we need to wait for the metadata to be loaded
+                        mediaElement.addEventListener("loadedmetadata", event => {
+                            callback(mediaElement.duration);
+                        })
+                    }
+
+					return GLang.voidValue;
+				}, display: DISPLAY_FUNCTION
+			}]},
 			{value:[{value:"setTime"}, {
 				value: function(env, args){
 					mediaElement.currentTime = parseFloat(args[0].value + "");
