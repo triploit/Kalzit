@@ -13,7 +13,9 @@ $storedModifiableStringList = !fun ($storageKey ? String) {
 		storageLoadStringList storageKey
 	}];
 	["clear";() fun {
-		storageClearList storageKey
+		storageClearList storageKey.
+        !onChange.
+        void
 	}];
 	["setOnAddition";($function) fun {onAdditionListRef = ~onAdditionListRef;function}];
 	["setOnRemoval";($function) fun {onRemovalListRef = ~onRemovalListRef;function}];
