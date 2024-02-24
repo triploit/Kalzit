@@ -8,17 +8,35 @@
 	* `itemSpacing` (optional): the distance between two list items in pixels. `0` by default.
 	* `sidePadding` (optional): the size of the empty space to the left and the right of the list view items. If this is 10, there will be 10 empty pixels to the left, then the list content, then 10 empty pixels to the right. Default is 0.
 	* `fullHeight` (optional): if this is set to true, the list view will have a height of 100%. Default is false.
+    * `separatorGenerator` (optional): function that produces a view which will be placed between two list items. First parameter is the index of the item that is displayed *before* the separator you should generate. If used together with `itemSpacing`, the spacing is applied twice - once between one list item and the separator, and once between the separator and the next list item.
 */
 $uiCustomListView = !fun ($_options ? ModifiableList ; $config) {
 	$itemViewFactory ? (default: {x}) = $itemViewFactory propOf config.
 	$itemSpacing ? (default: 0) = $itemSpacing propOf config.
 	$sidePadding ? (default: 0) = $sidePadding propOf config.
 	$fullHeight ? (default: false) = $fullHeight propOf config.
+    $separatorGenerator = $separatorGenerator propOf config.
 	
 	`List view implementation`
 	$generateView = !fun () {
 		$rawValues = getArray: _options.
-		$listItems = @(percentWidth 100) {(x at rawValues) itemViewFactory x} each arrayIndexes: rawValues.
+        
+		$temporaryListItems = @(percentWidth 100) {(x at rawValues) itemViewFactory x} each arrayIndexes: rawValues.
+        
+        # Add the separator views if needed
+        $listItems = !ifElse (void eq separatorGenerator) {
+            temporaryListItems
+        };{
+            ;/ !each temporaryListItems -> ($item ; $index) fun {
+                !ifElse ((index + 1) < length: temporaryListItems) {
+                    [item];
+                    [separatorGenerator: index]
+                };{
+                    [item]
+                }
+            }
+        }.
+        
 		$result = !ifElse itemSpacing {
 			`Add annotations for dealing with item spacing`
 			@(width "100% - " + (sidePadding * 2) + "px") @center uiContainer: itemSpacing uiAddVerticalPxSpaces listItems
