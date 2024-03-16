@@ -15,7 +15,6 @@
 	//Load and store them here, so they are easily accessible
 	//const COLON_VALUE = GLang.dr["kv_:"];
 	const SEMICOLON_VALUE = GLang.dr["kv_;"];
-	const DO_VALUE = GLang.dr["kv_do"];
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {
@@ -200,7 +199,7 @@
 			case KIND_NAME: return env.resolveName(fragment.n);
 			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.p, env);
 			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.a, env)]};
-			case KIND_DO: return DO_VALUE;
+            case KIND_CALL_NO_ARGS: return GLang.callObject(evaluateStandardSentence(fragment.t, env), env, []);
 			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
 			case KIND_ASSIGN_TO_MUTABLE_NONAME:
 				const result = evaluateStandardSentence(fragment.v, env);

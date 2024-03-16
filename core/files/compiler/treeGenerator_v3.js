@@ -14,7 +14,7 @@ const KIND_SEMICOLON = 8;
 //const KIND_SET_TYPE = 9;
 const KIND_TYPED = 9;
 const KIND_SET_ANNOTATION = 10;
-const KIND_DO = 11;
+const KIND_CALL_NO_ARGS = 11;
 const KIND_GET = 12;
 const KIND_ASSIGN_TO_MUTABLE_NAME = 13;
 const KIND_ASSIGN_TO_MUTABLE_NONAME = 14;
@@ -574,11 +574,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 						case state.length - 2:
 							var op = finishSentenceAndCheckForExclamationMarks(state.splice(i + 1, 1));
 							state = state.slice(0, i).concat(
-								[
-									{k:KIND_DO},
-									{k:KIND_COLON}
-								],
-								op
+                                {k:KIND_CALL_NO_ARGS, t:op}
 							);
 							
 							break loop;
