@@ -88,19 +88,32 @@
 	GLang.arrayFun = arrayFun;
 	
 	function atFunction(property, valObj){
+        //console.log("atFunction");
+        
+        //Without optimization: 1426 + 13395 calls to launch the files app
+        //1394 + 13395 after avoiding recursion
+        
 		var value = valObj.value;
-		if(value instanceof Array && value.length === 0) return {value:[]};
-		if(property instanceof Array){
-			var array = [];
-			for(var i = 0; i < property.length; i++){
-				array.push(atFunction(property[i].value, valObj));
-			}
-			return {value:array};
-		}
-		if(!(value instanceof Array)){
-			value = [{value:value}]
-		}
-		return value[property % value.length];
+		if(Array.isArray(value)) {
+            if(value.length === 0) {
+                return {value:[]};
+            }
+            
+		    if(Array.isArray(property)){
+                //Access multiple indexes
+			    var array = [];
+			    for(var i = 0; i < property.length; i++){
+				    array.push(value[property[i].value % value.length]);
+			    }
+			    return {value:array};
+		    } else {
+                //Access a single index
+                return value[property % value.length];
+            }
+        } else {
+            //The value to get an item of is not an array
+            return valObj
+        }
 	}
 	GLang.at=atFunction;
 	
