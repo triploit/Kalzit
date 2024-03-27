@@ -4,7 +4,7 @@ GLang.dr.qdSet("pm_list_registered_packages", {value:function(){
 GLang.dr.qdSet("pm_list_installed_names", {value:function(){
 	var result = [];
 	for(var entry in GLang.dr){
-		if(entry.startsWith("kv_"))	result.push(entry.substring(3));
+		if(!(entry === "resolveName" || entry === "qdSet")) result.push(entry);
 	}
 	return GLang.wrapJsToValue(result);
 }});

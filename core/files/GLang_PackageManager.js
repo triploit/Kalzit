@@ -60,7 +60,7 @@
 	
 	function validatePackageVariables(names){
 		for(var name = 0; name < names.length; name++){
-			if(!GLang.dr["kv_" + names[name]]){
+			if(!GLang.dr[names[name]]){
 				throw new Error("A package has claimed to provide the variable " + names[name] + " - but it does not");
 			}
 		}

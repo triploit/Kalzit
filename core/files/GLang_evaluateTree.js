@@ -13,8 +13,7 @@
 
 	//evaluateSentenceFragment will need to return specific values very, VERY often
 	//Load and store them here, so they are easily accessible
-	//const COLON_VALUE = GLang.dr["kv_:"];
-	const SEMICOLON_VALUE = GLang.dr["kv_;"];
+	const SEMICOLON_VALUE = GLang.dr[";"];
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {
@@ -127,7 +126,7 @@
                 return () => codeblock(Object.create(defaultEnv));
             case 1:
                 //console.log("!!! makeInternalCodeblockFunction length 1");
-                const paramA = "kv_" + argumentList[0].name;
+                const paramA = argumentList[0].name;
                 if(argumentList[0].type === IDENTITY) {
                     //We have an untyped function parameter
                     return (e, args) => {
@@ -147,8 +146,8 @@
             default:
                 return function(env, args){
 		            const functionEnvironment = Object.create(defaultEnv);
-                    functionEnvironment["kv_" + argumentList[0].name] = argumentList[0].type(args[0] || GLang.voidValue);
-                    functionEnvironment["kv_" + argumentList[1].name] = argumentList[1].type(args[1] || GLang.voidValue);
+                    functionEnvironment[argumentList[0].name] = argumentList[0].type(args[0] || GLang.voidValue);
+                    functionEnvironment[argumentList[1].name] = argumentList[1].type(args[1] || GLang.voidValue);
                     return codeblock(functionEnvironment)
 	            }
         }
@@ -160,13 +159,13 @@
 			//case KIND_COLON: return COLON_VALUE;
 			case KIND_ASSIGN_TO_STRING:
 				const n = fragment.s;
-				if(GLANG_DEBUG && env.hasOwnProperty("kv_" + n)){
+				if(GLANG_DEBUG && Object.prototype.hasOwnProperty.bind(env)(n)){
 					throw new Error("Not allowed to change existing variable $" + n + "; consider using a mutable container");
 				}
 				
 				//If no existing variable was found, create a new one
 				//But first, check if it exists somewhere else - there should be a warning
-				if(GLANG_DEBUG && (env["kv_" + n] != undefined) ) {
+				if(GLANG_DEBUG && (env[n] != undefined) ) {
 					console.warn("You attempted to define a variable that already exists in a higher scope: " +n);
 					console.log("Kalzit call stack:");
 					console.log([...GLang.callStack]);
@@ -176,7 +175,7 @@
 					console.log("---");
 				}
 				
-				return env["kv_" + n] = evaluateStandardSentence(fragment.v, env);
+				return env[n] = evaluateStandardSentence(fragment.v, env);
 			case KIND_ASSIGN_TO_MUTABLE_NAME:
 				//console.log(fragment);
 				const resultA = evaluateStandardSentence(fragment.v, env);

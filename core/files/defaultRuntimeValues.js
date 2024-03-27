@@ -314,7 +314,7 @@
 	];
 	
 	for(var i = 0; i < globalVariables.length; i++){
-		GLang.dr["kv_" + globalVariables[i].varName] = globalVariables[i].varValue;
+		GLang.dr[globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
     GLang.dr.qdSet("info", {value:function(env, args){
