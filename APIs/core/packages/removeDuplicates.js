@@ -1,12 +1,12 @@
 ;(function(){
-    function uniques(array) {
+    function uniques(array, isEqual) {
         var result = [], val, ridx;
         outer:
         for (var i = 0, length = array.length; i < length; i++) {
             val = array[i];
             ridx = result.length;
             while (ridx--) {
-              if (GLang.eq(val.value, result[ridx].value)) continue outer;
+              if (isEqual(val, result[ridx])) continue outer;
             }
             result.push(val);
         }
@@ -14,6 +14,11 @@
     }
     
     GLang.dr.qdSet("remove_duplicates", {value:function(env, args){
-    	return {value:uniques(args[0].value)}
+        var isEqual = (a,b) => GLang.eq(a.value, b.value);
+        if(args[1]) {
+            const kalzitFunction = args[1];
+            isEqual = (a,b) => GLang.callObject(kalzitFunction, env, [a,b]).value === 1;
+        }
+        return {value:uniques(args[0].value, isEqual)}
     }});
 })();
