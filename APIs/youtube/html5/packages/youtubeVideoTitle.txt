@@ -1,4 +1,3 @@
-@(useInstead: "youtubeVideoTitleAsync")
 $youtubeVideoTitle = ($video ? YoutubeVideoId) fun {
 	$title propOf parseJson: loadLocal: "https://noembed.com/embed?url=" + urlEncodeParameter: "https://www.youtube.com/watch?v=" + video
 }.
