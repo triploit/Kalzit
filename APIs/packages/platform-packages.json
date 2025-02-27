@@ -190,6 +190,7 @@
         , "blue"
         , "black"
         , "white"
+        , "cyan"
       ]
       , "scriptUrl": "colors.txt"
     }

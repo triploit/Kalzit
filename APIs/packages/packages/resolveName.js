@@ -5,6 +5,9 @@ GLang.dr.qdSet("resolve_name", {value:function(env, args) {
 	try {
 		return GLang.dr.resolveName(args[0].value);
 	} catch (error) {
+		if(GLANG_DEBUG) {
+			console.log(error);
+		}
 		return GLang.voidValue;
 	}
 }});
