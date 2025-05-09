@@ -7,7 +7,7 @@ mkdir ~/.kalzit/generated
 appId=$1
 echo Building app $appId
 
-appBuildScript="$(pwd)/assets/appProjectDummy/build.sh"
+appBuildScript="$(pwd)/html5/files/buildHtmlAppInWorkingDirectory.sh"
 
 #We can now ignore the first argument
 shift 1
