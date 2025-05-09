@@ -4,7 +4,7 @@
 	},
 	"libraries":[
 		{"provides":["each", "loop_each", "loop_each_async"], "scriptUrl":"basic.js"},
-		{"provides":["str_starts_with", "str_ends_with", "str_split", "str_sub", "str_to_upper_case", "str_to_lower_case", "str_trim"],  "scriptUrl":"string.js"},
+		{"provides":["str_starts_with", "str_ends_with", "str_split", "str_split_regex", "str_sub", "str_to_upper_case", "str_to_lower_case", "str_trim"],  "scriptUrl":"string.js"},
 		{"provides":["filter"],  "scriptUrl":"filter.js"},
 		{"provides":["first_condition_match"],  "scriptUrl":"firstConditionMatch.js"},
 		{"provides":["length", "list_contains"],  "scriptUrl":"arrays.js"},

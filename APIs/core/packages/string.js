@@ -11,6 +11,13 @@ GLang.dr.qdSet("str_split", {value:GLang.arrayFun(function(env, args){
 	}
 	return {value:results}
 })});
+GLang.dr.qdSet("str_split_regex", {value:GLang.arrayFun(function(env, args){
+	var results = (args[1].value).split(new RegExp(args[0].value, "g"));
+	for(var i = 0; i < results.length; i++){
+		results[i] = GLang.stringValue(results[i]);
+	}
+	return {value:results}
+})});
 GLang.dr.qdSet("str_sub", {value:function(env, args){
 	var from = GLang.at(0, args[0]).value;
 	var to = args[1].value.length;
