@@ -76,10 +76,19 @@
 		for(var packageIndex = 0; packageIndex < this.registeredPrecompiledPackages.length; packageIndex++){
 			var packageData = this.registeredPrecompiledPackages[packageIndex];
 			if(packageData[0].includes(provides)){
-				GLang.evaluatePreparedTree(packageData[1], GLang.dr);
+                var newScope = Object.create(GLang.dr);
+                
+                //Run the package code, but in a non-global scope
+				GLang.evaluatePreparedTree(packageData[1], newScope);
 				
 				//Check that the package provides all the variables it should
-				if(GLANG_DEBUG) validatePackageVariables(packageData[0]);
+                var nameList = packageData[0];
+				if(GLANG_DEBUG) validatePackageVariables(nameList);
+                
+                //Copy all the variables we expect
+                for(var nameIndex = 0; nameIndex < nameList.length; nameIndex++) {
+                    GLang.dr.qdSet(nameList[nameIndex], newScope.resolveName(nameList[nameIndex]));
+                }
 				
 				return true;
 			}
