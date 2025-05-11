@@ -83,12 +83,16 @@
 				
 				//Check that the package provides all the variables it should
                 var nameList = packageData[0];
-				if(GLANG_DEBUG) validatePackageVariables(nameList);
                 
                 //Copy all the variables we expect
                 for(var nameIndex = 0; nameIndex < nameList.length; nameIndex++) {
+                    if(!newScope[nameList[nameIndex]]) {
+                        throw new Error("A package has claimed to provide the variable " + names[name] + " - but it does not");
+                    }
                     GLang.dr.qdSet(nameList[nameIndex], newScope.resolveName(nameList[nameIndex]));
                 }
+
+                // if(GLANG_DEBUG) validatePackageVariables(nameList);
 				
 				return true;
 			}
