@@ -188,6 +188,8 @@
         , "red"
         , "green"
         , "blue"
+        , "yellow"
+        , "magenta"
         , "black"
         , "white"
         , "cyan"
