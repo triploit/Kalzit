@@ -11,12 +11,13 @@ GLang.dr.resolveName = function(unified){
 		result = GLang.dr[unified];
 	}
 	
+	if(result == null) {
+		//There was a serious problem when the result is undefined now
+		//Other functions rely on an error being thrown, so we can not ignore this even in non-debug mode
+		throw new Error("You used this non-existent variable: " + unified + ". This might be a serious language implementation problem, or maybe you just did not define the variable. Attempted to resolve '" + unified + "'");
+	}
+	
 	if(GLANG_DEBUG) {
-		if(result == null) {
-			//There was a serious problem when the result is undefined now
-			throw new Error("You used this non-existent variable: " + unified + ". This might be a serious language implementation problem, or maybe you just did not define the variable. Attempted to resolve '" + unified + "'");
-		}
-
 		//This exists to make function call stacks easier to understand
 		try{
 			result.varName = unified;
