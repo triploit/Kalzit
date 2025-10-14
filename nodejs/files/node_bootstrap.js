@@ -9,7 +9,11 @@ var vm = require("vm");
 var debugArg = process.argv[2];
 var app;
 var debug = false;
-if(debugArg === "--debug"){
+
+//We might want to start a REPL loop and not run an app, so check for that
+if(debugArg === "--repl") {
+    app = null;
+} else if(debugArg === "--debug"){
 	app = process.argv[3]
 	debug = true;
 }else{
@@ -49,4 +53,16 @@ context.GLANG_TREE_GENERATOR_INCLUDED = true;
 installCalcit(vm, context, fs, ["core", "nodejs"]);
 
 //We can now access the GLang object to evaluate the app code!
-context.GLang.eval(fs.readFileSync(app, "utf8"));
+if(app != null) {
+    //We should run code from a file
+    context.GLang.eval(fs.readFileSync(app, "utf8"));
+} else {
+    //We should run code from the terminal
+    require("repl").start({
+        eval:function(cmd, replContextUnused, filename, callback) {
+            var result = context.GLang.eval(cmd);
+            console.log(">> " + context.GLang.stringify(result.value));
+        }
+    })
+    //throw new Error("NIy");
+}
