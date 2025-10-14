@@ -13,22 +13,24 @@ It is a programming language, complete with a standard library that makes tasks 
 This language is focused on being easy to learn, creating graphical user interfaces and working with media. And it avoids some annoyances of other languages. In other words, it is made to be really good for creating rich web applications, which can then run on your home server!
 If one of these things sounds interesting to you, Kalzit is probably right for you.
 
-The current version of this project is `0.16.0`. If you are interested in the latest changes to it, [take a look at the changelog](/docs/changelog/0.16.0.md)
-
 # Setup
 
-You can easily set up Kalzit on a device running Linux or macOS.
-Just open a terminal window, navigate to the folder you want to install Kalzit in, and run this code:
+Follow these steps to use Kalzit on macOS or Linux; Windows is not supported:
 
-```
-curl https://raw.githubusercontent.com/triploit/Kalzit/master/utilities/installer/main.sh | sh
-```
+* Clone / Download this repository (`git clone https://github.com/triploit/Kalzit` )
+  
+  * Make sure you are using the correct branch
 
-After the installation is complete, you should se a few more things in your folder. One of them is called "KalzitStarter". Just run that to start your own Kalzit server!
+* Have `node` and `npm` installed (something like `brew install node`)
 
-Kalzit should be running now! Just [access your Kalzit server through the browser](http://localhost:5000/).
+* Have `terser` and `uglifycss` installed globally, available from the command line (`npm install -g terser uglifycss`)
+
+* Have `follow-redirects` installed by `npm` in the folder you put this repository into (`cd <path-to-kalzit-folder>` and `npm install follow-redirects`)
+
+* Run `./cli build everything` from within the repo; if everything worked, you should see no errors anywhere, just a wall of text
 
 # Project scope and use cases
+
 * The Kalzit server is intended to be used on home-servers, which are used by only a few people. It is not intended or suitable as a "public" web server with potentially billions of users.
 * The Kalzit programming language is optimized for speed of development first, speed of execution second. It is not intended for applications where speed is critical (like games), but rather for "normal" apps or prototyping.
 * Kalzit is intended as a combination of server and web applications, so the applications will sometimes rely on the server. It is not intended for the creation of stand-alone apps.
