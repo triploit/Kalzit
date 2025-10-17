@@ -66,6 +66,7 @@
         "provides": [
           "ui_add_horizontal_px_spaces"
         , "ui_add_vertical_px_spaces"
+        , "ui_add_separator_views_between"
         , "ui_left_right_px_padded"
         , "ui_top_bottom_px_padded"
         , "ui_left_right_percent_padded"

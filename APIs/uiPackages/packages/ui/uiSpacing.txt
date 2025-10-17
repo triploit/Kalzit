@@ -1,8 +1,13 @@
+$uiAddSeparatorViewsBetween = !fun ($separatorViewFactory ; $views ? (List:UiElement)) {
+	;/ ({[x at views];[do: separatorViewFactory]} each (0 rangeUp (length: views) - 1) - 1);[last: views]
+}.
 $uiAddHorizontalPxSpaces = ($width ? Int ; $_views ? (List:UiElement)) fun {
-	;/ ({[x at _views];[uiHorizontalPxSpace:width]} each (0 rangeUp (length: _views) - 1) - 1);[last: _views]
+	# ;/ ({[x at _views];[uiHorizontalPxSpace:width]} each (0 rangeUp (length: _views) - 1) - 1);[last: _views]
+	{uiHorizontalPxSpace: width} uiAddSeparatorViewsBetween _views
 }.
 $uiAddVerticalPxSpaces = ($width ? Int ; $_views ? (List:UiElement)) fun {
-	;/ ({[x at _views];[uiVerticalPxSpace:width]} each (0 rangeUp (length: _views) - 1) - 1);[last: _views]
+	# ;/ ({[x at _views];[uiVerticalPxSpace:width]} each (0 rangeUp (length: _views) - 1) - 1);[last: _views]
+	{uiVerticalPxSpace: width} uiAddSeparatorViewsBetween _views
 }.
 $uiLeftRightPxPadded = ($padding ? Int ; $view ? UiElement) fun {
 	$viewWidth = $px_width objFirstProperty $flag objPropertyValues calcitAnnotations: view.
