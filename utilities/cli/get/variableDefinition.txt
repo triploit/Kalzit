@@ -1,0 +1,19 @@
+$kalzitRootFolder = appParameter: "root".
+$platform = (default: "html5"): appParameter: "platform".
+$wantedName = appParameter: "name".
+$additionalLibrary = appParameter: "lib".
+
+!loopEach (parseJson: fileContent: kalzitRootFolder + "/" + platform + "/usable-libraries.json");additionalLibrary -> {
+	# print: x.
+	$libraryFolder = kalzitRootFolder + "/" + x.
+	$jsonContent = parseJson: fileContent: libraryFolder + "/platform-packages.json".
+	!loopEach $libraries propOf jsonContent -> {
+		# print x.
+		$scriptUrl = $scriptUrl propOf x.
+		$provides = $provides propOf x.
+		# print scriptUrl.
+		!if (wantedName listContains provides) {
+			print: libraryFolder + "/packages/" +  scriptUrl
+		}
+	}
+}
