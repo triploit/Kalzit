@@ -15,4 +15,4 @@
 	eval: {print: code. 1}.
 	`Result: prints the string "print: code. 1" and returns the value 1`
 */
-$eval = ($code ? String) fun {do: noParameterFunctionFromString: code}.
+$eval = ($code ? String) fun {(!globalSingleParameterFunctionFromString $code (code)): code}.

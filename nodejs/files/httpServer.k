@@ -92,7 +92,27 @@ $onClientConnect = ($_request fun {
         !if (".ks" strEndsWith fname) {
             `Run a server-side script`
             print: (!dateString) + "Running '" + fname + "'".
-            do: noParameterFunctionFromString: fileContent: fname.
+            # do: noParameterFunctionFromString: fileContent: fname.
+
+			$codeToRun =
+				# Copy all the variables from the parameter (x) to the function's scope
+				"
+					$resultRef = $resultRef propOf x.
+					$asyncRef = $asyncRef propOf x.
+					$_request = $_request propOf x.
+					$session = $session propOf x.
+					$sessionExistsRef = $sessionExistsRef propOf x.
+					$userFolderRef = $userFolderRef propOf x.
+				"
+				+ (fileContent: fname).
+
+			(!globalSingleParameterFunctionFromString $x codeToRun):
+				[$resultRef; resultRef];
+				[$asyncRef; asyncRef];
+				[$_request; [_request]];
+				[$session; [session]];
+				[$sessionExistsRef; sessionExistsRef];
+				[$userFolderRef; userFolderRef]
         }.
 	    
 	    !if (not ~asyncRef) {
