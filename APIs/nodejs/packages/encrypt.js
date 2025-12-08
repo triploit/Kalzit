@@ -34,16 +34,16 @@ GLang.dr.qdSet("encrypt_file_get_init_vector", {value:function(env, args){
 	var propOf = GLang.dr.resolveName("prop_of");
 	var configObject = args[0];
 	var jsConfig = {
-		key: GLang.callObject(propOf, env, [
+		key: GLang.call(propOf, [
 			GLang.stringValue("key"), configObject
 		]).value,
-		output: GLang.callObject(propOf, env, [
+		output: GLang.call(propOf, [
 			GLang.stringValue("output"), configObject
 		]).value,
-		input: GLang.callObject(propOf, env, [
+		input: GLang.call(propOf, [
 			GLang.stringValue("input"), configObject
 		]).value,
-		deleteInput: GLang.callObject(propOf, env, [
+		deleteInput: GLang.call(propOf, [
 			GLang.stringValue("deleteInput"), configObject
 		]).value == 1
 	}

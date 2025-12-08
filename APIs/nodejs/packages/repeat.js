@@ -7,7 +7,7 @@
 		var isRunning = true;
 		
 		function thisGetsRepeated(){
-			GLang.callObject(args[1], env, []);
+			GLang.call(args[1], []);
 			if(repeat){
 				setTimeout(thisGetsRepeated, args[0].value);
 			}else{
@@ -24,7 +24,7 @@
 	
 	function repeat(env, args){
 		while(true){
-			GLang.callObject(args[0], env, []);
+			GLang.call(args[0], []);
 		}
 	}
 

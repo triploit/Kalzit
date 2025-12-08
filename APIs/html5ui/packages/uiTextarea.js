@@ -9,7 +9,7 @@ GLang.dr.qdSet("ui_native_textarea_onchange", {value:GLang.arrayFun(function(env
 		if(newValue !== lastValue) {
 			//Oh wow, the value is actually different!
 			//Trigger the change listener...
-			GLang.callObject(args[0], env, [GLang.stringValue(newValue)]);
+			GLang.call(args[0], [GLang.stringValue(newValue)]);
 			//... and update the last known value
 			lastValue = newValue;
 		}

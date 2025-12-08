@@ -41,7 +41,7 @@ This will basically call "kalzitValue" with "otherKalzitValue" as the parameter.
 Notice that you can not use any JavaScript value as the callback parameter. Stuff like callback(1) would not work.
 */
 function makeCallback(callbackValue, env){
-	return function(value){GLang.callObject(callbackValue, env, [value])};
+	return function(value){GLang.call(callbackValue, [value])};
 }
 
 /*

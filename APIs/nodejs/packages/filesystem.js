@@ -56,7 +56,7 @@ GLang.dr.qdSet("file_content_raw", {value:GLang.arrayFun(function(env, args){
 }), display:DISPLAY_FUNCTION});
 GLang.dr.qdSet("file_content_async", {value:GLang.arrayFun(function(env, args){
 	function fileContentCallback(content){
-		GLang.callObject(args[0], env, [content])
+		GLang.call(args[0], [content])
 	}
 	
 	fileContentAsync(function(err, data){
@@ -71,7 +71,7 @@ GLang.dr.qdSet("file_content_async", {value:GLang.arrayFun(function(env, args){
 }), display:DISPLAY_FUNCTION});
 GLang.dr.qdSet("folder_content_async", {value:GLang.arrayFun(function(env, args){
 	function folderContentCallback(content){
-		GLang.callObject(args[0], env, [content])
+		GLang.call(args[0], [content])
 	}
 	
 	folderContentAsync(function(err, data){

@@ -7,7 +7,7 @@ GLang.dr.qdSet("each", {value:function(env, args){
 
     var output = [];
 	for(var i = 0; i < input.length; i++) {
-		output.push(GLang.callObject(args[0], env, [input[i], {value: i}]));
+		output.push(GLang.call(args[0], [input[i], {value: i}]));
 	}
 	return {value:output}
 }})
@@ -18,7 +18,7 @@ Because of this, no return values of the repeated function need to be stored and
 GLang.dr.qdSet("loop_each", {value:function(env, args){
 	var array = args[1].value;
 	for(var i = 0; i < array.length; i++) {
-		GLang.callObject(args[0], env, [array[i], {value: i}])
+		GLang.call(args[0], [array[i], {value: i}])
 	}
 	return GLang.voidValue;
 }})
@@ -33,7 +33,7 @@ GLang.dr.qdSet("loop_each_async", {value:function(env, args){
 	
 	function runNext() {
 		if(counter < array.length) {
-			GLang.callObject(callback, env, [array[counter]]);
+			GLang.call(callback, [array[counter]]);
 			counter++;
 			setTimeout(runNext, 0);
 		}

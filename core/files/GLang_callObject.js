@@ -15,14 +15,7 @@
 		};
 	}
 
-	const envIsIrrelevant = !GLANG_TREE_GENERATOR_INCLUDED;
-	if(GLANG_DEBUG) {
-		console.log("env is irrelevant (always null)? " + envIsIrrelevant);
-	}
-
-	GLang.callObject = function(obj, env, args){
-		if(envIsIrrelevant) env = null;
-
+	GLang.call = function(obj, args) {
 		//If we have a non-function, quit this as quickly as possible
 		if(!("function" === typeof obj.value)) {
 			return obj;
@@ -48,7 +41,7 @@
 			
 			//Figure out the result of this (function-) call
 			var result = null;
-			result = object(env, args);
+			result = object(null, args);
 			if (GLANG_DEBUG && result == null) {
 				throw new Error("Calling the following function lead to a result of null or undefined: " + object);
 			}
@@ -101,4 +94,5 @@
 			
 		}
 	}
+
 })();

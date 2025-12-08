@@ -17,7 +17,7 @@
 	
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {
-			case KIND_COLON: return GLang.callObject(evaluateSentenceFragment(firstParamFragment, env), env, [secondParamValue]);
+			case KIND_COLON: return GLang.call(evaluateSentenceFragment(firstParamFragment, env), [secondParamValue]);
 			case KIND_SEMICOLON: return SEMICOLON_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
 			case KIND_SET_ANNOTATION:
 				const annotation = evaluateSentenceFragment(firstParamFragment, env);
@@ -28,7 +28,7 @@
 				return secondParamValue;
 		}
 		
-		return GLang.callObject(evaluateSentenceFragment(operatorFragment, env), env, [
+		return GLang.call(evaluateSentenceFragment(operatorFragment, env), [
 			evaluateSentenceFragment(firstParamFragment, env),
 			secondParamValue
 		]);
@@ -198,7 +198,7 @@
 			case KIND_NAME: return env.resolveName(fragment.n);
 			case KIND_PARENTHESES: return evaluateStandardSentence(fragment.p, env);
 			case KIND_ARRAY: return {value:[evaluateStandardSentence(fragment.a, env)]};
-            case KIND_CALL_NO_ARGS: return GLang.callObject(evaluateStandardSentence(fragment.t, env), env, []);
+            case KIND_CALL_NO_ARGS: return GLang.call(evaluateStandardSentence(fragment.t, env), []);
 			case KIND_GET: return env.resolveName(fragment.m).value.mutable;
 			case KIND_ASSIGN_TO_MUTABLE_NONAME:
 				const result = evaluateStandardSentence(fragment.v, env);

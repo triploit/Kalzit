@@ -34,7 +34,7 @@ GLang.dr.qdSet("ui_checkbox", {value:GLang.arrayFun(function(env, args){
 	return {value:makeCheckbox(args[1].value, checkbox => {
 		
 		checkbox.onchange=function(e){
-			GLang.callObject(args[0], env, [{value:checkbox.checked ? 1 : 0}]);
+			GLang.call(args[0], [{value:checkbox.checked ? 1 : 0}]);
 		}
 		
 	}), display:DISPLAY_DOM};

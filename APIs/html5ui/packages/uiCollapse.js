@@ -75,12 +75,12 @@
 	
 	global.flag_on_expand = function(listener, object){
 		object.addEventListener("k-before_expand", function(e){
-			GLang.callObject({value:listener}, GLang.dr, []);
+			GLang.call({value:listener}, []);
 		});
 	}
 	global.flag_on_collapse = function(listener, object){
 		object.addEventListener("k-before_collapse", function(e){
-			GLang.callObject({value:listener}, GLang.dr, []);
+			GLang.call({value:listener}, []);
 		});
 	}
 })(this);

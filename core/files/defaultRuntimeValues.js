@@ -20,7 +20,6 @@
 			const originalArgumentCount = args.length;
 			if(originalArgumentCount === 0){
                 return original(env, []);
-				//return GLang.callObject(original, env, []);
 			}
 			
 			//console.log("arrayFunWrapper");
@@ -77,10 +76,8 @@
 			//Called with no arrays as parameter
 			if(originalArgumentCount == 1){
                 return original(env, [a]);
-				//return GLang.callObject(original, env, [a]);
 			}else{
                 return original(env, [a, b]);
-				//return GLang.callObject(original, env, [a, b]);
 			}
 		}
 		return arrayFunWrapper;
@@ -164,7 +161,7 @@
 				if(args[1].value.length === 1) return result;
 				
 				for(var i = args[1].value.length - 2; i >= 0; i--){
-					result = GLang.callObject(args[0], env, [args[1].value[i], result])
+					result = GLang.call(args[0], [args[1].value[i], result])
 				}
 				return result;
 			}}
@@ -207,9 +204,6 @@
 			}
 			return {value:[].concat(val1.value,val2.value)};
 		}}},
-//		{varName:":", varValue:{value:function(env, args){
-//			return GLang.callObject(args[0], env, [args[1]]);
-//		}}},
 		{varName:"range", varValue:{value:arrayFun(function(env, args){
 			var array = [];
 			if(args[0].value <= args[1].value){
@@ -256,7 +250,7 @@
 				var newValue = v;
 				if (this.type) {
 					//Apply the type
-					newValue = GLang.callObject(this.type, env, [v]);
+					newValue = GLang.call(this.type, [v]);
 					//For debugging: log if the value was changed by the type
 					if(GLANG_DEBUG && !GLang.eq(v.value, newValue.value)) {
 						console.warn("A mutable container was automatically changed by its type");
@@ -276,7 +270,7 @@
 
 				//Call all the variable listeners
 				for(var i = 0; i < this.listeners.length; i++) {
-					GLang.callObject(this.listeners[i], env, [this.mutable, oldValue]);
+					GLang.call(this.listeners[i], [this.mutable, oldValue]);
 				}
 			}}, display:DISPLAY_MUTABLE};
 			mutableValue.value.set(args[0]);
@@ -353,7 +347,7 @@
 				params = [args[1]];
 			}
 		}
-		return GLang.callObject(args[0], env, params);
+		return GLang.call(args[0], params);
 	}})
 	
 })(this);

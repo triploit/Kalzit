@@ -8,7 +8,7 @@ GLang.dr.qdSet("disk_space_native_async", {value:function(env, args){
 			return;
 		}
 		
-		GLang.callObject(callback, env, [{value:[
+		GLang.call(callback, [{value:[
 			{value:[GLang.stringValue("total"), {value: status.total}]},
 			{value:[GLang.stringValue("free"), {value: status.free}]},
 			{value:[GLang.stringValue("used"), {value: status.used}]}

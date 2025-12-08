@@ -4,7 +4,7 @@ GLang.dr.qdSet("native_file_listen_folder_async", {value:function(env, args){
 	var file = args[1].value;
 	var callbackValue = args[0];
 	var callback = function(eventname, filename){
-		GLang.callObject(callbackValue, env, [
+		GLang.call(callbackValue, [
 			GLang.stringValue(eventname),
 			GLang.stringValue(filename)
 		]);
@@ -26,7 +26,7 @@ GLang.dr.qdSet("native_file_listen_file_async", {value:function(env, args){
 		if(eventname === "rename") {
 			refreshWatcher();
 		}
-		GLang.callObject(callbackValue, env, [
+		GLang.call(callbackValue, [
 			GLang.stringValue(eventname)
 		]);
 	}

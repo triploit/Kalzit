@@ -4,9 +4,9 @@
 	GLang.dr.qdSet("load_global_async", {value:GLang.arrayFun(function(env, args){
 		function callback(value){
 			if(value != null) {
-				GLang.callObject(args[0], env, [GLang.stringValue(value)]);
+				GLang.call(args[0], [GLang.stringValue(value)]);
 			}else{
-				GLang.callObject(args[0], env, []);
+				GLang.call(args[0], []);
 			}
 		}
 		

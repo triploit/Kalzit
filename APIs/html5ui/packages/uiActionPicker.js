@@ -17,7 +17,7 @@ GLang.dr.qdSet("ui_action_picker", {value:function(env, args){
 		picker.appendChild(option);
 	}
 	picker.onchange = function(){
-		GLang.callObject(action, env, [{value: picker.value}]);
+		GLang.call(action, [{value: picker.value}]);
 	}
 	
 	return {value:picker, display:DISPLAY_DOM}
@@ -41,7 +41,7 @@ GLang.dr.qdSet("ui_action_picker_with_icon", {value:function(env, args){
 	}
 	
 	picker.onchange = function(){
-		GLang.callObject(action, env, [{value: picker.value}]);
+		GLang.call(action, [{value: picker.value}]);
 		reset();
 	}
 	setTimeout(reset, 0);

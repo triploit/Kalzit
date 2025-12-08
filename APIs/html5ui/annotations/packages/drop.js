@@ -19,19 +19,19 @@ function makeFileAccess(file){
 		]},
 		{value:[GLang.stringValue("textAsync"), {value:function(env, args){
 			withFileReader("readAsText", function(result){
-				GLang.callObject(args[0], env, [GLang.stringValue(result)]);
+				GLang.call(args[0], [GLang.stringValue(result)]);
 			});
 			return GLang.voidValue;
 		}}]},
 		{value:[GLang.stringValue("urlAsync"), {value:function(env, args){
 			withFileReader("readAsDataURL", function(result){
-				GLang.callObject(args[0], env, [GLang.stringValue(result)]);
+				GLang.call(args[0], [GLang.stringValue(result)]);
 			});
 			return GLang.voidValue;
 		}}]},
 		{value:[GLang.stringValue("binaryAsync"), {value:function(env, args){
 			withFileReader("readAsBinaryString", function(result){
-				GLang.callObject(args[0], env, [{value:result}]);
+				GLang.call(args[0], [{value:result}]);
 			});
 			return GLang.voidValue;
 		}}]},
@@ -52,7 +52,7 @@ function makeFileAccess(file){
 			request.onreadystatechange = function(event) {
 				if (this.readyState == 4) {
 					//Request is done
-					GLang.callObject(callback, env, [{value:[
+					GLang.call(callback, [{value:[
 						{
 							value: [{value: "code"}, {value:request.status}]
 						},
@@ -94,7 +94,7 @@ this.flag_on_drop = function(listener, object){
 	};
 	object.ondrop = function(event){
 		event.preventDefault();
-		GLang.callObject({value:listener}, GLang.dr, [
+		GLang.call({value:listener}, [
 			makeDropEventAccess(event)
 		]);	
 	};
@@ -109,7 +109,7 @@ GLang.dr.qdSet("ui_file_picker", {value:function(env, args){
 		for(var i = 0; i < event.target.files.length; i++){
 			files.push(makeFileAccess(event.target.files[i]));
 		}
-		GLang.callObject(args[0], env, [{value:files}]);
+		GLang.call(args[0], [{value:files}]);
 	}
 	
 	return {value:picker, display:DISPLAY_DOM}
@@ -126,7 +126,7 @@ GLang.dr.qdSet("ui_multi_file_picker", {value:function(env, args){
 		for(var i = 0; i < event.target.files.length; i++){
 			files.push(makeFileAccess(event.target.files[i]));
 		}
-		GLang.callObject(args[0], env, [{value:files}]);
+		GLang.call(args[0], [{value:files}]);
 	}
 	
 	return {value:picker, display:DISPLAY_DOM}

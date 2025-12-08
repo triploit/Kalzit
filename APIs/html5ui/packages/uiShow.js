@@ -7,7 +7,7 @@ GLang.dr.qdSet("ui_show_variable", {value:function(env, args){
         //We have a custom visualizer function
         visualizer = function(kalzitValue) {
             //console.log("WE HAVE A VISUALIZER IN UI_SHOW_VARIABLE")
-            return GLang.callObject(args[1], env, [kalzitValue]);
+            return GLang.call(args[1], [kalzitValue]);
         }
     } else {
         //Use the default visualizer

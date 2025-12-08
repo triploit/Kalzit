@@ -23,7 +23,7 @@ GLang.dr.qdSet("first_condition_match", {value:function(env, args){
 	var condition = args[0];
 	
 	for(var i = 0; i < array.length; i++) {
-		if( GLang.callObject(args[0], env, [array[i]]).value ){
+		if( GLang.call(args[0], [array[i]]).value ){
 			//Found a match - return and quit
 			return array[i];
 		}

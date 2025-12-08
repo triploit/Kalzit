@@ -30,7 +30,7 @@ GLang.dr.qdSet("file_md_five_hash_async", {
 		fileStream.on("end", function() {
 			//Generate the hash and call the callback
 			var hashString = hash.digest("hex");
-			GLang.callObject(callback, env, [GLang.stringValue(hashString)]);
+			GLang.call(callback, [GLang.stringValue(hashString)]);
 		});
 		
 		fileStream.on("error", function() {

@@ -97,7 +97,7 @@ GLang.dr.qdSet("ui_show_image_url", {value:GLang.arrayFun(function(env, args){
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, callback === GLang.voidValue ? undefined :  () => {
 		//The image is loaded now
-		GLang.callObject(callback, env, [{value:image, display:DISPLAY_DOM}]);
+		GLang.call(callback, [{value:image, display:DISPLAY_DOM}]);
 	});
 	return {value:image, display:DISPLAY_DOM};
 }), display:DISPLAY_FUNCTION});
@@ -106,7 +106,7 @@ GLang.dr.qdSet("ui_show_image_url_directly", {value:GLang.arrayFun(function(env,
 	var callback = args.length >= 2 ? args[1] : GLang.voidValue;
 	var image = urlView(args[0].value, () => {
 		//The image is loaded now
-		GLang.callObject(callback, env, [{value:image, display:DISPLAY_DOM}]);
+		GLang.call(callback, [{value:image, display:DISPLAY_DOM}]);
 	});
 	return {value:image, display:DISPLAY_DOM};
 }), display:DISPLAY_FUNCTION});
@@ -142,7 +142,7 @@ GLang.dr.qdSet("scale_image_to_url", {value:GLang.arrayFun(function(env, args){
 GLang.dr.qdSet("ui_image_button", {value:GLang.arrayFun(function(env, args){
 	//We need to trigger the same button action in multiple different situations, so it makes sense to isolate it as a function
 	function triggerAction() {
-		GLang.callObject(args[0], env, []);
+		GLang.call(args[0], []);
 	}
 	
 	var image = document.createElement("img");

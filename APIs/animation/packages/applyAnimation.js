@@ -19,8 +19,8 @@ function applyAnimation(env, args) {
 	if(_config.onEnd) {
 		element.onanimationend = function() {
 			//Run " $onEnd propOf _config "
-			var onEnd = GLang.callObject(GLang.dr.resolveName("prop_of"), env, [GLang.stringValue("onEnd"), _originalConfig])
-			GLang.callObject(onEnd, env, [])
+			var onEnd = GLang.call(GLang.dr.resolveName("prop_of"), [GLang.stringValue("onEnd"), _originalConfig])
+			GLang.call(onEnd, [])
 		}
 	} else {
 		element.onanimationend = null;	

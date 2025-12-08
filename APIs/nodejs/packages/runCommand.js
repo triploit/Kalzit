@@ -11,9 +11,9 @@ GLang.dr.qdSet("run_command_async", {value:function(env, args){
 	require("child_process").exec(args[1].value + "", (error, stdout, stderr) => {
 		if (error) {
 			console.log(error);
-			GLang.callObject(args[0], env, []);
+			GLang.call(args[0], []);
 		}else{
-			GLang.callObject(args[0], env, [
+			GLang.call(args[0], [
 				GLang.stringValue(stdout),
 				GLang.stringValue(stderr)
 			]);
@@ -28,9 +28,9 @@ GLang.dr.qdSet("run_command_async_raw", {value:function(env, args){
 	require("child_process").exec(args[1].value + "", {encoding: "buffer"}, (error, stdout, stderr) => {
 		if (error) {
 			console.log(error);
-			GLang.callObject(args[0], env, []);
+			GLang.call(args[0], []);
 		}else{
-			GLang.callObject(args[0], env, [
+			GLang.call(args[0], [
 				{value:stdout},
 				{value:stderr}
 			]);

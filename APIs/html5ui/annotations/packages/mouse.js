@@ -1,6 +1,6 @@
 this.flag_on_hover = function(listener, object){
 	object.onmouseover = function(){
-		GLang.callObject({value:listener}, GLang.dr, []);
+		GLang.call({value:listener}, []);
 	}
 }
 this.flag_on_tap = function(listener, object){
@@ -16,35 +16,27 @@ this.flag_on_tap = function(listener, object){
     
     object.addEventListener("click",function(event){
         if(event.which === 1 && !secondaryTapActive) {
-            GLang.callObject({value:listener}, GLang.dr, []);
+            GLang.call({value:listener}, []);
         }
 	})
 }
 this.flag_on_secondary_tap = function(listener, object){
-//    object.addEventListener("click",function(event){
-//        console.log(event);
-//        if(event.which === 3) {
-//            event.preventDefault();
-//            GLang.callObject({value:listener}, GLang.dr, []);
-//            return false;
-//        }
-//	});
     //Context menu handler seems to work better
     object.addEventListener("contextmenu", function(event){
         event.preventDefault();
-        GLang.callObject({value:listener}, GLang.dr, []);
+        GLang.call({value:listener}, []);
         return false;
     });
     
     object.addEventListener("touchstart", function(event){
         if(event.touches.length === 2) {
-            GLang.callObject({value:listener}, GLang.dr, []);
+            GLang.call({value:listener}, []);
         }
     })
 }
 this.flag_on_pointer_down = function(listener, object){
 	object.addEventListener("mousedown", function(e){
-		GLang.callObject({value:listener}, GLang.dr, [
+		GLang.call({value:listener}, [
 			{value:e.pageX}, {value:e.pageY}
 		]);
 	});
@@ -53,7 +45,7 @@ this.flag_on_pointer_down = function(listener, object){
 		
 		 if (touches.length === 1) {
 		 	var touch = touches[0];
-	    	GLang.callObject({value:listener}, GLang.dr, [
+	    	GLang.call({value:listener}, [
 				{value:touch.pageX}, {value:touch.pageY}
 			]);
 		}
@@ -61,7 +53,7 @@ this.flag_on_pointer_down = function(listener, object){
 }
 this.flag_on_pointer_up = function(listener, object){
 	object.addEventListener("mouseup", function(e){
-		GLang.callObject({value:listener}, GLang.dr, [
+		GLang.call({value:listener}, [
 			{value:e.pageX}, {value:e.pageY}
 		]);
 	});
@@ -70,7 +62,7 @@ this.flag_on_pointer_up = function(listener, object){
 		
 		 if (touches.length >= 1) {
 		 	var touch = touches[0];
-	    	GLang.callObject({value:listener}, GLang.dr, [
+	    	GLang.call({value:listener}, [
 				{value:touch.pageX}, {value:touch.pageY}
 			]);
 		}
@@ -79,7 +71,7 @@ this.flag_on_pointer_up = function(listener, object){
 
 this.on_global_pointer_up = function(listener, object){
 	document.body.addEventListener("mouseup", function(e){
-		GLang.callObject({value:listener}, GLang.dr, [
+		GLang.call({value:listener}, [
 			{value:e.pageX}, {value:e.pageY}
 		]);
 	});
@@ -88,7 +80,7 @@ this.on_global_pointer_up = function(listener, object){
 		
 		 if (touches.length >= 1) {
 		 	var touch = touches[0];
-	    	GLang.callObject({value:listener}, GLang.dr, [
+	    	GLang.call({value:listener}, [
 				{value:touch.pageX}, {value:touch.pageY}
 			]);
 		}
@@ -102,7 +94,7 @@ this.on_global_pointer_up = function(listener, object){
 		//We care if the last bit of "pressedButtons" is one - means that the main button is down
 		//If it is NOT one - the button is not pressed anymore - register the "pointer up" event
 		if((pressedButtons & 1) !== 1) {
-			GLang.callObject({value:listener}, GLang.dr, [
+			GLang.call({value:listener}, [
 				{value:e.pageX}, {value:e.pageY}
 			]);
 		}
@@ -112,7 +104,7 @@ this.on_global_pointer_up = function(listener, object){
 
 this.flag_on_pointer_move = function(listener, object){
 	object.addEventListener("mousemove", function(e){
-		GLang.callObject({value:listener}, GLang.dr, [
+		GLang.call({value:listener}, [
 			{value:e.pageX}, {value:e.pageY}
 		]);
 	});
@@ -121,7 +113,7 @@ this.flag_on_pointer_move = function(listener, object){
 		
 		 if (touches.length >= 1) {
 		 	var touch = touches[0];
-	    	GLang.callObject({value:listener}, GLang.dr, [
+	    	GLang.call({value:listener}, [
 				{value:touch.pageX}, {value:touch.pageY}
 			]);
 		}
@@ -130,7 +122,7 @@ this.flag_on_pointer_move = function(listener, object){
 
 this.on_global_pointer_move = function(listener){
 	document.body.addEventListener("mousemove", function(e){
-		GLang.callObject({value:listener}, GLang.dr, [
+		GLang.call({value:listener}, [
 			{value:e.pageX}, {value:e.pageY}
 		]);
 	});
@@ -139,7 +131,7 @@ this.on_global_pointer_move = function(listener){
 		
 		 if (touches.length >= 1) {
 		 	var touch = touches[0];
-	    	GLang.callObject({value:listener}, GLang.dr, [
+	    	GLang.call({value:listener}, [
 				{value:touch.pageX}, {value:touch.pageY}
 			]);
 		}

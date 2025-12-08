@@ -4,7 +4,7 @@ GLang.dr.qdSet("ui_textfield_onaction", {value:GLang.arrayFun(function(env, args
 	textfield.value=args[1].value;
 	textfield.onkeyup=function(e){
 		if(e.key === "Enter"){
-			GLang.callObject(args[0], env, [GLang.stringValue(textfield.value)]);
+			GLang.call(args[0], [GLang.stringValue(textfield.value)]);
 		}
 	}
 	return {value:textfield, display:DISPLAY_DOM};
@@ -21,7 +21,7 @@ GLang.dr.qdSet("ui_textfield_onchange", {value:GLang.arrayFun(function(env, args
 		if(newValue !== lastValue) {
 			//Oh wow, the value is actually different!
 			//Trigger the change listener...
-			GLang.callObject(args[0], env, [GLang.stringValue(newValue)]);
+			GLang.call(args[0], [GLang.stringValue(newValue)]);
 			//... and update the last known value
 			lastValue = newValue;
 		}

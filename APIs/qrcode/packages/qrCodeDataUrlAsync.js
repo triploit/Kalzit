@@ -2,7 +2,7 @@ GLang.dr.qdSet("qr_code_data_url_async", {value:GLang.arrayFun(function(env, arg
 	var input = args[1].value + "";
 	
 	function callback(value){
-		GLang.callObject(args[0], env, [value])
+		GLang.call(args[0], [value])
 	}
 	
 	require("qrcode").toDataURL(input, function(err, url) {
@@ -16,7 +16,7 @@ GLang.dr.qdSet("qr_code_raw_async", {value:GLang.arrayFun(function(env, args){
 	var input = args[1].value + "";
 	
 	function callback(value){
-		GLang.callObject(args[0], env, [value])
+		GLang.call(args[0], [value])
 	}
 	
 	require("qrcode").toBuffer(input, function(err, buffer) {

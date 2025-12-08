@@ -17,7 +17,7 @@
         var isEqual = (a,b) => GLang.eq(a.value, b.value);
         if(args[1]) {
             const kalzitFunction = args[1];
-            isEqual = (a,b) => GLang.callObject(kalzitFunction, env, [a,b]).value === 1;
+            isEqual = (a,b) => GLang.call(kalzitFunction, [a,b]).value === 1;
         }
         return {value:uniques(args[0].value, isEqual)}
     }});

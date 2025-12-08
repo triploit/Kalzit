@@ -31,7 +31,7 @@
 		request.onreadystatechange = function(event) {
 			if (this.readyState == 4) {
 				//Request is done
-				GLang.callObject(callback, env, [makeResponseObject(this)])
+				GLang.call(callback, [makeResponseObject(this)])
 			}
 		};
 		
@@ -61,7 +61,7 @@
 		request.onreadystatechange = function(event) {
 			if (this.readyState == 4) {
 				//Request is done
-				GLang.callObject(callback, env, [makeResponseObject(this)])
+				GLang.call(callback, [makeResponseObject(this)])
 			}
 		};
 		

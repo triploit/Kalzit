@@ -3,7 +3,7 @@ GLang.dr.qdSet("ui_button", {value:GLang.arrayFun(function(env, args){
 	button.type = "button";
 	button.classList.add("calcitButton");
 	button.onclick = function(){
-		GLang.callObject(args[0], env, []);
+		GLang.call(args[0], []);
 	};
 	button.value = args[1].value;
 	return {value:button, display:DISPLAY_DOM};
@@ -14,7 +14,7 @@ GLang.dr.qdSet("ui_button_with_three_dot_icon", {value:GLang.arrayFun(function(e
 	button.type = "button";
 	button.classList.add("calcitPickerIcon");
 	button.onclick = function(){
-		GLang.callObject(args[0], env, []);
+		GLang.call(args[0], []);
 	};
 	return {value:button, display:DISPLAY_DOM};
 })});

@@ -112,7 +112,7 @@
 			{value:[{value:"setOnEnd"}, {
 				value: function(env, args){
 					onEnd = function(){
-						GLang.callObject(args[0], env, [controller]);
+						GLang.call(args[0], [controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -125,7 +125,7 @@
 			{value:[{value:"setOnProgress"}, {
 				value: function(env, args){
 					onProgress = function(time){
-						GLang.callObject(args[0], env, [{value:time}, controller]);
+						GLang.call(args[0], [{value:time}, controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -152,7 +152,7 @@
 	*/
 	GLang.dr.qdSet("ui_twitch_channel_player", {value:function(env, args){
 		return uiTwitchChannelPlayer(args[0].value, function(player){
-			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
+			GLang.call(args.length >= 2 ? args[1] : {value:""}, [playerValue(player)])
 		});
 	}});
 	
@@ -173,7 +173,7 @@
 	*/
 	GLang.dr.qdSet("ui_twitch_video_player", {value:function(env, args){
 		return uiTwitchVideoPlayer(args[0].value, function(player){
-			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
+			GLang.call(args.length >= 2 ? args[1] : {value:""}, [playerValue(player)])
 		});
 	}});
 	
@@ -194,7 +194,7 @@
 	*/
 	GLang.dr.qdSet("ui_twitch_collection_player", {value:function(env, args){
 		return uiTwitchCollectionPlayer(args[0].value, function(player){
-			GLang.callObject(args.length >= 2 ? args[1] : {value:""}, env, [playerValue(player)])
+			GLang.call(args.length >= 2 ? args[1] : {value:""}, [playerValue(player)])
 		});
 	}});
 })();

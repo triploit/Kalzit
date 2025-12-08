@@ -83,7 +83,7 @@ function wrapRequestValue(kServerRequest) {
 				var sizeLimit = args.length > 1 ? parseInt(args[1].value) : null; 
 				
 				kServerRequest.getPostDataStringAsync(function(posted){
-					GLang.callObject(callback, env, posted == null ? [] : [GLang.stringValue(posted)])
+					GLang.call(callback, posted == null ? [] : [GLang.stringValue(posted)])
 				}, sizeLimit);
 				
 				return GLang.voidValue
@@ -101,21 +101,21 @@ function wrapRequestValue(kServerRequest) {
 				var propOf = GLang.dr.resolveName("prop_of");
 				
 				//These are the needed Kalzit functions
-				var onSuccess = GLang.callObject(propOf, env, [
+				var onSuccess = GLang.call(propOf, [
 					GLang.stringValue("onSuccess"), callbackObject
 				]);
-				var onError = GLang.callObject(propOf, env, [
+				var onError = GLang.call(propOf, [
 					GLang.stringValue("onError"), callbackObject
 				]);
-				var onPreparation = GLang.callObject(propOf, env, [
+				var onPreparation = GLang.call(propOf, [
 					GLang.stringValue("onPreparation"), callbackObject
 				]);
 				
 				//We will now have to wrap these Kalzit functions into JS functions and use them with the real getPostDataFileAsync implementation
 				kServerRequest.getPostDataFileAsync({
-					onSuccess: (tempFileName) => GLang.callObject(onSuccess, env, [GLang.stringValue(tempFileName)]),
-					onError: () => GLang.callObject(onError, env, []),
-					onPrepatation: (contentLength) => GLang.callObject(onPreparation, env, [{value: contentLength}])
+					onSuccess: (tempFileName) => GLang.call(onSuccess, [GLang.stringValue(tempFileName)]),
+					onError: () => GLang.call(onError, []),
+					onPrepatation: (contentLength) => GLang.call(onPreparation, [{value: contentLength}])
 				});
 				
 				//Make sure that something valid is returned
@@ -127,7 +127,7 @@ function wrapRequestValue(kServerRequest) {
 
 GLang.dr.qdSet("http_server", {value:function(env, args){
 	kServer.httpServer(function (request) {
-		GLang.callObject(args[0], env, [wrapRequestValue(request)]);
+		GLang.call(args[0], [wrapRequestValue(request)]);
 	}, args[1].value);
 	
 	return GLang.voidValue;
@@ -135,7 +135,7 @@ GLang.dr.qdSet("http_server", {value:function(env, args){
 
 GLang.dr.qdSet("https_server", {value:function(env, args){
 	kServer.httpsServer(function (request) {
-		GLang.callObject(args[0], env, [wrapRequestValue(request)]);
+		GLang.call(args[0], [wrapRequestValue(request)]);
 	}, args[1].value);
 	
 	return GLang.voidValue;
@@ -145,7 +145,7 @@ GLang.dr.qdSet("custom_https_server", {value:function(env, args){
 	var callback = args[0];
 	var config = GLang.wrapValueToJsObject(args[1]);
 	config.callback = function (request) {
-		GLang.callObject(callback, env, [wrapRequestValue(request)]);
+		GLang.call(callback, [wrapRequestValue(request)]);
 	}
 	
 	kServer.customHttpsServer(config);

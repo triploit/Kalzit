@@ -72,7 +72,7 @@
 			}]},
             {value:[{value:"getDurationAsync"}, {
 				value: function(env, args){
-                    const callback = duration => GLang.callObject(args[0], env, [{value:duration}]);
+                    const callback = duration => GLang.call(args[0], [{value:duration}]);
                     
                     const currentDuration = mediaElement.duration;
                     if(currentDuration != null && currentDuration === currentDuration) {
@@ -97,7 +97,7 @@
 			{value:[{value:"setOnEnd"}, {
 				value: function(env, args){
 					onEnd = function(){
-						GLang.callObject(args[0], env, [controller]);
+						GLang.call(args[0], [controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -105,7 +105,7 @@
 			{value:[{value:"setOnPlay"}, {
 				value: function(env, args){
 					onPlay = function(){
-						GLang.callObject(args[0], env, [controller]);
+						GLang.call(args[0], [controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -115,7 +115,7 @@
 					var oldOnPlay = onPlay;
 					onPlay = function(){
 						oldOnPlay();
-						GLang.callObject(args[0], env, [controller]);
+						GLang.call(args[0], [controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -123,7 +123,7 @@
 			{value:[{value:"setOnPause"}, {
 				value: function(env, args){
 					onPause = function(){
-						GLang.callObject(args[0], env, [controller]);
+						GLang.call(args[0], [controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -133,7 +133,7 @@
 					var oldOnPause = onPause;
 					onPause = function(){
 						oldOnPause();
-						GLang.callObject(args[0], env, [controller]);
+						GLang.call(args[0], [controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -146,7 +146,7 @@
 			{value:[{value:"setOnProgress"}, {
 				value: function(env, args){
 					onProgress = function(time){
-						GLang.callObject(args[0], env, [{value:time}, controller]);
+						GLang.call(args[0], [{value:time}, controller]);
 					}
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
@@ -176,7 +176,7 @@
 		audio.src = args[0].value;
 		audio.controls = "controls";
 		if(args.length === 2) {
-			GLang.callObject(args[1], env, [makePlayerInterface(audio)]);
+			GLang.call(args[1], [makePlayerInterface(audio)]);
 		}
 		return {value:audio, display:DISPLAY_DOM};
 	}, display:DISPLAY_FUNCTION});
@@ -184,7 +184,7 @@
 	GLang.dr.qdSet("audio_player", {value:function(env, args){
 		var audio = new Audio(args[0].value);
 		if(args.length === 2) {
-			GLang.callObject(args[1], env, [makePlayerInterface(audio)]);
+			GLang.call(args[1], [makePlayerInterface(audio)]);
 		}
 		return {value:audio};
 	}, display:DISPLAY_FUNCTION});
@@ -209,7 +209,7 @@
 		video.src = args[0].value;
 		video.controls = "controls";
 		if(args.length === 2) {
-			GLang.callObject(args[1], env, [makePlayerInterface(video)]);
+			GLang.call(args[1], [makePlayerInterface(video)]);
 		}
 		return {value:video, display:DISPLAY_DOM};
 	}, display:DISPLAY_FUNCTION});

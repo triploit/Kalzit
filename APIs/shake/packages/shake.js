@@ -38,7 +38,7 @@ function motionAllowedAsync(callback){
 var motionAllowedAsyncKalzit = {value:function(env, args) {
 	var callback = args[0];
 	motionAllowedAsync(allowed => {
-		GLang.callObject(callback, env, [
+		GLang.call(callback, [
 			{value:allowed ? 1 : 0}
 		]);
 	})
@@ -55,7 +55,7 @@ function motionForbiddenAsync(callback){
 GLang.dr.qdSet("motion_forbidden_async", {value:function(env, args) {
 	var callback = args[0];
 	motionForbiddenAsync(allowed => {
-		GLang.callObject(callback, env, [
+		GLang.call(callback, [
 			{value:allowed ? 1 : 0}
 		]);
 	})
@@ -70,7 +70,7 @@ function motionCanBeRequestedAsync(callback){
 GLang.dr.qdSet("motion_can_be_requested_async", {value:function(env, args) {
 	var callback = args[0];
 	motionCanBeRequestedAsync(allowed => {
-		GLang.callObject(callback, env, [
+		GLang.call(callback, [
 			{value:allowed ? 1 : 0}
 		]);
 	})
@@ -118,7 +118,7 @@ function setOnShake(then) {
 GLang.dr.qdSet("on_global_shake", {value:function(env, args) {
 	var callback = args[0];
 	setOnShake(() => {
-		GLang.callObject(callback, env, []);
+		GLang.call(callback, []);
 	});
 	return GLang.voidValue;
 }});

@@ -27,7 +27,7 @@ GLang.dr.qdSet("ui_index_picker", {value:function(env, args){
 		picker.appendChild(option);
 	}
 	picker.onchange = function(){
-		GLang.callObject(callback, env, [{value:parseInt(picker.value)}]);
+		GLang.call(callback, [{value:parseInt(picker.value)}]);
 	}
 	
 	return {value:picker, display:DISPLAY_DOM}

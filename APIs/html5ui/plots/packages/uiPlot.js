@@ -95,7 +95,7 @@ GLang.dr.qdSet("ui_plot_graph", {value:function(env, args){
 		canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
 		for(var i = 0; i < len; i++){
 			drawGraph(function(x){
-				return GLang.callObject(functions[i % functions.length], env, [{value:x}]).value
+				return GLang.call(functions[i % functions.length], [{value:x}]).value
 			}, canvas, colors[i % colors.length].value);
 		}
 	}
@@ -128,7 +128,7 @@ GLang.dr.qdSet("ui_plot_point", {value:function(env, args){
 		canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
 		for(var i = 0; i < len; i++){
 			drawPoint(function(){
-				var point = GLang.callObject(functions[i % functions.length], env, []).value;
+				var point = GLang.call(functions[i % functions.length], []).value;
 				return [point[0].value, point[1].value];
 			}, canvas, colors[i % colors.length].value);
 		}
