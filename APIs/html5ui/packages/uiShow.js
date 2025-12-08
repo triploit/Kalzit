@@ -20,7 +20,7 @@ GLang.dr.qdSet("ui_show_variable", {value:function(args){
 	
 	div.appendChild(GLang.displayValue(visualizer(mutable.value.mutable)));
 	
-	mutable.value.listeners.push({value:function(){
+	mutable.value.listeners.push({value:function(args){
 		//replaceChildren does not work until pretty recent versions of Android webview (Dec 2023)
         // div.replaceChildren(GLang.displayValue(visualizer(mutable.value.mutable)));
         
@@ -43,7 +43,7 @@ GLang.dr.qdSet("ui_show_variable_as_list", {value:function(args){
 		div.appendChild(GLang.displayValue(arr[i]));
 	}
 	
-	mutable.value.listeners.push({value:function(){
+	mutable.value.listeners.push({value:function(args){
 		while (div.firstChild) {
 		    div.removeChild(div.firstChild);
 		}
