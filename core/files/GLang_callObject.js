@@ -15,17 +15,18 @@
 		};
 	}
 
+	const envIsIrrelevant = !GLANG_TREE_GENERATOR_INCLUDED;
+	if(GLANG_DEBUG) {
+		console.log("env is irrelevant (always null)? " + envIsIrrelevant);
+	}
+
 	GLang.callObject = function(obj, env, args){
+		if(envIsIrrelevant) env = null;
+
 		//If we have a non-function, quit this as quickly as possible
 		if(!("function" === typeof obj.value)) {
 			return obj;
 		}
-		
-		//37752 calls when loading the IDE app (June 16 2023)
-		//33414 calls after code block call optimization
-		//30002 calls after colon optimization
-		//26045 after optimization of common operators
-		//console.log("GLang.callObject with real function");
 		
 		//We have a function to call
 		//Before doing anything else, add the thing we want to call to the call stack
@@ -42,35 +43,28 @@
 		}
 		
 		try{
-				//Keep the original parameter untouched
-				var object = obj.value;
+			//Keep the original parameter untouched
+			var object = obj.value;
+			
+			//Figure out the result of this (function-) call
+			var result = null;
+			result = object(env, args);
+			if (GLANG_DEBUG && result == null) {
+				throw new Error("Calling the following function lead to a result of null or undefined: " + object);
+			}
+			
+			if(GLANG_DEBUG) {
+				//Before returning the result, remove the currently active function from the call stack
+				GLang.callStack.pop();
 				
-				//Figure out the result of this (function-) call
-				var result = null;
-				result = object(env, args);
-				if (GLANG_DEBUG && result == null) {
-					throw new Error("Calling the following function lead to a result of null or undefined: " + object);
+				//We attach a variable name to the value for debugging
+				//If we are calling the ":" opearator and a name is already present, skip this step
+				if(! (result.varName && ":" === GLang.getValueVarName(obj))) {
+					//Apparently we should set the varName property
+					result.varName = "return-value of " + GLang.getValueVarName(obj);
 				}
-				
-	//			//This is completely unneeded here, since the check has to have happened during the switch statement if we are here
-	//			//Check if the result is non-null (or non-undefined, hence ==). A null result can lead to problems later
-	//			if (result == null) {
-	//				throw new Error("A function call lead to a return value of null or undefined. This probably indicates a problem with the implementation of a JS function - all JS functions written for Kalzit libraries should return GLang.voidValue instead of undefined.");
-	//			}
-				
-				if(GLANG_DEBUG) {
-					//Before returning the result, remove the currently active function from the call stack
-					GLang.callStack.pop();
-					
-					//We attach a variable name to the value for debugging
-					//If we are calling the ":" opearator and a name is already present, skip this step
-					if(! (result.varName && ":" === GLang.getValueVarName(obj))) {
-						//Apparently we should set the varName property
-						result.varName = "return-value of " + GLang.getValueVarName(obj);
-					}
-				}
-				return result;
-	//		}
+			}
+			return result;
 		}catch(exception){
 			//Put a human-readable error on the app, and a detailed log on the console
 			GLang.error("E:" + exception);
@@ -83,9 +77,7 @@
 						GLang.error("at " + callEntry)
 					}
 				});
-			}
-			
-			if(GLANG_DEBUG) {
+
 				//For console use, it is easier to explore the stack this way
 				console.log("JS call stack for console use:");
 				console.log(exception);
@@ -94,9 +86,7 @@
 				console.log("This is probably the most important value in that stack (the last one):");
 				console.log(GLang.callStack[GLang.callStack.length - 1].obj);
 				console.log("---");
-			}
-			
-			if(GLANG_DEBUG) {
+
 				//We still have to pop the current call stack entry
 				GLang.callStack.pop();
 				return {value:[], error:exception, callStackCopy:[...GLang.callStack], annotations:[

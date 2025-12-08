@@ -299,11 +299,11 @@
 			if(!args[0].display === DISPLAY_MUTABLE) throw new Error("'get' has to be called with a mutable value as the first parameter");
 			return args[0].value.mutable;
 		}}},
-		{varName:"is_defined", varValue:{value:function(env, args){
+		{varName:"is_defined_globally", varValue:{value:function(env, args){
 			var name = args[0].value + "";
 			//TODO: Error-driven logic is probably a bad idea, but I guess it works
 			try {
-				env.resolveName(name);
+				GLang.dr.resolveName(name);
 				//When this causes no error, the variable exists
 				return {value:1};
 			} catch (e) {
