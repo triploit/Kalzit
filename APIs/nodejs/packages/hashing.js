@@ -14,7 +14,7 @@ this.file_md_five_hash = function(filePath){
 }
 
 GLang.dr.qdSet("file_md_five_hash_async", {
-	value:function(env, args){
+	value:function(args){
 		var filePath = args[1].value;
 		var callback = args[0];
 		

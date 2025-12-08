@@ -29,24 +29,24 @@
 	
 		var controller = {value:[
 			{value:[{value:"isPaused"}, {
-				value: function(env, args){
+				value: function(args){
 					return {value: mediaElement.paused ? 1 : 0};
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"play"}, {
-				value: function(env, args){
+				value: function(args){
 					mediaElement.play();
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"pause"}, {
-				value: function(env, args){
+				value: function(args){
 					mediaElement.pause();
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"stop"}, {
-				value: function(env, args){
+				value: function(args){
 					mediaElement.pause();
                     mediaElement.src = "INVALID://";
                     //mediaElement.load();
@@ -55,23 +55,23 @@
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setVolume"}, {
-				value: function(env, args){
+				value: function(args){
 					mediaElement.volume = parseFloat(args[0].value + "");
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getVolume"}, {
-				value: function(env, args){
+				value: function(args){
 					return {value:mediaElement.volume};
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getDuration"}, {
-				value: function(env, args){
+				value: function(args){
 					return {value:mediaElement.duration};
 				}, display: DISPLAY_FUNCTION
 			}]},
             {value:[{value:"getDurationAsync"}, {
-				value: function(env, args){
+				value: function(args){
                     const callback = duration => GLang.call(args[0], [{value:duration}]);
                     
                     const currentDuration = mediaElement.duration;
@@ -89,13 +89,13 @@
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setTime"}, {
-				value: function(env, args){
+				value: function(args){
 					mediaElement.currentTime = parseFloat(args[0].value + "");
 					return GLang.voidValue;
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnEnd"}, {
-				value: function(env, args){
+				value: function(args){
 					onEnd = function(){
 						GLang.call(args[0], [controller]);
 					}
@@ -103,7 +103,7 @@
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnPlay"}, {
-				value: function(env, args){
+				value: function(args){
 					onPlay = function(){
 						GLang.call(args[0], [controller]);
 					}
@@ -111,7 +111,7 @@
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"addOnPlay"}, {
-				value: function(env, args){
+				value: function(args){
 					var oldOnPlay = onPlay;
 					onPlay = function(){
 						oldOnPlay();
@@ -121,7 +121,7 @@
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnPause"}, {
-				value: function(env, args){
+				value: function(args){
 					onPause = function(){
 						GLang.call(args[0], [controller]);
 					}
@@ -129,7 +129,7 @@
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"addOnPause"}, {
-				value: function(env, args){
+				value: function(args){
 					var oldOnPause = onPause;
 					onPause = function(){
 						oldOnPause();
@@ -139,12 +139,12 @@
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"getProgress"}, {
-				value: function(env, args){
+				value: function(args){
 					return {value:mediaElement.currentTime};
 				}, display: DISPLAY_FUNCTION
 			}]},
 			{value:[{value:"setOnProgress"}, {
-				value: function(env, args){
+				value: function(args){
 					onProgress = function(time){
 						GLang.call(args[0], [{value:time}, controller]);
 					}
@@ -170,7 +170,7 @@
 		
 	For more information about media controllers, take a look at the "[MediaController](/services/documentation/MediaController)" type.
 	*/
-	GLang.dr.qdSet("ui_audio_player", {value:function(env, args){
+	GLang.dr.qdSet("ui_audio_player", {value:function(args){
 		var audio = document.createElement("audio");
 		audio.classList.add("calcitAudioPlayer");
 		audio.src = args[0].value;
@@ -181,7 +181,7 @@
 		return {value:audio, display:DISPLAY_DOM};
 	}, display:DISPLAY_FUNCTION});
 	
-	GLang.dr.qdSet("audio_player", {value:function(env, args){
+	GLang.dr.qdSet("audio_player", {value:function(args){
 		var audio = new Audio(args[0].value);
 		if(args.length === 2) {
 			GLang.call(args[1], [makePlayerInterface(audio)]);
@@ -203,7 +203,7 @@
 		
 	For more information about media controllers, take a look at the "MediaController" type.
 	*/
-	GLang.dr.qdSet("ui_video_player", {value:function(env, args){
+	GLang.dr.qdSet("ui_video_player", {value:function(args){
 		var video = document.createElement("video");
 		video.classList.add("calcitVideoPlayer");
 		video.src = args[0].value;

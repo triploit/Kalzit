@@ -1,4 +1,4 @@
-GLang.dr.qdSet("ui_show_variable", {value:function(env, args){
+GLang.dr.qdSet("ui_show_variable", {value:function(args){
 	var mutable = args[0];
     
     //Figure out how to show this value; do we have a custom visualizer function to wrap it?
@@ -32,7 +32,7 @@ GLang.dr.qdSet("ui_show_variable", {value:function(env, args){
 	
 	return {value:div, display:DISPLAY_DOM};
 }, display:DISPLAY_FUNCTION});
-GLang.dr.qdSet("ui_show_variable_as_list", {value:function(env, args){
+GLang.dr.qdSet("ui_show_variable_as_list", {value:function(args){
 	var mutable = args[0];
 	if(mutable.display !== DISPLAY_MUTABLE){throw new Error("uiShowVariableAsList needs a mutable as the first parameter")}
 	

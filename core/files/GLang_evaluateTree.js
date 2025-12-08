@@ -18,13 +18,13 @@
 	function evaluateOperation(firstParamFragment, operatorFragment, secondParamValue, env) {
 		switch (operatorFragment.k) {
 			case KIND_COLON: return GLang.call(evaluateSentenceFragment(firstParamFragment, env), [secondParamValue]);
-			case KIND_SEMICOLON: return SEMICOLON_VALUE.value(env, [evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
+			case KIND_SEMICOLON: return SEMICOLON_VALUE.value([evaluateSentenceFragment(firstParamFragment, env), secondParamValue]);
 			case KIND_SET_ANNOTATION:
 				const annotation = evaluateSentenceFragment(firstParamFragment, env);
                 if(GLANG_DEBUG && "function" !== typeof annotation.value) {
                     throw new Error("Annotations are required to be functions; " + GLang.stringify(secondParamValue) + " does not fit this rule. To attach info, consider using the 'info' function ( @(info: 'name';'value') x )");
                 }
-                annotation.value(env, [secondParamValue]);
+                annotation.value([secondParamValue]);
 				return secondParamValue;
 		}
 		
@@ -91,7 +91,7 @@
             }
 		    return function(value) {
                 //apply the type, return the result
-                return type(env, [value]);
+                return type([value]);
             }
 		}
 		return IDENTITY;
@@ -123,13 +123,13 @@
         switch(argumentList.length) {
             case 0:
                 //console.log("!!! makeInternalCodeblockFunction length 0");
-                return () => codeblock(Object.create(defaultEnv));
+                return (args) => codeblock(Object.create(defaultEnv));
             case 1:
                 //console.log("!!! makeInternalCodeblockFunction length 1");
                 const paramA = argumentList[0].name;
                 if(argumentList[0].type === IDENTITY) {
                     //We have an untyped function parameter
-                    return (e, args) => {
+                    return (args) => {
                         const functionEnvironment = Object.create(defaultEnv);
                         functionEnvironment[paramA] = args[0] || GLang.voidValue;
                         return codeblock(functionEnvironment)
@@ -137,14 +137,14 @@
                 } else {
                     const type = argumentList[0].type;
                     //We have a typed function parameter
-                    return (e, args) => {
+                    return (args) => {
                         const functionEnvironment = Object.create(defaultEnv);
                         functionEnvironment[paramA] = type(args[0] || GLang.voidValue);
                         return codeblock(functionEnvironment)
                     }
                 }
             default:
-                return function(env, args){
+                return function(args){
 		            const functionEnvironment = Object.create(defaultEnv);
                     functionEnvironment[argumentList[0].name] = argumentList[0].type(args[0] || GLang.voidValue);
                     functionEnvironment[argumentList[1].name] = argumentList[1].type(args[1] || GLang.voidValue);

@@ -1,4 +1,4 @@
-GLang.dr.qdSet("ui_native_textarea_onchange", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_native_textarea_onchange", {value:GLang.arrayFun(function(args){
 	var textfield = document.createElement("textarea");
 	textfield.value=args[1].value;
 	

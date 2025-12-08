@@ -8,7 +8,7 @@
 *
 * To work with the data, please take a look at the other functions defined in this file, like "domAttribute", "domInner" and "domInnerText"
 */
-GLang.dr.qdSet("dom_parse", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("dom_parse", {value:GLang.arrayFun(function(args){
 	var dom = new DOMParser().parseFromString(args[0].value, "text/xml");
 	return {value:dom};
 })});
@@ -22,7 +22,7 @@ GLang.dr.qdSet("dom_parse", {value:GLang.arrayFun(function(env, args){
 *
 * To work with the data, please take a look at the other functions defined in this file, like "domAttribute", "domInner" and "domInnerText"
 */
-GLang.dr.qdSet("dom_parse_html", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("dom_parse_html", {value:GLang.arrayFun(function(args){
 	var dom = new DOMParser().parseFromString(args[0].value, "text/html");
 	return {value:dom};
 })});
@@ -34,7 +34,7 @@ GLang.dr.qdSet("dom_parse_html", {value:GLang.arrayFun(function(env, args){
 * Usage: $tagName domTags dom.
 * This produces a list which contains zero or more DOM objects.
 */
-GLang.dr.qdSet("dom_tags", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("dom_tags", {value:GLang.arrayFun(function(args){
 	var dom = args[1].value;
 	var tag = args[0].value;
 	var array = [];
@@ -55,7 +55,7 @@ GLang.dr.qdSet("dom_tags", {value:GLang.arrayFun(function(env, args){
 * Usage: $viewBox domAttribute dom.
 * If the attribute was found, a string is returned - otherwise, it is an empty list.
 */
-GLang.dr.qdSet("dom_attribute", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("dom_attribute", {value:GLang.arrayFun(function(args){
 	var element = args[1].value;
 	var attrib = args[0].value;
     console.log(element);
@@ -67,7 +67,7 @@ GLang.dr.qdSet("dom_attribute", {value:GLang.arrayFun(function(env, args){
 * Returns the text content of a DOM element.
 * Usage: domInnerText: dom.
 */
-GLang.dr.qdSet("dom_inner_text", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("dom_inner_text", {value:GLang.arrayFun(function(args){
 	return GLang.stringValue(args[0].value.textContent);
 })});
 
@@ -77,7 +77,7 @@ GLang.dr.qdSet("dom_inner_text", {value:GLang.arrayFun(function(env, args){
 * If there are nested elements inside, only the ons on the first layer are returned.
 * Usage: domInner: dom.
 */
-GLang.dr.qdSet("dom_inner", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("dom_inner", {value:GLang.arrayFun(function(args){
 	var elements = args[0].value.childNodes;
 	var newArray = [];
 	for(var i = 0; i < elements.length; i++){
@@ -91,6 +91,6 @@ GLang.dr.qdSet("dom_inner", {value:GLang.arrayFun(function(env, args){
 * Returns the tag name of a DOM element.
 * Usage: domTagName: dom.
 */
-GLang.dr.qdSet("dom_tag_name", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("dom_tag_name", {value:GLang.arrayFun(function(args){
 	return GLang.stringValue(args[0].value.tagName);
 })});

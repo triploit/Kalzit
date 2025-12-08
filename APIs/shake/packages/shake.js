@@ -35,7 +35,7 @@ function motionAllowedAsync(callback){
 		callback(permission === "granted")
 	})
 }
-var motionAllowedAsyncKalzit = {value:function(env, args) {
+var motionAllowedAsyncKalzit = {value:function(args) {
 	var callback = args[0];
 	motionAllowedAsync(allowed => {
 		GLang.call(callback, [
@@ -52,7 +52,7 @@ function motionForbiddenAsync(callback){
 		callback(permission === "denied")
 	})
 }
-GLang.dr.qdSet("motion_forbidden_async", {value:function(env, args) {
+GLang.dr.qdSet("motion_forbidden_async", {value:function(args) {
 	var callback = args[0];
 	motionForbiddenAsync(allowed => {
 		GLang.call(callback, [
@@ -67,7 +67,7 @@ function motionCanBeRequestedAsync(callback){
 		callback(permission === "unknown")
 	})
 }
-GLang.dr.qdSet("motion_can_be_requested_async", {value:function(env, args) {
+GLang.dr.qdSet("motion_can_be_requested_async", {value:function(args) {
 	var callback = args[0];
 	motionCanBeRequestedAsync(allowed => {
 		GLang.call(callback, [
@@ -115,7 +115,7 @@ function setOnShake(then) {
 	window.addEventListener('devicemotion', onMotion);
 }
 
-GLang.dr.qdSet("on_global_shake", {value:function(env, args) {
+GLang.dr.qdSet("on_global_shake", {value:function(args) {
 	var callback = args[0];
 	setOnShake(() => {
 		GLang.call(callback, []);

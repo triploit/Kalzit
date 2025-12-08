@@ -1,4 +1,4 @@
-GLang.dr.qdSet("parse_json", {value:function(env, args){
+GLang.dr.qdSet("parse_json", {value:function(args){
     //console.log((args[0].value) instanceof Array);
     if((args[0].value) instanceof Array && args[0].value.length === 0) {
         return GLang.voidValue;
@@ -10,6 +10,6 @@ GLang.dr.qdSet("parse_json", {value:function(env, args){
     }
 	return GLang.wrapJsToValue(JSON.parse(args[0].value + ""));
 }});
-GLang.dr.qdSet("obj_to_json", {value:function(env, args){
+GLang.dr.qdSet("obj_to_json", {value:function(args){
 	return GLang.stringValue(JSON.stringify(GLang.wrapValueToJsObject(args[0])))
 }});

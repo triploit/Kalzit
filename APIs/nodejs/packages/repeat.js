@@ -2,7 +2,7 @@
 	
 	var setTimeout = require("timers").setTimeout;
 	
-	function repeatAsync(env, args){
+	function repeatAsync(args){
 		var repeat = true;
 		var isRunning = true;
 		
@@ -22,7 +22,7 @@
 		});
 	}
 	
-	function repeat(env, args){
+	function repeat(args){
 		while(true){
 			GLang.call(args[0], []);
 		}

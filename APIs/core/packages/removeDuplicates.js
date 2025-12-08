@@ -13,7 +13,7 @@
         return result;
     }
     
-    GLang.dr.qdSet("remove_duplicates", {value:function(env, args){
+    GLang.dr.qdSet("remove_duplicates", {value:function(args){
         var isEqual = (a,b) => GLang.eq(a.value, b.value);
         if(args[1]) {
             const kalzitFunction = args[1];

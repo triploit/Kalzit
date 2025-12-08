@@ -1,4 +1,4 @@
-GLang.dr.qdSet("ui_container", {value:function(env, args){
+GLang.dr.qdSet("ui_container", {value:function(args){
 	var div = document.createElement("div");
 	
 	var arr = args[0].value;
@@ -14,7 +14,7 @@ GLang.dr.qdSet("ui_container", {value:function(env, args){
     div.appendChild(frag);
 	return {value:div, display:DISPLAY_DOM};
 }, display:DISPLAY_FUNCTION});
-GLang.dr.qdSet("ui_element_collection", {value:function(env, args){
+GLang.dr.qdSet("ui_element_collection", {value:function(args){
 	var frag = document.createDocumentFragment();
 	
 	var arr = args[0].value;
@@ -28,7 +28,7 @@ GLang.dr.qdSet("ui_element_collection", {value:function(env, args){
 	
 	return {value:frag, display:DISPLAY_DOM};
 }, display:DISPLAY_FUNCTION});
-GLang.dr.qdSet("ui_reusable_element_collection", {value:function(env, args){
+GLang.dr.qdSet("ui_reusable_element_collection", {value:function(args){
 	var frag = document.createDocumentFragment();
 	
 	var arr = args[0].value;
@@ -43,7 +43,7 @@ GLang.dr.qdSet("ui_reusable_element_collection", {value:function(env, args){
 	return {value:frag, display:DISPLAY_IMPORTED_DOM};
 }, display:DISPLAY_FUNCTION});
 
-GLang.dr.qdSet("ui_centering_container", {value:function(env, args){
+GLang.dr.qdSet("ui_centering_container", {value:function(args){
 	var div = document.createElement("div");
 	div.style.display = "flex";
 	div.style.alignItems = "center";

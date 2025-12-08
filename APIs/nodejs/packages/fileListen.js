@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-GLang.dr.qdSet("native_file_listen_folder_async", {value:function(env, args){
+GLang.dr.qdSet("native_file_listen_folder_async", {value:function(args){
 	var file = args[1].value;
 	var callbackValue = args[0];
 	var callback = function(eventname, filename){
@@ -17,7 +17,7 @@ GLang.dr.qdSet("native_file_listen_folder_async", {value:function(env, args){
 }});
 
 //The callback gets the name of the file as the first and the name of the event as the second parameter
-GLang.dr.qdSet("native_file_listen_file_async", {value:function(env, args){
+GLang.dr.qdSet("native_file_listen_file_async", {value:function(args){
 	var file = args[1].value;
 	var callbackValue = args[0];
 	var exists = fs.existsSync(file);

@@ -1,4 +1,4 @@
-GLang.dr.qdSet("each", {value:function(env, args){
+GLang.dr.qdSet("each", {value:function(args){
     var input = args[1].value;
     if(GLANG_DEBUG && !Array.isArray(input)) {
         console.log(input);
@@ -15,7 +15,7 @@ GLang.dr.qdSet("each", {value:function(env, args){
 A function which does essentially the same as "each", but it does always return void.
 Because of this, no return values of the repeated function need to be stored and put into a list, making this function potentially faster.
 */
-GLang.dr.qdSet("loop_each", {value:function(env, args){
+GLang.dr.qdSet("loop_each", {value:function(args){
 	var array = args[1].value;
 	for(var i = 0; i < array.length; i++) {
 		GLang.call(args[0], [array[i], {value: i}])
@@ -26,7 +26,7 @@ GLang.dr.qdSet("loop_each", {value:function(env, args){
 /* @kalzit.for loop_each_async
 A function which does essentially the same as "loopEach", but it does it asynchronously. Great for handling large lists without freezing an app.
 */
-GLang.dr.qdSet("loop_each_async", {value:function(env, args){
+GLang.dr.qdSet("loop_each_async", {value:function(args){
 	var array = args[1].value;
 	var callback = args[0];
 	var counter = 0;

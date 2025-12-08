@@ -13,7 +13,7 @@ That has essentially the same effect as this, but is potentially much faster:
 first: {x mod 2} filter 1;2;3.
 ```
 */
-GLang.dr.qdSet("first_condition_match", {value:function(env, args){
+GLang.dr.qdSet("first_condition_match", {value:function(args){
 	var array = args[1].value;
     if(GLANG_DEBUG && !Array.isArray(array)) {
         console.log(array);

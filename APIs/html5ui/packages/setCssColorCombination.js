@@ -1,4 +1,4 @@
-GLang.dr.qdSet("set_css_color_combination", {value:function(env, args){
+GLang.dr.qdSet("set_css_color_combination", {value:function(args){
 	var object = GLang.wrapValueToJsObject(args[0]);
 	function colorString(color){
 		return GLang.wrapValueToJsObject(GLang.call(

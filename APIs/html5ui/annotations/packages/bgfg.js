@@ -1,4 +1,4 @@
-GLang.dr.qdSet("color_to_string", {value:function(env, args){
+GLang.dr.qdSet("color_to_string", {value:function(args){
     const _color = args[0].value;
     return GLang.stringValue(
         "rgba(" + _color[0].value + ", " + _color[1].value + ", " + _color[2].value + ", " + (_color[3].value / 255) + ")"
@@ -23,7 +23,7 @@ this.flag_foreground_color = function(color, object){
 	object.style.color = color;
 }
 
-GLang.dr.qdSet("flag_background_gradient_left_to_right", {value:function(env, args){
+GLang.dr.qdSet("flag_background_gradient_left_to_right", {value:function(args){
     const _colors = args[0].value;
     const object = args[1].value;
 
@@ -33,7 +33,7 @@ GLang.dr.qdSet("flag_background_gradient_left_to_right", {value:function(env, ar
     return GLang.voidValue;
 }});
 
-GLang.dr.qdSet("flag_background_gradient_top_to_bottom", {value:function(env, args){
+GLang.dr.qdSet("flag_background_gradient_top_to_bottom", {value:function(args){
     const _colors = args[0].value;    
     const object = args[1].value;
 

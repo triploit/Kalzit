@@ -6,7 +6,7 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 		case "boolean": return {value:js ? 1 : 0};
 	}
 	if("function" === typeof js){
-		function calcitFunction(env, args){
+		function calcitFunction(args){
 			return wrapJsToValue(js(...args.map(arg => arg.value)));
 		}
 		

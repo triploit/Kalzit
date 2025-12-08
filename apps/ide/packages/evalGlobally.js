@@ -1,4 +1,4 @@
-GLang.dr.qdSet("eval_globally", {value:function(env, args){
+GLang.dr.qdSet("eval_globally", {value:function(args){
     //Get the code we want to evaluate
     var code = args[0].value + "";
     //Evaluate the code

@@ -1,4 +1,4 @@
-GLang.dr.qdSet("filter", {value:function(env, args){
+GLang.dr.qdSet("filter", {value:function(args){
 	if(undefined == args[1].value.filter) return GLang.voidValue; //If we can not filter anything, return an empty list.
 	
 	return {value:args[1].value.filter(

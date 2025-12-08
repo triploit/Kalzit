@@ -9,7 +9,7 @@ Since the JavaScript code run in a browser is not allowed to talk to most server
 
 If you want to use relative URLs, consider using "loadLocal".
 */
-GLang.dr.qdSet("load_global", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("load_global", {value:GLang.arrayFun(function(args){
 	var result = KLoad.loadGlobal(args[0].value);
 	return result ? GLang.stringValue(result) : GLang.voidValue;
 })});
@@ -22,7 +22,7 @@ Usage example (Kalzit):
 	
 If you want to use absolute URLs, consider using "loadGlobal".
 */
-GLang.dr.qdSet("load_local", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("load_local", {value:GLang.arrayFun(function(args){
 	var result = KLoad.loadLocal(args[0].value);
 	return result ? GLang.stringValue(result) : GLang.voidValue;
 })});
@@ -40,7 +40,7 @@ Usage example (JS):
 This will basically call "kalzitValue" with "otherKalzitValue" as the parameter.
 Notice that you can not use any JavaScript value as the callback parameter. Stuff like callback(1) would not work.
 */
-function makeCallback(callbackValue, env){
+function makeCallback(callbackValue){
 	return function(value){GLang.call(callbackValue, [value])};
 }
 
@@ -59,8 +59,8 @@ Usage example (JS):
 var appId = location.pathname.split("/");
 appId = appId[appId.length - 1];
 
-function loadAsync(callbackValue, path, env, unimportant, fetchOptions){
-	var callback = makeCallback(callbackValue, env);
+function loadAsync(callbackValue, path, unimportant, fetchOptions){
+	var callback = makeCallback(callbackValue);
 
 	//Start an important fetch
 	//If the "unimportant" parameter is set, do an unimportant fetch instead
@@ -77,7 +77,7 @@ function loadAsync(callbackValue, path, env, unimportant, fetchOptions){
 					//We can then try to restart it
 					if(GLANG_DEBUG) console.error("There was an error when trying to get the text from a fetchResponse (in load.js). Restarting the fetch.");
 					
-					loadAsync(callbackValue, path, env, unimportant, fetchOptions);
+					loadAsync(callbackValue, path, unimportant, fetchOptions);
 				});
 		}else{
 			//Not OK, call the callback with "void" as the parameter
@@ -101,16 +101,16 @@ Usage example (Kalzit):
 	
 If you want to use absolute URLs, consider using "loadGlobalAsync".
 */
-GLang.dr.qdSet("load_local_async", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], args[1].value, env, false, {mode: "same-origin"});
+GLang.dr.qdSet("load_local_async", {value:GLang.arrayFun(function(args){
+	loadAsync(args[0], args[1].value, false, {mode: "same-origin"});
 	return GLang.voidValue;
 })});
-GLang.dr.qdSet("load_local_async_without_indicator", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], args[1].value, env, true, {mode: "same-origin"});
+GLang.dr.qdSet("load_local_async_without_indicator", {value:GLang.arrayFun(function(args){
+	loadAsync(args[0], args[1].value, true, {mode: "same-origin"});
 	return GLang.voidValue;
 })});
-GLang.dr.qdSet("load_global_directly_async_native", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], args[1].value, env, false);
+GLang.dr.qdSet("load_global_directly_async_native", {value:GLang.arrayFun(function(args){
+	loadAsync(args[0], args[1].value, false);
 	return GLang.voidValue;
 })});
 
@@ -127,12 +127,12 @@ In its current form, the server handles these load requests in a synchronous way
 
 If you want to use absolute URLs, consider using "loadLocalAsync".
 */
-GLang.dr.qdSet("load_global_async_native", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env, false);
+GLang.dr.qdSet("load_global_async_native", {value:GLang.arrayFun(function(args){
+	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), false);
 	return GLang.voidValue;
 })});
 
-GLang.dr.qdSet("load_global_in_background_async_native", {value:GLang.arrayFun(function(env, args){
-	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), env, true);
+GLang.dr.qdSet("load_global_in_background_async_native", {value:GLang.arrayFun(function(args){
+	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), true);
 	return GLang.voidValue;
 })});

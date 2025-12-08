@@ -1,4 +1,4 @@
-GLang.dr.qdSet("ui_password_onaction", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_password_onaction", {value:GLang.arrayFun(function(args){
 	var textfield = document.createElement("input");
 	textfield.classList.add("calcitPassword");
 	textfield.type="password";
@@ -10,7 +10,7 @@ GLang.dr.qdSet("ui_password_onaction", {value:GLang.arrayFun(function(env, args)
 	}
 	return {value:textfield, display:DISPLAY_DOM};
 })})
-GLang.dr.qdSet("ui_password_onchange", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("ui_password_onchange", {value:GLang.arrayFun(function(args){
 	var textfield = document.createElement("input");
 	textfield.classList.add("calcitPassword");
 	textfield.type="password";

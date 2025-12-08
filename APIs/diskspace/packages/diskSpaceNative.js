@@ -1,4 +1,4 @@
-GLang.dr.qdSet("disk_space_native_async", {value:function(env, args){
+GLang.dr.qdSet("disk_space_native_async", {value:function(args){
 	var callback = args[0];
 	var disk = args[1].value;
 	

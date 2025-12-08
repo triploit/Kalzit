@@ -41,7 +41,12 @@
 			
 			//Figure out the result of this (function-) call
 			var result = null;
-			result = object(null, args);
+
+			if(object.length != 1) {
+				console.error(new Error("Kalzit functions should have exactly one parameter (an array of arguments); the old 'env, args' structure is no longer supported. OBJ: " + object));
+			}
+
+			result = object(args);
 			if (GLANG_DEBUG && result == null) {
 				throw new Error("Calling the following function lead to a result of null or undefined: " + object);
 			}

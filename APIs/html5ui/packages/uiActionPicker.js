@@ -4,7 +4,7 @@ TODO: At the moment this function is implemented natively, but it should be rewr
 
 Please use [uiIndexPicker](/services/documentation/uiIndexPicker) instead.
 */
-GLang.dr.qdSet("ui_action_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_action_picker", {value:function(args){
 	var action = args[0];
 
 	var picker = document.createElement("select");
@@ -23,7 +23,7 @@ GLang.dr.qdSet("ui_action_picker", {value:function(env, args){
 	return {value:picker, display:DISPLAY_DOM}
 }});
 
-GLang.dr.qdSet("ui_action_picker_with_icon", {value:function(env, args){
+GLang.dr.qdSet("ui_action_picker_with_icon", {value:function(args){
 	var action = args[0];
 
 	var picker = document.createElement("select");

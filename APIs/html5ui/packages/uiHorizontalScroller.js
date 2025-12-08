@@ -1,4 +1,4 @@
-GLang.dr.qdSet("ui_horizontal_scroller", {value:function(env, args){
+GLang.dr.qdSet("ui_horizontal_scroller", {value:function(args){
 	var scroller = document.createElement("div");
 	scroller.classList.add("k-horizontal_scroller");
 	for(var i = 0; i < args[0].value.length; i++){

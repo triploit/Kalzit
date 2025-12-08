@@ -18,7 +18,7 @@ function createLayer(value){
 	return layer
 }
 
-GLang.dr.qdSet("ui_stack", {value:function(env, args){
+GLang.dr.qdSet("ui_stack", {value:function(args){
 	var div = document.createElement("div");
 	
 	var arr = args[0].value;
@@ -35,16 +35,16 @@ GLang.dr.qdSet("ui_stack", {value:function(env, args){
 	return {value:div, display:DISPLAY_DOM};
 }, display:DISPLAY_FUNCTION});
 
-GLang.dr.qdSet("ui_print_into_stack", {value:function(env, args){
+GLang.dr.qdSet("ui_print_into_stack", {value:function(args){
 	var stack = args[0].value;
 	
-	return {value:function(env, args) {
+	return {value:function(args) {
 		stack.appendChild(createLayer(args[0]));
 		return GLang.voidValue;
 	}};
 }, display:DISPLAY_FUNCTION});
 
-GLang.dr.qdSet("ui_remove_from_stack", {value:function(env, args){
+GLang.dr.qdSet("ui_remove_from_stack", {value:function(args){
 	var stack = args[0].value;
     var child = args[1].value.parentNode;
 	

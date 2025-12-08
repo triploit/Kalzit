@@ -7,7 +7,7 @@ The sorting rule is a function. It ...
 * ... returns -1 (or any negative number) if x comes before y
 * ... returns 1 (or any positive number) if x comes after y
 */
-GLang.dr.qdSet("list_sort", {value:function(env, args) {
+GLang.dr.qdSet("list_sort", {value:function(args) {
 	var list = args[1].value.slice();
 	var compareFunction = function(a,b) {return GLang.call(args[0], [a,b]).value};
 	

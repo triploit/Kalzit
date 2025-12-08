@@ -107,7 +107,7 @@ this.sub_app_keep_initial = function() {
 	keepInitial = true;
 };
 
-GLang.dr.qdSet("register_sub_app", {value:function(env, args){
+GLang.dr.qdSet("register_sub_app", {value:function(args){
     const name = args[0].value;
     const _openAndClose = args[1].value;
 

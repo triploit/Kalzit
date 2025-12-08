@@ -1,4 +1,4 @@
-GLang.dr.qdSet("qr_code_data_url_async", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("qr_code_data_url_async", {value:GLang.arrayFun(function(args){
 	var input = args[1].value + "";
 	
 	function callback(value){
@@ -12,7 +12,7 @@ GLang.dr.qdSet("qr_code_data_url_async", {value:GLang.arrayFun(function(env, arg
 	return GLang.voidValue;
 }), display:"function"});
 
-GLang.dr.qdSet("qr_code_raw_async", {value:GLang.arrayFun(function(env, args){
+GLang.dr.qdSet("qr_code_raw_async", {value:GLang.arrayFun(function(args){
 	var input = args[1].value + "";
 	
 	function callback(value){

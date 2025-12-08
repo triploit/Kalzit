@@ -17,25 +17,25 @@ function makeFileAccess(file){
 		{value:[GLang.stringValue("size"), 
 			GLang.stringValue(file.size)
 		]},
-		{value:[GLang.stringValue("textAsync"), {value:function(env, args){
+		{value:[GLang.stringValue("textAsync"), {value:function(args){
 			withFileReader("readAsText", function(result){
 				GLang.call(args[0], [GLang.stringValue(result)]);
 			});
 			return GLang.voidValue;
 		}}]},
-		{value:[GLang.stringValue("urlAsync"), {value:function(env, args){
+		{value:[GLang.stringValue("urlAsync"), {value:function(args){
 			withFileReader("readAsDataURL", function(result){
 				GLang.call(args[0], [GLang.stringValue(result)]);
 			});
 			return GLang.voidValue;
 		}}]},
-		{value:[GLang.stringValue("binaryAsync"), {value:function(env, args){
+		{value:[GLang.stringValue("binaryAsync"), {value:function(args){
 			withFileReader("readAsBinaryString", function(result){
 				GLang.call(args[0], [{value:result}]);
 			});
 			return GLang.voidValue;
 		}}]},
-		{value:[GLang.stringValue("uploadAsync"), {value:function(env, args){
+		{value:[GLang.stringValue("uploadAsync"), {value:function(args){
 			var callback = args[0];
 			var accessName = args.length == 2 ? (args[1].value + "") : null;
 			
@@ -100,7 +100,7 @@ this.flag_on_drop = function(listener, object){
 	};
 }
 
-GLang.dr.qdSet("ui_file_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_file_picker", {value:function(args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";
@@ -115,7 +115,7 @@ GLang.dr.qdSet("ui_file_picker", {value:function(env, args){
 	return {value:picker, display:DISPLAY_DOM}
 }});
 
-GLang.dr.qdSet("ui_multi_file_picker", {value:function(env, args){
+GLang.dr.qdSet("ui_multi_file_picker", {value:function(args){
 	var picker = document.createElement("input");
 	picker.classList.add("calcitFilePicker");
 	picker.type = "file";

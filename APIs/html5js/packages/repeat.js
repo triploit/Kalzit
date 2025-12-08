@@ -1,6 +1,6 @@
 ;(function(){
 	
-	function repeatAsync(env, args){
+	function repeatAsync(args){
 		var repeat = true;
 		var isRunning = true;
 		

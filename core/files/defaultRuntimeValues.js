@@ -15,11 +15,11 @@
             throw new Error("arrayFun only accepts JS functions, got: " + original);
 			//original = {value: original}
 		}
-		function arrayFunWrapper(env, args){
+		function arrayFunWrapper(args){
 			//Length testing before cloning the arguments array
 			const originalArgumentCount = args.length;
 			if(originalArgumentCount === 0){
-                return original(env, []);
+                return original([]);
 			}
 			
 			//console.log("arrayFunWrapper");
@@ -57,13 +57,11 @@
 				for(var i = 0; i < len; i++){
 					if(!lenB){
 						result.push(arrayFunWrapper(
-							env,
 							[
 								a.value[i % lenA]
 							]));
 					}else{
 						result.push(arrayFunWrapper(
-							env,
 							[
 								a.value[i % lenA],
 								b.value[i % lenB]
@@ -75,9 +73,9 @@
 			
 			//Called with no arrays as parameter
 			if(originalArgumentCount == 1){
-                return original(env, [a]);
+                return original([a]);
 			}else{
-                return original(env, [a, b]);
+                return original([a, b]);
 			}
 		}
 		return arrayFunWrapper;
@@ -130,12 +128,12 @@
 
 	var globalVariables = [
 		{
-			varName:"+", varValue:{value:arrayFun(function(env, args){
+			varName:"+", varValue:{value:arrayFun(function(args){
                 return {value:args[0].value+args[1].value, display:args[0].display || args[1].display
             }})}
 		},
 		{
-			varName:"-", varValue:{value:arrayFun(function(env, args){
+			varName:"-", varValue:{value:arrayFun(function(args){
 				if (args.length === 1) {
 					//If called with one Parameter, the - function negates the given number
 					return {value: -args[0].value}
@@ -145,13 +143,13 @@
 			}
 		},
 		{
-			varName:"%", varValue:{value:arrayFun(function(env, args){return {value:args[0].value/args[1].value}})}
+			varName:"%", varValue:{value:arrayFun(function(args){return {value:args[0].value/args[1].value}})}
 		},
 		{
-			varName:"*", varValue:{value:arrayFun(function(env, args){return {value:args[0].value*args[1].value}})}
+			varName:"*", varValue:{value:arrayFun(function(args){return {value:args[0].value*args[1].value}})}
 		},
 		{
-			varName:"/", varValue:{value:function(env, args){
+			varName:"/", varValue:{value:function(args){
 				if(!(args[1].value instanceof Array)){
 					args[1] = {value:[args[1]]};
 				}
@@ -185,15 +183,15 @@
 		If you want to use a more visual UI when outputting values, use "visualize" instead.
 		*/
 		{
-			varName:"print", varValue:{value:function(env, args){	
+			varName:"print", varValue:{value:function(args){	
 				GLang.printValue(args[0]);
 				return args[0];
 			}}
 		},
 		{
-			varName:"array", varValue:{value:function(env, args){return {value:args}}}
+			varName:"array", varValue:{value:function(args){return {value:args}}}
 		},
-		{varName:";", varValue:{value:function(env, args){
+		{varName:";", varValue:{value:function(args){
 			var val1 = args[0];
 			if(!(val1.value instanceof Array)){
 				val1 = {value:[val1]}
@@ -204,7 +202,7 @@
 			}
 			return {value:[].concat(val1.value,val2.value)};
 		}}},
-		{varName:"range", varValue:{value:arrayFun(function(env, args){
+		{varName:"range", varValue:{value:arrayFun(function(args){
 			var array = [];
 			if(args[0].value <= args[1].value){
 				for(var i = args[0].value; i <= args[1].value; i++){
@@ -218,31 +216,31 @@
 			return {value:array};
 		})}},
 		{varName:"void", varValue:GLang.voidValue},
-		{varName:"eq", varValue:{value:function(env, args){
+		{varName:"eq", varValue:{value:function(args){
 			return {value:GLang.eq(args[0].value, args[1].value) ? 1 : 0};
 		}}},
-		{varName:"<", varValue:{value:arrayFun(function(env, args){
+		{varName:"<", varValue:{value:arrayFun(function(args){
 			return {value:args[0].value < args[1].value ? 1 : 0};
 		})}},
-		{varName:">", varValue:{value:arrayFun(function(env, args){
+		{varName:">", varValue:{value:arrayFun(function(args){
 			return {value:args[0].value > args[1].value ? 1 : 0};
 		})}},
-		{varName:"^", varValue:{value:arrayFun(function(env, args){
+		{varName:"^", varValue:{value:arrayFun(function(args){
 			return {value:args[0].value ** args[1].value};
 		})}},
-		{varName:"mod", varValue:{value:arrayFun(function(env, args){
+		{varName:"mod", varValue:{value:arrayFun(function(args){
 			return {value:args[0].value % args[1].value};
 		})}},
-		{varName:"|", varValue:{value:arrayFun(function(env, args){
+		{varName:"|", varValue:{value:arrayFun(function(args){
 			return args[0].value < args[1].value ? args[1] : args[0];
 		})}},
-		{varName:"&", varValue:{value:arrayFun(function(env, args){
+		{varName:"&", varValue:{value:arrayFun(function(args){
 			return args[0].value < args[1].value ? args[0] : args[1];
 		})}},
-		{varName:"at", varValue:{value:function(env, args){
+		{varName:"at", varValue:{value:function(args){
 			return atFunction(args[0].value, args[1]);
 		}}},
-		{varName:"mutable", varValue:{value:function(env, args){
+		{varName:"mutable", varValue:{value:function(args){
 			if(args[0].display === DISPLAY_MUTABLE){
 				return args[0];
 			}
@@ -276,7 +274,7 @@
 			mutableValue.value.set(args[0]);
 			return mutableValue;
 		}}},
-		{varName:"display_type", varValue:{value:function(env, args){
+		{varName:"display_type", varValue:{value:function(args){
 			var result = undefined;
 			switch (args[0].display || DISPLAY_DEFAULT) {
 				case DISPLAY_DEFAULT: result = "default"; break;
@@ -289,11 +287,11 @@
 			}
 			return GLang.stringValue(result);
 		}}},
-		{varName:"get", varValue:{value:function(env, args){
+		{varName:"get", varValue:{value:function(args){
 			if(!args[0].display === DISPLAY_MUTABLE) throw new Error("'get' has to be called with a mutable value as the first parameter");
 			return args[0].value.mutable;
 		}}},
-		{varName:"is_defined_globally", varValue:{value:function(env, args){
+		{varName:"is_defined_globally", varValue:{value:function(args){
 			var name = args[0].value + "";
 			//TODO: Error-driven logic is probably a bad idea, but I guess it works
 			try {
@@ -311,7 +309,7 @@
 		GLang.dr[globalVariables[i].varName] = globalVariables[i].varValue;
 	}
 
-    GLang.dr.qdSet("info", {value:function(env, args){
+    GLang.dr.qdSet("info", {value:function(args){
         const annotation = args[0];
         
         //Check for an array of length 2
@@ -320,7 +318,7 @@
 			throw new Error("An annotation given to 'info' needs to be an array with two values - " + GLang.stringify(annotation) + " does not fit this rule");
 		}
         
-        return {value:function(env, args){
+        return {value:function(args){
             const actualValue = args[0];
             
             //Behavior for array annotations
@@ -335,11 +333,11 @@
         }, display:DISPLAY_FUNCTION}
     }, display:DISPLAY_FUNCTION});
     
-	GLang.dr.qdSet("calcit_annotations", {value:function(env, args){
+	GLang.dr.qdSet("calcit_annotations", {value:function(args){
 		return {value:args[0].annotations || []};
 	}, display:DISPLAY_FUNCTION});
     
-	GLang.dr.qdSet("do", {value:function(env, args){
+	GLang.dr.qdSet("do", {value:function(args){
 		var params = [];
 		if(args.length >= 2){
 			params = args[1].value;

@@ -1,4 +1,4 @@
-function applyAnimation(env, args) {
+function applyAnimation(args) {
 	var _originalConfig = args[0];
 	var _config = GLang.wrapValueToJsObject(_originalConfig);
 
@@ -38,7 +38,7 @@ function applyAnimation(env, args) {
 
 }
 
-GLang.dr.qdSet("apply_animation", {value:function(env, args) {
-	applyAnimation(env, args);
+GLang.dr.qdSet("apply_animation", {value:function(args) {
+	applyAnimation(args);
 	return GLang.voidValue;
 }});

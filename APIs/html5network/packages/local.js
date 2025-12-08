@@ -11,7 +11,7 @@
 	}
 	
 	//TODO: Rewrite with fetch API; document
-	function httpGetLocalAsync(env, args) {
+	function httpGetLocalAsync(args) {
 		var config = GLang.wrapValueToJsObject(args[1]);
 		var headers = config.headers || {};
 		var url = config.url;
@@ -40,7 +40,7 @@
 	}
 	
 	//TODO: Rewrite with fetch API; document
-	function httpPostLocalAsync(env, args) {
+	function httpPostLocalAsync(args) {
 		var config = GLang.wrapValueToJsObject(args[1]);
 		var headers = config.headers || {};
 		var url = config.url;
