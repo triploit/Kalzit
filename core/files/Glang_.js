@@ -6,4 +6,4 @@ const DISPLAY_DOM = 5;
 const DISPLAY_MUTABLE = 6;
 const DISPLAY_IMPORTED_DOM = 7;
 
-var GLang={};
+var GLang={exported:Object.create(null)};
