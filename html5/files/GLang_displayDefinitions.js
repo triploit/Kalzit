@@ -1,56 +1,37 @@
-GLang.displayValue = function displayValue(container){
-	var displayType = container.display || DISPLAY_DEFAULT;
-	
-	switch(displayType) {
-		case DISPLAY_STRING: return GLang.stringDisplay(container, function(x){
-			return x.value;
-		})
-
-		case DISPLAY_NONE: return GLang.stringDisplay(container, function(x){
-			return "";
-		})
-
-		case DISPLAY_FUNCTION: return GLang.stringDisplay(container, function(x){
-			var result = "{{function}. void}";
-			if(GLANG_DEBUG && GLang.getFirstAnnotation(x, GLang.stringValue("argumentList"))){
-				var argumentValues = GLang.getFirstAnnotation(x, GLang.stringValue("argumentList")).value;
-				var argList = "(";
-				for(var i = 0; i < argumentValues.length; i++){
-					argList += "$" + (argumentValues[i].value || argumentValues[i])
-					if(i < argumentValues.length - 1){
-						argList += "; "
-					}
-				}
-				argList += ")";
-				result = argList + " fun " + result;
-			}
-			return result;
-		})
-
-		case DISPLAY_DOM: return container.value;
-
-		case DISPLAY_MUTABLE: return GLang.stringDisplay(container, function(x){
-			return "mutable: " + x.value.mutable;
-		})
-        
-        case DISPLAY_IMPORTED_DOM: return document.importNode(container.value, true);
-
-		default: return GLang.stringDisplay(container, function(x){
-			var val = x.value;
-			if(val instanceof Array){
-				if(val.length === 0){
-					return "()";
-				}
-				var string = "";
-				for(var i = 0; i < val.length; i++){
-					string += "[" + GLang.displayValue(val[i]).innerHTML + "]";
-					if(i < val.length - 1){
-						string += "; "
-					}
-				}
-				return string;
-			}
-			return JSON.stringify(val);
-		})
+(function(){
+	function textDom(string) {
+		var paragraph = document.createElement("p");
+		paragraph.appendChild(document.createTextNode(string));
+		return paragraph;
 	}
-};
+
+	GLang.displayValue = function displayValue(container){
+		var displayType = container.display || DISPLAY_DEFAULT;
+		
+		switch(displayType) {
+			case DISPLAY_STRING: return textDom(container.value)
+			case DISPLAY_NONE: return textDom("")
+			case DISPLAY_FUNCTION: return textDom("{{function}. void}")
+			case DISPLAY_DOM: return container.value;
+			case DISPLAY_MUTABLE: return textDom("mutable: " + container.value.mutable);
+			case DISPLAY_IMPORTED_DOM: return document.importNode(container.value, true);
+
+			default:
+				var val = x.value;
+				if(val instanceof Array){
+					if(val.length === 0){
+						return textDom("()");
+					}
+					var string = "";
+					for(var i = 0; i < val.length; i++){
+						string += "[" + GLang.displayValue(val[i]).innerHTML + "]";
+						if(i < val.length - 1){
+							string += "; "
+						}
+					}
+					return textDom(string);
+				}
+				return textDom(JSON.stringify(val));
+		}
+	};
+})();

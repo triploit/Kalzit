@@ -24,11 +24,6 @@
 		}
 		showMessageOnPage(data, "print")
 	};
-	GLang.stringDisplay = function(value, stringProducer){
-		var paragraph = document.createElement("p");
-		paragraph.appendChild(document.createTextNode(stringProducer(value)));
-		return paragraph;
-	}
 	GLang.printValue = function(container){
 		document.getElementById("playground").appendChild(GLang.displayValue(container));
 	}
