@@ -42,8 +42,8 @@
 			//Figure out the result of this (function-) call
 			var result = null;
 
-			if(object.length != 1) {
-				console.error(new Error("Kalzit functions should have exactly one parameter (an array of arguments); the old 'env, args' structure is no longer supported. OBJ: " + object));
+			if(object.length > 1) {
+				console.error(new Error("Kalzit functions should have at most one parameter ('args', an array of arguments); the old 'env, args' structure is no longer supported. OBJ: " + object));
 			}
 
 			result = object(args);

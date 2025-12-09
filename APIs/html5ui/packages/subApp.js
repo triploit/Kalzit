@@ -84,7 +84,7 @@ window.onhashchange = function(){
 			//Here we go - we have to re-enable scrolling
 			const scrollY = document.body.style.top;
 			
-			GLang.dr.resolveName("popup_animate_out").value(GLang.dr, []);
+			GLang.dr.resolveName("popup_animate_out").value([]);
 			//If it is not done already, re-enable scrolling of the main page content
 			if(mainPageScrollingDisabled && !mainPageScrollingShouldBeDisabled) {
 				enableScrolling()
