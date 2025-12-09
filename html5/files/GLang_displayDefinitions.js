@@ -17,7 +17,7 @@
 			case DISPLAY_IMPORTED_DOM: return document.importNode(container.value, true);
 
 			default:
-				var val = x.value;
+				var val = container.value;
 				if(val instanceof Array){
 					if(val.length === 0){
 						return textDom("()");
