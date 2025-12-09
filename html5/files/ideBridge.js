@@ -32,5 +32,7 @@
 	GLang.printValue = function(container){
 		document.getElementById("playground").appendChild(GLang.displayValue(container));
 	}
+
+    GLang.elementTypeAvailable = true;
 	
 })();

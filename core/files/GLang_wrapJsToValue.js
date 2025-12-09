@@ -47,7 +47,7 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 			)};
 		} else {
             //Do we have a DOM element?
-            if(GLang.global.Element ? js instanceof GLang.global.Element : false) {
+            if(GLang.elementTypeAvailable ? js instanceof Element : false) {
                 return {display:DISPLAY_DOM, value:js}
             }
             
