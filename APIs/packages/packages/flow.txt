@@ -2,8 +2,8 @@ $switch = ($value ? Any ; $_array) fun {{1 at x at _array} each {(0 at x at _arr
 $ifElse = ($condition ; $_ie) fun {
 	do: ((0 eq do: condition) at _ie)
 }.
-$categorize = ($_items ? (List:Any) ; $_categories ? (List:2 SizedList Any)) fun {($_x fun {_x switch categories}) each _items}.
-$doEach = ($f ; $_argSets ? (List:List:Any)) fun {($_x fun {f do _x}) each _argSets}.
+$categorize = ($_items ? UntypedList ; $_categories ? (List: UntypedSizedList: 2)) fun {($_x fun {_x switch categories}) each _items}.
+$doEach = ($f ; $_argSets ? (List:UntypedList)) fun {($_x fun {f do _x}) each _argSets}.
 
 
 $lastFlowConditionRef ? Var = true.

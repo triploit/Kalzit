@@ -16,7 +16,7 @@
 	3 arrayJoinedChunks (0;1;2;3).
 	`Result: [[0];[1];[2]]; [[1];[2];[3]]`
 */
-$arrayJoinedChunks=($size ? Int ; $_list ? (List:Any)) fun {
+$arrayJoinedChunks=($size ? Int ; $_list ? UntypedList) fun {
 	(size > length: _list) ifElse {
 		array: (0 range size - 1) at _list
 	};{
@@ -32,7 +32,7 @@ $arrayJoinedChunks=($size ? Int ; $_list ? (List:Any)) fun {
 	(1;2;3) mingle (4;5;6).
 	`Result: [[1];[4]]; [[2];[5]]; [[3];[6]]`
 */
-$mingle=( $_a ? (List:Any) ; $_b ? (List:Any) ) fun {
+$mingle=( $_a ? UntypedList ; $_b ? UntypedList ) fun {
 	{(x at _a);(x at _b)} each 0 range (max: (length: _a);(length: _b)) - 1
 }.
 
@@ -43,6 +43,6 @@ $mingle=( $_a ? (List:Any) ; $_b ? (List:Any) ) fun {
 	unmingle: (1;2) mingle (3;4).
 	`Result: [[1];[2]]; [[3];[4]]`
 */
-$unmingle=($_mingled ? (List: 2 SizedList Any)) fun {
+$unmingle=($_mingled ? (List: UntypedSizedList: 2)) fun {
 	[first each _mingled];[second each _mingled]
 }

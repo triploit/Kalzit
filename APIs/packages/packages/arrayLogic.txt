@@ -70,7 +70,7 @@ $all = ($action ; $_things ? ModifiableList) fun {action each getArray: _things}
 	randomItem: 3;7;"Test".
 	`Result: Could be either 3, 7, or "Test"`
 */
-$randomItem = ($_list ? (List:Any)) fun {
+$randomItem = ($_list ? UntypedList) fun {
 	$index = Int: (do:random) * length: _list.
 	index at _list
 }.

@@ -1,14 +1,14 @@
-$modifiableList = ($_normalList ? (List:Any)) fun {
+$modifiableList = ($_normalList ? UntypedList) fun {
 	!ifElse ((first each _normalList) eq $push;$getArray;$clear;$setOnAddition;$setOnRemoval;$setOnChange;$removeEquals;$removeIndex;$setIndex) {
 		_normalList
 	};{
-		$listVarRef ? (Volatile List:Any) = _normalList.
+		$listVarRef ? (Volatile UntypedList) = _normalList.
 		$onAdditionListRef ? Var = (). $onAddition = referenceBasedComposedFunction: onAdditionListRef.
 		$onRemovalListRef ? Var = (). $onRemoval = referenceBasedComposedFunction: onRemovalListRef.
 		$onChangeListRef ? Var = (). $onChange = referenceBasedComposedFunction: onChangeListRef.
 		$listEndRef ? Var = ().
 		
-		["push"; ($_items ? (List:Any)) fun {
+		["push"; ($_items ? UntypedList) fun {
 			listVarRef = ~listVarRef ; _items.
 			onAddition each _items.
 			!onChange.

@@ -20,6 +20,8 @@ $Boolean = {((void eq x) | 0 eq x) at 1;0}.
 */
 $List = $_itemType fun {{_itemType each x;()}}.
 
+$UntypedList = {x;()}.
+
 /* @kalzit.for any
 	This is a type function that accepts any value, and leaves unchanged.
 	The function just returns its first parameter.
@@ -59,6 +61,8 @@ $String = {"" + x}.
 	The only exception is the empty list, or void. With that as the parameter, the empty list is returned.
 */
 $SizedList = ($size ? Int ; $_itemType) fun {{(List: _itemType): (0 range size - 1) at x}}.
+
+$UntypedSizedList = ($size ? Int) fun {{UntypedList: (0 range size - 1) at x}}.
 
 /* @kalzit.for one_or_many
 A type function that allows single values and arrays of a given type.

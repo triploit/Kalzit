@@ -1,4 +1,4 @@
-$uiSlides = ($slideIndexRef ? Mutable ; $_slides ? (List:Any)) fun {
+$uiSlides = ($slideIndexRef ? Mutable ; $_slides ? UntypedList) fun {
 	$currentSlideRef ? Var = 0 at _slides.
 	
 	slideIndexRef = 0.

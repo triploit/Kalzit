@@ -4,7 +4,7 @@
 	
 	Example category that accepts odd numbers:
 */
-$arrayGroupByCategory=($_list ? (List: Any) ; $_categories ? (List: 2 SizedList Any)) fun {
+$arrayGroupByCategory=($_list ? (List: Any) ; $_categories ? (List: UntypedSizedList: 2)) fun {
 	(1 eq length: _list) ifElse {
 		array: _list
 	};{

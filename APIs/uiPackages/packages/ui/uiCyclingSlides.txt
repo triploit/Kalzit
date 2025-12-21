@@ -1,4 +1,4 @@
-$uiCyclingSlides = ($pauseTime ? Int ; $_slideValues ? (List:Any)) fun {
+$uiCyclingSlides = ($pauseTime ? Int ; $_slideValues ? UntypedList) fun {
 	$slideIndexRef ? Var = void.
 	$mySlides = slideIndexRef uiSlides _slideValues.
 	$myIndexRef ? Var = 0.

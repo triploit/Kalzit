@@ -108,8 +108,10 @@
           "any"
         , "boolean"
         , "list"
+        , "untyped_list"
         , "string"
         , "sized_list"
+        , "untyped_sized_list"
         , "one_or_many"
       ]
       , "scriptUrl": "types/basicTypes.txt"

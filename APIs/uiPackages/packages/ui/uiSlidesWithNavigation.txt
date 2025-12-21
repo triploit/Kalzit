@@ -1,4 +1,4 @@
-$uiSlidesWithNavigation = ($_slides ? (List:Any) ; $startIndex ? (0 default Int)) fun {
+$uiSlidesWithNavigation = ($_slides ? UntypedList ; $startIndex ? (0 default Int)) fun {
 	$indexVarRef ? Var = 0.
 	$result = uiElementCollection: (indexVarRef uiSlides _slides);(
 		@(onTap: () fun {
