@@ -3,7 +3,6 @@
 //During tree generation, there are more kinds of items; they are represented by strings
 //This makes it very easy to figure out which tree items are intended to be in the finished tree
 const KIND_PARENTHESES = 0;
-const KIND_CODEBLOCK = 1;
 const KIND_STRING = 2;
 const KIND_ARRAY = 3;
 const KIND_NAME = 4;
@@ -11,7 +10,6 @@ const KIND_NUMBER = 5;
 const KIND_COLON = 6;
 const KIND_ASSIGN_TO_STRING = 7;
 const KIND_SEMICOLON = 8;
-//const KIND_SET_TYPE = 9;
 const KIND_TYPED = 9;
 const KIND_SET_ANNOTATION = 10;
 const KIND_CALL_NO_ARGS = 11;
@@ -345,7 +343,7 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 		
 		var finishedCodeBlock = function(sentences) {
 		    return {
-		        k:KIND_CODEBLOCK,
+		        k:KIND_FUNCTION_DEFINITION,
 		        c:GLang.prepareTree(sentences),
                 p:[{s:"x"}, {s:"y"}], //Parameters of this codeblock are x and y (if used as a function)
 		        next:function(token) {
@@ -722,7 +720,9 @@ if(GLANG_TREE_GENERATOR_INCLUDED) {
 						//Check that it is valid
 						//Assume that we have exactly one following tree item in this sentence (the code block)
 						if(state.length !== i + 2) throw new Error("Uses of 'fun' must be followed by a code block");
-						if(state[i + 1].k !== KIND_CODEBLOCK) throw new Error("Function definitions need a code block as their second parameter");
+						if(state[i + 1].k !== KIND_FUNCTION_DEFINITION) throw new Error("Function definitions need a code block as their second parameter");
+						if(state[i + 1].p[0].s !== "x" || state[i + 1].p[1].s !== "y") throw new Error("Creating a function with named parameters and then immediately changing the parameter names does not really make sense");
+
 						const codeblock = state[i + 1];
 
 						const parameterList = simplifyFunctionParametersForRuntime(state[i - 1]);

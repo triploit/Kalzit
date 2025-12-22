@@ -183,7 +183,6 @@
 				return resultA;
 			case KIND_SEMICOLON: return SEMICOLON_VALUE;
 			case KIND_FUNCTION_DEFINITION:
-            case KIND_CODEBLOCK:
 				return {value:functionFromCodeblock(
 					codeblockFromTree(fragment.c),
 					env,
