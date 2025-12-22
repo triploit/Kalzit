@@ -50,6 +50,10 @@ $skeletonCode = do:{
 
 		$coreLanguageBlob = (";" strJoin fileContent each rootFolder + relativeScriptPaths).
 		
+		!if (0 eq length: usedLibraries) {
+			print: "There are ZERO LIBRARIES INCLUDED with this app. This is probably an implementation error".
+		}.
+		print "Number of libraries used: " + length: usedLibraries.
 		$apisBlob = (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
 		) + ";".
