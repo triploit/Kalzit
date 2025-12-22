@@ -12,6 +12,7 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 		
 		//We have to produce an array function
 		if(GLANG_DEBUG) {
+			/*
             var jsArgNames = js.toString()
 			    .replace(/((\/\/.*$)|(\/\*[\s\S]*?\*\/)|(\s))/mg,'')
 			    .match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1]
@@ -21,23 +22,16 @@ GLang.wrapJsToValue = function wrapJsToValue(js){
 			    if(jsArgNames[i].startsWith("_")){
 				    //We have to produce a normal function
                     throw new Error("wrapJsToValue produces a non-array function for: " + js);
-                    
-                    /*
-				    if(GLANG_DEBUG) {
-					    //Include argument names at runtime
-					    return {value:calcitFunction, display:DISPLAY_FUNCTION, argumentList:jsArgNames}
-				    } else {
-					    //Do not include argument names
-					    return {value:calcitFunction, display:DISPLAY_FUNCTION}
-				    }
-                    */
 			    }
 		    }
 			//Include argument names at runtime
-			return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+			return {value:GLang.arrayFunction(js.length, calcitFunction), display:DISPLAY_FUNCTION, argumentList:jsArgNames}
+			*/
+
+			return {value:GLang.arrayFunction(js.length, calcitFunction), display:DISPLAY_FUNCTION}
 		} else {
 			//Do not include argument names
-			return {value:GLang.arrayFun(calcitFunction), display:DISPLAY_FUNCTION}
+			return {value:GLang.arrayFunction(js.length, calcitFunction), display:DISPLAY_FUNCTION}
 		}
 	} else if('object' === typeof js) {
 		//Do we have an array, or a "normal" object?

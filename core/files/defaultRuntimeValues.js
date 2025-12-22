@@ -9,6 +9,45 @@
 	GLang.stringValue = stringValue;
 	GLang.voidValue = {value:[], display:DISPLAY_NONE};
 
+	function singleParameterArrayFun(original) {
+		if(GLANG_DEBUG) {
+			console.log("Created an array function optimized for a single parameter");
+		}
+
+		return function afw1(args) {
+			if(args.length === 0) return original([]);
+
+			const potentialArray = args[0];
+			if(Array.isArray(potentialArray.value)) {
+				//Iterate over each item
+				return {value:potentialArray.value.map(x => afw1([x]))};
+			} else {
+				//Call the function normally
+				return original([potentialArray]);
+			}
+		}
+	}
+
+	GLang.arrayFunction = function arrayFunction(parameterCount, original) {
+		switch (parameterCount) {
+			case 0:
+				if(GLANG_DEBUG) {
+					console.log("Saved an array function conversion");
+				}
+				return original; //Conversion to an array function would have no effect here
+			case 1:
+				return singleParameterArrayFun(original);
+			/*
+			case 2:
+				return arrayFun(original);
+			default:
+				throw new Error("Kalzit functions must not have more than two parameters")
+			*/
+			default:
+				return arrayFun(original);
+		}
+	}
+
 	function arrayFun(original){
         //console.log("arrayFun called");
 		if(GLANG_DEBUG && ("function" !== typeof original)){
@@ -49,26 +88,26 @@
 			
 			//Called with at least one array
 			if(aIsArray || bIsArray){
-				a = aIsArray ? a : {value:[a]};
-				b = bIsArray ? b : {value:[b]};
-				const lenA = a.value.length, lenB = b.value.length;
+				a = aIsArray ? a.value : [a];
+				b = bIsArray ? b.value : [b];
+				const lenA = a.length, lenB = b.length;
 				
 				var len = Math.max(lenA, lenB);
 				for(var i = 0; i < len; i++){
 					if(!lenB){
 						result.push(arrayFunWrapper(
 							[
-								a.value[i % lenA]
+								a[i % lenA]
 							]));
 					}else{
 						result.push(arrayFunWrapper(
 							[
-								a.value[i % lenA],
-								b.value[i % lenB]
+								a[i % lenA],
+								b[i % lenB]
 							]));
 					}
 				}
-				return {value:result, display:b.display || a.display};
+				return {value:result};
 			}
 			
 			//Called with no arrays as parameter
@@ -80,7 +119,6 @@
 		}
 		return arrayFunWrapper;
 	}
-	GLang.arrayFun = arrayFun;
 	
 	function atFunction(property, valObj){
         //console.log("atFunction");
