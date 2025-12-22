@@ -51,10 +51,10 @@ this.file_delete_folder = function(filePath){
 	fs.existsSync(filePath) && fs.rmdirSync(filePath);
 }
 
-GLang.dr.qdSet("file_content_raw", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("file_content_raw", {value:GLang.arrayFunction(1, function(args){
 	return {value:fileContentRaw(args[0].value)};
 }), display:DISPLAY_FUNCTION});
-GLang.dr.qdSet("file_content_async", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("file_content_async", {value:GLang.arrayFunction(2, function(args){
 	function fileContentCallback(content){
 		GLang.call(args[0], [content])
 	}
@@ -69,7 +69,7 @@ GLang.dr.qdSet("file_content_async", {value:GLang.arrayFun(function(args){
 	
 	return GLang.voidValue
 }), display:DISPLAY_FUNCTION});
-GLang.dr.qdSet("folder_content_async", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("folder_content_async", {value:GLang.arrayFunction(2, function(args){
 	function folderContentCallback(content){
 		GLang.call(args[0], [content])
 	}

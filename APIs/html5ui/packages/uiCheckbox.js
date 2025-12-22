@@ -30,7 +30,7 @@ function makeCheckbox(text, withCheckbox) {
 	return visibleThing;
 }
 
-GLang.dr.qdSet("ui_checkbox", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("ui_checkbox", {value:GLang.arrayFunction(2, function(args){
 	return {value:makeCheckbox(args[1].value, checkbox => {
 		
 		checkbox.onchange=function(e){

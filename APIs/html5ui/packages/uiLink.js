@@ -1,4 +1,4 @@
-GLang.dr.qdSet("ui_link", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("ui_link", {value:GLang.arrayFunction(2, function(args){
 	var anchor = document.createElement("a");
 	anchor.classList.add("calcitLink");
 	anchor.appendChild(GLang.displayValue(args[1]));

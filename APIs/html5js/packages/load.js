@@ -9,7 +9,7 @@ Since the JavaScript code run in a browser is not allowed to talk to most server
 
 If you want to use relative URLs, consider using "loadLocal".
 */
-GLang.dr.qdSet("load_global", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("load_global", {value:GLang.arrayFunction(1, function(args){
 	var result = KLoad.loadGlobal(args[0].value);
 	return result ? GLang.stringValue(result) : GLang.voidValue;
 })});
@@ -22,7 +22,7 @@ Usage example (Kalzit):
 	
 If you want to use absolute URLs, consider using "loadGlobal".
 */
-GLang.dr.qdSet("load_local", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("load_local", {value:GLang.arrayFunction(1, function(args){
 	var result = KLoad.loadLocal(args[0].value);
 	return result ? GLang.stringValue(result) : GLang.voidValue;
 })});
@@ -101,15 +101,15 @@ Usage example (Kalzit):
 	
 If you want to use absolute URLs, consider using "loadGlobalAsync".
 */
-GLang.dr.qdSet("load_local_async", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("load_local_async", {value:GLang.arrayFunction(2, function(args){
 	loadAsync(args[0], args[1].value, false, {mode: "same-origin"});
 	return GLang.voidValue;
 })});
-GLang.dr.qdSet("load_local_async_without_indicator", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("load_local_async_without_indicator", {value:GLang.arrayFunction(2, function(args){
 	loadAsync(args[0], args[1].value, true, {mode: "same-origin"});
 	return GLang.voidValue;
 })});
-GLang.dr.qdSet("load_global_directly_async_native", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("load_global_directly_async_native", {value:GLang.arrayFunction(2, function(args){
 	loadAsync(args[0], args[1].value, false);
 	return GLang.voidValue;
 })});
@@ -127,12 +127,12 @@ In its current form, the server handles these load requests in a synchronous way
 
 If you want to use absolute URLs, consider using "loadLocalAsync".
 */
-GLang.dr.qdSet("load_global_async_native", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("load_global_async_native", {value:GLang.arrayFunction(2, function(args){
 	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), false);
 	return GLang.voidValue;
 })});
 
-GLang.dr.qdSet("load_global_in_background_async_native", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("load_global_in_background_async_native", {value:GLang.arrayFunction(2, function(args){
 	loadAsync(args[0], "/api/loadUrl?query=" + encodeURIComponent(args[1].value), true);
 	return GLang.voidValue;
 })});

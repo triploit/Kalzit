@@ -1,17 +1,17 @@
-GLang.dr.qdSet("str_starts_with", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("str_starts_with", {value:GLang.arrayFunction(2, function(args){
 	return {value:(args[1].value).startsWith(args[0].value) ? 1 : 0};
 })});
-GLang.dr.qdSet("str_ends_with", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("str_ends_with", {value:GLang.arrayFunction(2, function(args){
 	return {value:(args[1].value).endsWith(args[0].value) ? 1 : 0};
 })});
-GLang.dr.qdSet("str_split", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("str_split", {value:GLang.arrayFunction(2, function(args){
 	var results = (args[1].value).split(args[0].value);
 	for(var i = 0; i < results.length; i++){
 		results[i] = GLang.stringValue(results[i]);
 	}
 	return {value:results}
 })});
-GLang.dr.qdSet("str_split_regex", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("str_split_regex", {value:GLang.arrayFunction(2, function(args){
 	var results = (args[1].value).split(new RegExp(args[0].value, "g"));
 	for(var i = 0; i < results.length; i++){
 		results[i] = GLang.stringValue(results[i]);

@@ -1,4 +1,4 @@
-GLang.dr.qdSet("ui_textfield_onaction", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("ui_textfield_onaction", {value:GLang.arrayFunction(2, function(args){
 	var textfield = document.createElement("input");
 	textfield.type="text";
 	textfield.value=args[1].value;
@@ -9,7 +9,7 @@ GLang.dr.qdSet("ui_textfield_onaction", {value:GLang.arrayFun(function(args){
 	}
 	return {value:textfield, display:DISPLAY_DOM};
 })})
-GLang.dr.qdSet("ui_textfield_onchange", {value:GLang.arrayFun(function(args){
+GLang.dr.qdSet("ui_textfield_onchange", {value:GLang.arrayFunction(2, function(args){
 	var textfield = document.createElement("input");
 	textfield.type="text";
 	textfield.value=args[1].value;
