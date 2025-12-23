@@ -3,4 +3,6 @@ GLang.dr.qdSet("export_named_value", {value:function(args) {
     const value = args[1];
     
     GLang.exported[name] = value;
+
+    return GLang.voidValue;
 }});
