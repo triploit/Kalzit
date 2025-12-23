@@ -14,16 +14,6 @@
 					GLang.eval(this.loadUrl(url),true); break;
 				case "js":
 					this.installJs(Function(this.loadUrl(url))); break;
-				case "json":
-					var packageInfo = JSON.parse(this.loadUrl(url));
-					if(packageInfo.requirements){
-						for(var i = 0; i < packageInfo.requirements.length; i++){
-							if(GLang.pm.registeredPackages.indexOf(packageInfo.requirements[i]) !== -1) continue;
-							this.loadPackageSync(packageInfo.requirements[i]);
-						}
-					}
-					this.register(packageInfo.libraries, url.replace("/platform-packages.json", "/packages/"));
-					break;
 				default: if(GLANG_DEBUG) throw new Error("Unsupported language for packages: " + languageCode);
 			}
 		} catch (e) {
@@ -32,30 +22,6 @@
 			}
 			GLang.error(e);
 		}
-	}
-	
-	//Registers a package if it is not registered already.
-	function register(packageData, prefix){
-		if(packageData instanceof Array){
-			for(var entry = 0; entry < packageData.length; entry++){
-				this.register(packageData[entry], prefix);
-			}
-			return;
-		}
-		for(var i = 0; i < this.registeredPackages.length; i++){
-			var alreadyRegistered = this.registeredPackages[i];
-			if(alreadyRegistered.provides === packageData.provides){
-				GLang.error("The name " + alreadyRegistered.provides + " is already provided by " + alreadyRegistered);
-				return;
-			}
-		}
-		
-		//Use prefix
-		if(prefix){
-			packageData.scriptUrl = prefix + packageData.scriptUrl;
-		}
-		
-		this.registeredPackages.push(packageData);
 	}
 	
 	function validatePackageVariables(names){
@@ -86,10 +52,13 @@
                 
                 //Copy all the variables we expect
                 for(var nameIndex = 0; nameIndex < nameList.length; nameIndex++) {
-                    if(!newScope[nameList[nameIndex]]) {
-                        throw new Error("A package has claimed to provide the variable " + names[name] + " - but it does not");
-                    }
-                    GLang.dr.qdSet(nameList[nameIndex], newScope.resolveName(nameList[nameIndex]));
+					if(GLANG_DEBUG) {
+						if(!newScope[nameList[nameIndex]]) {
+							throw new Error("A package has claimed to provide the variable " + names[nameIndex] + " - but it does not");
+						}
+					}
+                    //GLang.dr.qdSet(nameList[nameIndex], newScope.resolveName(nameList[nameIndex]));
+					GLang.dr.qdSet(nameList[nameIndex], newScope[nameList[nameIndex]]);
                 }
 
                 // if(GLANG_DEBUG) validatePackageVariables(nameList);
@@ -116,27 +85,15 @@
 		return false;
 	}
 	
-	function initialize(startPackages){
-		for(var i = 0; i < startPackages.length; i++){
-			this.loadPackageSync(startPackages[i]);
-		}
-	};
-	
 	//A package manager implementation for the browser
 	GLang.PackageManager = function (){
 		this.loadPackageSync = loadPackageSync;
 		this.registeredPackages = [];
-		//this.hiddenRegisteredPackages = [];
-		this.installedUrls = [];
 		
-		this.register = register;
+		//this.register = register;
 		this.installPackage = installPackage;
 		
 		this.registeredPrecompiledPackages = [];
-//		this.registerPrecompiledPackage = function(names, compiledCode){
-//			this.registeredPrecompiledPackages.push([names, compiledCode]);
-//			this.registeredPackages.push({provides: names, scriptUrl: null})
-//		};
 		
 		//Register precompiled package tree
 		this.rppt = function(names, tree) {
@@ -158,7 +115,7 @@
 			} };
 		this.installJs = installJs;
 		
-		this.initialize = initialize;
+		//this.initialize = initialize;
 	}
 	
 })(this);
