@@ -4,8 +4,10 @@ $jsonFile = appParameter: "input-file".
 	$jsonParent = fileParent: jsonFile.
 
 	$packageObject = parseJson: fileContent: jsonFile.
+
 	$libraries = $libraries propOf packageObject.
-	print: "Library count in " + jsonFile + ": " + length: libraries.
+	# print: "Library count in " + jsonFile + ": " + length: libraries.
+
 	(appParameter: "output-file") fileWrite ";" strJoin {
 		$jsonEntry = x.
 		$scriptPath = jsonParent + "/packages/" + $scriptUrl propOf jsonEntry.

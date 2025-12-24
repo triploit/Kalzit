@@ -1,6 +1,6 @@
 #Generate static string assets and translationMap.json for quick access, as well as manifest.appcache
-mkdir ~/.kalzit
-mkdir ~/.kalzit/generated
+# mkdir ~/.kalzit
+mkdir -p ~/.kalzit/generated
 
 hasPrevious=0
 for jsonFile in $(find "./assets/strings" -name default.json)

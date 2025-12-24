@@ -9,4 +9,5 @@ bash ./minify.sh
 cd $startFolder
 
 #Generic skeleton
+mkdir -p ~/.kalzit/generated
 bash "./html5/files/buildForBrowser.sh" "browser_app_base.html" "$HOME/.kalzit/generated/_browser_app_skeleton.html"

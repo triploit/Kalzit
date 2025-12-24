@@ -14,7 +14,7 @@ $includedLibraries = ";" strSplit appParameter: "included-libraries". `This trum
 
 
 `Here we begin the actuall build process`
-print: "Trying to build Kalzit app " + app.
+print: "Building Kalzit app " + app.
 
 `parse JSON configuration`
 $configPath = ("\.k$";".json") strReplaceRegex app.
@@ -53,7 +53,8 @@ $skeletonCode = do:{
 		!if (0 eq length: usedLibraries) {
 			print: "There are ZERO LIBRARIES INCLUDED with this app. This is probably an implementation error".
 		}.
-		print "Number of libraries used: " + length: usedLibraries.
+		# print "Number of libraries used: " + length: usedLibraries.
+
 		$apisBlob = (";" strJoin
 			fileContent: usedLibraries + "/_min.js"
 		) + ";".
@@ -94,7 +95,7 @@ $skeletonCode = do:{
 			
 			# Make a temporary file containing the blob
 			fileCreateFolder: (!getUnixUserFolder) + "/.kalzit/generated".
-			print: $tempFile = (!getUnixUserFolder) + "/.kalzit/generated/buildAppHtmlTempFile-" + (fileName: appBase) + ".js".
+			`print:` $tempFile = (!getUnixUserFolder) + "/.kalzit/generated/buildAppHtmlTempFile-" + (fileName: appBase) + ".js".
 			tempFile fileWrite coreLanguageAndAPIsBlob.
 			
 			# Return a copressed version
@@ -124,10 +125,10 @@ $skeletonCode = do:{
 `Replace the last .k in the file name (file extension) by .html to get the path of the generated HTML file`
 $generatedHtmlPath = appFolder + "/index.html".
 
-print: "WRITE THE FILE CONTENT".
-print: "APP " + app.
-print: "APP PARENT " + fileParent: app.
-print: "APP FOLDER " + appFolder.
+# print: "WRITE THE FILE CONTENT".
+# print: "APP " + app.
+# print: "APP PARENT " + fileParent: app.
+# print: "APP FOLDER " + appFolder.
 
 `Write the file content`
 generatedHtmlPath fileWrite

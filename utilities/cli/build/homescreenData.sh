@@ -16,7 +16,7 @@ add_to_homescreen () {
 }
 
 #Begin writing to the "standardApps.json" file (make sure the parent folder exists first)
-mkdir "$rootFolder/apps/home/config"
+mkdir -p "$rootFolder/apps/home/config"
 echo "[" > "$rootFolder/apps/home/config/standardApps.json"
 
 #Look for folders in /apps

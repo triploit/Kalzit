@@ -1,7 +1,7 @@
 #Before doing anything else, build the home screen data
 #./cli build homescreenData
-mkdir ~/.kalzit
-mkdir ~/.kalzit/generated
+# mkdir ~/.kalzit
+mkdir -p ~/.kalzit/generated
 
 #Get the app ID
 appId=$1
