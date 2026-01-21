@@ -7,3 +7,7 @@ $sortingRuleNumbersAscending = {x-y}.
 Sorting rule for putting a list of numbers in descenging order (largest first)
 */
 $sortingRuleNumbersDescending = {y-x}.
+
+$derivativeSortingRule = !fun ($converter ; $existingRule) {
+	{(converter x) existingRule (converter y)}
+}

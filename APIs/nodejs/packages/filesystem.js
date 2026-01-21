@@ -144,3 +144,7 @@ this.file_is_link = function(filePath){
 		return false;
 	}
 }
+
+this.file_size = function(filePath) {
+	return fs.statSync(filePath).size;
+}
