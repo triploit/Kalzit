@@ -87,14 +87,23 @@
 
 				//We still have to pop the current call stack entry
 				GLang.callStack.pop();
+				
+				/*
 				return {value:[], error:exception, callStackCopy:[...GLang.callStack], annotations:[
 					{value:[
 						GLang.stringValue("error"),
 						GLang.stringValue(exception.message)
 					]}
 				]};
+				*/
+				
+				//Exceptions should stop execution
+				throw exception
 			} else {
-				return GLang.voidValue;
+				//return GLang.voidValue;
+				
+				//Exceptions should stop execution
+				throw exception
 			}
 			
 		}
