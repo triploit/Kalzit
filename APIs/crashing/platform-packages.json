@@ -1,0 +1,8 @@
+{
+	"info":{
+		"description":"Libraries that are deliberately designed to throw errors and stop execution"
+	},
+	"libraries":[
+		{"provides":["assert_or_crash"], "scriptUrl":"assert.js"}
+	]
+}
