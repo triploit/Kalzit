@@ -8,3 +8,7 @@ this.assert_or_crash = function(shouldBeOne, errorMessage) {
 		}
 	}
 }
+
+this.crash = function(message) {
+	throw new Error(message);
+}

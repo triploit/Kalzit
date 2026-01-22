@@ -64,6 +64,13 @@
 			}
 			return result;
 		}catch(exception){
+			if(exception.kHasBeenLogged) {
+				//Just re-throw
+				throw exception
+			} else {
+				exception.kHasBeenLogged = true;
+			}
+			
 			//Put a human-readable error on the app, and a detailed log on the console
 			GLang.error("E:" + exception);
 			
