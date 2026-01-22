@@ -3,6 +3,7 @@
 		"description":"Libraries that are deliberately designed to throw errors and stop execution"
 	},
 	"libraries":[
-		{"provides":["assert_or_crash", "crash"], "scriptUrl":"assert.js"}
+		{"provides":["assert_or_crash", "crash"], "scriptUrl":"assert.js"},
+		{"provides":["ignore_error"], "scriptUrl":"ignoreError.js"}
 	]
 }
