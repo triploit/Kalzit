@@ -9,5 +9,6 @@ $switchEq=($_value;$_cases) fun {
 Same effect as `first: value switch cases`, but can be much faster
 */
 $switchFirst = ($value ; $_array) fun {
-	1 at ({(0 at x at _array): value} firstConditionMatch arrayIndexes: _array) at _array
+    $index = {(0 at x at _array): value} firstConditionMatch arrayIndexes: _array.
+    second: index at _array
 }.
